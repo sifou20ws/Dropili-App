@@ -16,7 +16,6 @@ class _LoadinScreenState extends State<LoadinScreen> {
 
   void justwait() async {
     await Future.delayed(Duration(seconds: 5), (() {
-      print('done waiting');
       Navigator.pushReplacementNamed(context, '/onBoard');
     }));
   }

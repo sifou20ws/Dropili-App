@@ -1,3 +1,6 @@
+import 'package:dropili/Presentation/authentification/forget_password/screens/forget_password_screen.dart';
+import 'package:dropili/Presentation/authentification/Login/screens/login_screen.dart';
+import 'package:dropili/Presentation/authentification/signup/screens/signup_screen.dart';
 import 'package:dropili/Presentation/loadingScreen.dart';
 import 'package:dropili/Presentation/onBoarding/screens/on_boarding_screen.dart';
 import 'package:flutter/material.dart';
@@ -16,13 +19,14 @@ class MyApp extends StatelessWidget {
       title: 'Dropili',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.blue,
       ),
       routes: {
         '/': (context) => LoadinScreen(),
         '/onBoard': ((context) => OnBoardingScreen()),
-        '/signin': ((context) => Container()),
-        '/register': ((context) => Container())
+        '/signin': ((context) => LoginScreen()),
+        '/register': ((context) => SignupScreen()),
+        '/signin/reset': ((context) => ResetPasswordScreen())
       },
     );
   }
