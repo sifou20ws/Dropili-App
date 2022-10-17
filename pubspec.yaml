@@ -43,6 +43,7 @@ dependencies:
   pin_code_fields: ^7.4.0
   flutter_native_splash: ^2.2.11
   font_awesome_flutter: ^10.2.1
+  email_validator: ^2.1.17
 
 dev_dependencies:
   flutter_test:
@@ -86,11 +87,20 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/roboto/Roboto-Medium.ttf
+
+    - family: Mukta
+      fonts:
+        - asset: assets/fonts/mukta/Mukta-ExtraLight.ttf
+        - asset: assets/fonts/mukta/Mukta-Light.ttf
+        - asset: assets/fonts/mukta/Mukta-Regular.ttf
+        - asset: assets/fonts/mukta/Mukta-Medium.ttf
+        - asset: assets/fonts/mukta/Mukta-SemiBold.ttf
+        - asset: assets/fonts/mukta/Mukta-Bold.ttf
+        - asset: assets/fonts/mukta/Mukta-ExtraBold.ttf
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:

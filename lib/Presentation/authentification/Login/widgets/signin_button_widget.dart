@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-
+import '../bloc/login_bloc.dart';
 
 class SigninButton extends StatelessWidget {
   const SigninButton({
@@ -16,6 +16,7 @@ class SigninButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           // Navigator.pushReplacementNamed(context, '/signin');
+          BlocProvider.of<LoginBloc>(context).add(SubmittingEvent());
         },
         child: Text(
           'Connexion',

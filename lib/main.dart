@@ -18,9 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Dropili',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData(primaryColor: Colors.blue, fontFamily: 'Roboto'),
       routes: {
         '/': (context) => LoadinScreen(),
         '/onBoard': ((context) => OnBoardingScreen()),

@@ -126,7 +126,7 @@ class _FormWidgetState extends State<FormWidget> {
       // height: 300,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
             color: Color.fromARGB(50, 29, 29, 29),
