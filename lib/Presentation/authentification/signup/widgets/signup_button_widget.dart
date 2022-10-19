@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-
+import 'package:dropili/Presentation/authentification/bloc/authentification_bloc.dart';
 
 class SingupButton extends StatelessWidget {
   const SingupButton({
@@ -16,6 +16,7 @@ class SingupButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           // Navigator.pushReplacementNamed(context, '/signin');
+          BlocProvider.of<AuthBloc>(context).add(SignupSubmittingEvent());
         },
         child: Text(
           'S\'inscrire',

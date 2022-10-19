@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/login_bloc.dart';
-
+import 'package:dropili/Presentation/authentification/bloc/authentification_bloc.dart';
 class SigninButton extends StatelessWidget {
   const SigninButton({
     Key? key,
@@ -16,7 +15,7 @@ class SigninButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           // Navigator.pushReplacementNamed(context, '/signin');
-          BlocProvider.of<LoginBloc>(context).add(SubmittingEvent());
+          BlocProvider.of<AuthBloc>(context).add(LoginSubmittingEvent());
         },
         child: Text(
           'Connexion',

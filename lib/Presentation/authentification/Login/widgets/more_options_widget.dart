@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class MoreOptions extends StatelessWidget {
@@ -61,25 +60,6 @@ class MoreOptions extends StatelessWidget {
           SizedBox(
             height: 50,
           ),
-          // Text(
-          //   'Ou',
-          //   style: TextStyle(
-          //     fontWeight: FontWeight.bold,
-          //     fontSize: 18,
-          //     color: Colors.white,
-          //   ),
-          // ),
-          // SizedBox(height: 20),
-          // GestureDetector(
-          //   onTap: (() {}),
-          //   child: Text(
-          //     'Connexion Biométrique',
-          //     style: TextStyle(
-          //       fontSize: 18,
-          //       decoration: TextDecoration.underline,
-          //       color: Colors.white,
-          //     ),
-          //   ),
           Text(
             'Vous n\'avez pas de compte ?',
             style: TextStyle(
@@ -89,7 +69,7 @@ class MoreOptions extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, '/register');
+              Navigator.pushReplacementNamed(context, '/register');
             },
             child: Text(
               'S\'inscrire',

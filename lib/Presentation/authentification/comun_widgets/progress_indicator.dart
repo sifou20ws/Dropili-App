@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 class LoadingIndicatorWidget extends StatelessWidget {
-  const LoadingIndicatorWidget({super.key});
+  final String text;
+  const LoadingIndicatorWidget({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 20),
-      child: Row(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CircularProgressIndicator(
@@ -15,10 +16,12 @@ class LoadingIndicatorWidget extends StatelessWidget {
           ),
           SizedBox(
             width: 10,
+            height: 10,
           ),
           Text(
-            'Connexion...',
-            style: TextStyle(color: Colors.white, fontSize: 22),
+            text,
+            style: TextStyle(
+                color: Colors.white, fontSize: 20, fontWeight: FontWeight.w300),
           )
         ],
       ),

@@ -68,13 +68,14 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                       if (indexIndicator != 2) {
                         return GestureDetector(
                           onTap: () {
-                            pageController.animateToPage(2,
-                                duration: Duration(milliseconds: 600),
-                                curve: Curves.linearToEaseOut);
+                            Navigator.pushReplacementNamed(context, '/signin');
                           },
-                          child: Text(
-                            'Passer',
-                            style: TextStyle(fontSize: 17, color: Colors.white),
+                          child: Container(
+                            child: Text(
+                              'Passer',
+                              style:
+                                  TextStyle(fontSize: 17, color: Colors.white),
+                            ),
                           ),
                         );
                       }
