@@ -3,9 +3,13 @@ import 'package:dropili/Presentation/authentification/Login/screens/login_screen
 import 'package:dropili/Presentation/authentification/signup/screens/signup_screen.dart';
 import 'package:dropili/Presentation/loadingScreen.dart';
 import 'package:dropili/Presentation/onBoarding/screens/on_boarding_screen.dart';
+import 'package:dropili/core/utils/token.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+
+void main() async {
+
+
   runApp(const MyApp());
 }
 

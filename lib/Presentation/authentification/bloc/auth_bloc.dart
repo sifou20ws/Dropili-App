@@ -1,14 +1,18 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:dropili/core/api/post_get.dart';
+import 'package:dropili/core/error/failure.dart';
+import 'package:dropili/domain/userRepository/auth_repository.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:equatable/equatable.dart';
 
-part 'authentification_event.dart';
-part 'authentification_state.dart';
+part 'auth_event.dart';
+part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc() : super(AuthState()) {
+  final AuthRepository authRepository;
+  AuthBloc(this.authRepository) : super(AuthState()) {
     on<NameTextChangedEvent>(_nameTextChangedEvent);
     on<UsernameChangedEvent>(_usernameTextChangedEvent);
     on<EmailTextChangeEvent>(_emailTextChangeEvent);
@@ -56,14 +60,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-
   void _loginSubmittingEvent(event, Emitter<AuthState> emit) async {
-    if (!(state.emailValid && state.passwordValid)) {
+    if (!(state.usernameValid && state.passwordValid)) {
       return;
     }
 
-    log(state.emailValue);
     emit(state.copyWith(status: Status.loading));
+    try {
+      Network().post('/token', {
+        'username': state.usernameValue,
+        'password': state.passwordValue,
+        'device_name': 'poco'
+      });
+      // authRepository.loginUser(
+      //     username: state.usernameValue, password: state.passwordValue);
+    } on Exception catch (f) {
+      emit(state.copyWith(
+          status: Status.fail, errorExist: true, errorMessage: f.toString()));
+    }
+
     await Future.delayed(const Duration(seconds: 4));
     emit(state.copyWith(
         status: Status.fail, errorExist: true, errorMessage: ''));

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dropili/Presentation/authentification/bloc/authentification_bloc.dart';
+import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
 
 import '../../comun_widgets/error_message_widget.dart';
 

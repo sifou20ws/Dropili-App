@@ -1,7 +1,8 @@
+import 'package:dropili/domain/userRepository/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:dropili/Presentation/authentification/bloc/authentification_bloc.dart';
+import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
 import '../../comun_widgets/error_message_widget.dart';
 import '../../comun_widgets/progress_indicator.dart';
 
@@ -15,81 +16,85 @@ class ResetPasswordScreen extends StatefulWidget {
 class _LoginScreenState extends State<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthBloc(),
-      child: Scaffold(
-          body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.only(bottom: 20),
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          // padding: EdgeInsets.only(left: 100, right: 100),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              image: DecorationImage(
-                  image: AssetImage('assets/Background.png'),
-                  fit: BoxFit.cover)),
-          child: SafeArea(
-            child: BlocBuilder<AuthBloc, AuthState>(
-              builder: (context, state) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 20,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Icon(
-                            Icons.arrow_back_ios_new,
-                            color: Colors.white,
-                            size: 30,
+    return RepositoryProvider(
+      create: (context) => AuthRepository(),
+
+      child: BlocProvider(
+        create: (context) => AuthBloc(context.read<AuthRepository>()),
+        child: Scaffold(
+            body: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.only(bottom: 20),
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            // padding: EdgeInsets.only(left: 100, right: 100),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                image: DecorationImage(
+                    image: AssetImage('assets/Background.png'),
+                    fit: BoxFit.cover)),
+            child: SafeArea(
+              child: BlocBuilder<AuthBloc, AuthState>(
+                builder: (context, state) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 20,
                           ),
-                        )
-                      ],
-                    ),
-                    Spacer(),
-                    Text(
-                      'Rester votre mot de pass',
-                      style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    FormWidget(),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    state.status == Status.loading
-                        ? LoadingIndicatorWidget(
-                            text: 'Soumission...',
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Icon(
+                              Icons.arrow_back_ios_new,
+                              color: Colors.white,
+                              size: 30,
+                            ),
                           )
-                        : ResetButton(),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 140, right: 140),
-                      child: Image(image: AssetImage('assets/dropili.png')),
-                    ),
-                  ],
-                );
-              },
+                        ],
+                      ),
+                      Spacer(),
+                      Text(
+                        'Rester votre mot de pass',
+                        style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      FormWidget(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      state.status == Status.loading
+                          ? LoadingIndicatorWidget(
+                              text: 'Soumission...',
+                            )
+                          : ResetButton(),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 140, right: 140),
+                        child: Image(image: AssetImage('assets/dropili.png')),
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
           ),
-        ),
-      )),
+        )),
+      ),
     );
   }
 }

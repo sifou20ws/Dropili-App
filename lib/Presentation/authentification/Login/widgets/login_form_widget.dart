@@ -1,4 +1,4 @@
-import 'package:dropili/Presentation/authentification/bloc/authentification_bloc.dart';
+import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -44,14 +44,14 @@ class _FormWidgetState extends State<FormWidget> {
               TextFormField(
                 onChanged: ((value) {
                   BlocProvider.of<AuthBloc>(context)
-                      .add(EmailTextChangeEvent(value));
+                      .add(UsernameChangedEvent(value));
                 }),
                 decoration: InputDecoration(
                   icon: Icon(Icons.email),
-                  labelText: "Email",
-                  errorText: context.read<AuthBloc>().state.emailValid
+                  labelText: "Nom d'utilisteur",
+                  errorText: context.read<AuthBloc>().state.usernameValid
                       ? null
-                      : "Adresse e-mail non valide",
+                      : "Nom d'utilisteur non valide",
                 ),
                 validator: null,
               ),
