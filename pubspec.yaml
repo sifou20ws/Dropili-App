@@ -56,10 +56,10 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
 
-# flutter_native_splash:
-#   # color: "#ffffff"
-#   background_image: assets/Background.png
-#   image: assets/dropili Logo White PNG.png
+flutter_native_splash:
+  # color: "#ffffff"
+  background_image: assets/Background.png
+  image: assets/dropili.png
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

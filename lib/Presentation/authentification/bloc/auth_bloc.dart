@@ -147,10 +147,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       return;
     }
     emit(state.copyWith(status: Status.loading));
+    //here we post to api
     await Future.delayed(const Duration(seconds: 4));
-    emit(state.copyWith(
-        status: Status.fail,
-        errorExist: true,
-        errorMessage: 'something is wrong'));
+    // emit(state.copyWith(
+    //     status: Status.fail,
+    //     errorExist: true,
+    //     errorMessage: 'something is wrong'));
+    emit(state.copyWith(status: Status.success));
   }
 }
