@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../pages/first_page.dart';
+import '../pages/second_page.dart';
+import '../pages/third_page.dart';
+
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
 
@@ -64,13 +68,14 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                       if (indexIndicator != 2) {
                         return GestureDetector(
                           onTap: () {
-                            pageController.animateToPage(2,
-                                duration: Duration(milliseconds: 600),
-                                curve: Curves.linearToEaseOut);
+                            Navigator.pushReplacementNamed(context, '/signin');
                           },
-                          child: Text(
-                            'Passer',
-                            style: TextStyle(fontSize: 17, color: Colors.white),
+                          child: Container(
+                            child: Text(
+                              'Passer',
+                              style:
+                                  TextStyle(fontSize: 17, color: Colors.white),
+                            ),
                           ),
                         );
                       }
@@ -118,147 +123,5 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
         ],
       ),
     ));
-  }
-}
-
-class FirstPage extends StatelessWidget {
-  const FirstPage({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(left: 50, right: 50),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(left: 60, right: 60),
-            child: Hero(
-                tag: 'logo',
-                child: Image(image: AssetImage('assets/dropili.png'))),
-          ),
-          SizedBox(
-            height: 80,
-          ),
-          Text(
-            'Bienvenue sur dropili',
-            style: TextStyle(fontSize: 23, color: Colors.white),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text(
-            'Partagez vos coordonnees, reseaux sociaux et bien plus avec dropili',
-            style: TextStyle(fontSize: 17, color: Colors.white),
-            textAlign: TextAlign.center,
-          ),
-        ],
-        // child: PageView.builder(itemBuilder: ((context, index) => Container())),
-      ),
-    );
-  }
-}
-
-class SecondPage extends StatelessWidget {
-  const SecondPage({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(left: 60, right: 60),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image(image: AssetImage('assets/linkwithin.png')),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            'Partagez en un éclair !',
-            style: TextStyle(fontSize: 22, color: Colors.white),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text(
-            'Partagez vos données de maniére facile, rapide et intelligente avec dropili',
-            style: TextStyle(fontSize: 17, color: Colors.white),
-            textAlign: TextAlign.center,
-          ),
-        ],
-        // child: PageView.builder(itemBuilder: ((context, index) => Container())),
-      ),
-    );
-  }
-}
-
-class ThirdPage extends StatelessWidget {
-  const ThirdPage({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      // padding: EdgeInsets.only(left: , right: 90),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 120, right: 120),
-            child: Image(image: AssetImage('assets/dropili.png')),
-          ),
-          SizedBox(
-            height: 50,
-          ),
-          SizedBox(
-              height: 55,
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/signin');
-                },
-                child: Text(
-                  'Connexion',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18,
-                      color: Color.fromARGB(255, 0, 123, 206)),
-                ),
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(13))),
-              )),
-          SizedBox(
-            height: 20,
-          ),
-          SizedBox(
-              height: 55,
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/register');
-                },
-                child: Text(
-                  'S\'inscrire',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18,
-                      color: Color.fromARGB(255, 0, 123, 206)),
-                ),
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(13))),
-              )),
-        ],
-        // child: PageView.builder(itemBuilder: ((context, index) => Container())),
-      ),
-    );
   }
 }

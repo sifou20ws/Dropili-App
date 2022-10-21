@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
@@ -9,11 +10,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Network {
   String? token;
-        
+
   static String version = '/api/v1';
 
-  static String host = 'http://8j1n9athcf.preview.infomaniak.website';
- //static String host = 'http://105.99.170.247:10001';
+  static String host = 'http://dropili.offrine.com';
   static int timeOut = 60;
 
   _setHeadersWithToken() {
@@ -120,8 +120,8 @@ class Network {
           .post(Uri.parse(fullUrl),
               body: jsonEncode(data), headers: _setHeaders())
           .timeout(Duration(seconds: timeOut));
-      if (response.statusCode == 401) {
-        throw Failure(message: 'authentication required');
+      if (response.statusCode == 422) {
+        throw Failure(message: jsonDecode(response.body)['message']);
       }
       return response;
     } on SocketException catch (_) {

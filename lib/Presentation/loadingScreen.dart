@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../core/utils/token.dart';
+
 class LoadinScreen extends StatefulWidget {
   const LoadinScreen({super.key});
 
@@ -8,16 +10,21 @@ class LoadinScreen extends StatefulWidget {
 }
 
 class _LoadinScreenState extends State<LoadinScreen> {
+  String? token;
+  String? nextRoute;
+
   @override
   void initState() {
+    // token = 'hello';
     super.initState();
-    justwait();
+    navigate();
   }
 
-  void justwait() async {
+  void navigate() async {
+    token = await TokenHandler.loadToken();
+    String nextRout = token == null ? '/onBoard' : '/signin';
     await Future.delayed(Duration(seconds: 5), (() {
-      print('done waiting');
-      Navigator.pushReplacementNamed(context, '/onBoard');
+      Navigator.pushReplacementNamed(context, nextRout);
     }));
   }
 
