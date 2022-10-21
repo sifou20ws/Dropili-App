@@ -1,11 +1,12 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:dropili/core/api/post_get.dart';
 import 'package:dropili/core/error/failure.dart';
+import 'package:dropili/core/utils/token.dart';
 import 'package:dropili/domain/userRepository/auth_repository.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:equatable/equatable.dart';
+import 'package:http/http.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -34,7 +35,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   void _usernameTextChangedEvent(event, Emitter<AuthState> emit) {
     emit(state.copyWith(usernameValue: event.username));
-    if (event.username.length <= 0) {
+    if (event.username.length <= 3 || event.username.toString().contains(' ')) {
       emit(state.copyWith(usernameValid: false));
     } else {
       emit(state.copyWith(usernameValid: true));
@@ -53,7 +54,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   void _passwordTextChangeEvent(event, Emitter<AuthState> emit) {
     emit(state.copyWith(passwordValue: event.password));
-    if (event.password.length <= 8) {
+    if (event.password.length < 8) {
       emit(state.copyWith(passwordValid: false));
     } else {
       emit(state.copyWith(passwordValid: true));
@@ -61,28 +62,45 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _loginSubmittingEvent(event, Emitter<AuthState> emit) async {
-    if (!(state.usernameValid && state.passwordValid)) {
+    if (state.usernameValue.isEmpty || state.passwordValue.isEmpty) {
+      emit(state.copyWith(status: Status.init));
+      emit(state.copyWith(
+        status: Status.fail,
+        errorExist: true,
+        errorMessage: 'Empty email or password fields',
+      ));
       return;
     }
 
     emit(state.copyWith(status: Status.loading));
-    try {
-      Network().post('/token', {
-        'username': state.usernameValue,
-        'password': state.passwordValue,
-        'device_name': 'poco'
-      });
-      // authRepository.loginUser(
-      //     username: state.usernameValue, password: state.passwordValue);
-    } on Exception catch (f) {
-      emit(state.copyWith(
-          status: Status.fail, errorExist: true, errorMessage: f.toString()));
-    }
 
-    await Future.delayed(const Duration(seconds: 4));
-    emit(state.copyWith(
-        status: Status.fail, errorExist: true, errorMessage: ''));
-    // emit(state.copyWith(status: Status.success));
+    String token;
+
+    try {
+      token = await authRepository.loginUser(
+          username: state.usernameValue, password: state.passwordValue);
+
+      await TokenHandler.storeToken(token);
+
+      log(token);
+
+      emit(state.copyWith(status: Status.success));
+    } on Failure catch (f) {
+      log(f.message);
+
+      emit(
+        state.copyWith(
+            status: Status.fail, errorExist: true, errorMessage: f.message),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: Status.fail,
+          errorExist: true,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
   }
 
   void _signupSubmittingEvent(event, Emitter<AuthState> emit) async {
@@ -93,15 +111,35 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       return;
     }
 
-    log(state.emailValue);
-
     emit(state.copyWith(status: Status.loading));
-    await Future.delayed(const Duration(seconds: 4));
-    emit(state.copyWith(
-        status: Status.fail,
-        errorExist: true,
-        errorMessage: 'The is no response from server (404)'));
-    // emit(state.copyWith(status: Status.success));
+    bool resp;
+    try {
+      resp = await authRepository.signupUser(
+          email: state.emailValue,
+          password: state.passwordValue,
+          name: state.nameValue,
+          username: state.usernameValue);
+
+      log(resp.toString());
+
+      if (resp) {
+        emit(state.copyWith(status: Status.success));
+      }
+    } on Failure catch (f) {
+      log(f.message);
+      emit(
+        state.copyWith(
+            status: Status.fail, errorExist: true, errorMessage: f.message),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: Status.fail,
+          errorExist: true,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
   }
 
   void _restorSubmittingEvent(event, Emitter<AuthState> emit) async {

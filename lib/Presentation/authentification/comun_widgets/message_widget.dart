@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
-class ErrorMessageWidget extends StatelessWidget {
+class MessageWidget extends StatelessWidget {
   final String text;
-  const ErrorMessageWidget({Key? key, required this.text}) : super(key: key);
+  final String color;
+  const MessageWidget({Key? key, required this.text, required this.color})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +12,7 @@ class ErrorMessageWidget extends StatelessWidget {
       width: MediaQuery.of(context).size.width * 0.85,
       height: 30,
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 255, 99, 79),
+        color: color == 'red' ? Color.fromARGB(255, 255, 99, 79) : Colors.green,
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20), topRight: Radius.circular(20)),
       ),

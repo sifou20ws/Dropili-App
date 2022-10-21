@@ -26,56 +26,66 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Scaffold(
             // resizeToAvoidBottomInset: false,
             body: SingleChildScrollView(
-          child: BlocBuilder<AuthBloc, AuthState>(
-            builder: (context, state) {
-              return Container(
-                padding: EdgeInsets.only(bottom: 20),
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                // padding: EdgeInsets.only(left: 100, right: 100),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    image: DecorationImage(
-                        image: AssetImage('assets/Background.png'),
-                        fit: BoxFit.cover)),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Spacer(),
-                    Text(
-                      'Connexion',
-                      style: TextStyle(
-                          // fontFamily: 'Mukta',
-                          fontSize: 25,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    FormWidget(),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    state.status == Status.loading
-                        ? LoadingIndicatorWidget(
-                            text: 'Connexion...',
-                          )
-                        : SigninButton(),
-                    SizedBox(
-                      height: 50,
-                    ),
-                    MoreOptions(),
-                    Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 140, right: 140),
-                      child: Image(image: AssetImage('assets/dropili.png')),
-                    ),
-                  ],
-                ),
-              );
+          child: BlocListener<AuthBloc, AuthState>(
+            listener: (context, state) async {
+              if (state.status == Status.success) {
+                await Future.delayed(Duration(seconds: 3));
+                Navigator.pushReplacementNamed(context, '/home');
+              }
             },
+            child: BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) {
+                return Container(
+                  padding: EdgeInsets.only(bottom: 20),
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  // padding: EdgeInsets.only(left: 100, right: 100),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      image: DecorationImage(
+                          image: AssetImage('assets/Background.png'),
+                          fit: BoxFit.cover)),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Spacer(),
+                      Text(
+                        'Connexion',
+                        style: TextStyle(
+                            // fontFamily: 'Mukta',
+                            fontSize: 25,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      FormWidget(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      state.status == Status.loading
+                          ? LoadingIndicatorWidget(
+                              text: 'Connexion...',
+                            )
+                          : state.status == Status.success
+                              ? Container()
+                              : SigninButton(),
+                      SizedBox(
+                        height: 50,
+                      ),
+                      MoreOptions(),
+                      Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 140, right: 140),
+                        child: Image(image: AssetImage('assets/dropili.png')),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
         )),
       ),

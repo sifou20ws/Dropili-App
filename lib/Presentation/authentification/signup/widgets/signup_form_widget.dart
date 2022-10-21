@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
 
-import '../../comun_widgets/error_message_widget.dart';
+import '../../comun_widgets/message_widget.dart';
 
 class FormWidget extends StatefulWidget {
   const FormWidget({super.key});
@@ -31,9 +31,15 @@ class _FormWidgetState extends State<FormWidget> {
       child: Column(
         children: [
           context.read<AuthBloc>().state.status == Status.fail
-              ? ErrorMessageWidget(
+              ? MessageWidget(
+                  color: 'red',
                   text: context.read<AuthBloc>().state.errorMessage)
-              : Container(),
+              : context.read<AuthBloc>().state.status == Status.success
+                  ? MessageWidget(
+                      color: 'green',
+                      text: 'User created successfully',
+                    )
+                  : Container(),
           Padding(
             padding:
                 const EdgeInsets.only(bottom: 10, left: 20, right: 30, top: 20),
@@ -67,7 +73,7 @@ class _FormWidgetState extends State<FormWidget> {
                     labelText: "Nome d'utilisateur",
                     errorText: context.read<AuthBloc>().state.usernameValid
                         ? null
-                        : "Nom d\'utilisateur trop court"),
+                        : "Nom d\'utilisateur non valid"),
                 validator: null,
               ),
               SizedBox(

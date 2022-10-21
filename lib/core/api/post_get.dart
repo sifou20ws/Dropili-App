@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
@@ -120,8 +121,7 @@ class Network {
               body: jsonEncode(data), headers: _setHeaders())
           .timeout(Duration(seconds: timeOut));
       if (response.statusCode == 422) {
-        // throw Failure(message: 'Please check your email or password again');
-        throw Exception('somethin wrong');
+        throw Failure(message: jsonDecode(response.body)['message']);
       }
       return response;
     } on SocketException catch (_) {

@@ -35,52 +35,64 @@ class _LoginScreenState extends State<SignupScreen> {
                 image: DecorationImage(
                     image: AssetImage('assets/Background.png'),
                     fit: BoxFit.cover)),
-            child: BlocBuilder<AuthBloc, AuthState>(
-              builder: (context, state) {
-                return SafeArea(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          'S\'inscrire',
-                          style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        FormWidget(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        state.status == Status.loading
-                            ? LoadingIndicatorWidget(
-                                text: 'Inscription...',
-                              )
-                            : SingupButton(),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        MoreOptions(),
-                        SizedBox(
-                          height: 60,
-                        ),
-                        // Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 140, right: 140),
-                          child: Image(image: AssetImage('assets/dropili.png')),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
+            child: BlocListener<AuthBloc, AuthState>(
+              listener: (context, state) async {
+                if (state.status == Status.success) {
+                  await Future.delayed(Duration(seconds: 3));
+                  Navigator.pushReplacementNamed(context, '/signin');
+                }
               },
+              child: BlocBuilder<AuthBloc, AuthState>(
+                builder: (context, state) {
+                  return SafeArea(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            'S\'inscrire',
+                            style: TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          FormWidget(),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          state.status == Status.loading
+                              ? LoadingIndicatorWidget(
+                                  text: 'Inscription...',
+                                )
+                              : state.status == Status.success
+                                  ? Container()
+                                  : SingupButton(),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          MoreOptions(),
+                          SizedBox(
+                            height: 60,
+                          ),
+                          // Spacer(),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 140, right: 140),
+                            child:
+                                Image(image: AssetImage('assets/dropili.png')),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         )),

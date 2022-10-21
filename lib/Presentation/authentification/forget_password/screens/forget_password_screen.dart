@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
-import '../../comun_widgets/error_message_widget.dart';
+import '../../comun_widgets/message_widget.dart';
 import '../../comun_widgets/progress_indicator.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
@@ -18,7 +18,6 @@ class _LoginScreenState extends State<ResetPasswordScreen> {
   Widget build(BuildContext context) {
     return RepositoryProvider(
       create: (context) => AuthRepository(),
-
       child: BlocProvider(
         create: (context) => AuthBloc(context.read<AuthRepository>()),
         child: Scaffold(
@@ -155,9 +154,15 @@ class _FormWidgetState extends State<FormWidget> {
       child: Column(
         children: [
           context.read<AuthBloc>().state.status == Status.fail
-              ? ErrorMessageWidget(
+              ? MessageWidget(
+                  color: 'red',
                   text: context.read<AuthBloc>().state.errorMessage)
-              : Container(),
+              : context.read<AuthBloc>().state.status == Status.success
+                  ? MessageWidget(
+                      color: 'green',
+                      text: 'Recovery link sent to email',
+                    )
+                  : Container(),
           Padding(
             padding:
                 const EdgeInsets.only(bottom: 10, left: 20, right: 30, top: 10),

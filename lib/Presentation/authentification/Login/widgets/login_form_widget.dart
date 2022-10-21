@@ -2,7 +2,7 @@ import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../comun_widgets/error_message_widget.dart';
+import '../../comun_widgets/message_widget.dart';
 
 class FormWidget extends StatefulWidget {
   const FormWidget({super.key});
@@ -31,9 +31,15 @@ class _FormWidgetState extends State<FormWidget> {
       child: Column(
         children: [
           context.read<AuthBloc>().state.status == Status.fail
-              ? ErrorMessageWidget(
+              ? MessageWidget(
+                  color: 'red',
                   text: context.read<AuthBloc>().state.errorMessage)
-              : Container(),
+              : context.read<AuthBloc>().state.status == Status.success
+                  ? MessageWidget(
+                      color: 'green',
+                      text: 'Signed in successfully',
+                    )
+                  : Container(),
           Padding(
             padding:
                 const EdgeInsets.only(bottom: 20, left: 20, right: 30, top: 20),
@@ -49,9 +55,6 @@ class _FormWidgetState extends State<FormWidget> {
                 decoration: InputDecoration(
                   icon: Icon(Icons.email),
                   labelText: "Nom d'utilisteur",
-                  errorText: context.read<AuthBloc>().state.usernameValid
-                      ? null
-                      : "Nom d'utilisteur non valide",
                 ),
                 validator: null,
               ),
@@ -61,17 +64,10 @@ class _FormWidgetState extends State<FormWidget> {
               TextFormField(
                 onChanged: ((value) {
                   BlocProvider.of<AuthBloc>(context)
-                      .add(PasswordTextChangeEvent(
-                    value,
-                  ));
+                      .add(PasswordTextChangeEvent(value));
                 }),
                 decoration: InputDecoration(
                   icon: Icon(Icons.lock),
-                  errorText: context.read<AuthBloc>().state.passwordValid
-                      ? null
-                      : 'Mot de passe trop court',
-
-                  // hintText: "Password",
                   labelText: 'Mot de pass',
                 ),
                 obscureText: true,
