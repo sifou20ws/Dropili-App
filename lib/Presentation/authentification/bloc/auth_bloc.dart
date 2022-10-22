@@ -3,10 +3,9 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:dropili/core/error/failure.dart';
 import 'package:dropili/core/utils/token.dart';
-import 'package:dropili/domain/userRepository/auth_repository.dart';
+import 'package:dropili/domain/repositories/auth_repository.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:equatable/equatable.dart';
-import 'package:http/http.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
