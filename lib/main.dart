@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:dropili/Presentation/authentification/forget_password/screens/forget_password_screen.dart';
@@ -9,8 +8,12 @@ import 'package:dropili/Presentation/loadingScreen.dart';
 import 'package:dropili/Presentation/onBoarding/screens/on_boarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dropili/dependency/get_it.dart' as getIt;
+import 'package:flutter/services.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  unawaited(
+      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]));
   unawaited(getIt.init());
   runApp(const MyApp());
 }
