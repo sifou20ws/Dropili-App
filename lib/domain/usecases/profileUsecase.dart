@@ -1,0 +1,3 @@
+class ProfileUseCase {
+  ProfileUseCase() {}
+}
