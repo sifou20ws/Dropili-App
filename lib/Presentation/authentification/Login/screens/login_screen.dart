@@ -5,6 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
 
+import '../../../../domain/usecases/profileUsecase.dart';
+import '../../../ProfilePage/bloc/profileScreen_bloc.dart';
+import '../../../ProfilePage/screens/profileScreen_page.dart';
 import '../widgets/login_form_widget.dart';
 import '../widgets/more_options_widget.dart';
 import '../widgets/signin_button_widget.dart';
@@ -29,8 +32,16 @@ class _LoginScreenState extends State<LoginScreen> {
           child: BlocListener<AuthBloc, AuthState>(
             listener: (context, state) async {
               if (state.status == Status.success) {
-                await Future.delayed(Duration(seconds: 3));
-                Navigator.pushReplacementNamed(context, '/home');
+                //await Future.delayed(Duration(seconds: 3));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => BlocProvider(
+                      create: (_) => ProfileBloc( profileUseCase: ProfileUseCase() ),
+                      child: ProfilePage(),
+                    ),
+                  ),
+                );
               }
             },
             child: BlocBuilder<AuthBloc, AuthState>(
