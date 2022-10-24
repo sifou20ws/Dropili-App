@@ -1,106 +1,120 @@
-import 'package:dropili/domain/userRepository/auth_repository.dart';
+import 'dart:developer';
+
+import 'package:dropili/domain/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
-import '../../comun_widgets/message_widget.dart';
-import '../../comun_widgets/progress_indicator.dart';
+import 'package:dropili/Presentation/authentification/comun_widgets/message_widget.dart';
+import 'package:dropili/Presentation/authentification/comun_widgets/progress_indicator.dart';
+
+import 'package:dropili/di/get_it.dart' as getIt;
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
 
   @override
-  State<ResetPasswordScreen> createState() => _LoginScreenState();
+  State<ResetPasswordScreen> createState() => _ResetPasswordScreen();
 }
 
-class _LoginScreenState extends State<ResetPasswordScreen> {
+class _ResetPasswordScreen extends State<ResetPasswordScreen> {
+  late AuthBloc _authBloc;
+  @override
+  void initState() {
+    _authBloc = AuthBloc(getIt.getItInstace<AuthRepository>());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _authBloc.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (context) => AuthRepository(),
-      child: BlocProvider(
-        create: (context) => AuthBloc(context.read<AuthRepository>()),
-        child: BlocListener<AuthBloc, AuthState>(
-          listener: (context, state) async {
-            if (state.status == Status.success) {
-              await Future.delayed(Duration(seconds: 3));
-              Navigator.pushReplacementNamed(context, '/singin');
-            }
-          },
-          child: Scaffold(
-              body: SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.only(bottom: 20),
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              // padding: EdgeInsets.only(left: 100, right: 100),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  image: DecorationImage(
-                      image: AssetImage('assets/Background.png'),
-                      fit: BoxFit.cover)),
-              child: SafeArea(
-                child: BlocBuilder<AuthBloc, AuthState>(
-                  builder: (context, state) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: 20,
+    return BlocProvider.value(
+      value: _authBloc,
+      child: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) async {
+          if (state.status == Status.success) {
+            await Future.delayed(Duration(seconds: 3));
+            Navigator.pushReplacementNamed(context, '/singin');
+          }
+        },
+        child: Scaffold(
+            body: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.only(bottom: 20),
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            // padding: EdgeInsets.only(left: 100, right: 100),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                image: DecorationImage(
+                    image: AssetImage('assets/Background.png'),
+                    fit: BoxFit.cover)),
+            child: SafeArea(
+              child: BlocBuilder<AuthBloc, AuthState>(
+                builder: (context, state) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 20,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Icon(
+                              Icons.arrow_back_ios_new,
+                              color: Colors.white,
+                              size: 30,
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Icon(
-                                Icons.arrow_back_ios_new,
-                                color: Colors.white,
-                                size: 30,
-                              ),
+                          )
+                        ],
+                      ),
+                      Spacer(),
+                      Text(
+                        'Rester votre mot de pass',
+                        style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      FormWidget(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      state.status == Status.loading
+                          ? LoadingIndicatorWidget(
+                              text: 'Soumission...',
                             )
-                          ],
-                        ),
-                        Spacer(),
-                        Text(
-                          'Rester votre mot de pass',
-                          style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        FormWidget(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        state.status == Status.loading
-                            ? LoadingIndicatorWidget(
-                                text: 'Soumission...',
-                              )
-                            : ResetButton(),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 140, right: 140),
-                          child: Image(image: AssetImage('assets/dropili.png')),
-                        ),
-                      ],
-                    );
-                  },
-                ),
+                          : ResetButton(),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 140, right: 140),
+                        child: Image(image: AssetImage('assets/dropili.png')),
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
-          )),
-        ),
+          ),
+        )),
       ),
     );
   }

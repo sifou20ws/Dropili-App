@@ -1,3 +1,5 @@
+import 'package:dropili/Presentation/localization/app_localization.dart';
+import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
 
 import '../pages/first_page.dart';
@@ -72,7 +74,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                           },
                           child: Container(
                             child: Text(
-                              'Passer',
+                              'skip'.t(context),
                               style:
                                   TextStyle(fontSize: 17, color: Colors.white),
                             ),
@@ -97,7 +99,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                                   curve: Curves.ease);
                             },
                             child: Text(
-                              'Suivant',
+                              'next'.t(context),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   color: Colors.blue[600],

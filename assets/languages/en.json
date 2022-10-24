@@ -1,0 +1,23 @@
+{
+    "welcome title": "Welcome to Dropili",
+    "welcome text": "Share your coordinates, Social media accounts and more with Dropili",
+    "Share title": "Share with ease",
+    "Share text": "Share your data in an easy, fast and intelligente way with Dropili",
+    "Signin": "Login",
+    "Signup": "Signup",
+    "next" : "Next",
+    "skip": "Skip",
+    "name":"Name",
+    "username": "Username",
+    "password": "Password",
+    "email" : "Email",
+    "forget password": "Forget password ?",
+    "or connect" : "Or Connect using",
+    "don't have an account": "You don't have an account",
+    "or signup": "Or signup using",
+    "have account": "You already have an account",
+    "not valid": "not valid",
+    "short": "so short"
+    
+    
+}

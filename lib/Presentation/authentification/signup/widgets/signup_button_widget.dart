@@ -1,3 +1,4 @@
+import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,11 +16,10 @@ class SingupButton extends StatelessWidget {
       width: 250,
       child: ElevatedButton(
         onPressed: () {
-          // Navigator.pushReplacementNamed(context, '/signin');
           BlocProvider.of<AuthBloc>(context).add(SignupSubmittingEvent());
         },
         child: Text(
-          'S\'inscrire',
+          'Signup'.t(context),
           style: TextStyle(
               fontWeight: FontWeight.w400, fontSize: 18, color: Colors.blue),
         ),

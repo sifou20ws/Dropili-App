@@ -3,10 +3,9 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:dropili/core/error/failure.dart';
 import 'package:dropili/core/utils/token.dart';
-import 'package:dropili/domain/userRepository/auth_repository.dart';
+import 'package:dropili/domain/repositories/auth_repository.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:equatable/equatable.dart';
-import 'package:http/http.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -18,7 +17,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<UsernameChangedEvent>(_usernameTextChangedEvent);
     on<EmailTextChangeEvent>(_emailTextChangeEvent);
     on<PasswordTextChangeEvent>(_passwordTextChangeEvent);
-    //for restoring password
     on<LoginSubmittingEvent>(_loginSubmittingEvent);
     on<SignupSubmittingEvent>(_signupSubmittingEvent);
     on<RestoreSubmittingEvent>(_restorSubmittingEvent);
@@ -149,10 +147,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(state.copyWith(status: Status.loading));
     //here we post to api
     await Future.delayed(const Duration(seconds: 4));
-    // emit(state.copyWith(
-    //     status: Status.fail,
-    //     errorExist: true,
-    //     errorMessage: 'something is wrong'));
     emit(state.copyWith(status: Status.success));
   }
 }

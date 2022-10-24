@@ -1,10 +1,12 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'package:dropili/core/api/post_get.dart';
 
 class AuthRepository {
+  final Network _network;
+
+  AuthRepository(this._network);
   Future<String> loginUser(
       {required String username,
       required String password,
@@ -17,7 +19,7 @@ class AuthRepository {
     http.Response response;
 
     try {
-      response = await Network().post('/token', data);
+      response = await _network.post('/token', data);
     } catch (e) {
       rethrow;
     }
@@ -39,7 +41,7 @@ class AuthRepository {
     http.Response response;
 
     try {
-      response = await Network().post('/register', data);
+      response = await _network.post('/register', data);
       return jsonDecode(response.body)['success'];
     } catch (e) {
       rethrow;

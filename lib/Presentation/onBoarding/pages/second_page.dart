@@ -1,3 +1,4 @@
+import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
 
 class SecondPage extends StatelessWidget {
@@ -17,14 +18,14 @@ class SecondPage extends StatelessWidget {
             height: 10,
           ),
           Text(
-            'Partagez en un éclair !',
+            'Share title'.t(context),
             style: TextStyle(fontSize: 22, color: Colors.white),
           ),
           SizedBox(
             height: 20,
           ),
           Text(
-            'Partagez vos données de maniére facile, rapide et intelligente avec dropili',
+            'Share text'.t(context),
             style: TextStyle(fontSize: 17, color: Colors.white),
             textAlign: TextAlign.center,
           ),
