@@ -1,8 +1,8 @@
+import 'package:dropili/common/constant/colors.dart';
+import 'package:dropili/common/constant/snackbars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/constant/snackbars.dart';
-import '../../../core/constant/colors.dart';
 import '../../../domain/usecases/editProfileUsecase.dart';
 import '../../../domain/usecases/profileUsecase.dart';
 import '../../EditProfilePage/bloc/editProfileScreen_bloc.dart';

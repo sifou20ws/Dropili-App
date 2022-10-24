@@ -1,6 +1,6 @@
+import 'package:dropili/common/constant/colors.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/constant/colors.dart';
 
 class EditProfileButton extends StatelessWidget {
   final Widget child;

@@ -1,10 +1,10 @@
+import 'package:dropili/common/constant/colors.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/constant/colors.dart';
 
 class EditProfileTextField extends StatelessWidget {
   final String text;
-  bool long ;
+  final bool long ;
   EditProfileTextField({required this.text, this.long = false});
 
   @override

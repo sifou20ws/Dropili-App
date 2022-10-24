@@ -1,6 +1,6 @@
 import 'package:dropili/Presentation/EditProfilePage/widgets/text_field.dart';
+import 'package:dropili/common/constant/colors.dart';
 import 'package:flutter/material.dart';
-import '../../../core/constant/colors.dart';
 import '../../widgets_model/icons_lists.dart';
 import 'button.dart';
 
