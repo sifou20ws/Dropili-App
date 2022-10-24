@@ -8,7 +8,7 @@ import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
 import 'package:dropili/Presentation/authentification/comun_widgets/message_widget.dart';
 import 'package:dropili/Presentation/authentification/comun_widgets/progress_indicator.dart';
 
-import 'package:dropili/dependency/get_it.dart' as getIt;
+import 'package:dropili/di/get_it.dart' as getIt;
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});

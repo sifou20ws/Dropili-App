@@ -1,0 +1,23 @@
+
+{
+    "welcome title": "Bienvenue sur Dropili",
+    "welcome text": "Partagez vos coordonnees, reseaux sociaux et bien plus avec Dropilii",
+    "Share title": "Partagez en un éclair !",
+    "Share text": "Partagez vos données de maniére facile, rapide et intelligente avec Dropili",
+    "Signin": "Connexion",
+    "Signup": "S'inscrire",
+    "next" : "Suivent",
+    "skip": "Passer",
+    "name":"Nom",
+    "username": "Nom d'utilisateur",
+    "password": "Mot de pass",
+    "email" : "E-mail",
+    "forget password": "Mot de pass oublié ?",
+    "or connect" : "Ou se connecter avec",
+    "don't have an account": "Vous n'avez pas de compte ?",
+    "or signup": "Ou inscrivez-vous avec",
+    "have account": "Vous avez déjà un compte ?",
+    "not valid": "non valid",
+    "short": "trop court"
+
+}

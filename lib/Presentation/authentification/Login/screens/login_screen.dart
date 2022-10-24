@@ -1,10 +1,11 @@
 import 'package:dropili/Presentation/authentification/comun_widgets/progress_indicator.dart';
+import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:dropili/domain/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
-import 'package:dropili/dependency/get_it.dart' as getIt;
+import 'package:dropili/di/get_it.dart' as getIt;
 
 import 'package:dropili/Presentation/authentification/Login/widgets/login_form_widget.dart';
 import 'package:dropili/Presentation/authentification/Login/widgets/more_options_widget.dart';
@@ -36,7 +37,6 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocProvider.value(
       value: _authBloc,
       child: Scaffold(
-          // resizeToAvoidBottomInset: false,
           body: SingleChildScrollView(
         child: BlocListener<AuthBloc, AuthState>(
           listener: (context, state) async {
@@ -63,9 +63,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Spacer(),
                     Text(
-                      'Connexion',
+                      'Signin'.t(context),
                       style: TextStyle(
-                          // fontFamily: 'Mukta',
                           fontSize: 25,
                           fontWeight: FontWeight.w400,
                           color: Colors.white),
@@ -79,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     state.status == Status.loading
                         ? LoadingIndicatorWidget(
-                            text: 'Connexion...',
+                            text: 'Signin'.t(context) + '...',
                           )
                         : state.status == Status.success
                             ? Container()

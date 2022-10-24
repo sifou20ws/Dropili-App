@@ -1,3 +1,4 @@
+import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
 
 class ThirdPage extends StatelessWidget {
@@ -27,7 +28,7 @@ class ThirdPage extends StatelessWidget {
                   Navigator.pushReplacementNamed(context, '/signin');
                 },
                 child: Text(
-                  'Connexion',
+                  'Signin'.t(context),
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 18,
@@ -49,7 +50,7 @@ class ThirdPage extends StatelessWidget {
                   Navigator.pushReplacementNamed(context, '/register');
                 },
                 child: Text(
-                  'S\'inscrire',
+                  'Signup'.t(context),
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 18,

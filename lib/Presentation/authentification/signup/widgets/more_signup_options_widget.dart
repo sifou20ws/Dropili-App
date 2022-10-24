@@ -1,3 +1,4 @@
+import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
 
 class MoreOptions extends StatelessWidget {
@@ -9,7 +10,7 @@ class MoreOptions extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Text(
-            'Ou inscrivez-vous avec',
+            'or signup'.t(context),
             style: TextStyle(
               fontSize: 18,
               color: Colors.white,
@@ -32,7 +33,7 @@ class MoreOptions extends StatelessWidget {
           ),
           SizedBox(height: 50),
           Text(
-            'Vous avez déjà un compte ?',
+            'don\'t have an account'.t(context),
             style: TextStyle(
               fontSize: 18,
               color: Colors.white,
@@ -43,7 +44,7 @@ class MoreOptions extends StatelessWidget {
               Navigator.pushReplacementNamed(context, '/signin');
             },
             child: Text(
-              'Se connecter',
+              'Signin'.t(context),
               style: TextStyle(
                 fontSize: 18,
                 decoration: TextDecoration.underline,

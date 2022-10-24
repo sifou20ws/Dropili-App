@@ -1,4 +1,5 @@
 
+import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
 
 
@@ -24,14 +25,14 @@ class FirstPage extends StatelessWidget {
             height: 79,
           ),
           Text(
-            'Bienvenue sur dropili',
+            'welcome title'.t(context),
             style: TextStyle(fontSize: 22, color: Colors.white),
           ),
           SizedBox(
             height: 19,
           ),
           Text(
-            'Partagez vos coordonnees, reseaux sociaux et bien plus avec dropili',
+            'welcome text'.t(context),
             style: TextStyle(fontSize: 16, color: Colors.white),
             textAlign: TextAlign.center,
           ),

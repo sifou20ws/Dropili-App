@@ -1,3 +1,4 @@
+import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
@@ -50,14 +51,12 @@ class _FormWidgetState extends State<FormWidget> {
                       .add(NameTextChangedEvent(value));
                 },
                 decoration: InputDecoration(
-                    icon: Icon(Icons.person),
-                    labelText: "Nom",
-                    errorText: context.read<AuthBloc>().state.nameValid
-                        ? null
-                        : 'Nom trop court'
-
-                    // labelText: 'Email',
-                    ),
+                  icon: Icon(Icons.person),
+                  labelText: 'name'.t(context),
+                  errorText: context.read<AuthBloc>().state.nameValid
+                      ? null
+                      : 'name'.t(context) + ' ' + 'short'.t(context),
+                ),
                 validator: null,
               ),
               SizedBox(
@@ -70,10 +69,12 @@ class _FormWidgetState extends State<FormWidget> {
                 },
                 decoration: InputDecoration(
                     icon: Icon(Icons.person),
-                    labelText: "Nome d'utilisateur",
+                    labelText: 'username'.t(context),
                     errorText: context.read<AuthBloc>().state.usernameValid
                         ? null
-                        : "Nom d\'utilisateur non valid"),
+                        : 'username'.t(context) +
+                            ' ' +
+                            'not valide'.t(context)),
                 validator: null,
               ),
               SizedBox(
@@ -86,10 +87,10 @@ class _FormWidgetState extends State<FormWidget> {
                 },
                 decoration: InputDecoration(
                   icon: Icon(Icons.email),
-                  labelText: "Email",
+                  labelText: 'email'.t(context),
                   errorText: context.read<AuthBloc>().state.emailValid
                       ? null
-                      : "Adresse e-mail non valide",
+                      : 'email'.t(context) + ' ' + 'not valid'.t(context),
                   // labelText: 'Email',
                 ),
                 validator: null,
@@ -105,10 +106,11 @@ class _FormWidgetState extends State<FormWidget> {
                 decoration: InputDecoration(
                   icon: Icon(Icons.lock),
                   // hintText: "Password",
-                  labelText: 'Mot de pass',
+                  labelText: 'password'.t(context),
                   errorText: context.read<AuthBloc>().state.passwordValid
                       ? null
-                      : 'Mot de passe trop court',
+                      : 'password'.t(context) + ' ' + 'short'.t(context),
+                  // labelText: 'Email',
                 ),
                 validator: null,
                 obscureText: true,

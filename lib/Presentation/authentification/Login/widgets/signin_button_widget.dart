@@ -1,3 +1,4 @@
+import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,7 +19,7 @@ class SigninButton extends StatelessWidget {
           BlocProvider.of<AuthBloc>(context).add(LoginSubmittingEvent());
         },
         child: Text(
-          'Connexion',
+          'Signin'.t(context),
           style: TextStyle(
               fontWeight: FontWeight.w400, fontSize: 18, color: Colors.blue),
         ),

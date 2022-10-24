@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../core/utils/token.dart';
+import '../../core/utils/token.dart';
 
 class LoadinScreen extends StatefulWidget {
   const LoadinScreen({super.key});

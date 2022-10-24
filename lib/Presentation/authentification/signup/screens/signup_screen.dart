@@ -1,8 +1,9 @@
+import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:dropili/domain/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
-import 'package:dropili/dependency/get_it.dart' as getIt;
+import 'package:dropili/di/get_it.dart' as getIt;
 
 import 'package:dropili/Presentation/authentification/comun_widgets/progress_indicator.dart';
 import 'package:dropili/Presentation/authentification/signup/widgets/more_signup_options_widget.dart';
@@ -35,7 +36,6 @@ class _LoginScreenState extends State<SignupScreen> {
     return BlocProvider.value(
       value: _authBloc,
       child: Scaffold(
-          // resizeToAvoidBottomInset: false,
           body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.only(bottom: 20),
@@ -65,7 +65,7 @@ class _LoginScreenState extends State<SignupScreen> {
                           height: 20,
                         ),
                         Text(
-                          'S\'inscrire',
+                          'Signup'.t(context),
                           style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.w500,
@@ -80,7 +80,7 @@ class _LoginScreenState extends State<SignupScreen> {
                         ),
                         state.status == Status.loading
                             ? LoadingIndicatorWidget(
-                                text: 'Inscription...',
+                                text: 'Signup'.t(context) + '...',
                               )
                             : state.status == Status.success
                                 ? Container()

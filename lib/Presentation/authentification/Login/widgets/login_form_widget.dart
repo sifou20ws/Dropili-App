@@ -1,4 +1,5 @@
 import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
+import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -43,9 +44,6 @@ class _FormWidgetState extends State<FormWidget> {
           Padding(
             padding:
                 const EdgeInsets.only(bottom: 20, left: 20, right: 30, top: 20),
-            // child: BlocBuilder<AuthBloc, LoginState>(
-            //   builder: (context, state) {
-            // return
             child: Column(children: [
               TextFormField(
                 onChanged: ((value) {
@@ -54,7 +52,7 @@ class _FormWidgetState extends State<FormWidget> {
                 }),
                 decoration: InputDecoration(
                   icon: Icon(Icons.email),
-                  labelText: "Nom d'utilisteur",
+                  labelText: 'username'.t(context),
                 ),
                 validator: null,
               ),
@@ -68,7 +66,7 @@ class _FormWidgetState extends State<FormWidget> {
                 }),
                 decoration: InputDecoration(
                   icon: Icon(Icons.lock),
-                  labelText: 'Mot de pass',
+                  labelText: 'password'.t(context),
                 ),
                 obscureText: true,
               ),
@@ -85,7 +83,7 @@ class _FormWidgetState extends State<FormWidget> {
                     child: Container(
                       height: 20,
                       child: Text(
-                        'Mot de pass oublié ?',
+                        'forget password'.t(context),
                         style: TextStyle(
                           decoration: TextDecoration.underline,
                           fontSize: 14,

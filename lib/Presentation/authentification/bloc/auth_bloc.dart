@@ -17,7 +17,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<UsernameChangedEvent>(_usernameTextChangedEvent);
     on<EmailTextChangeEvent>(_emailTextChangeEvent);
     on<PasswordTextChangeEvent>(_passwordTextChangeEvent);
-    //for restoring password
     on<LoginSubmittingEvent>(_loginSubmittingEvent);
     on<SignupSubmittingEvent>(_signupSubmittingEvent);
     on<RestoreSubmittingEvent>(_restorSubmittingEvent);
@@ -148,10 +147,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(state.copyWith(status: Status.loading));
     //here we post to api
     await Future.delayed(const Duration(seconds: 4));
-    // emit(state.copyWith(
-    //     status: Status.fail,
-    //     errorExist: true,
-    //     errorMessage: 'something is wrong'));
     emit(state.copyWith(status: Status.success));
   }
 }
