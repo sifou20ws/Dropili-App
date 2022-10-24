@@ -61,9 +61,9 @@ class Grid extends StatelessWidget {
                         barrierDismissible: false, // user must tap button!
                         builder: (BuildContext context) {
                           return CustomDialogBox(
-                              index: index + start ,
-                              img: 'assets/IconsFR/call.png',
-                              editText: 'Entrez votre numéro de téléphone',
+                            index: index + start,
+                            img: 'assets/IconsFR/call.png',
+                            editText: 'Entrez votre numéro de téléphone',
                           );
                         },
                       );
