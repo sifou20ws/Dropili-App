@@ -13,6 +13,7 @@ class AuthState extends Equatable {
       this.usernameValid = true,
       this.emailValid = true,
       this.passwordValid = true,
+      this.passwordVisible = false,
       this.errorExist = false,
       this.status = Status.init});
 
@@ -25,6 +26,7 @@ class AuthState extends Equatable {
   final bool usernameValid;
   final bool emailValid;
   final bool passwordValid;
+  final bool passwordVisible;
 
   final bool errorExist;
   final String errorMessage;
@@ -39,6 +41,7 @@ class AuthState extends Equatable {
       bool? usernameValid,
       bool? emailValid,
       bool? passwordValid,
+      bool? passwordVisible,
       bool? errorExist,
       String? errorMessage,
       Status? status}) {
@@ -51,6 +54,7 @@ class AuthState extends Equatable {
         usernameValid: usernameValid ?? this.usernameValid,
         emailValid: emailValid ?? this.emailValid,
         passwordValid: passwordValid ?? this.passwordValid,
+        passwordVisible: passwordVisible ?? this.passwordVisible,
         errorExist: errorExist ?? this.errorExist,
         errorMessage: errorMessage ?? this.errorMessage,
         status: status ?? this.status);
@@ -66,6 +70,7 @@ class AuthState extends Equatable {
         usernameValid,
         emailValid,
         passwordValid,
+        passwordVisible,
         status
       ];
 }

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain/usecases/editProfileUsecase.dart';
-import '../../../domain/usecases/profileUsecase.dart';
 import '../../EditProfilePage/bloc/editProfileScreen_bloc.dart';
 import '../../EditProfilePage/screens/editProfilePage.dart';
 import '../../EditProfilePage/widgets/button.dart';

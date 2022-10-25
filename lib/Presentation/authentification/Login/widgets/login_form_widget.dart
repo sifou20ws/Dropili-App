@@ -3,7 +3,7 @@ import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../comun_widgets/message_widget.dart';
+import 'package:dropili/Presentation/authentification/comun_widgets/message_widget.dart';
 
 class FormWidget extends StatefulWidget {
   const FormWidget({super.key});
@@ -16,7 +16,7 @@ class _FormWidgetState extends State<FormWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.85,
+      width: MediaQuery.of(context).size.width * 0.80,
       // height: 300,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -67,8 +67,23 @@ class _FormWidgetState extends State<FormWidget> {
                 decoration: InputDecoration(
                   icon: Icon(Icons.lock),
                   labelText: 'password'.t(context),
+                  suffixIcon: IconButton(
+                    onPressed: (() {
+                      BlocProvider.of<AuthBloc>(context).add(
+                          PasswordVisibiltyChangeEvent(
+                              !context.read<AuthBloc>().state.passwordVisible));
+                    }),
+                    icon: Icon(
+                      !context.read<AuthBloc>().state.passwordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                    ),
+                    color: Colors.grey[600],
+                    iconSize: 24,
+                  ),
                 ),
-                obscureText: true,
+                // obscureText: false,
+                obscureText: !context.read<AuthBloc>().state.passwordVisible,
               ),
               SizedBox(
                 height: 25,

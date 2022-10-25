@@ -111,9 +111,23 @@ class _FormWidgetState extends State<FormWidget> {
                       ? null
                       : 'password'.t(context) + ' ' + 'short'.t(context),
                   // labelText: 'Email',
+                  suffixIcon: IconButton(
+                    onPressed: (() {
+                      BlocProvider.of<AuthBloc>(context).add(
+                          PasswordVisibiltyChangeEvent(
+                              !context.read<AuthBloc>().state.passwordVisible));
+                    }),
+                    icon: Icon(
+                      !context.read<AuthBloc>().state.passwordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                    ),
+                    color: Colors.grey[600],
+                    iconSize: 24,
+                  ),
                 ),
                 validator: null,
-                obscureText: true,
+                obscureText: !context.read<AuthBloc>().state.passwordVisible,
               ),
               SizedBox(
                 height: 30,

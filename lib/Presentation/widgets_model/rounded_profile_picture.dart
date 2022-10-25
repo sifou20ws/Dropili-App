@@ -6,7 +6,7 @@ import '../EditProfilePage/widgets/icon_container.dart';
 
 class RoundedProfilePicture extends StatelessWidget {
   final String image;
-  bool edit;
+  final bool edit;
   RoundedProfilePicture({required this.image, this.edit = false});
 
   @override

@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../widgets_model/icons_lists.dart';
+import 'package:dropili/Presentation/widgets_model/icons_lists.dart';
 import '../../widgets_model/profile_grid.dart';
 import '../../widgets_model/rounded_profile_picture.dart';
 import '../bloc/editProfileScreen_bloc.dart';

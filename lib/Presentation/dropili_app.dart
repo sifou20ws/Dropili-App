@@ -1,5 +1,8 @@
+import 'package:dropili/Presentation/change_language/change_language_screen.dart';
+import 'package:dropili/Presentation/routing/fade_page_route_builder.dart';
 import 'package:dropili/Presentation/localization/app_localization.dart';
 import 'package:dropili/Presentation/localization/bloc/language_bloc.dart';
+import 'package:dropili/Presentation/routing/routes.dart';
 import 'package:dropili/common/constant/languages.dart';
 import 'package:dropili/di/get_it.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +13,7 @@ import 'package:dropili/Presentation/authentification/signup/screens/signup_scre
 import 'package:dropili/Presentation/home/home_screen.dart';
 import 'package:dropili/Presentation/loading_screen/loadingScreen.dart';
 import 'package:dropili/Presentation/onBoarding/screens/on_boarding_screen.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -47,14 +51,7 @@ class _DropiliAppState extends State<DropiliApp> {
                   debugShowCheckedModeBanner: false,
                   theme: ThemeData(
                       primaryColor: Colors.blue, fontFamily: 'Roboto'),
-                  routes: {
-                    '/': (context) => LoadinScreen(),
-                    '/onBoard': ((context) => OnBoardingScreen()),
-                    '/signin': ((context) => LoginScreen()),
-                    '/register': ((context) => SignupScreen()),
-                    '/signin/reset': ((context) => ResetPasswordScreen()),
-                    '/home': ((context) => HomeScreen()),
-                  },
+                  // routes: Routes.getRoutes(setting),
                   supportedLocales:
                       Languages.languages.map((e) => Locale(e.code)).toList(),
                   localizationsDelegates: [
@@ -63,6 +60,16 @@ class _DropiliAppState extends State<DropiliApp> {
                     GlobalWidgetsLocalizations.delegate,
                   ],
                   locale: state.locale,
+                  builder: (context, child) {
+                    return child!;
+                  },
+                  initialRoute: '/',
+                  onGenerateRoute: (settings) {
+                    final routes = Routes.getRoutes(settings);
+                    final WidgetBuilder builder = routes[settings.name]!;
+                    return FadePageRouteBuilder(
+                        builder: builder, settings: settings);
+                  },
                 )
               : SizedBox.shrink();
         },

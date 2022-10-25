@@ -17,6 +17,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<UsernameChangedEvent>(_usernameTextChangedEvent);
     on<EmailTextChangeEvent>(_emailTextChangeEvent);
     on<PasswordTextChangeEvent>(_passwordTextChangeEvent);
+    on<PasswordVisibiltyChangeEvent>(_passwordVisiblityChangeEvent);
     on<LoginSubmittingEvent>(_loginSubmittingEvent);
     on<SignupSubmittingEvent>(_signupSubmittingEvent);
     on<RestoreSubmittingEvent>(_restorSubmittingEvent);
@@ -57,6 +58,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } else {
       emit(state.copyWith(passwordValid: true));
     }
+  }
+
+  void _passwordVisiblityChangeEvent(event, Emitter<AuthState> emit) {
+    emit(state.copyWith(passwordVisible: event.visibility));
   }
 
   void _loginSubmittingEvent(event, Emitter<AuthState> emit) async {
