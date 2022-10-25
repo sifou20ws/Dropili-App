@@ -25,19 +25,21 @@ class ThirdPage extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.7,
               child: ElevatedButton(
                 onPressed: () {
+                  // BlocProvider.of<LanguageBloc>(context)
+                  //     .add(ToggleLanguageEvent(Languages.languages[1]));
                   Navigator.pushReplacementNamed(context, '/signin');
                 },
                 child: Text(
                   'Signin'.t(context),
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
-                      fontSize: 18,
+                      fontSize: 19,
                       color: Color.fromARGB(255, 0, 123, 206)),
                 ),
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(13))),
+                        borderRadius: BorderRadius.circular(15))),
               )),
           SizedBox(
             height: 20,
@@ -53,13 +55,13 @@ class ThirdPage extends StatelessWidget {
                   'Signup'.t(context),
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
-                      fontSize: 18,
+                      fontSize: 19,
                       color: Color.fromARGB(255, 0, 123, 206)),
                 ),
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(13))),
+                        borderRadius: BorderRadius.circular(15))),
               )),
         ],
         // child: PageView.builder(itemBuilder: ((context, index) => Container())),

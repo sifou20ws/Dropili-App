@@ -43,6 +43,15 @@ class PasswordTextChangeEvent extends AuthEvent {
   List<Object> get props => [password];
 }
 
+class PasswordVisibiltyChangeEvent extends AuthEvent {
+  final bool visibility;
+
+  PasswordVisibiltyChangeEvent(this.visibility);
+
+  @override
+  List<Object> get props => [visibility];
+}
+
 class LoginSubmittingEvent extends AuthEvent {}
 
 class SignupSubmittingEvent extends AuthEvent {}
