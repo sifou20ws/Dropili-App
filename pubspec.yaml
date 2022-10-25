@@ -105,6 +105,12 @@ flutter:
     - family: Roboto
       fonts:
         - asset: assets/fonts/roboto/Roboto-Medium.ttf
+        - asset: assets/fonts/roboto/Roboto-Regular.ttf
+        - asset: assets/fonts/roboto/Roboto-Bold.ttf
+        - asset: assets/fonts/roboto/Roboto-Black.ttf
+        - asset: assets/fonts/roboto/Roboto-Thin.ttf
+        - asset: assets/fonts/roboto/Roboto-Light.ttf
+
 
     - family: Mukta
       fonts:
@@ -116,6 +122,21 @@ flutter:
         - asset: assets/fonts/mukta/Mukta-SemiBold.ttf
         - asset: assets/fonts/mukta/Mukta-Bold.ttf
         - asset: assets/fonts/mukta/Mukta-ExtraBold.ttf
+
+
+    - family: Inter
+      fonts:
+        # - asset: assets/fonts/mukta/
+        - asset: assets/fonts/inter/Inter-ExtraLight.ttf
+        - asset: assets/fonts/inter/Inter-Light.ttf
+        - asset: assets/fonts/inter/Inter-Thin.ttf
+        - asset: assets/fonts/inter/Inter-Regular.ttf
+        - asset: assets/fonts/inter/Inter-Medium.ttf
+        - asset: assets/fonts/inter/Inter-SemiBold.ttf
+        - asset: assets/fonts/inter/Inter-Bold.ttf
+        - asset: assets/fonts/inter/Inter-ExtraBold.ttf
+        - asset: assets/fonts/inter/Inter-Black.ttf
+
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:

@@ -20,7 +20,7 @@ class MessageWidget extends StatelessWidget {
           child: Text(
         text,
         style: TextStyle(
-            color: Colors.white, fontWeight: FontWeight.w200, fontSize: 13),
+            color: Colors.white, fontWeight: FontWeight.w400, fontSize: 13),
       )),
     );
   }

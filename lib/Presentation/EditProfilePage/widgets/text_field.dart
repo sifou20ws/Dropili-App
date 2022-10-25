@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class EditProfileTextField extends StatelessWidget {
   final String text;
-  bool long ;
+  final bool long ;
   EditProfileTextField({required this.text, this.long = false});
 
   @override
