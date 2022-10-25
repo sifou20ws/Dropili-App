@@ -26,7 +26,7 @@ class SingupButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
             backgroundColor: Colors.white,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(13))),
+                borderRadius: BorderRadius.circular(25))),
       ),
     );
   }

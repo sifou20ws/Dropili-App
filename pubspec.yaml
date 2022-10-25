@@ -48,6 +48,7 @@ dependencies:
   flutter_launcher_icons: ^0.10.0
   flutter_localizations: # Add this line
     sdk: flutter  
+  dropdown_button2: ^1.8.9
 
 dev_dependencies:
   flutter_test:

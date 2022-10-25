@@ -1,4 +1,4 @@
-import 'package:dropili/core/constant/colors.dart';
+import 'package:dropili/common/constant/colors.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavigationBarPage extends StatefulWidget {

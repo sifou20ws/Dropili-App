@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
+
 class SigninButton extends StatelessWidget {
   const SigninButton({
     Key? key,
@@ -12,7 +13,7 @@ class SigninButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 45,
-      width: 250,
+      width: MediaQuery.of(context).size.width * 0.6,
       child: ElevatedButton(
         onPressed: () {
           // Navigator.pushReplacementNamed(context, '/signin');
@@ -26,7 +27,7 @@ class SigninButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
             backgroundColor: Colors.white,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(13))),
+                borderRadius: BorderRadius.circular(25))),
       ),
     );
   }
