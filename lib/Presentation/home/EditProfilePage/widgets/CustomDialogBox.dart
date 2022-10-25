@@ -1,10 +1,11 @@
 import 'dart:developer';
 
-import 'package:dropili/Presentation/EditProfilePage/widgets/text_field.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../widgets_model/icons_lists.dart';
-import '../bloc/editProfileScreen_bloc.dart';
+import 'package:dropili/Presentation/widgets_model/icons_lists.dart';
 
 class CustomDialogBox extends StatefulWidget {
   final String editText;
@@ -30,12 +31,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
       ),
       elevation: 0,
       backgroundColor: Colors.transparent,
-      child: contentBox(context),
-    );
-  }
-
-  contentBox(context) {
-    return Stack(
+      child:  Stack(
       children: <Widget>[
         Container(
           padding:
@@ -69,11 +65,15 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                   Expanded(
                     child: TextButton(
                       onPressed: () {
+                        //Navigator.of(context).pop(false);
+                        // context
+                        //     .read<EditProfileBloc>()
+                        //     .add(ItemSelectedEvent(
+                        //     index: widget.index));
+                        //context.read<EditProfileBloc>().add(ItemSelectedEvent(index: widget.index));
+                        
+                        BlocProvider.of<EditProfileBloc>(context).add(ItemSelectedEvent(index: widget.index));
                         Navigator.of(context).pop(false);
-                       // context
-                         //   .read<EditProfileBloc>()
-                          //  .add(ItemSelectedEvent(
-                          //  index: widget.index));
                       },
                       child: Text('Sauvegarder'),
                     ),
@@ -92,7 +92,6 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
             child: ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(10)),
               child: Image.asset(
-                //widget.img,
                 IconsLists.allItems[widget.index].imageUrl,
                 width: 100.0,
                 height: 100.0,
@@ -101,6 +100,11 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
           ),
         ),
       ],
+    )
     );
+  }
+
+  contentBox(context) {
+    
   }
 }

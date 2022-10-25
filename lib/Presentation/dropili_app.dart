@@ -1,3 +1,5 @@
+import 'package:dropili/Presentation/home/EditProfilePage/screens/editProfilePage.dart';
+import 'package:dropili/Presentation/home/ProfilePage/screens/profileScreen_page.dart';
 import 'package:dropili/Presentation/localization/app_localization.dart';
 import 'package:dropili/Presentation/localization/bloc/language_bloc.dart';
 import 'package:dropili/common/constant/languages.dart';
@@ -7,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:dropili/Presentation/authentification/forget_password/screens/forget_password_screen.dart';
 import 'package:dropili/Presentation/authentification/Login/screens/login_screen.dart';
 import 'package:dropili/Presentation/authentification/signup/screens/signup_screen.dart';
-import 'package:dropili/Presentation/home/home_screen.dart';
 import 'package:dropili/Presentation/loading_screen/loadingScreen.dart';
 import 'package:dropili/Presentation/onBoarding/screens/on_boarding_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,7 +54,8 @@ class _DropiliAppState extends State<DropiliApp> {
                     '/signin': ((context) => LoginScreen()),
                     '/register': ((context) => SignupScreen()),
                     '/signin/reset': ((context) => ResetPasswordScreen()),
-                    '/home': ((context) => HomeScreen()),
+                    '/home': ((context) => ProfilePage()),
+                    '/editProfile' : ((context) => EditProfilePage()),
                   },
                   supportedLocales:
                       Languages.languages.map((e) => Locale(e.code)).toList(),

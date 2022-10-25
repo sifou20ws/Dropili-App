@@ -1,12 +1,10 @@
+import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/CustomDialogBox.dart';
 import 'package:dropili/Presentation/widgets_model/profile_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/models/item_models.dart';
-import '../EditProfilePage/widgets/CustomDialogBox.dart';
-import '../EditProfilePage/widgets/show_popup.dart';
-
-import 'dart:developer';
+import 'package:dropili/data/models/item_models.dart';
 
 class Grid extends StatelessWidget {
   final String title, type;
@@ -36,7 +34,7 @@ class Grid extends StatelessWidget {
             physics: ClampingScrollPhysics(),
             shrinkWrap: true,
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 130,
+                maxCrossAxisExtent: 100,
                 crossAxisSpacing: 0,
                 mainAxisSpacing: 0),
             itemCount: size,
@@ -45,6 +43,8 @@ class Grid extends StatelessWidget {
                 alignment: Alignment.center,
                 child: GestureDetector(
                     onTap: () {
+                      //BlocProvider.of<EditProfileBloc>(context).add(ItemSelectedEvent(index: index+start));
+
                       /*BlocProvider.of<EditProfileBloc>(context)
                           .add(ItemSelectedEvent(index: index, id: type));
                       log(index.toString());
@@ -59,16 +59,19 @@ class Grid extends StatelessWidget {
                       showDialog<void>(
                         context: context,
                         barrierDismissible: false, // user must tap button!
-                        builder: (BuildContext context) {
-                          return CustomDialogBox(
-                            index: index + start,
-                            img: 'assets/IconsFR/call.png',
-                            editText: 'Entrez votre numéro de téléphone',
+                        builder: (_) {
+                          return BlocProvider.value(
+                            value: context.read<EditProfileBloc>(),
+                            child: CustomDialogBox(
+                              index: index + start,
+                              img: 'assets/IconsFR/call.png',
+                              editText: 'Entrez votre numéro de téléphone',
+                            ),
                           );
                         },
                       );
 
-                      log('message');
+                      //log('message');
                     },
                     child: IconProfile(
                         image1: myList[index + start].imageUrl,
