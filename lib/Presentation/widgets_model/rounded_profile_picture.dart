@@ -1,8 +1,6 @@
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/icon_container.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:flutter/material.dart';
-
-import '../EditProfilePage/widgets/icon_container.dart';
-
 
 class RoundedProfilePicture extends StatelessWidget {
   final String image;
