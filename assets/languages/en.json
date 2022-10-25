@@ -19,7 +19,8 @@
     "not valid": "not valid",
     "short": "so short",
     "Change Language" :"Change Language",
-    "Choose Language":"Choose a language :"
+    "Choose Language":"Choose a language :",
+    "nfc looking text": "Try moving your NFC tag around to find the NFC reader on your device"
     
     
 }

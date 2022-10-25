@@ -49,6 +49,7 @@ dependencies:
   flutter_localizations: # Add this line
     sdk: flutter  
   dropdown_button2: ^1.8.9
+  lottie: ^1.4.3
 
 dev_dependencies:
   flutter_test:
@@ -89,6 +90,7 @@ flutter:
     - assets/languages/
     - assets/appIcons/
     - assets/IconsFR/
+    - assets/lottie/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
