@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dropili/Presentation/Nfc/widgets/nfc_scan_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +25,10 @@ class _HomeScreenState extends State<HomeScreen> {
               builder: (context) {
                 return NfcScanWidget();
               },
-            );
+            ).then((value) {
+              if (value == null) log('value is null');
+              log(value);
+            });
           }),
         ),
       ),

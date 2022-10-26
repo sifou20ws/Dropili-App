@@ -50,6 +50,9 @@ dependencies:
     sdk: flutter  
   dropdown_button2: ^1.8.9
   lottie: ^1.4.3
+  nfc_manager: ^3.2.0
+
+
 
 dev_dependencies:
   flutter_test:
