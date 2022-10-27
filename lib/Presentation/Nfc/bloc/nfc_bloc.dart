@@ -52,5 +52,26 @@ class NfcBloc extends Bloc<NfcEvent, NfcState> {
         }
       });
     }
+
+    // var status = await FlutterNfcReader.checkNFCAvailability();
+
+    // if (status == NFCAvailability.available) {
+    //   // var ndef = await FlutterNfcReader.read();
+    //   NfcData result = await FlutterNfcReader.write('', '');
+    //   log(result.content!);
+
+    //   // if (ndef.content == null) {
+    //   //   emit(NfcReadErrorState());
+    //   // } else {
+    //   //   log(ndef.content!);
+    //   //   emit(NfcTagFoundState(
+    //   //     ndef.content!.substring(
+    //   //       ndef.content!.indexOf('www'),
+    //   //     ),
+    //   //   ));
+    //   // }
+    // } else {
+    //   emit(NfcNotFoundState());
+    // }
   }
 }
