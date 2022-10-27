@@ -7,13 +7,8 @@ abstract class NfcEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class NfcTagFoundEvent extends NfcEvent {
-  final String content;
-
-  NfcTagFoundEvent(this.content);
-
-  @override
-  List<Object> get props => [content];
-}
+class NfcTagWrittenEvent extends NfcEvent {}
 
 class NfcStartEvent extends NfcEvent {}
+
+class NfcTagErrorEvent extends NfcEvent {}

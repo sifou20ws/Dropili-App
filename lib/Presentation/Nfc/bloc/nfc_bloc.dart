@@ -1,7 +1,3 @@
-import 'dart:async';
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:nfc_manager/nfc_manager.dart';
@@ -10,35 +6,51 @@ part 'nfc_event.dart';
 part 'nfc_state.dart';
 
 class NfcBloc extends Bloc<NfcEvent, NfcState> {
-  NfcBloc() : super(NfcSearchingState()) {
-    on<NfcTagFoundEvent>(_nfcTagFoundEvent);
+  final String dataToTag;
+
+  NfcBloc(this.dataToTag) : super(NfcSearchingState()) {
+    on<NfcTagWrittenEvent>(_NfcTagWrittenEvent);
     on<NfcStartEvent>(_nfcStartEvent);
+    on<NfcTagErrorEvent>(_nfcTagErrorEvent);
+    add(NfcStartEvent());
   }
 
-  void _nfcTagFoundEvent(event, Emitter<NfcState> emit) {
-    emit(NfcFoundState(event.content));
-    // emit(NfcErroState());
+  void _NfcTagWrittenEvent(event, Emitter<NfcState> emit) {
+    emit(NfcTagWrittenState());
+  }
+
+  void _nfcTagErrorEvent(event, Emitter<NfcState> emit) {
+    emit(NfcWriteErrorState());
   }
 
   void _nfcStartEvent(evet, Emitter<NfcState> emit) async {
-    log('nfc starting');
-    var isAvailable = await NfcManager.instance.isAvailable();
-    if (isAvailable) {
-      log('not avail');
-      emit(NfcErroState());
+    var isAvailble = await NfcManager.instance.isAvailable();
+    if (!isAvailble) {
+      emit(NfcNotFoundState());
     } else {
-      log('now waiting datat');
-      unawaited(
-        NfcManager.instance.startSession(
-          onDiscovered: (tag) async {
-            var ndef = Ndef.from(tag);
-            var record = ndef!.cachedMessage!.records.first;
-            var patload = ascii.decode(record.payload);
-            add(NfcTagFoundEvent(patload));
-          },
-        ),
-      );
-      // emit(NfcFoundState('TAG'));
+      emit(NfcSearchingState());
+      await NfcManager.instance.startSession(
+          onDiscovered: await (tag) async {
+        Ndef? ndef = Ndef.from(tag);
+
+        if (ndef == null || !ndef.isWritable) {
+          add(NfcTagErrorEvent());
+          return;
+        }
+
+        NdefMessage message = NdefMessage([
+          NdefRecord.createUri(Uri.parse(dataToTag)),
+        ]);
+
+        try {
+          await ndef.write(message);
+          add(NfcTagWrittenEvent());
+
+          return;
+        } catch (e) {
+          add(NfcTagErrorEvent());
+        }
+      });
     }
   }
 }
