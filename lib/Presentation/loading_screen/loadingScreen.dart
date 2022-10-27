@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../../core/utils/token.dart';
@@ -22,9 +24,9 @@ class _LoadinScreenState extends State<LoadinScreen> {
 
   void navigate() async {
     token = await TokenHandler.loadToken();
-    String nextRout = token == null ? '/onBoard' : '/home';
-    await Future.delayed(Duration(seconds: 1), (() {
-      Navigator.pushReplacementNamed(context, nextRout);
+    String nextRout = token == null ? '/onBoard' : '/signin';
+    await Future.delayed(Duration(seconds: 5), (() {
+      // Navigator.pushReplacementNamed(context, nextRout);
     }));
   }
 

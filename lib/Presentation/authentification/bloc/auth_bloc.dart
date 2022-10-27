@@ -86,7 +86,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await TokenHandler.storeToken(token);
 
       log(token);
-
+ 
       emit(state.copyWith(status: Status.success));
     } on Failure catch (f) {
       log(f.message);
