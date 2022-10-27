@@ -17,3 +17,5 @@ class NfcTagFoundEvent extends NfcEvent {
 }
 
 class NfcStartEvent extends NfcEvent {}
+
+class NfcTagErrorEvent extends NfcEvent {}

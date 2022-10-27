@@ -51,6 +51,10 @@ dependencies:
   dropdown_button2: ^1.8.9
   lottie: ^1.4.3
   nfc_manager: ^3.2.0
+  flutter_nfc_reader:
+    git:
+      url: https://github.com/matteocrippa/flutter-nfc-reader.git
+      ref: master
 
 
 

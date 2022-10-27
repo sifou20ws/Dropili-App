@@ -9,13 +9,8 @@ abstract class NfcState extends Equatable {
 
 class NfcSearchingState extends NfcState {}
 
-class NfcFoundState extends NfcState {
-  final String content;
+class NfcNotFoundState extends NfcState {}
 
-  NfcFoundState(this.content);
+class NfcTagFoundState extends NfcState {}
 
-  @override
-  List<Object> get props => [content];
-}
-
-class NfcErroState extends NfcState {}
+class NfcReadErrorState extends NfcState {}
