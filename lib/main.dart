@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
 import 'package:flutter/services.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   unawaited(

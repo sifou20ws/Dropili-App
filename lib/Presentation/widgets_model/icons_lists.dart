@@ -1,4 +1,4 @@
-import '../../data/models/item_models.dart';
+import 'package:dropili/data/models/item_models.dart';
 
 class IconsLists {
   static List<Item> allItems = [
