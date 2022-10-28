@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dropdown_button2/custom_dropdown_button2.dart';
 import 'package:dropili/Presentation/localization/bloc/language_bloc.dart';
 import 'package:dropili/common/constant/languages.dart';
@@ -116,7 +114,7 @@ class _DropDownMenueWidgetState extends State<DropDownMenueWidget> {
       height: 80,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
             color: Color.fromARGB(50, 29, 29, 29),

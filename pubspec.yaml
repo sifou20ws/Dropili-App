@@ -50,6 +50,18 @@ dependencies:
   flutter_localizations: # Add this line
     sdk: flutter  
   dropdown_button2: ^1.8.9
+  lottie: ^1.4.3
+  nfc_manager: ^3.2.0
+  flutter_nfc_reader:
+    git:
+      url: https://github.com/matteocrippa/flutter-nfc-reader.git
+      ref: master
+  custom_navigation_bar: ^0.8.2
+  flutter_snake_navigationbar: ^0.6.1
+  qr_flutter: ^4.0.0
+  flutter_share: ^2.0.0
+
+
 
 dev_dependencies:
   flutter_test:
@@ -92,6 +104,7 @@ flutter:
     - assets/languages/
     - assets/appIcons/
     - assets/IconsFR/
+    - assets/lottie/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
