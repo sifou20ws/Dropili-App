@@ -1,12 +1,11 @@
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/button.dart';
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
 import 'package:dropili/common/constant/colors.dart';
+import 'package:dropili/core/api/post_get.dart';
 import 'package:dropili/domain/repositories/edit_profile_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:dropili/Presentation/home/bottomNavigationBarPage/navigation_bar_widget.dart';
-import 'package:dropili/Presentation/home/drawerPage/drawerPage.dart';
 import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
 
@@ -22,7 +21,9 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
   @override
   void initState() {
     super.initState();
-    _profileBloc = ProfileBloc(profilerepository: ProfileRepository());
+    _profileBloc = ProfileBloc(
+        editProfilerepository:
+            EditProfileRepository(getIt.getItInstace<Network>()));
   }
 
   @override
