@@ -6,7 +6,6 @@ import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class Grid extends StatelessWidget {
   final String title, type;
   final List<BlocksItem> myList;
@@ -35,7 +34,7 @@ class Grid extends StatelessWidget {
             physics: ClampingScrollPhysics(),
             shrinkWrap: true,
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 100,
+                maxCrossAxisExtent: 120,
                 crossAxisSpacing: 0,
                 mainAxisSpacing: 0),
             itemCount: myList.length,
@@ -52,7 +51,7 @@ class Grid extends StatelessWidget {
                           value: context.read<EditProfileBloc>(),
                           child: CustomDialogBox(
                             index: index + start,
-                            img: myList[index].icon.previewUrl ,
+                            img: myList[index].icon.previewUrl,
                             editText: myList[index].hint.fr,
                           ),
                         );
@@ -70,8 +69,7 @@ class Grid extends StatelessWidget {
                             )
                           : Container(
                               height: 50,
-                              child: Image.asset(
-                                  'assets/dropili_app_logo.png'),
+                              child: Image.asset('assets/dropili_app_logo.png'),
                             ),
                       /*Placeholder(
                               color: MalinColors.AppBlue,

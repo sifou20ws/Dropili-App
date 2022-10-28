@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/button.dart';
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
 import 'package:dropili/common/constant/colors.dart';
@@ -96,8 +98,9 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                 alignment: Alignment(0.8, 0.95),
                                 child: GestureDetector(
                                   onTap: () {
+                                    log('hhelll');
                                     Navigator.pushNamed(
-                                        context, '/editProfile');
+                                        context, '/editeProfile');
                                   },
                                   child: EditProfileButton(
                                     child: Text(

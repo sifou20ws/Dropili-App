@@ -29,8 +29,9 @@ class _BottomNavigationBarPageState extends State<NavigatioBarWidget> {
       currentIndex: context.read<NavigationBloc>().state.index,
       elevation: 30,
 
-      onTap: (value) {
+      onTap: (value) async {
         BlocProvider.of<NavigationBloc>(context).add(NavigationEvent(value));
+        await Future.delayed(Duration(seconds: 1));
       },
       items: [
         BottomNavigationBarItem(
