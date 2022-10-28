@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
+import 'package:dropili/data/models/get_blocks_model.dart';
+import 'package:dropili/domain/repositories/edit_profile_repository.dart';
 import 'package:dropili/domain/repositories/profile_repository.dart';
 import 'package:equatable/equatable.dart';
 
@@ -8,16 +12,31 @@ part 'profileScreen_event.dart';
 part 'profileScreen_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  ProfileBloc({required ProfileRepository profilerepository})
-      : _profilerepository = profilerepository,
-        super(ProfileState()){
+  EditProfileRepository _editProfileRepository;
+  ProfileBloc({required EditProfileRepository editProfilerepository})
+      : _editProfileRepository = editProfilerepository,
+        super(ProfileState(blocks: [])){
     on<EditButtonClickedEvent>(_editButtonClickedEvent);
-
+    on<GetUserBlocksEvent> (_getUserBlocksEvent);
   }
-  ProfileRepository _profilerepository;
 
   void _editButtonClickedEvent(event, Emitter<ProfileState> emit){
     emit(state.copyWith(status: ProfileStatus.success));
+  }
+
+  void _getUserBlocksEvent(event, Emitter<ProfileState> emit) async{
+    emit(state.copyWith(status: ProfileStatus.loading));
+    var resp;
+    try{
+      resp = await  _editProfileRepository.getUserBlocks();
+      emit(state.copyWith(status: ProfileStatus.getSuccess));
+      emit(state.copyWith(blocks: resp));
+      log(resp.toString());
+    }catch(e){
+      emit(state.copyWith(status: ProfileStatus.fail));
+      log(('error :'));
+      log(e.toString());
+    }
   }
 
 }

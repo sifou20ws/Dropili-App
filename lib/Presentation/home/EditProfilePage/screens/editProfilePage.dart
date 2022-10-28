@@ -6,15 +6,17 @@ import 'package:dropili/Presentation/home/EditProfilePage/widgets/icon_container
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/text_field.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/constant/snackbars.dart';
+import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:dropili/domain/repositories/edit_profile_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:dropili/Presentation/widgets_model/icons_lists.dart';
 import 'package:dropili/Presentation/widgets_model/profile_grid.dart';
 import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:dropili/di/get_it.dart' as getIt;
+
 
 import 'dart:developer';
 
@@ -31,11 +33,13 @@ enum MediaType {
 
 class _MyOffersPageState extends State<EditProfilePage> {
   late EditProfileBloc _editProfileBloc;
+  List<BlocksItem> blocks = [];
   @override
   void initState() {
     super.initState();
     _editProfileBloc =
-        EditProfileBloc(editProfileRepository: EditProfileRepository());
+        EditProfileBloc(editProfileRepository: getIt.getItInstace<EditProfileRepository>());
+    _editProfileBloc.add(GetBlocksEvent());
   }
 
   @override
@@ -73,6 +77,9 @@ class _MyOffersPageState extends State<EditProfilePage> {
               ..showSnackBar(
                 MalinSnackBars.errorSnackBar(state.messageError!.message),
               );
+          }
+          if (state.status == Status.getSuccess) {
+            blocks = state.blocks;
           }
         },
         child: BlocBuilder<EditProfileBloc, EditProfileState>(
@@ -193,10 +200,14 @@ class _MyOffersPageState extends State<EditProfilePage> {
                             Container(
                               decoration: BoxDecoration(
                                 color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(0),
+                                  topRight: Radius.circular(0),
+                                ),
                               ),
                               child: Padding(
                                 padding: EdgeInsets.only(
-                                    left: 30, right: 30, bottom: 50),
+                                    left: 20, right: 20, bottom: 50),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
@@ -208,12 +219,12 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                     SizedBox(height: 15),
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         EditProfileButton(
                                           child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                            MainAxisAlignment.center,
                                             children: <Widget>[
                                               Text(
                                                 'Direct sur',
@@ -229,53 +240,40 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                                   context
                                                       .read<EditProfileBloc>()
                                                       .add(SwitchEvent(
-                                                          state: state));
+                                                      state: state));
                                                 }, //
                                                 activeColor:
-                                                    MalinColors.AppBlue,
+                                                MalinColors.AppBlue,
                                               ),
                                             ],
                                           ),
                                         ),
-                                        EditProfileButton(
-                                          child: Text(
-                                            'Profile active',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 18,
-                                                color: Colors.blue),
+                                        GestureDetector(
+                                          onTap: (){
+                                            /*context
+                                        .read<EditProfileBloc>()
+                                        .add(GetBlocksEvent());*/
+                                          },
+                                          child: EditProfileButton(
+                                            child: Text(
+                                              'Profile active',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 18,
+                                                  color: Colors.blue),
+                                            ),
                                           ),
                                         ),
                                       ],
                                     ),
+
                                     SizedBox(height: 15),
                                     Grid(
                                         start: 0,
                                         size: 11,
                                         type: 'contactItems',
                                         title: 'Contacts',
-                                        myList: IconsLists.allItems),
-                                    SizedBox(height: 15),
-                                    Grid(
-                                        start: 11,
-                                        size: 7,
-                                        title: 'Reseaux sociaux',
-                                        type: 'reseauxItems',
-                                        myList: IconsLists.allItems),
-                                    SizedBox(height: 15),
-                                    Grid(
-                                        start: 18,
-                                        size: 5,
-                                        title: 'Moyens de paiement',
-                                        type: 'paimentsItems',
-                                        myList: IconsLists.allItems),
-                                    SizedBox(height: 15),
-                                    Grid(
-                                        start: 23,
-                                        size: 2,
-                                        title: 'Divers',
-                                        type: 'diversItems',
-                                        myList: IconsLists.allItems),
+                                        myList: blocks),
                                     SizedBox(height: 15),
                                   ],
                                 ),

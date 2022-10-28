@@ -9,3 +9,10 @@ abstract class ProfileEvent extends Equatable {
 
 class EditButtonClickedEvent extends ProfileEvent {}
 
+class GetUserBlocksEvent extends ProfileEvent {
+
+  GetUserBlocksEvent();
+
+  @override
+  List<Object?> get props => [];
+}

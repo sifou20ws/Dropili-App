@@ -9,8 +9,8 @@ abstract class EditProfileEvent extends Equatable {
 
 class ItemSelectedEvent extends EditProfileEvent {
   final int index;
-
-  ItemSelectedEvent({required this.index});
+  final String data;
+  ItemSelectedEvent( {required this.index , required this.data, });
 
   @override
   List<Object?> get props => [index];
@@ -24,6 +24,14 @@ class SwitchEvent extends EditProfileEvent {
 
   @override
   List<Object?> get props => [state];
+}
+
+class GetBlocksEvent extends EditProfileEvent {
+
+  GetBlocksEvent();
+
+  @override
+  List<Object?> get props => [];
 }
 
 

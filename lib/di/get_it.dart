@@ -17,7 +17,7 @@ Future init() async {
       .registerLazySingleton<ProfileRepository>(() => ProfileRepository());
 
   getItInstace.registerLazySingleton<EditProfileRepository>(
-      () => EditProfileRepository());
+      () => EditProfileRepository(getItInstace()));
 
   getItInstace.registerLazySingleton<LanguageBloc>(() => LanguageBloc());
 
