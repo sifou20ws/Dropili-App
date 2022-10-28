@@ -1,6 +1,6 @@
 part of 'editProfileScreen_bloc.dart';
 
-enum Status { initial, loading, success, fail, finish }
+enum Status { initial, loading, success, fail, finish , getSuccess}
 
 class EditProfileState extends Equatable {
   EditProfileState({
@@ -9,17 +9,16 @@ class EditProfileState extends Equatable {
     this.status = Status.loading,
     this.id = '',
     this.index = -1,
-    //this.contactItems = [],
+    required this.blocks ,
   });
 
   final Failure? messageError;
   final Status status;
   final bool switchButton;
-
   final String id;
   final int index;
 
-  //final List<Item> contactItems;
+  final List<BlocksItem> blocks;
 
   EditProfileState copyWith({
     bool? switchButton,
@@ -27,7 +26,7 @@ class EditProfileState extends Equatable {
     Status? status,
     String? id,
     int? index,
-    //List<Item>? contactItems,
+    List<BlocksItem>? blocks,
   }) {
     return EditProfileState(
       messageError: messageError ?? this.messageError,
@@ -35,10 +34,10 @@ class EditProfileState extends Equatable {
       switchButton: switchButton ?? this.switchButton,
       id: id ?? this.id,
       index: index ?? this.index,
-     // contactItems: contactItems ?? this.contactItems,
+      blocks: blocks ?? this.blocks,
     );
   }
 
   @override
-  List<Object?> get props => [messageError, status, switchButton, id, index];
+  List<Object?> get props => [messageError, status, switchButton, id, index , blocks];
 }

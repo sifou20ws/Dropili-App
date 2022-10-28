@@ -12,6 +12,7 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository authRepository;
+
   AuthBloc(this.authRepository) : super(AuthState()) {
     on<NameTextChangedEvent>(_nameTextChangedEvent);
     on<UsernameChangedEvent>(_usernameTextChangedEvent);
@@ -88,6 +89,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       log(token);
 
       emit(state.copyWith(status: Status.success));
+      //log(state.status.toString());
+
     } on Failure catch (f) {
       log(f.message);
 

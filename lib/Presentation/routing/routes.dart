@@ -1,3 +1,5 @@
+import 'package:dropili/Presentation/home/EditProfilePage/screens/editProfilePage.dart';
+import 'package:dropili/Presentation/home/ProfilePage/screens/profileScreen_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dropili/Presentation/authentification/Login/screens/login_screen.dart';
@@ -15,5 +17,7 @@ class Routes {
         '/register': ((context) => SignupScreen()),
         '/signin/reset': ((context) => ResetPasswordScreen()),
         '/changeLanguage': ((context) => ChangeLanguageScreen()),
+        '/home': ((context) => ProfilePage()),
+        '/editProfile': ((context) => EditProfilePage()),
       };
 }

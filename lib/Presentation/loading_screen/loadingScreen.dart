@@ -15,7 +15,7 @@ class _LoadinScreenState extends State<LoadinScreen> {
 
   @override
   void initState() {
-    // token = 'hello';
+    //token = 'hello';
     super.initState();
     navigate();
   }
