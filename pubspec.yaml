@@ -55,6 +55,10 @@ dependencies:
     git:
       url: https://github.com/matteocrippa/flutter-nfc-reader.git
       ref: master
+  custom_navigation_bar: ^0.8.2
+  flutter_snake_navigationbar: ^0.6.1
+  qr_flutter: ^4.0.0
+  flutter_share: ^2.0.0
 
 
 

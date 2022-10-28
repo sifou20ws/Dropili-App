@@ -40,16 +40,15 @@ class _NfcScanWidgetState extends State<NfcScanWidget> {
           child: BlocListener<NfcBloc, NfcState>(
             listener: (context, state) async {
               if (state is NfcSearchingState) {
-                log('somethin');
               } else if (state is NfcTagWrittenState) {
                 await Future.delayed(Duration(seconds: 3));
-                Navigator.pop(context);
+                Navigator.pop(context, null);
               } else if (state is NfcWriteErrorState) {
                 await Future.delayed(Duration(seconds: 3));
-                Navigator.pop(context);
+                Navigator.pop(context, null);
               } else if (state is NfcNotFoundState) {
                 await Future.delayed(Duration(seconds: 3));
-                Navigator.pop(context);
+                Navigator.pop(context, null);
               }
             },
             child: BlocBuilder<NfcBloc, NfcState>(
