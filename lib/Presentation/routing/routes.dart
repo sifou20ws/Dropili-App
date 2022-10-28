@@ -17,7 +17,6 @@ class Routes {
         '/register': ((context) => SignupScreen()),
         '/signin/reset': ((context) => ResetPasswordScreen()),
         '/changeLanguage': ((context) => ChangeLanguageScreen()),
-        '/home': ((context) => ProfilePage()),
         '/editProfile': ((context) => EditProfilePage()),
       };
 }
