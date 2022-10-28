@@ -17,7 +17,6 @@ import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart'
 import 'package:image_picker/image_picker.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
 
-
 import 'dart:developer';
 
 class EditProfilePage extends StatefulWidget {
@@ -37,8 +36,8 @@ class _MyOffersPageState extends State<EditProfilePage> {
   @override
   void initState() {
     super.initState();
-    _editProfileBloc =
-        EditProfileBloc(editProfileRepository: getIt.getItInstace<EditProfileRepository>());
+    _editProfileBloc = EditProfileBloc(
+        editProfileRepository: getIt.getItInstace<EditProfileRepository>());
     _editProfileBloc.add(GetBlocksEvent());
   }
 
@@ -49,7 +48,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
   }
 
   bool selected = false;
-  String imagePath='';
+  String imagePath = '';
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +67,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
     }
 
     return BlocProvider.value(
-      value: _editProfileBloc ,
+      value: _editProfileBloc,
       child: BlocListener<EditProfileBloc, EditProfileState>(
         listener: (context, state) {
           if (state.status == Status.fail) {
@@ -99,7 +98,9 @@ class _MyOffersPageState extends State<EditProfilePage> {
                     ),
                     onPressed: () {
                       //Navigator.pop(context);
-                      Navigator.of(context)..pop()..pushNamed('/home');
+                      Navigator.of(context)
+                        ..pop()
+                        ..pushNamed('/home');
                     },
                   ),
                   title: Center(
@@ -149,7 +150,12 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                           fit: BoxFit.cover,
                                           color: MalinColors.AppBlue,
                                         )
-                                      : Image.file(File(imagePath),width:  MediaQuery.of(context).size.width, fit: BoxFit.cover,),
+                                      : Image.file(
+                                          File(imagePath),
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          fit: BoxFit.cover,
+                                        ),
                                   Align(
                                     alignment: Alignment.bottomCenter,
                                     child: Container(
@@ -219,12 +225,12 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                     SizedBox(height: 15),
                                     Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         EditProfileButton(
                                           child: Row(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                                MainAxisAlignment.center,
                                             children: <Widget>[
                                               Text(
                                                 'Direct sur',
@@ -240,16 +246,16 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                                   context
                                                       .read<EditProfileBloc>()
                                                       .add(SwitchEvent(
-                                                      state: state));
+                                                          state: state));
                                                 }, //
                                                 activeColor:
-                                                MalinColors.AppBlue,
+                                                    MalinColors.AppBlue,
                                               ),
                                             ],
                                           ),
                                         ),
                                         GestureDetector(
-                                          onTap: (){
+                                          onTap: () {
                                             /*context
                                         .read<EditProfileBloc>()
                                         .add(GetBlocksEvent());*/
@@ -266,7 +272,6 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                         ),
                                       ],
                                     ),
-
                                     SizedBox(height: 15),
                                     Grid(
                                         start: 0,

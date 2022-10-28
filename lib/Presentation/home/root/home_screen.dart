@@ -1,9 +1,7 @@
-import 'dart:developer';
-
 import 'package:dropili/Presentation/Nfc/nfc_dialoge.dart';
+import 'package:dropili/Presentation/home/navigation_bar/navigation_bar_widget.dart';
 import 'package:dropili/Presentation/home/qr_page/qr_page.dart';
 import 'package:dropili/Presentation/home/ProfilePage/screens/profileScreen_page.dart';
-import 'package:dropili/Presentation/home/bottomNavigationBarPage/navigation_bar_widget.dart';
 import 'package:dropili/Presentation/home/drawerPage/drawerPage.dart';
 import 'package:dropili/Presentation/home/root/bloc/navigation_bloc.dart';
 import 'package:flutter/material.dart';
@@ -36,8 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return BlocProvider.value(
       value: _navigationBloc,
       child: BlocListener<NavigationBloc, NavigationState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state.currentPage == Pages.scanner) {
+            context.read<NavigationBloc>().add(NavigationEvent(0));
             showModalBottomSheet(
               backgroundColor: Colors.transparent,
               enableDrag: true,
@@ -47,9 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   dataToTag: 'https://www.google.com',
                 );
               },
-            ).then((value) {
-              context.read<NavigationBloc>().add(NavigationEvent(0));
-            });
+            );
           }
         },
         child: BlocBuilder<NavigationBloc, NavigationState>(
