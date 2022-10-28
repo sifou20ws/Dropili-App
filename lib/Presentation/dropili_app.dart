@@ -56,7 +56,7 @@ class _DropiliAppState extends State<DropiliApp> {
                   builder: (context, child) {
                     return child!;
                   },
-                  initialRoute: '/home',
+                  initialRoute: '/',
                   onGenerateRoute: (settings) {
                     final routes = Routes.getRoutes(settings);
                     final WidgetBuilder builder = routes[settings.name]!;

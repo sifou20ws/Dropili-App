@@ -24,9 +24,9 @@ class _LoadinScreenState extends State<LoadinScreen> {
 
   void navigate() async {
     token = await TokenHandler.loadToken();
-    String nextRout = token == null ? '/onBoard' : '/signin';
-    await Future.delayed(Duration(seconds: 5), (() {
-      // Navigator.pushReplacementNamed(context, nextRout);
+    String nextRout = token == null ? '/onBoard' : '/home';
+    await Future.delayed(Duration(seconds: 3), (() {
+      Navigator.pushReplacementNamed(context, nextRout);
     }));
   }
 
