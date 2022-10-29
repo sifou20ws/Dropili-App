@@ -15,22 +15,30 @@ class RoundedProfilePicture extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(500),
-              gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  MalinColors.AppGreen,
-                  MalinColors.AppBlue,
-                ],
-              ),
+              // gradient: LinearGradient(
+              //   begin: Alignment.topRight,
+              //   end: Alignment.bottomLeft,
+              //   colors: [
+              //     MalinColors.AppGreen,
+              //     MalinColors.AppBlue,
+              //   ],
+              // ),
               boxShadow: [
                 BoxShadow(
-                  color: MalinColors.shadow,
-                  blurRadius: 1,
-                  spreadRadius: 1,
-                  offset: const Offset(0, 0),
+                  // color: Color.fromARGB(10, 29, 29, 29),
+                  color: Colors.black.withAlpha(30),
+                  offset: Offset(0.0, 2.0),
+                  blurRadius: 10,
                 ),
               ],
+              // boxShadow: [
+              //   BoxShadow(
+              //     color: Colors.black,
+              //     blurRadius: 1,
+              //     spreadRadius: 1,
+              //     offset: const Offset(0, 0),
+              //   ),
+              // ],
             ),
             child: Padding(
               padding: EdgeInsets.all(2),
@@ -45,23 +53,30 @@ class RoundedProfilePicture extends StatelessWidget {
                     image,
                     width: 100.0,
                     height: 100.0,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
             ),
           ),
         ),
-        edit ? Positioned(
-          bottom: 10,
-          right: 0,
-          child: IconContainer(
-            icon: Icon(Icons.edit_outlined, size: 15 , color: MalinColors.AppBlue,),
-          ),
-        ): Positioned(
-          bottom: 10,
-          right: 0,
-          child: Container(),
-        ),
+        edit
+            ? Positioned(
+                bottom: 10,
+                right: 0,
+                child: IconContainer(
+                  icon: Icon(
+                    Icons.edit_outlined,
+                    size: 15,
+                    color: MalinColors.AppBlue,
+                  ),
+                ),
+              )
+            : Positioned(
+                bottom: 10,
+                right: 0,
+                child: Container(),
+              ),
       ],
     );
   }

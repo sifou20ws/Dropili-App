@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/custom_dropdown_button2.dart';
 import 'package:dropili/Presentation/localization/bloc/language_bloc.dart';
+import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/constant/languages.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
@@ -110,7 +111,7 @@ class _DropDownMenueWidgetState extends State<DropDownMenueWidget> {
     return Container(
       padding: EdgeInsets.only(right: 20, left: 20),
       alignment: Alignment.center,
-      width: MediaQuery.of(context).size.width * 0.85,
+      width: MediaQuery.of(context).size.width * 0.9,
       height: 80,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -126,21 +127,29 @@ class _DropDownMenueWidgetState extends State<DropDownMenueWidget> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('Choose Language'.t(context)),
+          Text(
+            'Choose Language'.t(context),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          ),
           CustomDropdownButton2(
             hint: 'Choose language',
             value: _languageValue,
+            iconSize: 17,
+            icon: Icon(Icons.list_rounded),
             valueAlignment: Alignment.center,
             dropdownItems: Languages.languages.map((e) => e.value).toList(),
             offset: const Offset(0, -10),
+            
             buttonDecoration: BoxDecoration(
               color: Colors.grey[100],
+              // color: MalinColors.AppGreen.withAlpha(100),
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(
                   color: Color.fromARGB(50, 29, 29, 29),
+                  // color: MalinColors.AppGreen.withAlpha(100),
                   offset: Offset(0.0, 2.0),
-                  blurRadius: 5,
+                  blurRadius: 10,
                 ),
               ],
             ),

@@ -25,7 +25,7 @@ class FadePageRouteBuilder<T> extends PageRouteBuilder<T> {
             //   child: child,
             // );
           },
-          transitionDuration: const Duration(milliseconds: 0),
+          transitionDuration: const Duration(milliseconds: 50),
           settings: settings,
         );
 }

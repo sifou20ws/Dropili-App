@@ -65,8 +65,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     Text(
                       'Signin'.t(context),
                       style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.w400,
+                          fontSize: 27,
+                          fontWeight: FontWeight.w600,
                           color: Colors.white),
                     ),
                     SizedBox(

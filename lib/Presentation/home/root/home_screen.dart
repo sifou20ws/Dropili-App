@@ -5,7 +5,6 @@ import 'package:dropili/Presentation/home/ProfilePage/screens/profileScreen_page
 import 'package:dropili/Presentation/home/drawerPage/drawerPage.dart';
 import 'package:dropili/Presentation/home/root/bloc/navigation_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:dropili/di/get_it.dart' as getIt;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _navigationBloc = getIt.getItInstace<NavigationBloc>();
+    _navigationBloc = NavigationBloc();
   }
 
   @override

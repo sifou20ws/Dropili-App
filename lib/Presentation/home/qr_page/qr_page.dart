@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'dart:io';
+import 'dart:ui' as ui;
 
 import 'package:dropili/Presentation/home/qr_page/copy_field_widget.dart';
 import 'package:dropili/Presentation/home/qr_page/share_button_widget.dart';
@@ -8,6 +10,8 @@ import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_share/flutter_share.dart';
+import 'package:gallery_saver/gallery_saver.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class QrPage extends StatefulWidget {
@@ -18,6 +22,33 @@ class QrPage extends StatefulWidget {
 }
 
 class _QrPageState extends State<QrPage> {
+  Future<bool?> _saveQrToGallery(data) async {
+    final painter = QrPainter(
+      data: data,
+      version: QrVersions.auto,
+      // color: Colors.white,
+      gapless: true,
+      emptyColor: Colors.white,
+    );
+
+    Directory tempDir = await getTemporaryDirectory();
+    String tempPath = tempDir.path;
+    final ts = 'Dropili';
+    String path = '$tempPath/$ts.png';
+    var picData =
+        await painter.toImageData(2048, format: ui.ImageByteFormat.png);
+    await writeToFile(picData!, path);
+
+    final success = await GallerySaver.saveImage(path);
+    return success;
+  }
+
+  Future<void> writeToFile(ByteData data, String path) async {
+    final buffer = data.buffer;
+    await File(path).writeAsBytes(
+        buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,26 +67,46 @@ class _QrPageState extends State<QrPage> {
           SizedBox(
             height: 30,
           ),
-          Container(
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  // color: Color.fromARGB(10, 29, 29, 29),
-                  color: MalinColors.AppGreen.withAlpha(80),
-                  offset: Offset(0.0, 2.0),
-                  blurRadius: 10,
-                ),
-              ],
-            ),
-            child: QrImage(
-              data: 'https://www.google.com',
-              size: MediaQuery.of(context).size.width * 0.6,
-              version: QrVersions.auto,
-              // embeddedImage: AssetImage('assets/dropili_Logo_PNG.png'),
-              // gapless: false,
+          GestureDetector(
+            onTap: () async {
+              try {
+                bool? saved =
+                    await _saveQrToGallery('dropili.co/link/abdenourgnx');
+                if (saved == null || saved == false) {
+                  SnackBars.showErrorSnackBar(
+                      context, 'Error in saving image'.t(context));
+                } else if (saved) {
+                  SnackBars.showSucessSnackBar(
+                      context, 'Image saved succesfully'.t(context));
+                }
+              } catch (e) {
+                SnackBars.showErrorSnackBar(
+                    context, 'Error in saving image'.t(context));
+              }
+            },
+            child: Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    // color: Color.fromARGB(10, 29, 29, 29),
+                    color: MalinColors.AppGreen.withAlpha(80),
+                    offset: Offset(0.0, 2.0),
+                    blurRadius: 10,
+                  ),
+                ],
+              ),
+              child: QrImage(
+                data: 'dropili.co/link/abdenourgnx',
+                size: MediaQuery.of(context).size.width * 0.6,
+                version: QrVersions.auto,
+                embeddedImage: AssetImage('assets/dropili_rounded_black.png'),
+                embeddedImageStyle: QrEmbeddedImageStyle(size: Size(30, 30)),
+
+                // gapless: false,
+              ),
             ),
           ),
           SizedBox(
@@ -70,7 +121,8 @@ class _QrPageState extends State<QrPage> {
           ),
           GestureDetector(
               onTap: () async {
-                await Clipboard.setData(ClipboardData(text: 'www.google.com'));
+                await Clipboard.setData(
+                    ClipboardData(text: 'Dropili.co/link/abdenourgnx'));
                 SnackBars.showSucessSnackBar(
                     context, 'Profile link copied to clipboard'.t(context));
               },
