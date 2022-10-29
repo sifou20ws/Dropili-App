@@ -20,6 +20,4 @@ Future init() async {
       () => EditProfileRepository(getItInstace()));
 
   getItInstace.registerLazySingleton<LanguageBloc>(() => LanguageBloc());
-
-  getItInstace.registerLazySingleton<NavigationBloc>(() => NavigationBloc());
 }

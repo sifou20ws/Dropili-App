@@ -10,6 +10,7 @@ abstract class LanguageState extends Equatable {
 
 class LanguageLoaded extends LanguageState {
   final Locale locale;
+  
 
   LanguageLoaded(this.locale);
 

@@ -68,6 +68,9 @@ class MoreOptions extends StatelessWidget {
               color: Colors.white,
             ),
           ),
+          SizedBox(
+            height: 10,
+          ),
           GestureDetector(
             onTap: () {
               Navigator.pushReplacementNamed(context, '/register');
@@ -75,10 +78,10 @@ class MoreOptions extends StatelessWidget {
             child: Text(
               'Signup'.t(context),
               style: TextStyle(
-                fontSize: 18,
-                decoration: TextDecoration.underline,
-                color: Colors.white,
-              ),
+                  fontSize: 19,
+                  decoration: TextDecoration.underline,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500),
             ),
           ),
         ],

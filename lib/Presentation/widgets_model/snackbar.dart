@@ -13,4 +13,16 @@ class SnackBars {
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
+
+  static void showErrorSnackBar(BuildContext context, String message) {
+    final snackBar = SnackBar(
+      content: Text(
+        message,
+        textAlign: TextAlign.center,
+      ),
+      elevation: 10,
+      backgroundColor: Colors.red.shade400,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 }
