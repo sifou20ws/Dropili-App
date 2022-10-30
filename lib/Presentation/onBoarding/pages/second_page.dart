@@ -19,14 +19,16 @@ class SecondPage extends StatelessWidget {
           ),
           Text(
             'Share title'.t(context),
-            style: TextStyle(fontSize: 22, color: Colors.white),
+            style: TextStyle(
+                fontWeight: FontWeight.w500, fontSize: 22, color: Colors.white),
           ),
           SizedBox(
             height: 20,
           ),
           Text(
             'Share text'.t(context),
-            style: TextStyle(fontSize: 17, color: Colors.white),
+            style: TextStyle(
+                fontWeight: FontWeight.w400, fontSize: 17, color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ],
