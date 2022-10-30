@@ -1,14 +1,11 @@
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/CustomDialogBox.dart';
-import 'package:dropili/Presentation/widgets_model/profile_icon.dart';
-import 'package:dropili/common/constant/colors.dart';
-import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Grid extends StatelessWidget {
   final String title, type;
-  final List<BlocksItem> myList;
+  final List<dynamic> myList;
   final int size, start;
   const Grid({
     required this.title,
@@ -29,12 +26,12 @@ class Grid extends StatelessWidget {
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.w400),
             ),
           ),
-          SizedBox(height: 5),
+          SizedBox(height: 20),
           GridView.builder(
             physics: ClampingScrollPhysics(),
             shrinkWrap: true,
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 120,
+                maxCrossAxisExtent: 100,
                 crossAxisSpacing: 0,
                 mainAxisSpacing: 0),
             itemCount: myList.length,
@@ -71,12 +68,6 @@ class Grid extends StatelessWidget {
                               height: 50,
                               child: Image.asset('assets/dropili_app_logo.png'),
                             ),
-                      /*Placeholder(
-                              color: MalinColors.AppBlue,
-                              child: Container(),
-                              fallbackHeight: 40,
-                              fallbackWidth: 30,
-                            ),*/
                       Text(myList[index].title.ar),
                     ],
                   ),

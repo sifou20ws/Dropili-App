@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/icon_container.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +7,9 @@ import 'package:flutter/material.dart';
 class RoundedProfilePicture extends StatelessWidget {
   final String image;
   final bool edit;
-  RoundedProfilePicture({required this.image, this.edit = false});
+  final bool file;
+  RoundedProfilePicture(
+      {required this.image, this.edit = false, this.file = false});
 
   @override
   Widget build(BuildContext context) {
@@ -41,27 +45,39 @@ class RoundedProfilePicture extends StatelessWidget {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(80),
-                  child: Image.asset(
-                    image,
-                    width: 100.0,
-                    height: 100.0,
-                  ),
+                  child: file
+                      ? Image.file(
+                          File(image),
+                          width: 100,
+                          height: 100,
+                        )
+                      : Image.asset(
+                          image,
+                          width: 100.0,
+                          height: 100.0,
+                        ),
                 ),
               ),
             ),
           ),
         ),
-        edit ? Positioned(
-          bottom: 10,
-          right: 0,
-          child: IconContainer(
-            icon: Icon(Icons.edit_outlined, size: 15 , color: MalinColors.AppBlue,),
-          ),
-        ): Positioned(
-          bottom: 10,
-          right: 0,
-          child: Container(),
-        ),
+        edit
+            ? Positioned(
+                bottom: 10,
+                right: 0,
+                child: IconContainer(
+                  icon: Icon(
+                    Icons.edit_outlined,
+                    size: 15,
+                    color: MalinColors.AppBlue,
+                  ),
+                ),
+              )
+            : Positioned(
+                bottom: 10,
+                right: 0,
+                child: Container(),
+              ),
       ],
     );
   }

@@ -8,6 +8,7 @@ import 'package:dropili/domain/repositories/edit_profile_repository.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:dropili/core/error/failure.dart';
+import 'package:image_picker/image_picker.dart';
 
 part 'editProfileScreen_event.dart';
 part 'editProfileScreen_state.dart';
@@ -20,6 +21,8 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     on<ItemSelectedEvent> (_itemSelectedEvent);
     on<SwitchEvent> (_switchEvent);
     on<GetBlocksEvent> (_getBlocks);
+    on<ImportCoverImageEvent>(_importCoverImageEvent);
+    on<ImportProfileImageEvent>(_importProfileImageEvent);
 
   }
 
@@ -41,7 +44,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
 
   void _itemSelectedEvent(ItemSelectedEvent event, Emitter<EditProfileState> emit) async {
     emit(state.copyWith(index: event.index));
-    emit(state.copyWith(status: Status.loading));
+    //emit(state.copyWith(status: Status.loading));
     var resp;
     try{
       log(event.index.toString());
@@ -64,7 +67,30 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     emit(state.copyWith(switchButton: event.state));
   }
 
+  void _importCoverImageEvent(ImportCoverImageEvent event, Emitter<EditProfileState> emit) async {
+    //emit(state.copyWith(status: Status.loading));
+    XFile? file;
+    try {
+      file = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (file != null) {
+        emit(state.copyWith(coverImagePath: file.path));
+      }
+    }catch(e){
+      log(e.toString());
+    }
+  }
 
-
+  void _importProfileImageEvent(ImportProfileImageEvent event, Emitter<EditProfileState> emit) async {
+    //emit(state.copyWith(status: Status.loading));
+    XFile? file;
+    try {
+      file = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (file != null) {
+        emit(state.copyWith(profileImagePath: file.path));
+      }
+    }catch(e){
+      log(e.toString());
+    }
+  }
 
 }

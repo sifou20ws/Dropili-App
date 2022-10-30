@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:dropili/core/api/post_get.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
@@ -25,7 +24,7 @@ class EditProfileRepository {
     }
   }
 
-  Future<List> getUserBlocks() async {
+  Future<List<UserBlocksItem>> getUserBlocks() async {
     http.Response response;
     late GetBlocksModel myBlocks ;
     try {
@@ -34,6 +33,7 @@ class EditProfileRepository {
         var data = json.decode(response.body);
         myBlocks = GetBlocksModel.fromJson(data);
       }
+      //log(myBlocks.userBlocks[0].createdAt);
       return myBlocks.userBlocks;
     } catch (e) {
       rethrow;

@@ -19,7 +19,6 @@ class ItemSelectedEvent extends EditProfileEvent {
 
 class SwitchEvent extends EditProfileEvent {
   final bool state ;
-
   SwitchEvent({required this.state});
 
   @override
@@ -27,12 +26,22 @@ class SwitchEvent extends EditProfileEvent {
 }
 
 class GetBlocksEvent extends EditProfileEvent {
-
   GetBlocksEvent();
 
   @override
   List<Object?> get props => [];
 }
 
+class ImportCoverImageEvent extends EditProfileEvent {
+  ImportCoverImageEvent();
 
+  @override
+  List<Object?> get props => [];
+}
 
+class ImportProfileImageEvent extends EditProfileEvent {
+  ImportProfileImageEvent();
+
+  @override
+  List<Object?> get props => [];
+}

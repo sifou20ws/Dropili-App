@@ -1,15 +1,16 @@
-import 'dart:developer';
 
-import 'package:dropili/Presentation/home/EditProfilePage/widgets/button.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/edit_profile_buttons.dart';
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
+import 'package:dropili/Presentation/widgets_model/profile_grid.dart';
 import 'package:dropili/common/constant/colors.dart';
-import 'package:dropili/core/api/post_get.dart';
+import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:dropili/domain/repositories/edit_profile_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class ProfilePageWidget extends StatefulWidget {
   const ProfilePageWidget({Key? key}) : super(key: key);
@@ -20,12 +21,14 @@ class ProfilePageWidget extends StatefulWidget {
 
 class _ProfilePageWidgetState extends State<ProfilePageWidget> {
   late ProfileBloc _profileBloc;
+  List<UserBlocksItem> userBlocks = [];
+
   @override
   void initState() {
     super.initState();
     _profileBloc = ProfileBloc(
-        editProfilerepository:
-            EditProfileRepository(getIt.getItInstace<Network>()));
+        editProfilerepository: getIt.getItInstace<EditProfileRepository>());
+    _profileBloc.add(GetUserBlocksEvent());
   }
 
   @override
@@ -47,86 +50,122 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
             //     MalinSnackBars.errorSnackBar(state.messageError!.message),
             //   );
           }
+          if (state.status == ProfileStatus.getSuccess) {
+            userBlocks = state.userBlocks;
+          }
         },
         child: BlocBuilder<ProfileBloc, ProfileState>(
           builder: (context, state) {
-            return Stack(
-              children: <Widget>[
-                SingleChildScrollView(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/background2.png"),
-                        alignment: Alignment.topCenter,
-                      ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.25,
-                          child: Stack(
-                            children: <Widget>[
-                              Image.asset(
-                                'assets/transparent.png',
-                                height:
-                                    MediaQuery.of(context).size.height * 0.20,
-                                width: MediaQuery.of(context).size.width,
-                                fit: BoxFit.cover,
-                                color: MalinColors.AppBlue,
-                              ),
-                              Align(
-                                alignment: Alignment(0.0, 1.05),
-                                child: Container(
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment(-0.8, 0.95),
-                                child: RoundedProfilePicture(
-                                  image: 'assets/dropili_Logo_PNG.png',
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment(0.8, 0.95),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    log('hhelll');
-                                    Navigator.pushNamed(
-                                        context, '/editeProfile');
-                                  },
-                                  child: EditProfileButton(
-                                    child: Text(
-                                      'Editer mon profile',
-                                      style: TextStyle(
-                                          color: Colors.blue,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 1000,
-                          child: Container(
+            return Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              color: MalinColors.AppBlue,
+              child: (state.status == ProfileStatus.loading)
+                  ? SpinKitWanderingCubes(
+                      size: 100,
+                      itemBuilder: (BuildContext context, int index) {
+                        return DecoratedBox(
+                          decoration: BoxDecoration(
                             color: Colors.white,
+                          ),
+                        );
+                      },
+                    )
+                  : Stack(
+                      children: <Widget>[
+                        SingleChildScrollView(
+                          child: Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.25,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image:
+                                          AssetImage("assets/transparent.png"),
+                                      alignment: Alignment.topCenter,
+                                    ),
+                                  ),
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Image.asset(
+                                        'assets/transparent.png',
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.20,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        fit: BoxFit.cover,
+                                        color: MalinColors.AppBlue,
+                                      ),
+                                      Align(
+                                        alignment: Alignment(0.0, 1.05),
+                                        child: Container(
+                                          height: 60,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(20),
+                                              topRight: Radius.circular(20),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Align(
+                                        alignment: Alignment(-0.8, 0.95),
+                                        child: RoundedProfilePicture(
+                                          image: 'assets/dropili_Logo_PNG.png',
+                                        ),
+                                      ),
+                                      Align(
+                                        alignment: Alignment(0.8, 0.95),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.pushNamed(
+                                                context, '/editeProfile');
+                                          },
+                                          child: EditProfileButton(
+                                            child: Text(
+                                              'Editer mon profile',
+                                              style: TextStyle(
+                                                  color: Colors.blue,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 18),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  color: Colors.white,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 20, right: 20, bottom: 50),
+                                    child: Column(
+                                      children: [
+                                        SizedBox(height: 20),
+                                        Grid(
+                                            start: 0,
+                                            size: 11,
+                                            type: 'contactItems',
+                                            title: 'Contacts',
+                                            myList: userBlocks),
+                                        SizedBox(height: 500),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
                     ),
-                  ),
-                ),
-              ],
             );
           },
         ),
