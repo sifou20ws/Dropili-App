@@ -1,7 +1,5 @@
-
 import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
-
 
 class FirstPage extends StatelessWidget {
   const FirstPage({
@@ -22,18 +20,20 @@ class FirstPage extends StatelessWidget {
                 child: Image(image: AssetImage('assets/dropili.png'))),
           ),
           SizedBox(
-            height: 79,
+            height: 50,
           ),
           Text(
             'welcome title'.t(context),
-            style: TextStyle(fontSize: 22, color: Colors.white),
+            style: TextStyle(
+                fontWeight: FontWeight.w600, fontSize: 22, color: Colors.white),
           ),
           SizedBox(
-            height: 19,
+            height: 10,
           ),
           Text(
             'welcome text'.t(context),
-            style: TextStyle(fontSize: 16, color: Colors.white),
+            style: TextStyle(
+                fontWeight: FontWeight.w400, fontSize: 17, color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ],

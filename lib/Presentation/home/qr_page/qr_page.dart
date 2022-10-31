@@ -95,6 +95,7 @@ class _QrPageState extends State<QrPage> {
                     color: MalinColors.AppGreen.withAlpha(80),
                     offset: Offset(0.0, 2.0),
                     blurRadius: 10,
+                    // spreadRadius: 5,
                   ),
                 ],
               ),
