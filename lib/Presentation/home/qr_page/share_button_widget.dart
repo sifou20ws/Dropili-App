@@ -20,6 +20,7 @@ class ShareButton extends StatelessWidget {
             color: Color.fromARGB(20, 29, 29, 29),
             offset: Offset(0.0, 2.0),
             blurRadius: 10,
+            spreadRadius: 5,
           ),
         ],
       ),
