@@ -1,23 +1,18 @@
-import 'dart:io';
-
+import 'package:dropili/Presentation/authentification/comun_widgets/message_widget.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
-import 'package:dropili/Presentation/home/EditProfilePage/widgets/button.dart';
-import 'package:dropili/Presentation/home/EditProfilePage/widgets/icon_container.dart';
-import 'package:dropili/Presentation/home/EditProfilePage/widgets/text_field.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/eProfile_buttons_row.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_media_widget.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_text_widget.dart';
 import 'package:dropili/common/constant/colors.dart';
-import 'package:dropili/common/constant/snackbars.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:dropili/domain/repositories/edit_profile_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:dropili/Presentation/widgets_model/profile_grid.dart';
-import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
-
-import 'dart:developer';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);
@@ -26,18 +21,16 @@ class EditProfilePage extends StatefulWidget {
   State<EditProfilePage> createState() => _MyOffersPageState();
 }
 
-enum MediaType {
-  image,
-}
-
 class _MyOffersPageState extends State<EditProfilePage> {
   late EditProfileBloc _editProfileBloc;
   List<BlocksItem> blocks = [];
+  //File f = getImageFileFromAssets('images/myImage.jpg');
   @override
   void initState() {
     super.initState();
     _editProfileBloc = EditProfileBloc(
         editProfileRepository: getIt.getItInstace<EditProfileRepository>());
+    _editProfileBloc.add(GetProfileEvent());
     _editProfileBloc.add(GetBlocksEvent());
   }
 
@@ -48,35 +41,27 @@ class _MyOffersPageState extends State<EditProfilePage> {
   }
 
   bool selected = false;
-  String imagePath = '';
-
   @override
   Widget build(BuildContext context) {
-    void pickMedia(ImageSource source) async {
-      XFile? file;
-      MediaType _mediaType = MediaType.image;
-
-      if (_mediaType == MediaType.image) {
-        file = await ImagePicker().pickImage(source: source);
-      }
-      if (file != null) {
-        imagePath = file.path;
-        setState(() {});
-      }
-      log(imagePath.toString());
-    }
 
     return BlocProvider.value(
       value: _editProfileBloc,
       child: BlocListener<EditProfileBloc, EditProfileState>(
         listener: (context, state) {
-          if (state.status == Status.fail) {
+         /* if (state.status == Status.fail) {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
-                MalinSnackBars.errorSnackBar(state.messageError!.message),
+                MalinSnackBars.errorSnackBar(state.messageError),
               );
           }
+          if (state.status == Status.success) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                MalinSnackBars.SuccessSnackBar(state.messageError),
+              );
+          }*/
           if (state.status == Status.getSuccess) {
             blocks = state.blocks;
           }
@@ -85,231 +70,157 @@ class _MyOffersPageState extends State<EditProfilePage> {
           builder: (context, state) {
             return SafeArea(
               child: Scaffold(
+                backgroundColor: MalinColors.AppBlue,
                 resizeToAvoidBottomInset: false,
-                backgroundColor: Colors.white,
-                appBar: AppBar(
-                  elevation: 0,
-                  backgroundColor: MalinColors.AppBlue,
-                  iconTheme: IconThemeData(color: Colors.black),
-                  leading: IconButton(
-                    icon: Icon(
-                      Icons.arrow_back_ios_new,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      //Navigator.pop(context);
-                      Navigator.of(context)
-                        ..pop()
-                        ..pushNamed('/home');
-                    },
-                  ),
-                  title: Center(
-                    child: Text(
-                      'Modifier mon profil',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  actions: <Widget>[
-                    IconButton(
-                      icon: Icon(
-                        Icons.share,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        // do something
-                      },
-                    )
-                  ],
-                ),
-                body: Stack(
-                  children: <Widget>[
-                    SingleChildScrollView(
-                      child: Container(
+                /*appBar: EditProfileAppBar(
+                  appBar: AppBar(),
+                ),*/
+                body: (state.status == Status.loading)
+                    ? SpinKitWanderingCubes(
+                        size: 100,
+                        itemBuilder: (BuildContext context, int index) {
+                          return DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                            ),
+                          );
+                        },
+                      )
+                    : Container(
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage('assets/background2.png'),
+                            fit: BoxFit.fill,
+                            image: AssetImage(
+                              'assets/background2.png',
+                            ),
                             alignment: Alignment.topCenter,
                           ),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Stack(
                           children: <Widget>[
-                            Container(
-                              height: MediaQuery.of(context).size.height * 0.25,
-                              child: Stack(
+                            SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  (imagePath == '')
-                                      ? Image.asset(
-                                          'assets/transparent.png',
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.20,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          fit: BoxFit.cover,
-                                          color: MalinColors.AppBlue,
-                                        )
-                                      : Image.file(
-                                          File(imagePath),
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          fit: BoxFit.cover,
-                                        ),
-                                  Align(
-                                    alignment: Alignment.bottomCenter,
-                                    child: Container(
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(20),
-                                          topRight: Radius.circular(20),
-                                        ),
-                                      ),
+                                  EditProfileMediaWidget(),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
                                     ),
-                                  ),
-                                  Positioned(
-                                    top: 10,
-                                    right: 10,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          pickMedia(ImageSource.gallery);
-                                        });
-                                      },
-                                      child: IconContainer(
-                                        icon: Icon(
-                                          Icons.camera_alt_outlined,
-                                          size: 20,
-                                          color: MalinColors.AppBlue,
-                                        ),
-                                        outline: false,
-                                      ),
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.bottomCenter,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        pickMedia(ImageSource.gallery);
-                                      },
-                                      child: RoundedProfilePicture(
-                                        image: 'assets/dropili_Logo_PNG.png',
-                                        edit: true,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 20, right: 20, bottom: 50),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          EditProfileTextWidget(),
+                                          SizedBox(height: 15),
+                                          EditProfileButtonsWidget(),
+                                          SizedBox(height: 15),
+                                          Grid(
+                                              start: 0,
+                                              size: 11,
+                                              type: 'contactItems',
+                                              title: 'Contacts',
+                                              myList: blocks),
+                                          SizedBox(height: 1500),
+                                        ],
                                       ),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(0),
-                                  topRight: Radius.circular(0),
-                                ),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    left: 20, right: 20, bottom: 50),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(height: 15),
-                                    EditProfileTextField(text: 'Nom'),
-                                    SizedBox(height: 15),
-                                    EditProfileTextField(
-                                        text: 'A propos de moi', long: true),
-                                    SizedBox(height: 15),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        EditProfileButton(
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              Text(
-                                                'Direct sur',
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 18,
-                                                    color: Colors.blue),
-                                              ),
-                                              SizedBox(width: 3),
-                                              CupertinoSwitch(
-                                                value: state.switchButton,
-                                                onChanged: (bool state) {
-                                                  context
-                                                      .read<EditProfileBloc>()
-                                                      .add(SwitchEvent(
-                                                          state: state));
-                                                }, //
-                                                activeColor:
-                                                    MalinColors.AppBlue,
-                                              ),
-                                            ],
-                                          ),
+                            Positioned(
+                              bottom: 0,
+                              child: Column(
+                                children: [
+                                  state.status == Status.fail
+                                      ? MessageWidget(
+                                      color: 'red',
+                                      text: state.messageError)
+                                      : state.status == Status.success
+                                      ? MessageWidget(
+                                      color: 'green',
+                                      text: state.messageError,
+                                    )
+                                      : Container(),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height*0.07,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(Radius.circular(0)),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.3),
+                                          spreadRadius: 3,
+                                          blurRadius: 4,
+                                          offset: Offset(0, -1),
+                                        )
+                                      ],
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: ButtomBtn(text: 'Annuler' , save: false,),
                                         ),
                                         GestureDetector(
-                                          onTap: () {
-                                            /*context
-                                        .read<EditProfileBloc>()
-                                        .add(GetBlocksEvent());*/
+                                          onTap: () async {
+                                            _editProfileBloc.add(PostProfileUpdateEvent(
+                                                name: state.userName,
+                                                description: state.userDescription,
+                                                profile: state.profileImg,
+                                                background: state.backgroundImg));
                                           },
-                                          child: EditProfileButton(
-                                            child: Text(
-                                              'Profile active',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 18,
-                                                  color: Colors.blue),
-                                            ),
-                                          ),
+                                          child: ButtomBtn(text: 'Enregistrer'),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: 15),
-                                    Grid(
-                                        start: 0,
-                                        size: 11,
-                                        type: 'contactItems',
-                                        title: 'Contacts',
-                                        myList: blocks),
-                                    SizedBox(height: 15),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      child: Container(
-                        color: MalinColors.AppBlue,
-                        height: 60,
-                        width: MediaQuery.of(context).size.width,
-                        child: Center(
-                          child: Text(
-                            'Enregistrer mon profile',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
               ),
             );
           },
+        ),
+      ),
+    );
+  }
+}
+
+class ButtomBtn extends StatelessWidget {
+  final String text;
+  final bool save;
+  const ButtomBtn({required this.text,  this.save =true});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: save ? MalinColors.AppGreen :Colors.grey.withOpacity(0.3),
+        borderRadius: BorderRadius.all(Radius.circular(50)),
+      ),
+      height: 35,
+      width: MediaQuery.of(context).size.width*0.35,
+      child: Center(
+        child: Text(
+          text,
+          style: TextStyle(
+              color: save? Colors.white: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.w400),
         ),
       ),
     );

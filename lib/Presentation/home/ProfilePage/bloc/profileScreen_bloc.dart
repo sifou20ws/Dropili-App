@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
+import 'package:dropili/data/models/post_user_profile_response.dart';
 import 'package:dropili/domain/repositories/edit_profile_repository.dart';
-import 'package:dropili/domain/repositories/profile_repository.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:dropili/core/error/failure.dart';
@@ -15,9 +15,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   EditProfileRepository _editProfileRepository;
   ProfileBloc({required EditProfileRepository editProfilerepository})
       : _editProfileRepository = editProfilerepository,
-        super(ProfileState(blocks: [])){
+        super(ProfileState(userBlocks: [])){
     on<EditButtonClickedEvent>(_editButtonClickedEvent);
     on<GetUserBlocksEvent> (_getUserBlocksEvent);
+    on<GetProfileEvent>(_getProfileEvent);
   }
 
   void _editButtonClickedEvent(event, Emitter<ProfileState> emit){
@@ -26,13 +27,28 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   void _getUserBlocksEvent(event, Emitter<ProfileState> emit) async{
     emit(state.copyWith(status: ProfileStatus.loading));
-    var resp;
+    List<UserBlocksItem> resp;
     try{
       resp = await  _editProfileRepository.getUserBlocks();
       emit(state.copyWith(status: ProfileStatus.getSuccess));
-      emit(state.copyWith(blocks: resp));
+      emit(state.copyWith(userBlocks: resp ));
       log(resp.toString());
     }catch(e){
+      emit(state.copyWith(status: ProfileStatus.fail));
+      log(('errorr :'));
+      log(e.toString());
+    }
+  }
+
+  void _getProfileEvent(GetProfileEvent event, Emitter<ProfileState> emit) async {
+    emit(state.copyWith(status: ProfileStatus.loading));
+    var resp;
+    try {
+      resp = await _editProfileRepository.getProfileShow();
+      emit(state.copyWith(status: ProfileStatus.getSuccess));
+      emit(state.copyWith(showProfile: resp));
+      //log(resp.toString());
+    } catch (e) {
       emit(state.copyWith(status: ProfileStatus.fail));
       log(('error :'));
       log(e.toString());

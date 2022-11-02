@@ -6,24 +6,28 @@ class ProfileState extends Equatable {
   ProfileState({
     this.messageError,
     this.status = ProfileStatus.loading,
-    required this.blocks,
+    required this.userBlocks,
+    this.showProfile,
   });
 
   final Failure? messageError;
 
   final ProfileStatus status;
-  final List<String> blocks;
+  final List<UserBlocksItem> userBlocks;
+  PostProfileResp? showProfile;
 
   ProfileState copyWith({
     Failure? messageError,
     ProfileStatus? status,
     String? id,
-    List<String>? blocks,
+    List<UserBlocksItem>? userBlocks,
+    PostProfileResp? showProfile,
   }) {
     return ProfileState(
       messageError: messageError ?? this.messageError,
       status: status ?? this.status,
-      blocks: blocks ?? this.blocks,
+      userBlocks: userBlocks ?? this.userBlocks,
+      showProfile: showProfile ?? this.showProfile,
     );
   }
 
@@ -31,6 +35,7 @@ class ProfileState extends Equatable {
   List<Object?> get props => [
         messageError,
         status,
-        blocks,
+        userBlocks,
+        showProfile,
       ];
 }

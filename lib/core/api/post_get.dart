@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
 import 'package:dropili/core/error/failure.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -67,7 +65,7 @@ class Network {
     }
   }
 
-  Future postPictureWithHeader(apiUrl, XFile file) async {
+  /*Future postPictureWithHeader(apiUrl, XFile file) async {
     try {
       var fullUrl = host + version + apiUrl;
       var request = http.MultipartRequest('POST', Uri.parse(fullUrl));
@@ -80,6 +78,33 @@ class Network {
       // if (response["data"]["status"] == 401) {
       //   throw Failure(message: 'authentication required');
       // }
+      return respStr;
+    } on SocketException {
+      throw 'Connection failed';
+    } on TimeoutException {
+      throw 'Connection failed';
+    }
+  }*/
+
+  Future postPictureWithHeader(apiUrl, String profile , String background  , data ) async {
+    try {
+      var fullUrl = host + version + apiUrl;
+      var request = http.MultipartRequest('POST', Uri.parse(fullUrl));
+      request.headers.addAll(await _setHeadersWithToken());
+      (background!='')?request.files.add(await http.MultipartFile.fromPath('background', background,
+          filename: 'background')):null;
+      (profile!='')?request.files.add(await http.MultipartFile.fromPath('profile', profile,
+          filename: 'profile')):null;
+      request.fields.addAll(data);
+
+
+      var res = await request.send();
+      final respStr = await res.stream.bytesToString();
+      // final response = json.decode(respStr);
+      // if (response["data"]["status"] == 401) {
+      //   throw Failure(message: 'authentication required');
+      // }
+      //return respStr;
       return respStr;
     } on SocketException {
       throw 'Connection failed';

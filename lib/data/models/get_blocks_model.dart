@@ -3,7 +3,7 @@
 import 'package:dropili/core/services/safe_convert.dart';
 
 class GetBlocksModel {
-  final List<dynamic> userBlocks;
+  final List<UserBlocksItem> userBlocks;
   final List<BlocksItem> blocks;
   final Types types;
 
@@ -14,8 +14,11 @@ class GetBlocksModel {
   });
 
   factory GetBlocksModel.fromJson(Map<String, dynamic>? json) => GetBlocksModel(
-    userBlocks: asList(json, 'user-blocks').map((e) => e.toString()).toList(),
-    blocks: asList(json, 'blocks').map((e) => BlocksItem.fromJson(e)).toList(),
+    userBlocks: asList(json, 'user-blocks')
+        .map((e) => UserBlocksItem.fromJson(e))
+        .toList(),
+    blocks:
+    asList(json, 'blocks').map((e) => BlocksItem.fromJson(e)).toList(),
     types: Types.fromJson(asMap(json, 'types')),
   );
 
@@ -24,7 +27,62 @@ class GetBlocksModel {
     'blocks': blocks.map((e) => e.toJson()).toList(),
     'types': types.toJson(),
   };
+}
 
+class UserBlocksItem {
+  final int id;
+  final Title title;
+  final Hint hint;
+  final int type;
+  final int active;
+  final int order;
+  final String createdAt;
+  final String updatedAt;
+  final mIcon icon;
+  final Pivot pivot;
+  final List<MediaItem> media;
+
+  UserBlocksItem({
+    this.id = 0,
+    required this.title,
+    required this.hint,
+    this.type = 0,
+    this.active = 0,
+    this.order = 0,
+    this.createdAt = '',
+    this.updatedAt = '',
+    required this.icon,
+    required this.pivot,
+    required this.media,
+  });
+
+  factory UserBlocksItem.fromJson(Map<String, dynamic>? json) => UserBlocksItem(
+    id: asInt(json, 'id'),
+    title: Title.fromJson(asMap(json, 'title')),
+    hint: Hint.fromJson(asMap(json, 'hint')),
+    type: asInt(json, 'type'),
+    active: asInt(json, 'active'),
+    order: asInt(json, 'order'),
+    createdAt: asString(json, 'created_at'),
+    updatedAt: asString(json, 'updated_at'),
+    icon: mIcon.fromJson(asMap(json, 'icon')),
+    pivot: Pivot.fromJson(asMap(json, 'pivot')),
+    media: asList(json, 'media').map((e) => MediaItem.fromJson(e)).toList(),
+  );
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'title': title.toJson(),
+    'hint': hint.toJson(),
+    'type': type,
+    'active': active,
+    'order': order,
+    'created_at': createdAt,
+    'updated_at': updatedAt,
+    'icon': icon.toJson(),
+    'pivot': pivot.toJson(),
+    'media': media.map((e) => e.toJson()).toList(),
+  };
 }
 
 class BlocksItem {
@@ -46,8 +104,8 @@ class BlocksItem {
     this.type = 0,
     this.active = 0,
     this.order = 0,
-    this.createdAt = "",
-    this.updatedAt = "",
+    this.createdAt ='',
+    this.updatedAt ='',
     required this.icon,
     required this.media,
   });
@@ -63,7 +121,6 @@ class BlocksItem {
     updatedAt: asString(json, 'updated_at'),
     icon: mIcon.fromJson(asMap(json, 'icon')),
     media: asList(json, 'media').map((e) => MediaItem.fromJson(e)).toList(),
-
   );
 
   Map<String, dynamic> toJson() => {
@@ -81,13 +138,45 @@ class BlocksItem {
   };
 }
 
+class Pivot {
+  final int userId;
+  final int blockId;
+  final String url;
+  final int active;
+  final dynamic data;
+
+  Pivot({
+    this.userId = 0,
+    this.blockId = 0,
+    this.url = '',
+    this.active = 0,
+    this.data,
+  });
+
+  factory Pivot.fromJson(Map<String, dynamic>? json) => Pivot(
+    userId: asInt(json, 'user_id'),
+    blockId: asInt(json, 'block_id'),
+    url: asString(json, 'url'),
+    active: asInt(json, 'active'),
+    data: asString(json, 'data'),
+  );
+
+  Map<String, dynamic> toJson() => {
+    'user_id': userId,
+    'block_id': blockId,
+    'url': url,
+    'active': active,
+    'data': data,
+  };
+}
+
 class Title {
   final String ar;
   final String fr;
 
   Title({
-    this.ar = "",
-    this.fr = "",
+    this.ar ='',
+    this.fr ='',
   });
 
   factory Title.fromJson(Map<String, dynamic>? json) => Title(
@@ -101,14 +190,13 @@ class Title {
   };
 }
 
-
 class Hint {
   final String ar;
   final String fr;
 
   Hint({
-    this.ar = "",
-    this.fr = "",
+    this.ar ='',
+    this.fr ='',
   });
 
   factory Hint.fromJson(Map<String, dynamic>? json) => Hint(
@@ -121,7 +209,6 @@ class Hint {
     'fr': fr,
   };
 }
-
 
 class mIcon {
   final int id;
@@ -147,25 +234,25 @@ class mIcon {
 
   mIcon({
     this.id = 0,
-    this.modelType = "",
+    this.modelType ='',
     this.modelId = 0,
-    this.uuid = "",
-    this.collectionName = "",
-    this.name = "",
-    this.fileName = "",
-    this.mimeType = "",
-    this.disk = "",
-    this.conversionsDisk = "",
+    this.uuid ='',
+    this.collectionName ='',
+    this.name ='',
+    this.fileName ='',
+    this.mimeType ='',
+    this.disk ='',
+    this.conversionsDisk ='',
     this.size = 0,
     required this.manipulations,
     required this.customProperties,
     required this.generatedConversions,
     required this.responsiveImages,
     this.orderColumn = 0,
-    this.createdAt = "",
-    this.updatedAt = "",
-    this.originalUrl = "",
-    this.previewUrl = "",
+    this.createdAt ='',
+    this.updatedAt ='',
+    this.originalUrl ='',
+    this.previewUrl ='',
   });
 
   factory mIcon.fromJson(Map<String, dynamic>? json) => mIcon(
@@ -180,10 +267,14 @@ class mIcon {
     disk: asString(json, 'disk'),
     conversionsDisk: asString(json, 'conversions_disk'),
     size: asInt(json, 'size'),
-    manipulations: asList(json, 'manipulations').map((e) => e.toString()).toList(),
-    customProperties: asList(json, 'custom_properties').map((e) => e.toString()).toList(),
-    generatedConversions: GeneratedConversions.fromJson(asMap(json, 'generated_conversions')),
-    responsiveImages: asList(json, 'responsive_images').map((e) => e.toString()).toList(),
+    manipulations:
+    asList(json, 'manipulations').map((e) => e.toString()).toList(),
+    customProperties:
+    asList(json, 'custom_properties').map((e) => e.toString()).toList(),
+    generatedConversions:
+    GeneratedConversions.fromJson(asMap(json, 'generated_conversions')),
+    responsiveImages:
+    asList(json, 'responsive_images').map((e) => e.toString()).toList(),
     orderColumn: asInt(json, 'order_column'),
     createdAt: asString(json, 'created_at'),
     updatedAt: asString(json, 'updated_at'),
@@ -222,9 +313,10 @@ class GeneratedConversions {
     this.preview = false,
   });
 
-  factory GeneratedConversions.fromJson(Map<String, dynamic>? json) => GeneratedConversions(
-    preview: asBool(json, 'preview'),
-  );
+  factory GeneratedConversions.fromJson(Map<String, dynamic>? json) =>
+      GeneratedConversions(
+        preview: asBool(json, 'preview'),
+      );
 
   Map<String, dynamic> toJson() => {
     'preview': preview,
@@ -255,25 +347,25 @@ class MediaItem {
 
   MediaItem({
     this.id = 0,
-    this.modelType = "",
+    this.modelType ='',
     this.modelId = 0,
-    this.uuid = "",
-    this.collectionName = "",
-    this.name = "",
-    this.fileName = "",
-    this.mimeType = "",
-    this.disk = "",
-    this.conversionsDisk = "",
+    this.uuid ='',
+    this.collectionName ='',
+    this.name ='',
+    this.fileName ='',
+    this.mimeType ='',
+    this.disk ='',
+    this.conversionsDisk ='',
     this.size = 0,
     required this.manipulations,
     required this.customProperties,
     required this.generatedConversions,
     required this.responsiveImages,
     this.orderColumn = 0,
-    this.createdAt = "",
-    this.updatedAt = "",
-    this.originalUrl = "",
-    this.previewUrl = "",
+    this.createdAt ='',
+    this.updatedAt ='',
+    this.originalUrl ='',
+    this.previewUrl ='',
   });
 
   factory MediaItem.fromJson(Map<String, dynamic>? json) => MediaItem(
@@ -288,10 +380,14 @@ class MediaItem {
     disk: asString(json, 'disk'),
     conversionsDisk: asString(json, 'conversions_disk'),
     size: asInt(json, 'size'),
-    manipulations: asList(json, 'manipulations').map((e) => e.toString()).toList(),
-    customProperties: asList(json, 'custom_properties').map((e) => e.toString()).toList(),
-    generatedConversions: GeneratedConversions.fromJson(asMap(json, 'generated_conversions')),
-    responsiveImages: asList(json, 'responsive_images').map((e) => e.toString()).toList(),
+    manipulations:
+    asList(json, 'manipulations').map((e) => e.toString()).toList(),
+    customProperties:
+    asList(json, 'custom_properties').map((e) => e.toString()).toList(),
+    generatedConversions:
+    GeneratedConversions.fromJson(asMap(json, 'generated_conversions')),
+    responsiveImages:
+    asList(json, 'responsive_images').map((e) => e.toString()).toList(),
     orderColumn: asInt(json, 'order_column'),
     createdAt: asString(json, 'created_at'),
     updatedAt: asString(json, 'updated_at'),
@@ -330,10 +426,10 @@ class Types {
   final String four;
 
   Types({
-    this.one = "",
-    this.two = "",
-    this.three = "",
-    this.four = "",
+    this.one ='',
+    this.two ='',
+    this.three ='',
+    this.four ='',
   });
 
   factory Types.fromJson(Map<String, dynamic>? json) => Types(
@@ -350,4 +446,3 @@ class Types {
     '4': four,
   };
 }
-

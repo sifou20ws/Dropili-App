@@ -10,8 +10,7 @@ class MalinSnackBars {
         backgroundColor: Colors.red,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(12.0),
-                topRight: Radius.circular(12.0))),
+                topLeft: Radius.circular(0), topRight: Radius.circular(0))),
       );
 
   static SnackBar SuccessSnackBar(s) => SnackBar(
@@ -23,7 +22,6 @@ class MalinSnackBars {
         backgroundColor: Colors.green,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(12.0),
-                topRight: Radius.circular(12.0))),
+                topLeft: Radius.circular(0), topRight: Radius.circular(0))),
       );
 }

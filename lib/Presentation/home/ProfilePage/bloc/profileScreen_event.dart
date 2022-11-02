@@ -16,3 +16,12 @@ class GetUserBlocksEvent extends ProfileEvent {
   @override
   List<Object?> get props => [];
 }
+
+class GetProfileEvent extends ProfileEvent {
+
+  GetProfileEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+

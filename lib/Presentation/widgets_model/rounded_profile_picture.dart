@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/icon_container.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +7,12 @@ import 'package:flutter/material.dart';
 class RoundedProfilePicture extends StatelessWidget {
   final String image;
   final bool edit;
-  RoundedProfilePicture({required this.image, this.edit = false});
+  final bool file, get;
+  RoundedProfilePicture(
+      {required this.image,
+      this.edit = false,
+      this.file = false,
+      this.get = false});
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +21,8 @@ class RoundedProfilePicture extends StatelessWidget {
         Positioned(
           child: Container(
             decoration: BoxDecoration(
+              color: Colors.white,
+
               borderRadius: BorderRadius.circular(500),
               // gradient: LinearGradient(
               //   begin: Alignment.topRight,
@@ -39,12 +48,21 @@ class RoundedProfilePicture extends StatelessWidget {
               //     offset: const Offset(0, 0),
               //   ),
               // ],
+              image: DecorationImage(
+                //fit: BoxFit.fill,
+                image: AssetImage(
+                  'assets/dropili_app_logo.png',
+                ),
+                alignment: Alignment.topCenter,
+              ),
             ),
             child: Padding(
               padding: EdgeInsets.all(2),
               child: Container(
+                height: 100,
+                width: 100,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  //color: Colors.white,
                   borderRadius: BorderRadius.circular(500),
                 ),
                 child: ClipRRect(
@@ -81,3 +99,4 @@ class RoundedProfilePicture extends StatelessWidget {
     );
   }
 }
+
