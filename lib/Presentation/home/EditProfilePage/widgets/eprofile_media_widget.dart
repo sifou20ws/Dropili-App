@@ -22,32 +22,57 @@ class _EditProfileMediaWidgetState extends State<EditProfileMediaWidget> {
     String coverPicture =
         BlocProvider.of<EditProfileBloc>(context).state.coverImagePath;
 
+    String getProfilePicture = BlocProvider.of<EditProfileBloc>(context)
+        .state
+        .showProfile!
+        .user
+        .userProfile
+        .originalUrl;
+    String getBackgroundPicture = BlocProvider.of<EditProfileBloc>(context)
+        .state
+        .showProfile!
+        .user
+        .userBackground
+        .originalUrl;
+
     return Container(
-      height: MediaQuery.of(context).size.height * 0.25,
+      height: MediaQuery.of(context).size.height * 0.3,
       child: Stack(
         children: <Widget>[
-          (coverPicture == '')
-              ? Image.asset(
-                  'assets/transparent.png',
-                  height: MediaQuery.of(context).size.height * 0.20,
-                  width: MediaQuery.of(context).size.width,
-                  fit: BoxFit.cover,
-                  color: MalinColors.AppBlue,
-                )
-              : Image.file(
-                  File(coverPicture),
-                  width: MediaQuery.of(context).size.width,
-                  fit: BoxFit.cover,
-                ),
+          (getBackgroundPicture == '')
+              ? (coverPicture == '')
+                  ? Image.asset(
+                      'assets/transparent.png',
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      width: MediaQuery.of(context).size.width,
+                      fit: BoxFit.cover,
+                      color: MalinColors.AppBlue,
+                    )
+                  : Image.file(
+                      File(coverPicture),
+                      width: MediaQuery.of(context).size.width,
+                      fit: BoxFit.cover,
+                    )
+              : (coverPicture == '')
+                  ? Image.network(
+                      getBackgroundPicture,
+                      fit: BoxFit.cover,
+                      width: MediaQuery.of(context).size.width,
+                    )
+                  : Image.file(
+                      File(coverPicture),
+                      width: MediaQuery.of(context).size.width,
+                      fit: BoxFit.cover,
+                    ),
           Align(
-            alignment: Alignment.bottomCenter,
+            alignment: Alignment(0.0, 1.01),
             child: Container(
               height: 50,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
+                  topLeft: Radius.circular(0),
+                  topRight: Radius.circular(0),
                 ),
               ),
             ),
@@ -78,11 +103,16 @@ class _EditProfileMediaWidgetState extends State<EditProfileMediaWidget> {
                     .add(ImportProfileImageEvent());
               },
               child: RoundedProfilePicture(
-                image: (profilePicture == '')
-                    ? 'assets/dropili_Logo_PNG.png'
-                    : profilePicture,
+                image: (getProfilePicture == '')
+                    ? (profilePicture == '')
+                        ? ''
+                        : profilePicture
+                    : (profilePicture == '')
+                        ? getProfilePicture
+                        : profilePicture,
                 edit: true,
                 file: (profilePicture == '') ? false : true,
+                get : (getProfilePicture == '') ? false : true,
               ),
             ),
           ),

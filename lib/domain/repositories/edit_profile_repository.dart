@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dropili/core/api/post_get.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
+import 'package:dropili/data/models/post_user_profile_response.dart';
 import 'package:http/http.dart' as http;
 
 class EditProfileRepository {
@@ -11,10 +13,10 @@ class EditProfileRepository {
 
   Future<List<BlocksItem>> getBlocks() async {
     http.Response response;
-    late GetBlocksModel myBlocks ;
+    late GetBlocksModel myBlocks;
     try {
       response = await _network.getWithHeader('/blocks');
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         var data = json.decode(response.body);
         myBlocks = GetBlocksModel.fromJson(data);
       }
@@ -26,10 +28,10 @@ class EditProfileRepository {
 
   Future<List<UserBlocksItem>> getUserBlocks() async {
     http.Response response;
-    late GetBlocksModel myBlocks ;
+    late GetBlocksModel myBlocks;
     try {
       response = await _network.getWithHeader('/blocks');
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         var data = json.decode(response.body);
         myBlocks = GetBlocksModel.fromJson(data);
       }
@@ -40,14 +42,14 @@ class EditProfileRepository {
     }
   }
 
-  Future<dynamic> PostUserBlocks(dynamic data) async{
+  Future<dynamic> PostUserBlocks(dynamic data) async {
     http.Response response;
     var dataR;
     try {
-      response = await _network.postWithHeader('/blocks' , data );
+      response = await _network.postWithHeader('/blocks', data);
       //if(response.statusCode == 200){
-        dataR = json.decode(response.body);
-        //myBlocks = GetBlocksModel.fromJson(data);
+      dataR = json.decode(response.body);
+      //myBlocks = GetBlocksModel.fromJson(data);
       //}
       return response.body;
     } catch (e) {
@@ -55,5 +57,45 @@ class EditProfileRepository {
     }
   }
 
+  Future<dynamic> PostUserProfile({dynamic data, dynamic background , dynamic profile}) async {
+    dynamic response;
+    var dataR;
+    try {
+      log('hi');
+      response =
+          await _network.postPictureWithHeader('/profile/update', profile ,background, data);
+      log('mzel');
+      dataR = json.decode(response);
+      log('frat');
+      log(dataR.toString());
+      return dataR;
+      /*if (response.statusCode == 200) {
+        dataR = json.decode(response.body);
+        log(dataR);
+        //myBlocks = GetBlocksModel.fromJson(data);
+      }*/
+      //log('noo');
+      //return response.body;
+    } catch (e) {
+      log('repo:');
+      log(e.toString());
+      rethrow;
+    }
+  }
 
+  Future<PostProfileResp> getProfileShow() async {
+    http.Response response;
+    late PostProfileResp myProfile;
+    try {
+      response = await _network.getWithHeader('/profile/show');
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        myProfile = PostProfileResp.fromJson(data);
+      }
+      log(myProfile.user.userProfile.originalUrl);
+      return myProfile;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

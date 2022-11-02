@@ -1,5 +1,6 @@
-import 'package:dropili/common/constant/colors.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EditProfileTextWidget extends StatefulWidget {
   const EditProfileTextWidget({Key? key}) : super(key: key);
@@ -11,47 +12,51 @@ class EditProfileTextWidget extends StatefulWidget {
 class _EditProfileMediaWidgetState extends State<EditProfileTextWidget> {
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: [
         SizedBox(height: 15),
         TextFormField(
-          onChanged: (value){
-
+          onChanged: (value) {
+            BlocProvider.of<EditProfileBloc>(context)
+                .add(PostUserNameEvent(name: value));
           },
-          decoration: buildInputDecoration('Nom'),
+          decoration: buildInputDecoration(text: 'Nom' , name: true),
         ),
         SizedBox(height: 15),
         TextFormField(
-          onChanged: (value){
-
+          onChanged: (value) {
+            BlocProvider.of<EditProfileBloc>(context)
+                .add(PostDescriptionEvent(description: value));
           },
-          decoration: buildInputDecoration('A propos de moi'),
+          decoration: buildInputDecoration(text: 'A propos de moi'),
           maxLines: 4,
         ),
       ],
     );
   }
 
-  InputDecoration buildInputDecoration(String text) {
+  InputDecoration buildInputDecoration({required String text, bool name=false}) {
     return InputDecoration(
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide(
-          color: MalinColors.AppBlue,
-          width: 2.0,
+        errorText: name
+            ? BlocProvider.of<EditProfileBloc>(context).state.valideName
+                ? null
+                : 'Value Can\'t Be Empty'
+            : null,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(7),
+          borderSide: BorderSide.none,
         ),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide(
-          color: MalinColors.AppGreen,
-          width: 2.0,
+        filled: true,
+        fillColor: Color.fromARGB(50, 166, 166, 166),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(7),
+          borderSide: BorderSide.none,
         ),
-      ),
-      border: OutlineInputBorder(),
-      labelText: text,
-    );
+        //border: OutlineInputBorder(),
+        border: InputBorder.none,
+        errorBorder: InputBorder.none,
+        disabledBorder: InputBorder.none,
+        hintText: text,
+        hintStyle: TextStyle(color: Colors.grey));
   }
 }
-

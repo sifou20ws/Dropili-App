@@ -1,11 +1,9 @@
-import 'dart:developer';
 
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
-import 'package:dropili/Presentation/home/EditProfilePage/widgets/text_field.dart';
+import 'package:dropili/common/constant/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:dropili/Presentation/widgets_model/icons_lists.dart';
 
 class CustomDialogBox extends StatefulWidget {
   final String editText;
@@ -48,8 +46,13 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.only(top: 20),
-                    child: EditProfileTextField(text: widget.editText),
-                    //child: Container(),
+                    child: TextFormField(
+                      onChanged: (value){
+                        BlocProvider.of<EditProfileBloc>(context)
+                            .add(BlockUrlEvent(value));
+                      },
+                      decoration: buildInputDecoration('Nom'),
+                    ),
                   ),
                   SizedBox(
                     height: 15,
@@ -66,15 +69,10 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                       Expanded(
                         child: TextButton(
                           onPressed: () {
-                            //Navigator.of(context).pop(false);
-                            // context
-                            //     .read<EditProfileBloc>()
-                            //     .add(ItemSelectedEvent(
-                            //     index: widget.index));
-                            //context.read<EditProfileBloc>().add(ItemSelectedEvent(index: widget.index));
-
+                            String url =
+                                BlocProvider.of<EditProfileBloc>(context).state.blockUrl;
                             BlocProvider.of<EditProfileBloc>(context)
-                                .add(ItemSelectedEvent(index: widget.index , data: 'www.instagram.com'));
+                                .add(ItemSelectedEvent(index: widget.index , data: url ));
                             Navigator.of(context).pop(false);
                           },
                           child: Text('Sauvegarder'),
@@ -112,4 +110,24 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
   }
 
   contentBox(context) {}
+  InputDecoration buildInputDecoration(String text) {
+    return InputDecoration(
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: BorderSide(
+          color: MalinColors.AppBlue,
+          width: 2.0,
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: BorderSide(
+          color: MalinColors.AppGreen,
+          width: 2.0,
+        ),
+      ),
+      border: OutlineInputBorder(),
+      labelText: text,
+    );
+  }
 }
