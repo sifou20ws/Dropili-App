@@ -31,13 +31,16 @@ class MoreOptions extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 50),
+          SizedBox(height: 40),
           Text(
             'don\'t have an account'.t(context),
             style: TextStyle(
               fontSize: 18,
               color: Colors.white,
             ),
+          ),
+          SizedBox(
+            height: 10,
           ),
           GestureDetector(
             onTap: () {
@@ -46,9 +49,10 @@ class MoreOptions extends StatelessWidget {
             child: Text(
               'Signin'.t(context),
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 19,
                 decoration: TextDecoration.underline,
                 color: Colors.white,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),

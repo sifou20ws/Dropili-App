@@ -15,14 +15,28 @@ class NavigatioBarWidget extends StatefulWidget {
 class _BottomNavigationBarPageState extends State<NavigatioBarWidget> {
   @override
   Widget build(BuildContext context) {
-    return SnakeNavigationBar.color(
+    return SnakeNavigationBar.gradient(
       behaviour: SnakeBarBehaviour.pinned,
       snakeShape: SnakeShape.indicator,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       // padding: EdgeInsets.only(bottom: 20, right: 10, left: 10),
-      snakeViewColor: MalinColors.AppGreen,
-      selectedItemColor: MalinColors.AppGreen,
-      unselectedItemColor: Colors.black.withAlpha(150),
+      // snakeViewColor: MalinColors.AppBlue,
+      // selectedItemColor: MalinColors.AppBlue,
+
+      // unselectedItemColor: Colors.black.withAlpha(150),
+
+      unselectedItemGradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.topLeft,
+          colors: [
+            Colors.black.withAlpha(159),
+            Colors.black.withAlpha(159),
+          ]),
+      snakeViewGradient: MalinColors.greenGradient,
+      selectedItemGradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.topLeft,
+          colors: [MalinColors.AppGreen, MalinColors.AppGreen]),
       showSelectedLabels: true,
       height: 75,
       showUnselectedLabels: true,
@@ -51,7 +65,7 @@ class _BottomNavigationBarPageState extends State<NavigatioBarWidget> {
               Icons.qr_code_2_rounded,
               size: 25,
             ),
-            label: 'QR code'.t(context)),
+            label: 'Share'.t(context)),
         BottomNavigationBarItem(
             icon: Icon(
               Icons.people,
@@ -60,84 +74,5 @@ class _BottomNavigationBarPageState extends State<NavigatioBarWidget> {
             label: 'Collection'.t(context)),
       ],
     );
-    // return CustomNavigationBar(
-    //     // isFloating: true,
-    //     strokeColor: Colors.transparent,
-    //     scaleFactor: 0.1,
-    //     bubbleCurve: Curves.ease,
-    //     currentIndex: selected,
-
-    //     iconSize: 30,
-    //     borderRadius: Radius.circular(15),
-    //     // backgroundColor: MalinColors.navBarBackground,
-    //     selectedColor: MalinColors.AppGreen,
-    //     // unSelectedColor: Colors.white.withAlpha(150),
-    //     onTap: ((p0) {
-    //       setState(() {
-    //         selected = p0;
-    //       });
-    //     }),
-    //     // elevation: 1,
-    //     items: [
-    //       CustomNavigationBarItem(
-    //           // title: Text(
-    //           //   'pislk',
-    //           //   style: TextStyle(color: Colors.white, fontSize: 12),
-    //           // ),
-    //           icon: Icon(
-    //         Icons.person_outline,
-    //         size: 31,
-    //       )),
-    //       CustomNavigationBarItem(
-    //           icon: Icon(
-    //         Icons.nfc_rounded,
-    //         size: 31,
-    //       )),
-    //       CustomNavigationBarItem(
-    //           icon: Icon(
-    //         Icons.qr_code_2_rounded,
-    //         size: 31,
-    //       )),
-    //       CustomNavigationBarItem(
-    //           icon: Icon(
-    //         Icons.history_outlined,
-    //         size: 31,
-    //       )),
-    //     ]);
-
-    // return BottomNavigationBar(
-    //   //currentIndex: CurrentIndex,
-    //   //onTap: (index) => setState(()=>CurrentIndex = index) ,
-    //   type: BottomNavigationBarType.fixed,
-    //   backgroundColor: MalinColors.AppBlue,
-    //   selectedItemColor: Colors.white,
-    //   unselectedItemColor: Colors.white54,
-    //   items: const <BottomNavigationBarItem>[
-    //     BottomNavigationBarItem(
-    //       icon: ImageIcon(
-    //         AssetImage("assets/appIcons/profile.png"),
-    //         size: 24,
-    //       ),
-    //       label: '',
-    //     ),
-    //     BottomNavigationBarItem(
-    //       icon: ImageIcon(
-    //         AssetImage("assets/appIcons/scan.png"),
-    //         size: 24,
-    //       ),
-    //       label: '',
-    //     ),
-    //     BottomNavigationBarItem(
-    //       icon: ImageIcon(
-    //         AssetImage("assets/appIcons/qr.png"),
-    //       ),
-    //       label: '',
-    //     ),
-    //     BottomNavigationBarItem(
-    //       icon: Icon(Icons.amp_stories),
-    //       label: '',
-    //     ),
-    //   ],
-    // );
   }
 }
