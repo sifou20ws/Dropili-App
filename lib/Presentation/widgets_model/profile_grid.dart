@@ -23,16 +23,18 @@ class Grid extends StatelessWidget {
       children: <Widget>[
         Text(
           title,
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
         ),
         SizedBox(height: 10),
         GridView.builder(
           physics: ClampingScrollPhysics(),
           shrinkWrap: true,
           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 120, crossAxisSpacing: 0, mainAxisSpacing: 10),
-          itemCount: myList.length,
-         //itemCount: 3,
+              maxCrossAxisExtent: 120,
+              crossAxisSpacing: 0,
+              mainAxisSpacing: 10),
+          // itemCount: myList.length,
+          itemCount: 3,
           itemBuilder: (BuildContext ctx, index) {
             return Container(
               alignment: Alignment.center,
@@ -57,12 +59,12 @@ class Grid extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(15)),
-                    border: Border.all(color: MalinColors.AppGreen, width: 3),
+                    border: Border.all(color: MalinColors.AppGreen, width: 2),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        spreadRadius: 3,
-                        blurRadius: 4,
+                        color: Colors.grey.withOpacity(0.2),
+                        spreadRadius: 5,
+                        blurRadius: 10,
                         offset: Offset(0, 3),
                       )
                     ],

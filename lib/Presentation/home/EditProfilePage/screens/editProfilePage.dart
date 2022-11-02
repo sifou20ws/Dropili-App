@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dropili/Presentation/widgets_model/profile_grid.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:lottie/lottie.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);
@@ -43,12 +44,11 @@ class _MyOffersPageState extends State<EditProfilePage> {
   bool selected = false;
   @override
   Widget build(BuildContext context) {
-
     return BlocProvider.value(
       value: _editProfileBloc,
       child: BlocListener<EditProfileBloc, EditProfileState>(
         listener: (context, state) {
-         /* if (state.status == Status.fail) {
+          /* if (state.status == Status.fail) {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
@@ -70,21 +70,27 @@ class _MyOffersPageState extends State<EditProfilePage> {
           builder: (context, state) {
             return SafeArea(
               child: Scaffold(
-                backgroundColor: MalinColors.AppBlue,
+                backgroundColor: Colors.white,
                 resizeToAvoidBottomInset: false,
                 /*appBar: EditProfileAppBar(
                   appBar: AppBar(),
                 ),*/
                 body: (state.status == Status.loading)
-                    ? SpinKitWanderingCubes(
-                        size: 100,
-                        itemBuilder: (BuildContext context, int index) {
-                          return DecoratedBox(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                            ),
-                          );
-                        },
+                    // ? SpinKitWanderingCubes(
+                    //     size: 100,
+                    //     itemBuilder: (BuildContext context, int index) {
+                    //       return DecoratedBox(
+                    //         decoration: BoxDecoration(
+                    //           color: Colors.white,
+                    //         ),
+                    //       );
+                    //     },
+                    //   )
+                    ? Center(
+                        child: Lottie.asset(
+                          'assets/lottie/loading.json',
+                          height: 100,
+                        ),
                       )
                     : Container(
                         height: MediaQuery.of(context).size.height,
@@ -140,20 +146,25 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                 children: [
                                   state.status == Status.fail
                                       ? MessageWidget(
-                                      color: 'red',
-                                      text: state.messageError)
+                                          color: 'red',
+                                          text: state.messageError)
                                       : state.status == Status.success
-                                      ? MessageWidget(
-                                      color: 'green',
-                                      text: state.messageError,
-                                    )
-                                      : Container(),
+                                          ? MessageWidget(
+                                              color: 'green',
+                                              text: state.messageError,
+                                            )
+                                          : Container(),
                                   Container(
+                                    padding: EdgeInsets.only(
+                                        top: 13,
+                                        bottom: 13,
+                                        left: 10,
+                                        right: 10),
                                     width: MediaQuery.of(context).size.width,
-                                    height: MediaQuery.of(context).size.height*0.07,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
-                                      borderRadius: BorderRadius.all(Radius.circular(0)),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(0)),
                                       boxShadow: [
                                         BoxShadow(
                                           color: Colors.grey.withOpacity(0.3),
@@ -164,21 +175,28 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                       ],
                                     ),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
                                       children: [
                                         InkWell(
                                           onTap: () {
                                             Navigator.pop(context);
                                           },
-                                          child: ButtomBtn(text: 'Annuler' , save: false,),
+                                          child: ButtomBtn(
+                                            text: 'Annuler',
+                                            save: false,
+                                          ),
                                         ),
                                         GestureDetector(
                                           onTap: () async {
-                                            _editProfileBloc.add(PostProfileUpdateEvent(
-                                                name: state.userName,
-                                                description: state.userDescription,
-                                                profile: state.profileImg,
-                                                background: state.backgroundImg));
+                                            _editProfileBloc.add(
+                                                PostProfileUpdateEvent(
+                                                    name: state.userName,
+                                                    description:
+                                                        state.userDescription,
+                                                    profile: state.profileImg,
+                                                    background:
+                                                        state.backgroundImg));
                                           },
                                           child: ButtomBtn(text: 'Enregistrer'),
                                         ),
@@ -203,22 +221,22 @@ class _MyOffersPageState extends State<EditProfilePage> {
 class ButtomBtn extends StatelessWidget {
   final String text;
   final bool save;
-  const ButtomBtn({required this.text,  this.save =true});
+  const ButtomBtn({required this.text, this.save = true});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: save ? MalinColors.AppGreen :Colors.grey.withOpacity(0.3),
-        borderRadius: BorderRadius.all(Radius.circular(50)),
+        color: save ? MalinColors.AppGreen : Colors.grey.withOpacity(0.3),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
-      height: 35,
-      width: MediaQuery.of(context).size.width*0.35,
+      height: 47,
+      width: MediaQuery.of(context).size.width * 0.40,
       child: Center(
         child: Text(
           text,
           style: TextStyle(
-              color: save? Colors.white: Colors.black,
+              color: save ? Colors.white : Colors.black,
               fontSize: 20,
               fontWeight: FontWeight.w400),
         ),

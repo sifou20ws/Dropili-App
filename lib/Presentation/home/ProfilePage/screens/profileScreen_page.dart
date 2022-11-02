@@ -9,7 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+// import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:lottie/lottie.dart';
 
 class ProfilePageWidget extends StatefulWidget {
   const ProfilePageWidget({Key? key}) : super(key: key);
@@ -68,17 +69,13 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
             return Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              color: MalinColors.AppBlue,
+              color: Colors.white,
               child: (state.status == ProfileStatus.loading)
-                  ? SpinKitWanderingCubes(
-                      size: 100,
-                      itemBuilder: (BuildContext context, int index) {
-                        return DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                          ),
-                        );
-                      },
+                  ? Center(
+                      child: Lottie.asset(
+                        'assets/lottie/loading.json',
+                        height: 100,
+                      ),
                     )
                   : Stack(
                       children: <Widget>[
@@ -176,14 +173,18 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                         (getUserName != '')
                                             ? Text(
                                                 getUserName,
-                                                style: TextStyle(fontSize: 20, color: Colors.black),
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.black),
                                               )
                                             : Container(),
                                         SizedBox(height: 5),
                                         (getUserDescription != '')
                                             ? Text(
                                                 getUserDescription,
-                                                style: TextStyle(fontSize: 15, color: Colors.black),
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    color: Colors.black),
                                               )
                                             : Container(),
                                         SizedBox(height: 25),

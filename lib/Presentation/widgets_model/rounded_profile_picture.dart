@@ -67,13 +67,38 @@ class RoundedProfilePicture extends StatelessWidget {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(80),
-                  child: Image.asset(
-                    image,
-                    width: 100.0,
-                    height: 100.0,
-                    fit: BoxFit.cover,
-                  ),
+                  child: get
+                      ? file
+                          ? Image.file(
+                              File(image),
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.network(
+                              image,
+                              fit: BoxFit.cover,
+                              width: 100,
+                              height: 100,
+                            )
+                      : file
+                          ? Image.file(
+                              File(image),
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            )
+                          : null,
                 ),
+                // child: ClipRRect(
+                //   borderRadius: BorderRadius.circular(80),
+                //   child: Image.asset(
+                //     image,
+                //     width: 100.0,
+                //     height: 100.0,
+                //     fit: BoxFit.cover,
+                //   ),
+                // ),
               ),
             ),
           ),
@@ -99,4 +124,3 @@ class RoundedProfilePicture extends StatelessWidget {
     );
   }
 }
-

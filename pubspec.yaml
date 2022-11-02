@@ -62,7 +62,6 @@ dependencies:
   flutter_snake_navigationbar: ^0.6.1
   qr_flutter: ^4.0.0
   flutter_share: ^2.0.0
-  path_provider: ^2.0.11
   gallery_saver: ^2.3.2
   animations: ^2.0.7
 

@@ -15,7 +15,7 @@ class _EditProfileButtonsWidget extends State<EditProfileButtonsWidget> {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -23,7 +23,7 @@ class _EditProfileButtonsWidget extends State<EditProfileButtonsWidget> {
             Text(
               'Direct sur',
               style: TextStyle(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w500,
                   fontSize: 18,
                   color: Colors.black),
             ),
@@ -48,7 +48,7 @@ class _EditProfileButtonsWidget extends State<EditProfileButtonsWidget> {
             Text(
               'profile active',
               style: TextStyle(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w500,
                   fontSize: 18,
                   color: Colors.black),
             ),
