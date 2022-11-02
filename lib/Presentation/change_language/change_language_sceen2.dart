@@ -23,10 +23,12 @@ class _LanguageChangeScreenState extends State<LanguageChangeScreen> {
           width: MediaQuery.of(context).size.width,
           // padding: EdgeInsets.only(left: 100, right: 100),
           decoration: BoxDecoration(
-              color: Colors.white,
-              image: DecorationImage(
-                  image: AssetImage('assets/Background.png'),
-                  fit: BoxFit.cover)),
+            color: Colors.white,
+            // image: DecorationImage(
+            //   image: AssetImage('assets/Background.png'),
+            //   fit: BoxFit.cover,
+            // ),
+          ),
           child: SafeArea(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -45,30 +47,41 @@ class _LanguageChangeScreenState extends State<LanguageChangeScreen> {
                       },
                       child: Icon(
                         Icons.arrow_back_ios_new,
-                        color: Colors.white,
+                        color: Colors.black,
                         size: 30,
                       ),
                     )
                   ],
                 ),
-                Spacer(),
+                SizedBox(
+                  height: 50,
+                ),
+                Image.asset(
+                  'assets/translate.png',
+                  height: 70,
+                  color: MalinColors.AppGreen,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
                 Text(
                   'Change Language'.t(context),
                   style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.w500,
-                      color: Colors.white),
+                      color: Colors.black),
                 ),
                 SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  height: 30,
+                  height: 50,
                 ),
                 LanguageListWidget(),
                 Spacer(),
+                Image.asset(
+                  'assets/dropili_Logo_PNG.png',
+                  height: 70,
+                ),
                 SizedBox(
-                  height: 200,
+                  height: 50,
                 ),
               ],
             ),
@@ -99,7 +112,7 @@ class _LanguageListWidgetState extends State<LanguageListWidget> {
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Color.fromARGB(50, 29, 29, 29),
+            color: Color.fromARGB(20, 29, 29, 29),
             offset: Offset(0.0, 2.0),
             blurRadius: 10,
           ),
@@ -107,16 +120,16 @@ class _LanguageListWidgetState extends State<LanguageListWidget> {
       ),
       child: Column(
         children: [
-          Text(
-            'Choose Language'.t(context),
-            style: TextStyle(
-              fontSize: 19,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
+          // Text(
+          //   'Choose Language'.t(context),
+          //   style: TextStyle(
+          //     fontSize: 19,
+          //     fontWeight: FontWeight.w400,
+          //   ),
+          // ),
+          // SizedBox(
+          //  height: 20,
+          // ),
           ListView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
@@ -138,14 +151,14 @@ class _LanguageListWidgetState extends State<LanguageListWidget> {
                 child: Container(
                   margin: EdgeInsets.all(10),
                   alignment: Alignment.center,
-                  height: 60,
+                  height: 50,
                   decoration: BoxDecoration(
                     color: MalinColors.cardsColor,
                     border: selected
-                        ? Border.all(color: MalinColors.AppGreen, width: 3)
+                        ? Border.all(color: MalinColors.AppGreen, width: 2)
                         // : null,
                         : Border.all(color: Colors.grey.shade300, width: 0.5),
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(10),
                     // boxShadow: [
                     //   BoxShadow(
                     //       color: Color.fromARGB(20, 29, 29, 29),
@@ -158,7 +171,7 @@ class _LanguageListWidgetState extends State<LanguageListWidget> {
                     Languages.languages[index].value,
                     style: TextStyle(
                       color: Colors.grey.shade900,
-                      fontSize: 20,
+                      fontSize: 18,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
