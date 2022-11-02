@@ -151,11 +151,11 @@ class _LanguageListWidgetState extends State<LanguageListWidget> {
                 child: Container(
                   margin: EdgeInsets.all(10),
                   alignment: Alignment.center,
-                  height: 55,
+                  height: 50,
                   decoration: BoxDecoration(
                     color: MalinColors.cardsColor,
                     border: selected
-                        ? Border.all(color: MalinColors.AppGreen, width: 3)
+                        ? Border.all(color: MalinColors.AppGreen, width: 2)
                         // : null,
                         : Border.all(color: Colors.grey.shade300, width: 0.5),
                     borderRadius: BorderRadius.circular(10),
