@@ -1,4 +1,5 @@
 import 'package:dropili/Presentation/Nfc/nfc_dialoge.dart';
+import 'package:dropili/Presentation/home/collectionPage/collection_page.dart';
 import 'package:dropili/Presentation/home/navigation_bar/navigation_bar_widget.dart';
 import 'package:dropili/Presentation/home/qr_page/qr_page.dart';
 import 'package:dropili/Presentation/home/ProfilePage/screens/profileScreen_page.dart';
@@ -78,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ? ProfilePageWidget()
                   : state.currentPage == Pages.qr
                       ? QrPage()
-                      : Container(),
+                      : CollectionPage(),
               drawer: DrawerPage(),
               bottomNavigationBar: NavigatioBarWidget(),
             );
