@@ -69,13 +69,6 @@ class EditProfileRepository {
       log('frat');
       log(dataR.toString());
       return dataR;
-      /*if (response.statusCode == 200) {
-        dataR = json.decode(response.body);
-        log(dataR);
-        //myBlocks = GetBlocksModel.fromJson(data);
-      }*/
-      //log('noo');
-      //return response.body;
     } catch (e) {
       log('repo:');
       log(e.toString());
