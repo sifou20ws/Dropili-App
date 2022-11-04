@@ -8,11 +8,13 @@ class RoundedProfilePicture extends StatelessWidget {
   final String image;
   final bool edit;
   final bool file, get;
+  final double size;
   RoundedProfilePicture(
       {required this.image,
       this.edit = false,
       this.file = false,
-      this.get = false});
+      this.get = false,
+      this.size = 120});
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +42,8 @@ class RoundedProfilePicture extends StatelessWidget {
               ),
             ),
             child: Container(
-              height: 120,
-              width: 120,
+              height: size,
+              width: size,
               decoration: BoxDecoration(
                 //color: Colors.white,
                 borderRadius: BorderRadius.circular(500),
