@@ -18,6 +18,6 @@ class Routes {
         '/signin/reset': ((context) => ResetPasswordScreen()),
         '/changeLanguage': ((context) => LanguageChangeScreen()),
         '/home': ((context) => HomeScreen()),
-        '/editeProfile': ((context) => EditProfilePage()),
+        '/editProfile': ((context) => EditProfilePage()),
       };
 }
