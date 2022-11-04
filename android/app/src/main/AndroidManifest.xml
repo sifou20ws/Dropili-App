@@ -28,6 +28,39 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter>
+                <!-- <action android:name="android.intent.action.TECH_DISCOVERED" /> -->
+                <action android:name="android.intent.action.NDEF_DISCOVERED" />
+                <action android:name="android.intent.action.TECH_DISCOVERED" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <!-- <category android:name="android.intent.category.BROWSABLE" /> -->
+                <!-- <category android:name="android.intent.category.SEND" /> -->
+
+                <!-- <data
+                    android:mimeType="*/*" /> -->
+            </intent-filter>
+
+            <intent-filter>
+                <!-- <action android:name="android.intent.action.NDEF_DISCOVERED" /> -->
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="www.google.com"
+                    android:path=""
+                    android:scheme="https" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="*/*" />
+            </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
