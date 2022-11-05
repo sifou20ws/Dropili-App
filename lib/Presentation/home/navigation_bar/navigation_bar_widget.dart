@@ -22,7 +22,6 @@ class _BottomNavigationBarPageState extends State<NavigatioBarWidget> {
       // padding: EdgeInsets.only(bottom: 20, right: 10, left: 10),
       // snakeViewColor: MalinColors.AppBlue,
       // selectedItemColor: MalinColors.AppBlue,
-
       // unselectedItemColor: Colors.black.withAlpha(150),
 
       unselectedItemGradient: LinearGradient(
