@@ -1,4 +1,4 @@
-import 'package:dropili/Presentation/home/EditProfilePage/widgets/edit_profile_buttons.dart';
+
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/edite_profile_btn_widget.dart';
 import 'package:dropili/Presentation/widgets_model/profile_grid.dart';
@@ -10,7 +10,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
-// import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
 
 class ProfilePageWidget extends StatefulWidget {
@@ -20,9 +19,13 @@ class ProfilePageWidget extends StatefulWidget {
   State<ProfilePageWidget> createState() => _ProfilePageWidgetState();
 }
 
-class _ProfilePageWidgetState extends State<ProfilePageWidget> {
+class _ProfilePageWidgetState extends State<ProfilePageWidget>
+    with AutomaticKeepAliveClientMixin {
   late ProfileBloc _profileBloc;
   List<UserBlocksItem> userBlocks = [];
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -41,6 +44,8 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     String getProfilePicture = '';
     String getBackgroundPicture = '', getUserDescription = '', getUserName = '';
     return BlocProvider.value(
@@ -67,147 +72,161 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
         },
         child: BlocBuilder<ProfileBloc, ProfileState>(
           builder: (context, state) {
-            return Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              color: Colors.white,
-              child: (state.status == ProfileStatus.loading)
-                  ? Center(
-                      child: Lottie.asset(
-                        'assets/lottie/loading.json',
-                        height: 100,
-                      ),
-                    )
-                  : SingleChildScrollView(
-                      child: Stack(
-                        children: <Widget>[
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.25,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                fit: BoxFit.fill,
-                                image: AssetImage('assets/transparent.png'),
-                                alignment: Alignment.topCenter,
-                              ),
-                            ),
-                            child: (getBackgroundPicture == '')
-                                ? Image.asset(
-                                    'assets/transparent.png',
-                                    height: MediaQuery.of(context).size.height *
-                                        0.20,
-                                    width: MediaQuery.of(context).size.width,
-                                    fit: BoxFit.cover,
-                                    color: MalinColors.AppBlue,
-                                  )
-                                : Image.network(
-                                    getBackgroundPicture,
-                                    fit: BoxFit.cover,
-                                    width: MediaQuery.of(context).size.width,
-                                  ),
-                          ),
-                          Column(
-                            children: [
-                              SizedBox(
-                                height: 200,
-                              ),
-                              Container(
-                                // color: Colors.white,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20),
-                                    )),
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 20, left: 20, right: 20, bottom: 50),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          GestureDetector(
-                                              onTap: () {
-                                                Navigator.pushNamed(
-                                                    context, '/editProfile');
-                                              },
-                                              child: EditeProfileBtnWidget()),
-                                        ],
-                                      ),
-                                      SizedBox(height: 20),
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 10),
-                                        child: Row(
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                (getUserName != '')
-                                                    ? Text(
-                                                        getUserName,
-                                                        style: TextStyle(
-                                                            fontSize: 20,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color:
-                                                                Colors.black),
-                                                      )
-                                                    : Container(),
-                                                SizedBox(height: 5),
-                                                SizedBox(
-                                                  width: 300,
-                                                  child:
-                                                      (getUserDescription != '')
-                                                          ? Text(
-                                                              getUserDescription,
-                                                              style: TextStyle(
-                                                                  fontSize: 15,
-                                                                  color: Colors
-                                                                      .grey
-                                                                      .shade800),
-                                                            )
-                                                          : Container(),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(height: 35),
-                                      Grid(
-                                          start: 0,
-                                          size: 11,
-                                          type: 'contactItems',
-                                          title: 'Contacts',
-                                          myList: userBlocks),
-                                      SizedBox(height: 500),
-                                    ],
-                                  ),
+            return RefreshIndicator(
+              onRefresh: () async {
+                _profileBloc.add(GetUserBlocksEvent());
+                _profileBloc.add(GetProfileEvent());
+                await Future.delayed(Duration(seconds: 1));
+              },
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.white,
+                child: (state.status == ProfileStatus.loading)
+                    ? Center(
+                        child: Lottie.asset(
+                          'assets/lottie/loading.json',
+                          height: 100,
+                        ),
+                      )
+                    : SingleChildScrollView(
+                        child: Stack(
+                          children: <Widget>[
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.25,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  fit: BoxFit.fill,
+                                  image: AssetImage('assets/transparent.png'),
+                                  alignment: Alignment.topCenter,
                                 ),
                               ),
-                            ],
-                          ),
-                          Positioned(
-                            top: 120,
-                            left: 30,
-                            child: Container(
-                              padding: EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                  color: Colors.white, shape: BoxShape.circle),
-                              child: RoundedProfilePicture(
-                                image: (getBackgroundPicture == '')
-                                    ? 'assets/dropili_Logo_PNG.png'
-                                    : getBackgroundPicture,
-                                get:
-                                    (getBackgroundPicture == '') ? false : true,
-                              ),
+                              child: (getBackgroundPicture == '')
+                                  ? Image.asset(
+                                      'assets/transparent.png',
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.20,
+                                      width: MediaQuery.of(context).size.width,
+                                      fit: BoxFit.cover,
+                                      color: MalinColors.AppBlue,
+                                    )
+                                  : Image.network(
+                                      getBackgroundPicture,
+                                      fit: BoxFit.cover,
+                                      width: MediaQuery.of(context).size.width,
+                                    ),
                             ),
-                          )
-                        ],
+                            Column(
+                              children: [
+                                SizedBox(
+                                  height: 200,
+                                ),
+                                Container(
+                                  // color: Colors.white,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20),
+                                      )),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 20,
+                                        left: 20,
+                                        right: 20,
+                                        bottom: 50),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            GestureDetector(
+                                                onTap: () {
+                                                  Navigator.pushNamed(
+                                                      context, '/editProfile');
+                                                },
+                                                child: EditeProfileBtnWidget()),
+                                          ],
+                                        ),
+                                        SizedBox(height: 20),
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Row(
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  (getUserName != '')
+                                                      ? Text(
+                                                          getUserName,
+                                                          style: TextStyle(
+                                                              fontSize: 20,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color:
+                                                                  Colors.black),
+                                                        )
+                                                      : Container(),
+                                                  SizedBox(height: 5),
+                                                  SizedBox(
+                                                    width: 300,
+                                                    child:
+                                                        (getUserDescription !=
+                                                                '')
+                                                            ? Text(
+                                                                getUserDescription,
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15,
+                                                                    color: Colors
+                                                                        .grey
+                                                                        .shade800),
+                                                              )
+                                                            : Container(),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(height: 35),
+                                        Grid(
+                                            start: 0,
+                                            size: 11,
+                                            type: 'contactItems',
+                                            title: 'Contacts',
+                                            myList: userBlocks),
+                                        SizedBox(height: 500),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Positioned(
+                              top: 120,
+                              left: 30,
+                              child: Container(
+                                padding: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle),
+                                child: RoundedProfilePicture(
+                                  image: (getProfilePicture == '')
+                                      ? 'assets/dropili_Logo_PNG.png'
+                                      : getProfilePicture,
+                                  get: (getProfilePicture == '') ? false : true,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
+              ),
             );
           },
         ),
