@@ -1,6 +1,6 @@
 part of 'editProfileScreen_bloc.dart';
 
-enum Status { initial, loading, success, fail, finish, getSuccess }
+enum Status { initial, loading, success, fail, finish ,getProfileSuccess ,getBlocksSuccess ,loadingBlocks , loadingProfile ,postBlockLoading , postBlockSuccess }
 
 class EditProfileState extends Equatable {
   EditProfileState(
@@ -11,6 +11,7 @@ class EditProfileState extends Equatable {
       this.id = '',
       this.index = -1,
       required this.blocks,
+      required this.userBlocks,
       this.coverImagePath = '',
       this.profileImagePath = '',
       this.userName = '',
@@ -37,25 +38,26 @@ class EditProfileState extends Equatable {
   final PostProfileResp? showProfile;
   final String blockUrl;
   final bool valideName;
+  final List<UserBlocksItem> userBlocks;
 
-  EditProfileState copyWith({
-    bool? switchButton,
-    String? messageError,
-    Status? status,
-    String? id,
-    int? index,
-    List<BlocksItem>? blocks,
-    String? coverImagePath,
-    String? profileImagePath,
-    String? backgroundImg,
-    String? profileImg,
-    String? userName,
-    String? userDescription,
-    PostProfileResp? showProfile,
-    String? blockUrl,
-    bool? errorExist,
-    bool? valideName,
-  }) {
+  EditProfileState copyWith(
+      {bool? switchButton,
+      String? messageError,
+      Status? status,
+      String? id,
+      int? index,
+      List<BlocksItem>? blocks,
+      String? coverImagePath,
+      String? profileImagePath,
+      String? backgroundImg,
+      String? profileImg,
+      String? userName,
+      String? userDescription,
+      PostProfileResp? showProfile,
+      String? blockUrl,
+      bool? errorExist,
+      bool? valideName,
+      List<UserBlocksItem>? userBlocks}) {
     return EditProfileState(
       messageError: messageError ?? this.messageError,
       status: status ?? this.status,
@@ -73,6 +75,7 @@ class EditProfileState extends Equatable {
       blockUrl: blockUrl ?? this.blockUrl,
       errorExist: errorExist ?? this.errorExist,
       valideName: valideName ?? this.valideName,
+      userBlocks: userBlocks ?? this.userBlocks,
     );
   }
 
@@ -93,6 +96,7 @@ class EditProfileState extends Equatable {
         showProfile,
         blockUrl,
         errorExist,
-        valideName
+        valideName,
+        userBlocks
       ];
 }

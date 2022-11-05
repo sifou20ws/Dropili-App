@@ -47,7 +47,23 @@ class Network {
     }
   }
 
-  Future<http.Response> deleteWithHeader(apiUrl, data) async {
+  Future<http.Response> deleteWithHeader(apiUrl) async {
+    try {
+      var fullUrl = host + version + apiUrl;
+      final response = await http
+          .delete(Uri.parse(fullUrl), headers: await _setHeadersWithToken())
+          .timeout(Duration(seconds: timeOut));
+      if (response.statusCode == 422) {
+        throw Failure(message: 'authentication required');
+      }
+      return response;
+    } on SocketException {
+      throw 'Connection failed';
+    } on TimeoutException {
+      throw 'Connection failed';
+    }
+  }
+  /*Future<http.Response> deleteWithHeader(apiUrl, data) async {
     try {
       var fullUrl = host + version + apiUrl;
       final response = await http
@@ -63,7 +79,7 @@ class Network {
     } on TimeoutException {
       throw 'Connection failed';
     }
-  }
+  }*/
 
   /*Future postPictureWithHeader(apiUrl, XFile file) async {
     try {

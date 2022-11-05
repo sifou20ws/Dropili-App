@@ -1,21 +1,20 @@
+import 'dart:developer';
+
+import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/CustomDialogBox.dart';
 import 'package:dropili/Presentation/home/collectionPage/widgets/profile_card_widget.dart';
 import 'package:dropili/Presentation/widgets_model/block_card.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Grid extends StatelessWidget {
+class ProfileGrid extends StatelessWidget {
   final String title, type;
-  final List<dynamic> myList;
-  final int size, start;
-  const Grid({
+  final List<UserBlocksItem> myList;
+  const ProfileGrid({
     required this.title,
     required this.myList,
     required this.type,
-    required this.size,
-    required this.start,
   });
 
   @override
@@ -32,6 +31,8 @@ class Grid extends StatelessWidget {
           physics: ClampingScrollPhysics(),
           shrinkWrap: true,
           // gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+          //     maxCrossAxisExtent: 100, crossAxisSpacing: 10, mainAxisSpacing: 10),
+          // gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           //     maxCrossAxisExtent: 120,
           //     mainAxisExtent: 150,
           //     crossAxisSpacing: 0,
@@ -45,6 +46,52 @@ class Grid extends StatelessWidget {
           // itemCount: myList.length,
           itemCount: myList.length,
           itemBuilder: (BuildContext ctx, index) {
+            return Container(
+                alignment: Alignment.center,
+                child: GestureDetector(
+                  onTap: () {
+                    log('index $index');
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      //border: Border.all(color: MalinColors.AppGreen, width: 3),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          spreadRadius: 3,
+                          blurRadius: 4,
+                          offset: Offset(0, 3),
+                        )
+                      ],
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          myList[index].icon.previewUrl != ''
+                              ? Expanded(
+                                  child: Image.network(
+                                    myList[index].icon.originalUrl,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.2,
+                                  ),
+                                )
+                              : Expanded(
+                                  child: Image.asset(
+                                    'assets/dropili_app_logo.png',
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.2,
+                                  ),
+                                ),
+                          Text(myList[index].title.ar),
+                        ],
+                      ),
+                    ),
+                  ),
+                ));
             // return Container(
             //   alignment: Alignment.center,
             //   child: GestureDetector(
@@ -105,11 +152,6 @@ class Grid extends StatelessWidget {
             //     ),
             //   ),
             // );
-            return BlockCardWidget(
-              blockImage: Image.network(myList[index].icon.originalUrl),
-              blockName: myList[index].title.ar,
-              // selected: true,
-            );
           },
         ),
       ],

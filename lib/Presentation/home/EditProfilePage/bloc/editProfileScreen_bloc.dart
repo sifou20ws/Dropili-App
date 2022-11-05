@@ -16,7 +16,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   EditProfileRepository _editProfileRepository;
   EditProfileBloc({required EditProfileRepository editProfileRepository})
       : _editProfileRepository = editProfileRepository,
-        super(EditProfileState(blocks: [])) {
+        super(EditProfileState(blocks: [] , userBlocks: [])) {
     on<ItemSelectedEvent>(_itemSelectedEvent);
     on<SwitchEvent>(_switchEvent);
     on<GetBlocksEvent>(_getBlocks);
@@ -28,16 +28,20 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     on<PostDescriptionEvent>(_postDescriptionEvent);
     on<GetProfileEvent>(_getProfileEvent);
     on<BlockUrlEvent>(_blockUrlEvent);
+    on<DeleteUserBlocksEvent>(_deleteUserBlocksEvent);
+
   }
 
   void _getBlocks(GetBlocksEvent event, Emitter<EditProfileState> emit) async {
-    emit(state.copyWith(status: Status.loading));
+    emit(state.copyWith(status: Status.loadingBlocks));
     var resp;
     try {
       resp = await _editProfileRepository.getBlocks();
-      emit(state.copyWith(status: Status.getSuccess));
-      emit(state.copyWith(blocks: resp));
-      log(resp[0].title.fr.toString());
+      emit(state.copyWith(blocks: resp.blocks));
+      emit(state.copyWith(userBlocks: resp.userBlocks));
+      emit(state.copyWith(status: Status.getBlocksSuccess));
+      //log(resp.blocks.toString());
+      log(state.userBlocks.toString() , name: 'UBL in bloc');
     } catch (e) {
       emit(state.copyWith(status: Status.fail));
       log(('error :'));
@@ -45,19 +49,34 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     }
   }
 
+  void _deleteUserBlocksEvent(DeleteUserBlocksEvent event, Emitter<EditProfileState> emit) async{
+    //emit(state.copyWith(status: Status.loading));
+    var resp;
+    try{
+      resp = await  _editProfileRepository.deleteBlocks(event.id);
+      //emit(state.copyWith(status: Status.getSuccess));
+      //emit(state.copyWith(userBlocks: resp ));
+    }catch(e){
+      emit(state.copyWith(status: Status.fail));
+      log(('errorr :'));
+      log(e.toString());
+    }
+  }
+
   void _itemSelectedEvent(
       ItemSelectedEvent event, Emitter<EditProfileState> emit) async {
     emit(state.copyWith(index: event.index));
-    //emit(state.copyWith(status: Status.loading));
+    emit(state.copyWith(status: Status.postBlockLoading));
     var resp;
     try {
       log(event.index.toString());
       PostUserBlocks data =
           PostUserBlocks(id: event.index + 1, url: event.data);
+
       resp = await _editProfileRepository.PostUserBlocks(data.toJson());
-      emit(state.copyWith(status: Status.getSuccess));
+      emit(state.copyWith(status: Status.postBlockSuccess));
       //emit(state.copyWith(blocks: resp));
-      log(resp.toString());
+      //log(resp.toString());
     } catch (e) {
       emit(state.copyWith(status: Status.fail));
       log(('error :'));
@@ -74,7 +93,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       resp = await _editProfileRepository.PostUserBlocks(event.data);
       //emit(state.copyWith(status: Status.getSuccess));
       //emit(state.copyWith(blocks: resp));
-      log(resp.body);
+      log(resp.body , name: 'post block :');
     } catch (e) {
       emit(state.copyWith(status: Status.fail));
       log(('error :'));
@@ -168,11 +187,11 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
 
   void _getProfileEvent(
       GetProfileEvent event, Emitter<EditProfileState> emit) async {
-    emit(state.copyWith(status: Status.loading));
+    emit(state.copyWith(status: Status.loadingProfile));
     var resp;
     try {
       resp = await _editProfileRepository.getProfileShow();
-      emit(state.copyWith(status: Status.getSuccess));
+      emit(state.copyWith(status: Status.getProfileSuccess));
       emit(state.copyWith(showProfile: resp));
       //log(resp.toString());
     } catch (e) {
@@ -181,4 +200,5 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       log(e.toString());
     }
   }
+
 }

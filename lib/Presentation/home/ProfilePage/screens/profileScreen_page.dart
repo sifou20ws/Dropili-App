@@ -1,7 +1,7 @@
 
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/edite_profile_btn_widget.dart';
-import 'package:dropili/Presentation/widgets_model/profile_grid.dart';
+import 'package:dropili/Presentation/home/ProfilePage/widgets_model/profile_grid.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:dropili/domain/repositories/edit_profile_repository.dart';
@@ -194,12 +194,6 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                           ),
                                         ),
                                         SizedBox(height: 35),
-                                        Grid(
-                                            start: 0,
-                                            size: 11,
-                                            type: 'contactItems',
-                                            title: 'Contacts',
-                                            myList: userBlocks),
                                         SizedBox(height: 500),
                                       ],
                                     ),

@@ -19,6 +19,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<EditButtonClickedEvent>(_editButtonClickedEvent);
     on<GetUserBlocksEvent> (_getUserBlocksEvent);
     on<GetProfileEvent>(_getProfileEvent);
+    on<DeleteUserBlocksEvent>(_deleteUserBlocksEvent);
   }
 
   void _editButtonClickedEvent(event, Emitter<ProfileState> emit){
@@ -32,7 +33,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       resp = await  _editProfileRepository.getUserBlocks();
       emit(state.copyWith(status: ProfileStatus.getSuccess));
       emit(state.copyWith(userBlocks: resp ));
-      log(resp.toString());
+      log(resp.toString() , name: 'user blocks');
     }catch(e){
       emit(state.copyWith(status: ProfileStatus.fail));
       log(('errorr :'));
@@ -55,6 +56,19 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
   }
 
+  void _deleteUserBlocksEvent(DeleteUserBlocksEvent event, Emitter<ProfileState> emit) async{
+    //emit(state.copyWith(status: ProfileStatus.loading));
+    var resp;
+    try{
+      resp = await  _editProfileRepository.deleteBlocks(event.id);
+      //emit(state.copyWith(status: ProfileStatus.getSuccess));
+      //emit(state.copyWith(userBlocks: resp ));
+    }catch(e){
+      emit(state.copyWith(status: ProfileStatus.fail));
+      log(('errorr :'));
+      log(e.toString());
+    }
+  }
 }
 
 

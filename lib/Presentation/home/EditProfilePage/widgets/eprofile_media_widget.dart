@@ -22,13 +22,15 @@ class _EditProfileMediaWidgetState extends State<EditProfileMediaWidget> {
     String coverPicture =
         BlocProvider.of<EditProfileBloc>(context).state.coverImagePath;
 
-    String getProfilePicture = BlocProvider.of<EditProfileBloc>(context)
+    String getProfilePicture = '';
+    getProfilePicture = BlocProvider.of<EditProfileBloc>(context)
         .state
         .showProfile!
         .user
         .userProfile
         .originalUrl;
-    String getBackgroundPicture = BlocProvider.of<EditProfileBloc>(context)
+    String getBackgroundPicture = '';
+    getBackgroundPicture = BlocProvider.of<EditProfileBloc>(context)
         .state
         .showProfile!
         .user
@@ -112,7 +114,7 @@ class _EditProfileMediaWidgetState extends State<EditProfileMediaWidget> {
                         : profilePicture,
                 edit: true,
                 file: (profilePicture == '') ? false : true,
-                get : (getProfilePicture == '') ? false : true,
+                get: (getProfilePicture == '') ? false : true,
               ),
             ),
           ),

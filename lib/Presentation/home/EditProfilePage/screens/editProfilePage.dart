@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dropili/Presentation/widgets_model/profile_grid.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_grid.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
@@ -24,8 +24,13 @@ class EditProfilePage extends StatefulWidget {
 
 class _MyOffersPageState extends State<EditProfilePage> {
   late EditProfileBloc _editProfileBloc;
-  List<BlocksItem> blocks = [];
-  //File f = getImageFileFromAssets('images/myImage.jpg');
+  List<BlocksItem> blocks = [],
+      contactBlocks = [],
+      reseauxBlocks = [],
+      paymentsBlocks = [],
+      diverBlocks = [];
+  List<UserBlocksItem> userBlocks = [];
+
   @override
   void initState() {
     super.initState();
@@ -54,16 +59,24 @@ class _MyOffersPageState extends State<EditProfilePage> {
               ..showSnackBar(
                 MalinSnackBars.errorSnackBar(state.messageError),
               );
-          }
-          if (state.status == Status.success) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                MalinSnackBars.SuccessSnackBar(state.messageError),
-              );
           }*/
-          if (state.status == Status.getSuccess) {
+          if (state.status == Status.getBlocksSuccess) {
             blocks = state.blocks;
+            userBlocks = state.userBlocks;
+            contactBlocks = [];
+            reseauxBlocks = [];
+            paymentsBlocks = [];
+            diverBlocks = [];
+            blocks.forEach((element) {
+              if (element.type == 1) contactBlocks.add(element);
+              if (element.type == 2) reseauxBlocks.add(element);
+              if (element.type == 3) paymentsBlocks.add(element);
+              if (element.type == 4) diverBlocks.add(element);
+            });
+          }
+          if (state.status == Status.postBlockSuccess) {
+            _editProfileBloc.add(GetBlocksEvent());
+            userBlocks = state.userBlocks;
           }
         },
         child: BlocBuilder<EditProfileBloc, EditProfileState>(
@@ -75,22 +88,17 @@ class _MyOffersPageState extends State<EditProfilePage> {
                 /*appBar: EditProfileAppBar(
                   appBar: AppBar(),
                 ),*/
-                body: (state.status == Status.loading)
-                    // ? SpinKitWanderingCubes(
-                    //     size: 100,
-                    //     itemBuilder: (BuildContext context, int index) {
-                    //       return DecoratedBox(
-                    //         decoration: BoxDecoration(
-                    //           color: Colors.white,
-                    //         ),
-                    //       );
-                    //     },
-                    //   )
-                    ? Center(
-                        child: Lottie.asset(
-                          'assets/lottie/loading.json',
-                          height: 100,
-                        ),
+                body: (state.status == Status.loadingBlocks ||
+                        state.status == Status.loadingProfile)
+                    ? SpinKitWanderingCubes(
+                        size: 100,
+                        itemBuilder: (BuildContext context, int index) {
+                          return DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                            ),
+                          );
+                        },
                       )
                     : Container(
                         height: MediaQuery.of(context).size.height,
@@ -127,12 +135,29 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                           EditProfileButtonsWidget(),
                                           SizedBox(height: 15),
                                           Grid(
-                                              start: 0,
-                                              size: 11,
-                                              type: 'contactItems',
+                                              userBlocks: userBlocks,
+                                              type: 1,
                                               title: 'Contacts',
-                                              myList: blocks),
-                                          SizedBox(height: 1500),
+                                              blocksList: contactBlocks),
+                                          SizedBox(height: 25),
+                                          Grid(
+                                              userBlocks: userBlocks,
+                                              type: 2,
+                                              title: "Réseaux Sociaux",
+                                              blocksList: reseauxBlocks),
+                                          SizedBox(height: 25),
+                                          Grid(
+                                              userBlocks: userBlocks,
+                                              type: 3,
+                                              title: 'Mode de paiments',
+                                              blocksList: paymentsBlocks),
+                                          SizedBox(height: 25),
+                                          Grid(
+                                              userBlocks: userBlocks,
+                                              type: 4,
+                                              title: 'Divers',
+                                              blocksList: diverBlocks),
+                                          SizedBox(height: 50),
                                         ],
                                       ),
                                     ),
@@ -161,6 +186,8 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                         left: 10,
                                         right: 10),
                                     width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.07,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius:
@@ -228,10 +255,10 @@ class ButtomBtn extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: save ? MalinColors.AppGreen : Colors.grey.withOpacity(0.3),
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+        borderRadius: BorderRadius.all(Radius.circular(50)),
       ),
-      height: 47,
-      width: MediaQuery.of(context).size.width * 0.40,
+      height: 35,
+      width: MediaQuery.of(context).size.width * 0.35,
       child: Center(
         child: Text(
           text,
