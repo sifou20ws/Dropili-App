@@ -25,3 +25,10 @@ class GetProfileEvent extends ProfileEvent {
   List<Object?> get props => [];
 }
 
+class DeleteUserBlocksEvent extends ProfileEvent {
+  final String id;
+  DeleteUserBlocksEvent({required this.id});
+
+  @override
+  List<Object?> get props => [];
+}

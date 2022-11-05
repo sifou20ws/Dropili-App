@@ -85,7 +85,8 @@ class UserBlocksItem {
   };
 }
 
-class BlocksItem {
+class
+BlocksItem {
   final int id;
   final Title title;
   final Hint hint;

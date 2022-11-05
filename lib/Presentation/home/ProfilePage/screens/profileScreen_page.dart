@@ -1,6 +1,6 @@
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/edit_profile_buttons.dart';
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
-import 'package:dropili/Presentation/widgets_model/profile_grid.dart';
+import 'package:dropili/Presentation/home/ProfilePage/widgets_model/profile_grid.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:dropili/domain/repositories/edit_profile_repository.dart';
@@ -136,10 +136,10 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                       Align(
                                         alignment: Alignment(-0.8, 0.95),
                                         child: RoundedProfilePicture(
-                                          image: (getBackgroundPicture == '')
+                                          image: (getProfilePicture == '')
                                               ? 'assets/dropili_Logo_PNG.png'
-                                              : getBackgroundPicture,
-                                          get: (getBackgroundPicture == '')
+                                              : getProfilePicture,
+                                          get: (getProfilePicture == '')
                                               ? false
                                               : true,
                                         ),
@@ -187,9 +187,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                               )
                                             : Container(),
                                         SizedBox(height: 25),
-                                        Grid(
-                                            start: 0,
-                                            size: 11,
+                                        ProfileGrid(
                                             type: 'contactItems',
                                             title: 'Contacts',
                                             myList: userBlocks),

@@ -1,3 +1,4 @@
+
 import 'package:dropili/Presentation/authentification/comun_widgets/message_widget.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/eProfile_buttons_row.dart';
@@ -10,7 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dropili/Presentation/widgets_model/profile_grid.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_grid.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -23,8 +24,14 @@ class EditProfilePage extends StatefulWidget {
 
 class _MyOffersPageState extends State<EditProfilePage> {
   late EditProfileBloc _editProfileBloc;
-  List<BlocksItem> blocks = [];
-  //File f = getImageFileFromAssets('images/myImage.jpg');
+  List<BlocksItem> blocks = [],
+      contactBlocks = [],
+      reseauxBlocks = [],
+      paymentsBlocks = [],
+      diverBlocks = [];
+  List<UserBlocksItem> userBlocks = [];
+
+
   @override
   void initState() {
     super.initState();
@@ -43,27 +50,34 @@ class _MyOffersPageState extends State<EditProfilePage> {
   bool selected = false;
   @override
   Widget build(BuildContext context) {
-
     return BlocProvider.value(
       value: _editProfileBloc,
       child: BlocListener<EditProfileBloc, EditProfileState>(
         listener: (context, state) {
-         /* if (state.status == Status.fail) {
+          /* if (state.status == Status.fail) {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
                 MalinSnackBars.errorSnackBar(state.messageError),
               );
-          }
-          if (state.status == Status.success) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                MalinSnackBars.SuccessSnackBar(state.messageError),
-              );
           }*/
-          if (state.status == Status.getSuccess) {
+          if (state.status == Status.getBlocksSuccess) {
             blocks = state.blocks;
+            userBlocks = state.userBlocks;
+            contactBlocks = [];
+            reseauxBlocks = [];
+            paymentsBlocks = [];
+            diverBlocks = [];
+            blocks.forEach((element) {
+              if (element.type == 1) contactBlocks.add(element);
+              if (element.type == 2) reseauxBlocks.add(element);
+              if (element.type == 3) paymentsBlocks.add(element);
+              if (element.type == 4) diverBlocks.add(element);
+            });
+          }
+          if (state.status == Status.postBlockSuccess) {
+            _editProfileBloc.add(GetBlocksEvent());
+            userBlocks = state.userBlocks;
           }
         },
         child: BlocBuilder<EditProfileBloc, EditProfileState>(
@@ -75,7 +89,8 @@ class _MyOffersPageState extends State<EditProfilePage> {
                 /*appBar: EditProfileAppBar(
                   appBar: AppBar(),
                 ),*/
-                body: (state.status == Status.loading)
+                body: (state.status == Status.loadingBlocks ||
+                        state.status == Status.loadingProfile)
                     ? SpinKitWanderingCubes(
                         size: 100,
                         itemBuilder: (BuildContext context, int index) {
@@ -121,12 +136,29 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                           EditProfileButtonsWidget(),
                                           SizedBox(height: 15),
                                           Grid(
-                                              start: 0,
-                                              size: 11,
-                                              type: 'contactItems',
+                                              userBlocks: userBlocks,
+                                              type: 1,
                                               title: 'Contacts',
-                                              myList: blocks),
-                                          SizedBox(height: 1500),
+                                              blocksList: contactBlocks),
+                                          SizedBox(height: 25),
+                                          Grid(
+                                              userBlocks: userBlocks,
+                                              type: 2,
+                                              title: "Réseaux Sociaux",
+                                              blocksList: reseauxBlocks),
+                                          SizedBox(height: 25),
+                                          Grid(
+                                              userBlocks: userBlocks,
+                                              type: 3,
+                                              title: 'Mode de paiments',
+                                              blocksList: paymentsBlocks),
+                                          SizedBox(height: 25),
+                                          Grid(
+                                              userBlocks: userBlocks,
+                                              type: 4,
+                                              title: 'Divers',
+                                              blocksList: diverBlocks),
+                                          SizedBox(height: 50),
                                         ],
                                       ),
                                     ),
@@ -140,20 +172,22 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                 children: [
                                   state.status == Status.fail
                                       ? MessageWidget(
-                                      color: 'red',
-                                      text: state.messageError)
+                                          color: 'red',
+                                          text: state.messageError)
                                       : state.status == Status.success
-                                      ? MessageWidget(
-                                      color: 'green',
-                                      text: state.messageError,
-                                    )
-                                      : Container(),
+                                          ? MessageWidget(
+                                              color: 'green',
+                                              text: state.messageError,
+                                            )
+                                          : Container(),
                                   Container(
                                     width: MediaQuery.of(context).size.width,
-                                    height: MediaQuery.of(context).size.height*0.07,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.07,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
-                                      borderRadius: BorderRadius.all(Radius.circular(0)),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(0)),
                                       boxShadow: [
                                         BoxShadow(
                                           color: Colors.grey.withOpacity(0.3),
@@ -164,21 +198,28 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                       ],
                                     ),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
                                       children: [
                                         InkWell(
                                           onTap: () {
                                             Navigator.pop(context);
                                           },
-                                          child: ButtomBtn(text: 'Annuler' , save: false,),
+                                          child: ButtomBtn(
+                                            text: 'Annuler',
+                                            save: false,
+                                          ),
                                         ),
                                         GestureDetector(
                                           onTap: () async {
-                                            _editProfileBloc.add(PostProfileUpdateEvent(
-                                                name: state.userName,
-                                                description: state.userDescription,
-                                                profile: state.profileImg,
-                                                background: state.backgroundImg));
+                                            _editProfileBloc.add(
+                                                PostProfileUpdateEvent(
+                                                    name: state.userName,
+                                                    description:
+                                                        state.userDescription,
+                                                    profile: state.profileImg,
+                                                    background:
+                                                        state.backgroundImg));
                                           },
                                           child: ButtomBtn(text: 'Enregistrer'),
                                         ),
@@ -198,27 +239,29 @@ class _MyOffersPageState extends State<EditProfilePage> {
       ),
     );
   }
+
+
 }
 
 class ButtomBtn extends StatelessWidget {
   final String text;
   final bool save;
-  const ButtomBtn({required this.text,  this.save =true});
+  const ButtomBtn({required this.text, this.save = true});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: save ? MalinColors.AppGreen :Colors.grey.withOpacity(0.3),
+        color: save ? MalinColors.AppGreen : Colors.grey.withOpacity(0.3),
         borderRadius: BorderRadius.all(Radius.circular(50)),
       ),
       height: 35,
-      width: MediaQuery.of(context).size.width*0.35,
+      width: MediaQuery.of(context).size.width * 0.35,
       child: Center(
         child: Text(
           text,
           style: TextStyle(
-              color: save? Colors.white: Colors.black,
+              color: save ? Colors.white : Colors.black,
               fontSize: 20,
               fontWeight: FontWeight.w400),
         ),

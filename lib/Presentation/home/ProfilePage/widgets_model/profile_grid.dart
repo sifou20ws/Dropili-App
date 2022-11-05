@@ -1,23 +1,20 @@
-import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
-import 'package:dropili/Presentation/home/EditProfilePage/widgets/CustomDialogBox.dart';
-import 'package:dropili/common/constant/colors.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:developer';
 
-class Grid extends StatelessWidget {
+import 'package:dropili/data/models/get_blocks_model.dart';
+import 'package:flutter/material.dart';
+
+class ProfileGrid extends StatelessWidget {
   final String title, type;
-  final List<dynamic> myList;
-  final int size, start;
-  const Grid({
+  final List<UserBlocksItem> myList;
+  const ProfileGrid({
     required this.title,
     required this.myList,
     required this.type,
-    required this.size,
-    required this.start,
   });
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -30,34 +27,20 @@ class Grid extends StatelessWidget {
           physics: ClampingScrollPhysics(),
           shrinkWrap: true,
           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 120, crossAxisSpacing: 0, mainAxisSpacing: 10),
+              maxCrossAxisExtent: 100, crossAxisSpacing: 10, mainAxisSpacing: 10),
           itemCount: myList.length,
-         //itemCount: 3,
           itemBuilder: (BuildContext ctx, index) {
             return Container(
               alignment: Alignment.center,
               child: GestureDetector(
                 onTap: () {
-                  showDialog<void>(
-                    context: context,
-                    barrierDismissible: false, // user must tap button!
-                    builder: (_) {
-                      return BlocProvider.value(
-                        value: context.read<EditProfileBloc>(),
-                        child: CustomDialogBox(
-                          index: index + start,
-                          img: myList[index].icon.previewUrl,
-                          editText: myList[index].hint.fr,
-                        ),
-                      );
-                    },
-                  );
+                  log('index $index');
                 },
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(15)),
-                    border: Border.all(color: MalinColors.AppGreen, width: 3),
+                    //border: Border.all(color: MalinColors.AppGreen, width: 3),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.3),
@@ -68,7 +51,7 @@ class Grid extends StatelessWidget {
                     ],
                   ),
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [

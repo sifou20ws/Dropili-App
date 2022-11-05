@@ -11,7 +11,7 @@ class EditProfileRepository {
 
   EditProfileRepository(this._network);
 
-  Future<List<BlocksItem>> getBlocks() async {
+  Future<dynamic> getBlocks() async {
     http.Response response;
     late GetBlocksModel myBlocks;
     try {
@@ -20,7 +20,8 @@ class EditProfileRepository {
         var data = json.decode(response.body);
         myBlocks = GetBlocksModel.fromJson(data);
       }
-      return myBlocks.blocks;
+      //log(myBlocks.userBlocks.toString());
+      return myBlocks;
     } catch (e) {
       rethrow;
     }
@@ -37,6 +38,19 @@ class EditProfileRepository {
       }
       //log(myBlocks.userBlocks[0].createdAt);
       return myBlocks.userBlocks;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<dynamic> deleteBlocks(String id) async {
+    http.Response response;
+    try {
+      response = await _network.deleteWithHeader('/blocks/$id');
+      if (response.statusCode == 200) {
+        log(response.body , name: 'delete blocks :');
+      }
+      return response;
     } catch (e) {
       rethrow;
     }
@@ -64,10 +78,8 @@ class EditProfileRepository {
       log('hi');
       response =
           await _network.postPictureWithHeader('/profile/update', profile ,background, data);
-      log('mzel');
       dataR = json.decode(response);
-      log('frat');
-      log(dataR.toString());
+      log(dataR.toString() , name: 'post user profile :');
       return dataR;
       /*if (response.statusCode == 200) {
         dataR = json.decode(response.body);

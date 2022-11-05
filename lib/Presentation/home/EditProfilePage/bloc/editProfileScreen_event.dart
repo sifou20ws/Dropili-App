@@ -100,3 +100,11 @@ class BlockUrlEvent extends EditProfileEvent {
   @override
   List<Object?> get props => [];
 }
+
+class DeleteUserBlocksEvent extends EditProfileEvent {
+  final String id;
+  DeleteUserBlocksEvent({required this.id});
+
+  @override
+  List<Object?> get props => [];
+}
