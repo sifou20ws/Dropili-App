@@ -1,4 +1,5 @@
 import 'package:dropili/Presentation/Nfc/nfc_dialoge.dart';
+import 'package:dropili/Presentation/home/collectionPage/collection_page.dart';
 import 'package:dropili/Presentation/home/navigation_bar/navigation_bar_widget.dart';
 import 'package:dropili/Presentation/home/qr_page/qr_page.dart';
 import 'package:dropili/Presentation/home/ProfilePage/screens/profileScreen_page.dart';
@@ -16,10 +17,21 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late NavigationBloc _navigationBloc;
+
+  final _pageController = PageController();
+  late List<Widget> _pages;
+
   @override
   void initState() {
     super.initState();
     _navigationBloc = NavigationBloc();
+
+    _pages = [
+      ProfilePageWidget(),
+      Container(),
+      QrPage(),
+      CollectionPage(),
+    ];
   }
 
   @override
@@ -46,6 +58,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
             );
+          } else {
+            _pageController.animateToPage(state.index,
+                duration: Duration(milliseconds: 550), curve: Curves.ease);
           }
         },
         child: BlocBuilder<NavigationBloc, NavigationState>(
@@ -74,11 +89,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   )
                 ],
               ),
-              body: state.currentPage == Pages.profile
-                  ? ProfilePageWidget()
-                  : state.currentPage == Pages.qr
-                      ? QrPage()
-                      : Container(),
+              // body: state.currentPage == Pages.profile
+              //     ? _pages[0]
+              //     : state.currentPage == Pages.qr
+              //         ? _pages[1]
+              //         : _pages[2],
+              body: PageView(
+                controller: _pageController,
+                children: _pages,
+                physics: NeverScrollableScrollPhysics(),
+              ),
               drawer: DrawerPage(),
               bottomNavigationBar: NavigatioBarWidget(),
             );

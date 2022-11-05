@@ -8,11 +8,13 @@ class RoundedProfilePicture extends StatelessWidget {
   final String image;
   final bool edit;
   final bool file, get;
+  final double size;
   RoundedProfilePicture(
       {required this.image,
       this.edit = false,
       this.file = false,
-      this.get = false});
+      this.get = false,
+      this.size = 120});
 
   @override
   Widget build(BuildContext context) {
@@ -22,16 +24,7 @@ class RoundedProfilePicture extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               color: Colors.white,
-
               borderRadius: BorderRadius.circular(500),
-              // gradient: LinearGradient(
-              //   begin: Alignment.topRight,
-              //   end: Alignment.bottomLeft,
-              //   colors: [
-              //     MalinColors.AppGreen,
-              //     MalinColors.AppBlue,
-              //   ],
-              // ),
               boxShadow: [
                 BoxShadow(
                   // color: Color.fromARGB(10, 29, 29, 29),
@@ -40,14 +33,6 @@ class RoundedProfilePicture extends StatelessWidget {
                   blurRadius: 10,
                 ),
               ],
-              // boxShadow: [
-              //   BoxShadow(
-              //     color: Colors.black,
-              //     blurRadius: 1,
-              //     spreadRadius: 1,
-              //     offset: const Offset(0, 0),
-              //   ),
-              // ],
               image: DecorationImage(
                 //fit: BoxFit.fill,
                 image: AssetImage(
@@ -56,40 +41,37 @@ class RoundedProfilePicture extends StatelessWidget {
                 alignment: Alignment.topCenter,
               ),
             ),
-            child: Padding(
-              padding: EdgeInsets.all(2),
-              child: Container(
-                height: 100,
-                width: 100,
-                decoration: BoxDecoration(
-                  //color: Colors.white,
-                  borderRadius: BorderRadius.circular(500),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(80),
-                  child: get
-                      ? file
-                      ? Image.file(
-                    File(image),
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.cover,
-                  )
-                      : Image.network(
-                    image,
-                    fit: BoxFit.cover,
-                    width: 100,
-                    height: 100,
-                  )
-                      : file
-                      ? Image.file(
-                    File(image),
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.cover,
-                  )
-                      :null,
-                ),
+            child: Container(
+              height: size,
+              width: size,
+              decoration: BoxDecoration(
+                //color: Colors.white,
+                borderRadius: BorderRadius.circular(500),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(80),
+                child: get
+                    ? file
+                        ? Image.file(
+                            File(image),
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.network(
+                            image,
+                            fit: BoxFit.cover,
+                            width: 100,
+                            height: 100,
+                          )
+                    : file
+                        ? Image.file(
+                            File(image),
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                          )
+                        : null,
               ),
             ),
           ),
@@ -115,4 +97,3 @@ class RoundedProfilePicture extends StatelessWidget {
     );
   }
 }
-

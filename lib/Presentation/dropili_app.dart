@@ -1,7 +1,6 @@
 import 'package:dropili/Presentation/routing/fade_page_route_builder.dart';
 import 'package:dropili/Presentation/localization/app_localization.dart';
 import 'package:dropili/Presentation/localization/bloc/language_bloc.dart';
-import 'package:dropili/Presentation/routing/fade_page_route_builder.dart';
 import 'package:dropili/Presentation/routing/routes.dart';
 import 'package:dropili/common/constant/languages.dart';
 import 'package:dropili/di/get_it.dart';

@@ -1,3 +1,0 @@
-class EditProfileUseCase {
-  EditProfileUseCase() {}
-}

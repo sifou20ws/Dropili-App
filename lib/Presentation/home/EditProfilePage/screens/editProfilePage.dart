@@ -1,4 +1,3 @@
-
 import 'package:dropili/Presentation/authentification/comun_widgets/message_widget.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/eProfile_buttons_row.dart';
@@ -14,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_grid.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:lottie/lottie.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);
@@ -30,7 +30,6 @@ class _MyOffersPageState extends State<EditProfilePage> {
       paymentsBlocks = [],
       diverBlocks = [];
   List<UserBlocksItem> userBlocks = [];
-
 
   @override
   void initState() {
@@ -84,7 +83,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
           builder: (context, state) {
             return SafeArea(
               child: Scaffold(
-                backgroundColor: MalinColors.AppBlue,
+                backgroundColor: Colors.white,
                 resizeToAvoidBottomInset: false,
                 /*appBar: EditProfileAppBar(
                   appBar: AppBar(),
@@ -181,6 +180,11 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                             )
                                           : Container(),
                                   Container(
+                                    padding: EdgeInsets.only(
+                                        top: 13,
+                                        bottom: 13,
+                                        left: 10,
+                                        right: 10),
                                     width: MediaQuery.of(context).size.width,
                                     height: MediaQuery.of(context).size.height *
                                         0.07,
@@ -239,8 +243,6 @@ class _MyOffersPageState extends State<EditProfilePage> {
       ),
     );
   }
-
-
 }
 
 class ButtomBtn extends StatelessWidget {

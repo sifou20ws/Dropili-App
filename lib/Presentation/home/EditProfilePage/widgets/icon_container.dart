@@ -1,7 +1,6 @@
 import 'package:dropili/common/constant/colors.dart';
 import 'package:flutter/material.dart';
 
-
 class IconContainer extends StatelessWidget {
   final Icon icon;
   final outline;
