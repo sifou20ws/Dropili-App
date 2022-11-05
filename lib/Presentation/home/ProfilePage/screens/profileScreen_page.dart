@@ -194,12 +194,6 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                           ),
                                         ),
                                         SizedBox(height: 35),
-                                        Grid(
-                                            start: 0,
-                                            size: 11,
-                                            type: 'contactItems',
-                                            title: 'Contacts',
-                                            myList: userBlocks),
                                         SizedBox(height: 500),
                                       ],
                                     ),
