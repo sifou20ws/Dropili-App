@@ -3,6 +3,7 @@ import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/eProfile_buttons_row.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_media_widget.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_text_widget.dart';
+import 'package:dropili/Presentation/widgets_model/snackbar.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:dropili/domain/repositories/edit_profile_repository.dart';
@@ -78,6 +79,11 @@ class _MyOffersPageState extends State<EditProfilePage> {
             _editProfileBloc.add(GetBlocksEvent());
             userBlocks = state.userBlocks;
           }
+          if (state.status == Status.fail) {
+            SnackBars.showErrorSnackBar(context, state.messageError);
+          } else if (state.status == Status.success) {
+            SnackBars.showSucessSnackBar(context, state.messageError);
+          }
         },
         child: BlocBuilder<EditProfileBloc, EditProfileState>(
           builder: (context, state) {
@@ -85,20 +91,13 @@ class _MyOffersPageState extends State<EditProfilePage> {
               child: Scaffold(
                 backgroundColor: Colors.white,
                 resizeToAvoidBottomInset: false,
-                /*appBar: EditProfileAppBar(
-                  appBar: AppBar(),
-                ),*/
                 body: (state.status == Status.loadingBlocks ||
                         state.status == Status.loadingProfile)
-                    ? SpinKitWanderingCubes(
-                        size: 100,
-                        itemBuilder: (BuildContext context, int index) {
-                          return DecoratedBox(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                            ),
-                          );
-                        },
+                    ? Center(
+                        child: Lottie.asset(
+                          'assets/lottie/loading.json',
+                          height: 100,
+                        ),
                       )
                     : Container(
                         height: MediaQuery.of(context).size.height,
@@ -165,77 +164,51 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                 ],
                               ),
                             ),
-                            Positioned(
-                              bottom: 0,
-                              child: Column(
-                                children: [
-                                  state.status == Status.fail
-                                      ? MessageWidget(
-                                          color: 'red',
-                                          text: state.messageError)
-                                      : state.status == Status.success
-                                          ? MessageWidget(
-                                              color: 'green',
-                                              text: state.messageError,
-                                            )
-                                          : Container(),
-                                  Container(
-                                    padding: EdgeInsets.only(
-                                        top: 13,
-                                        bottom: 13,
-                                        left: 10,
-                                        right: 10),
-                                    width: MediaQuery.of(context).size.width,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.07,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(0)),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.3),
-                                          spreadRadius: 3,
-                                          blurRadius: 4,
-                                          offset: Offset(0, -1),
-                                        )
-                                      ],
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        InkWell(
-                                          onTap: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: ButtomBtn(
-                                            text: 'Annuler',
-                                            save: false,
-                                          ),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () async {
-                                            _editProfileBloc.add(
-                                                PostProfileUpdateEvent(
-                                                    name: state.userName,
-                                                    description:
-                                                        state.userDescription,
-                                                    profile: state.profileImg,
-                                                    background:
-                                                        state.backgroundImg));
-                                          },
-                                          child: ButtomBtn(text: 'Enregistrer'),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
                           ],
                         ),
                       ),
+                bottomNavigationBar: Container(
+                  padding:
+                      EdgeInsets.only(top: 13, bottom: 13, left: 10, right: 10),
+                  width: MediaQuery.of(context).size.width,
+                  height: 72,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        spreadRadius: 3,
+                        blurRadius: 4,
+                        offset: Offset(0, -1),
+                      )
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: ButtomBtn(
+                          text: 'Annuler',
+                          save: false,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          _editProfileBloc.add(PostProfileUpdateEvent(
+                              name: state.userName,
+                              description: state.userDescription,
+                              profile: state.profileImg,
+                              background: state.backgroundImg));
+                        },
+                        child: ButtomBtn(text: 'Enregistrer'),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             );
           },
@@ -255,10 +228,10 @@ class ButtomBtn extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: save ? MalinColors.AppGreen : Colors.grey.withOpacity(0.3),
-        borderRadius: BorderRadius.all(Radius.circular(50)),
+        borderRadius: BorderRadius.circular(12),
       ),
-      height: 35,
-      width: MediaQuery.of(context).size.width * 0.35,
+      // height: 50,
+      width: MediaQuery.of(context).size.width * 0.40,
       child: Center(
         child: Text(
           text,

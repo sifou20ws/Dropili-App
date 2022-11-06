@@ -1,7 +1,7 @@
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/edite_profile_btn_widget.dart';
-import 'package:dropili/Presentation/home/ProfilePage/widgets_model/profile_grid.dart';
+import 'package:dropili/Presentation/home/ProfilePage/widgets/profile_grid.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:dropili/domain/repositories/edit_profile_repository.dart';
@@ -94,6 +94,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                           children: <Widget>[
                             Container(
                               height: MediaQuery.of(context).size.height * 0.25,
+                              width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   fit: BoxFit.fill,
@@ -101,21 +102,14 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                   alignment: Alignment.topCenter,
                                 ),
                               ),
-                              child: (getBackgroundPicture == '')
-                                  ? Image.asset(
-                                      'assets/transparent.png',
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.20,
-                                      width: MediaQuery.of(context).size.width,
-                                      fit: BoxFit.cover,
-                                      color: MalinColors.AppBlue,
-                                    )
-                                  : Image.network(
-                                      getBackgroundPicture,
-                                      fit: BoxFit.cover,
-                                      width: MediaQuery.of(context).size.width,
-                                    ),
+                              child: CachedNetworkImage(
+                                imageUrl: getBackgroundPicture,
+                                placeholder: (context, url) =>
+                                    Center(child: CircularProgressIndicator()),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
+                                fit: BoxFit.cover,
+                              ),
                             ),
                             Column(
                               children: [
@@ -159,34 +153,24 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  (getUserName != '')
-                                                      ? Text(
-                                                          getUserName,
-                                                          style: TextStyle(
-                                                              fontSize: 20,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              color:
-                                                                  Colors.black),
-                                                        )
-                                                      : Container(),
+                                                  Text(
+                                                    getUserName,
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors.black),
+                                                  ),
                                                   SizedBox(height: 5),
                                                   SizedBox(
                                                     width: 300,
-                                                    child:
-                                                        (getUserDescription !=
-                                                                '')
-                                                            ? Text(
-                                                                getUserDescription,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        15,
-                                                                    color: Colors
-                                                                        .grey
-                                                                        .shade800),
-                                                              )
-                                                            : Container(),
+                                                    child: Text(
+                                                      getUserDescription,
+                                                      style: TextStyle(
+                                                          fontSize: 15,
+                                                          color: Colors
+                                                              .grey.shade700),
+                                                    ),
                                                   ),
                                                 ],
                                               ),
@@ -194,7 +178,10 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                           ),
                                         ),
                                         SizedBox(height: 35),
-                                        SizedBox(height: 500),
+                                        ProfileGrid(
+                                            title: 'Contacts',
+                                            myList: userBlocks,
+                                            type: '1'),
                                       ],
                                     ),
                                   ),

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/icon_container.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:flutter/material.dart';
@@ -58,11 +59,13 @@ class RoundedProfilePicture extends StatelessWidget {
                             height: 100,
                             fit: BoxFit.cover,
                           )
-                        : Image.network(
-                            image,
+                        : CachedNetworkImage(
+                            imageUrl: image,
+                            placeholder: (context, url) =>
+                                Center(child: CircularProgressIndicator()),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
                             fit: BoxFit.cover,
-                            width: 100,
-                            height: 100,
                           )
                     : file
                         ? Image.file(

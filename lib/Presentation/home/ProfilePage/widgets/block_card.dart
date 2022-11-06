@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 class BlockCardWidget extends StatelessWidget {
   final Image blockImage;
   final String blockName;
-  final bool selected;
 
-  const BlockCardWidget(
-      {super.key,
-      required this.blockImage,
-      required this.blockName,
-      this.selected = false});
+  const BlockCardWidget({
+    super.key,
+    required this.blockImage,
+    required this.blockName,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +17,8 @@ class BlockCardWidget extends StatelessWidget {
       alignment: Alignment.center,
       padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: selected
-            ? MalinColors.AppGreen.withAlpha(20)
-            : MalinColors.greyElemntsColor,
+        color: MalinColors.greyElemntsColor,
         borderRadius: BorderRadius.circular(13),
-        border:
-            selected ? Border.all(color: MalinColors.AppGreen, width: 2) : null,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -33,10 +28,10 @@ class BlockCardWidget extends StatelessWidget {
               color: Colors.transparent,
               boxShadow: [
                 BoxShadow(
-                  color: Color.fromARGB(20, 29, 29, 29),
-                  offset: Offset(0.0, 4.0),
+                  color: Color.fromARGB(50, 0, 0, 0),
+                  offset: Offset(0.0, 5.0),
                   blurRadius: 10,
-                  spreadRadius: 5,
+                  spreadRadius: 1,
                 ),
               ],
             ),
@@ -49,7 +44,7 @@ class BlockCardWidget extends StatelessWidget {
             blockName,
             style: TextStyle(
               color: Colors.black,
-              fontSize: 13,
+              fontSize: 16,
               fontWeight: FontWeight.w500,
             ),
           )

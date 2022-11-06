@@ -6,14 +6,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomDialogBox extends StatefulWidget {
   final String editText;
-  final String img , url;
+  final String img, url;
   final int index;
   final List<BlocksItem> blocksList;
 
   const CustomDialogBox({
     required this.editText,
     required this.img,
-    required this.index, required this.blocksList, required this.url,
+    required this.index,
+    required this.blocksList,
+    required this.url,
   });
 
   @override
@@ -23,7 +25,7 @@ class CustomDialogBox extends StatefulWidget {
 class _CustomDialogBoxState extends State<CustomDialogBox> {
   @override
   Widget build(BuildContext context) {
-    String inputUrl='';
+    String inputUrl = '';
     return Dialog(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
@@ -48,11 +50,12 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                     padding: const EdgeInsets.only(top: 20),
                     child: TextFormField(
                       onChanged: (value) {
-                       /* BlocProvider.of<EditProfileBloc>(context)
+                        /* BlocProvider.of<EditProfileBloc>(context)
                             .add(BlockUrlEvent(value));*/
-                        inputUrl=value;
+                        inputUrl = value;
                       },
-                      decoration: buildInputDecoration((widget.url=='')?widget.editText:widget.url),
+                      decoration: buildInputDecoration(
+                          (widget.url == '') ? widget.editText : widget.url),
                     ),
                   ),
                   SizedBox(height: 15),
@@ -62,14 +65,16 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                         child: TextButton(
                             onPressed: () {
                               BlocProvider.of<EditProfileBloc>(context).add(
-                                  DeleteUserBlocksEvent(id: widget.blocksList[widget.index].id.toString()));
+                                  DeleteUserBlocksEvent(
+                                      id: widget.blocksList[widget.index].id
+                                          .toString()));
                             },
                             child: Text('Supprimer')),
                       ),
                       Expanded(
                         child: TextButton(
                           onPressed: () {
-                           /* String url =
+                            /* String url =
                                 BlocProvider.of<EditProfileBloc>(context)
                                     .state
                                     .blockUrl;*/
@@ -92,17 +97,13 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
               left: 20,
               right: 20,
               child: Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(90)),
-                ),
-                child: widget.img != ''
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: Image.network(widget.img))
-                    : Image.asset('assets/dropili_app_logo.png'),
-              ),
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Colors.transparent,
+                  ),
+                  child: Image.network(widget.img)),
             ),
           ],
         ));
