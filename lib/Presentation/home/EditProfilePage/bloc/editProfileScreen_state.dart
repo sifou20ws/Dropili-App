@@ -1,6 +1,22 @@
 part of 'editProfileScreen_bloc.dart';
 
-enum Status { initial, loading, success, fail, finish ,getProfileSuccess ,getBlocksSuccess ,loadingBlocks , loadingProfile ,postBlockLoading , postBlockSuccess }
+enum Status {
+  initial,
+  loading,
+  success,
+  fail,
+  finish,
+  getProfileSuccess,
+  getBlocksSuccess,
+  loadingBlocks,
+  loadingProfile,
+  postBlockLoading,
+  postBlockSuccess,
+  deleteLoading,
+  deleteSuccess,
+  loadingProfileUpdate,
+  profileUpdateSucess
+}
 
 class EditProfileState extends Equatable {
   EditProfileState(
@@ -20,9 +36,11 @@ class EditProfileState extends Equatable {
       this.profileImg = '',
       this.showProfile,
       this.valideName = true,
+        this.load = false,
       this.blockUrl = ''});
 
   final bool errorExist;
+  bool load ;
   final String messageError;
   final Status status;
   final bool switchButton;
@@ -57,6 +75,7 @@ class EditProfileState extends Equatable {
       String? blockUrl,
       bool? errorExist,
       bool? valideName,
+        bool?load,
       List<UserBlocksItem>? userBlocks}) {
     return EditProfileState(
       messageError: messageError ?? this.messageError,
@@ -76,6 +95,7 @@ class EditProfileState extends Equatable {
       errorExist: errorExist ?? this.errorExist,
       valideName: valideName ?? this.valideName,
       userBlocks: userBlocks ?? this.userBlocks,
+      load:load??this.load,
     );
   }
 
@@ -87,6 +107,7 @@ class EditProfileState extends Equatable {
         id,
         index,
         blocks,
+    load,
         coverImagePath,
         profileImagePath,
         userName,

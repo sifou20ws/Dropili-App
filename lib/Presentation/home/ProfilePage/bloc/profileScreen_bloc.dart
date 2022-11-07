@@ -69,6 +69,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       log(e.toString());
     }
   }
+
 }
 
 

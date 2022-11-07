@@ -1,7 +1,6 @@
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/CustomDialogBox.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_card_widget.dart';
-import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -58,8 +57,8 @@ class Grid extends StatelessWidget {
                       return BlocProvider.value(
                         value: context.read<EditProfileBloc>(),
                         child: CustomDialogBox(
-                          index: index,
-                          img: blocksList[index].icon.previewUrl,
+                          index: blocksList[index].id,
+                          img: blocksList[index].icon.originalUrl,
                           editText: blocksList[index].hint.fr,
                           blocksList: blocksList,
                           url: blockExist(blocksList[index].id),

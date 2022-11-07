@@ -3,39 +3,45 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EditProfileTextWidget extends StatefulWidget {
-  const EditProfileTextWidget({Key? key}) : super(key: key);
+  final name , description;
+  const EditProfileTextWidget({ this.name, this.description});
 
   @override
   State<EditProfileTextWidget> createState() => _EditProfileMediaWidgetState();
 }
 
 class _EditProfileMediaWidgetState extends State<EditProfileTextWidget> {
+
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         SizedBox(height: 15),
         TextFormField(
+          //controller:TextEditingController(text: widget.name),
+          initialValue: widget.name,
           onChanged: (value) {
             BlocProvider.of<EditProfileBloc>(context)
                 .add(PostUserNameEvent(name: value));
           },
-          decoration: buildInputDecoration(text: 'Nom' , name: true),
+          decoration: buildInputDecoration(hint: 'Nom' , name: true),
         ),
         SizedBox(height: 15),
         TextFormField(
+          initialValue: widget.description,
           onChanged: (value) {
             BlocProvider.of<EditProfileBloc>(context)
                 .add(PostDescriptionEvent(description: value));
           },
-          decoration: buildInputDecoration(text: 'A propos de moi'),
+          decoration: buildInputDecoration(hint:'A propos de moi'),
           maxLines: 4,
         ),
       ],
     );
   }
 
-  InputDecoration buildInputDecoration({required String text, bool name=false}) {
+  InputDecoration buildInputDecoration({required String hint, bool name=false ,String text=''}) {
     return InputDecoration(
         errorText: name
             ? BlocProvider.of<EditProfileBloc>(context).state.valideName
@@ -56,7 +62,8 @@ class _EditProfileMediaWidgetState extends State<EditProfileTextWidget> {
         border: InputBorder.none,
         errorBorder: InputBorder.none,
         disabledBorder: InputBorder.none,
-        hintText: text,
+
+        hintText: hint,
         hintStyle: TextStyle(color: Colors.grey));
   }
 }

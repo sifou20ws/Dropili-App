@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dropili/core/api/post_get.dart';
+import 'package:dropili/data/models/delete_block_response_model.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:dropili/data/models/post_user_profile_response.dart';
 import 'package:http/http.dart' as http;
@@ -43,14 +44,17 @@ class EditProfileRepository {
     }
   }
 
-  Future<dynamic> deleteBlocks(String id) async {
+  Future<DeleteBlockResponse> deleteBlocks(String id) async {
     http.Response response;
+    late DeleteBlockResponse deleteResponse;
     try {
       response = await _network.deleteWithHeader('/blocks/$id');
       if (response.statusCode == 200) {
-        log(response.body , name: 'delete blocks :');
+        var data = json.decode(response.body);
+        deleteResponse = DeleteBlockResponse.fromJson(data);
+        //log(response.body , name: 'delete blocks :');
       }
-      return response;
+      return deleteResponse;
     } catch (e) {
       rethrow;
     }

@@ -1,5 +1,6 @@
+import 'dart:developer';
+
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
-import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,94 +26,122 @@ class CustomDialogBox extends StatefulWidget {
 class _CustomDialogBoxState extends State<CustomDialogBox> {
   @override
   Widget build(BuildContext context) {
+    bool load = false;
     String inputUrl = '';
-    return Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        backgroundColor: Colors.transparent,
-        child: Stack(
-          children: <Widget>[
-            Container(
-              padding:
-                  EdgeInsets.only(left: 10, top: 50, right: 10, bottom: 10),
-              margin: EdgeInsets.only(top: 40),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: TextFormField(
-                      onChanged: (value) {
-                        /* BlocProvider.of<EditProfileBloc>(context)
-                            .add(BlockUrlEvent(value));*/
-                        inputUrl = value;
-                      },
-                      decoration: buildInputDecoration(
-                          (widget.url == '') ? widget.editText : widget.url),
+    return BlocListener<EditProfileBloc, EditProfileState>(
+      listener: (context, state) async {
+        if (BlocProvider.of<EditProfileBloc>(context).state.status ==
+            Status.postBlockSuccess) {
+          //await Future.delayed(Duration(seconds: 1));
+          Navigator.of(context).pop(false);
+        }
+        if (BlocProvider.of<EditProfileBloc>(context).state.status ==
+            Status.deleteSuccess) {
+          await Future.delayed(Duration(seconds: 1));
+          Navigator.of(context).pop(false);
+        }
+      },
+      child: Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          backgroundColor: Colors.transparent,
+          child: Stack(
+            children: <Widget>[
+              Container(
+                padding:
+                    EdgeInsets.only(left: 10, top: 50, right: 10, bottom: 10),
+                margin: EdgeInsets.only(top: 40),
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20 , right: 5 , left: 5),
+                      child: TextFormField(
+                        onChanged: (value) {
+                          inputUrl = value;
+                        },
+                        decoration: buildInputDecoration(
+                            (widget.url == '') ? widget.editText : widget.url),
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 15),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextButton(
+                    SizedBox(height: 5),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextButton(
+                              onPressed: () {
+                                BlocProvider.of<EditProfileBloc>(context).add(
+                                    DeleteUserBlocksEvent(
+                                        id: widget.index.toString()));
+                              },
+                              child: Text('Supprimer')),
+                        ),
+                        Expanded(
+                          child: TextButton(
                             onPressed: () {
                               BlocProvider.of<EditProfileBloc>(context).add(
-                                  DeleteUserBlocksEvent(
-                                      id: widget.blocksList[widget.index].id
-                                          .toString()));
+                                  ItemSelectedEvent(
+                                      index: widget.index, data: inputUrl));
                             },
-                            child: Text('Supprimer')),
-                      ),
-                      Expanded(
-                        child: TextButton(
-                          onPressed: () {
-                            /* String url =
-                                BlocProvider.of<EditProfileBloc>(context)
-                                    .state
-                                    .blockUrl;*/
-                            BlocProvider.of<EditProfileBloc>(context).add(
-                                ItemSelectedEvent(
-                                    index: widget.index, data: inputUrl));
-                            BlocProvider.of<EditProfileBloc>(context)
-                                .add(GetBlocksEvent());
-                            Navigator.of(context).pop(false);
-                          },
-                          child: Text('Sauvegarder'),
+                            child: Text('Sauvegarder'),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Positioned(
-              left: 20,
-              right: 20,
-              child: Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Colors.transparent,
+              Positioned(
+                left: 20,
+                right: 20,
+                child: Container(
+                    width: 80,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.transparent,
+                    ),
+                    child: Image.network(widget.img),
+                ),
+              ),
+              Positioned(
+                right: 5,
+                top: 5,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(top: 40),
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: Colors.black12,
+                    ),
+                    child: Icon(
+                      Icons.close_rounded,
+                      color: Colors.black,
+                    ),
                   ),
-                  child: Image.network(widget.img)),
-            ),
-          ],
-        ));
+                ),
+              )
+            ],
+          )),
+    );
   }
 
   contentBox(context) {}
   InputDecoration buildInputDecoration(String text) {
     return InputDecoration(
-      enabledBorder: OutlineInputBorder(
+      /*enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
         borderSide: BorderSide(
           color: MalinColors.AppBlue,
@@ -126,7 +155,21 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
           width: 2.0,
         ),
       ),
-      border: OutlineInputBorder(),
+      border: OutlineInputBorder(),*/
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(7),
+        borderSide: BorderSide.none,
+      ),
+      filled: true,
+      fillColor: Color.fromARGB(50, 166, 166, 166),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(7),
+        borderSide: BorderSide.none,
+      ),
+      //border: OutlineInputBorder(),
+      border: InputBorder.none,
+      errorBorder: InputBorder.none,
+      disabledBorder: InputBorder.none,
       labelText: text,
     );
   }
