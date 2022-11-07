@@ -22,16 +22,11 @@ class DropiliApp extends StatefulWidget {
 
 class _DropiliAppState extends State<DropiliApp> {
   late LanguageBloc _languageBloc;
-  late StreamSubscription strm;
 
   @override
   void initState() {
     super.initState();
     _languageBloc = getItInstace<LanguageBloc>();
-
-    strm = ReceiveSharingIntent.getTextStream().listen((event) {
-      log(event);
-    });
   }
 
   @override
@@ -52,7 +47,7 @@ class _DropiliAppState extends State<DropiliApp> {
                   debugShowCheckedModeBanner: false,
                   theme: ThemeData(
                       primaryColor: Colors.blue, fontFamily: 'Roboto'),
-                  // routes: Routes.getRoutes(setting),
+                  initialRoute: '/',
                   supportedLocales:
                       Languages.languages.map((e) => Locale(e.code)).toList(),
                   localizationsDelegates: [
@@ -64,7 +59,7 @@ class _DropiliAppState extends State<DropiliApp> {
                   builder: (context, child) {
                     return child!;
                   },
-                  initialRoute: '/',
+                  // initialRoute: '/',
                   onGenerateRoute: (settings) {
                     final routes = Routes.getRoutes(settings);
                     final WidgetBuilder builder = routes[settings.name]!;

@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
               context: context,
               builder: (context) {
                 return NfcScanWidget(
-                  dataToTag: 'https://www.google.com',
+                  dataToTag: 'http://dropili.co/link/abdenourgnx',
                 );
               },
             );

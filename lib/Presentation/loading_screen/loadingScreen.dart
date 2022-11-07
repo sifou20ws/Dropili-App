@@ -1,7 +1,8 @@
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
-import '../../core/utils/token.dart';
+import 'package:dropili/core/utils/token.dart';
 
 class LoadinScreen extends StatefulWidget {
   const LoadinScreen({super.key});
@@ -18,6 +19,7 @@ class _LoadinScreenState extends State<LoadinScreen> {
   void initState() {
     //token = 'hello';
     super.initState();
+    // Navigator.pushNamed(context, '/editeProfile');
     navigate();
   }
 

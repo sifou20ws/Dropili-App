@@ -8,7 +8,7 @@ void showNfcScanner(context) {
     context: context,
     builder: (context) {
       return NfcScanWidget(
-        dataToTag: 'https://www.google.com',
+        dataToTag: 'http://dropili.co/link/abdenourgnx',
       );
     },
   );
