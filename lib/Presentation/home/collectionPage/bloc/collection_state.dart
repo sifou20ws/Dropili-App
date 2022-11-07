@@ -12,16 +12,30 @@ class CollectionInitial extends CollectionState {}
 class CollectionLoadingState extends CollectionState {}
 
 class CollectionLoadedState extends CollectionState {
-  final String profilePicUrl;
-  final String coverPicUrl;
-  final List<UserBlocksItem> blocks;
+  final List<FriendsItem> friendsList;
 
-  CollectionLoadedState(this.profilePicUrl, this.coverPicUrl, this.blocks);
+  CollectionLoadedState(this.friendsList);
 
   @override
-  List<Object> get props => [profilePicUrl];
+  List<Object> get props => [friendsList];
 }
 
-class CollectionErrorState extends CollectionState {}
+class CollectionErrorState extends CollectionState {
+  final String errorMassage;
+
+  CollectionErrorState(this.errorMassage);
+
+  @override
+  List<Object> get props => [errorMassage];
+}
+class CollectionSucessState extends CollectionState {
+  final String message;
+
+  CollectionSucessState(this.message);
+
+  @override
+  List<Object> get props => [message];
+}
+
 
 class CollectionEmptyState extends CollectionState {}

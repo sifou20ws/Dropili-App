@@ -73,6 +73,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
         child: BlocBuilder<ProfileBloc, ProfileState>(
           builder: (context, state) {
             return RefreshIndicator(
+              color: MalinColors.AppGreen,
               onRefresh: () async {
                 _profileBloc.add(GetUserBlocksEvent());
                 _profileBloc.add(GetProfileEvent());
@@ -90,6 +91,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                         ),
                       )
                     : SingleChildScrollView(
+                        physics: BouncingScrollPhysics(),
                         child: Stack(
                           children: <Widget>[
                             Container(

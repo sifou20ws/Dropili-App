@@ -83,14 +83,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       token = await authRepository.loginUser(
           username: state.usernameValue, password: state.passwordValue);
-
       await TokenHandler.storeToken(token);
-
-      log(token);
- 
       emit(state.copyWith(status: Status.success));
-      //log(state.status.toString());
-
     } on Failure catch (f) {
       log(f.message);
 

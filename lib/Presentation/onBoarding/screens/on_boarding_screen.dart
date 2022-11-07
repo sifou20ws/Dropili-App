@@ -76,7 +76,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                             child: Text(
                               'skip'.t(context),
                               style:
-                                  TextStyle(fontSize: 17, color: Colors.white),
+                                  TextStyle(fontSize: 18, color: Colors.white),
                             ),
                           ),
                         );
@@ -101,9 +101,9 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                             child: Text(
                               'next'.t(context),
                               style: TextStyle(
-                                  fontWeight: FontWeight.w400,
+                                  fontWeight: FontWeight.w500,
                                   color: Colors.blue[600],
-                                  fontSize: 16),
+                                  fontSize: 18),
                             ),
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white,
