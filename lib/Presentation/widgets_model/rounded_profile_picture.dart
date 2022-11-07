@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/icon_container.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class RoundedProfilePicture extends StatelessWidget {
   final String image;
@@ -61,8 +62,13 @@ class RoundedProfilePicture extends StatelessWidget {
                           )
                         : CachedNetworkImage(
                             imageUrl: image,
-                            placeholder: (context, url) =>
-                                Center(child: CircularProgressIndicator()),
+                            placeholder: (context, url) => Center(
+                                child: Center(
+                              child: Lottie.asset(
+                                'assets/lottie/loading.json',
+                                height: 100,
+                              ),
+                            )),
                             errorWidget: (context, url, error) =>
                                 Icon(Icons.error),
                             fit: BoxFit.cover,

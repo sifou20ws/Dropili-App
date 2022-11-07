@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/edite_profile_btn_widget.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/profile_grid.dart';
+import 'package:dropili/Presentation/widgets_model/snackbar.dart';
 import 'package:dropili/common/constant/colors.dart';
+import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:dropili/domain/repositories/edit_profile_repository.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +24,7 @@ class ProfilePageWidget extends StatefulWidget {
 class _ProfilePageWidgetState extends State<ProfilePageWidget>
     with AutomaticKeepAliveClientMixin {
   late ProfileBloc _profileBloc;
-  List<UserBlocksItem> userBlocks = [];
+  late List<List<UserBlocksItem>> userBlocksLists;
 
   @override
   bool get wantKeepAlive => true;
@@ -53,14 +55,9 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
       child: BlocListener<ProfileBloc, ProfileState>(
         listener: (context, state) {
           if (state.status == ProfileStatus.fail) {
-            // ScaffoldMessenger.of(context)
-            //   ..hideCurrentSnackBar()
-            //   ..showSnackBar(
-            //     MalinSnackBars.errorSnackBar(state.messageError!.message),
-            //   );
+            SnackBars.showErrorSnackBar(context, state.messageError);
           }
           if (state.status == ProfileStatus.getSuccess) {
-            userBlocks = state.userBlocks;
             getProfilePicture =
                 _profileBloc.state.showProfile!.user.userProfile.originalUrl;
             getBackgroundPicture =
@@ -180,10 +177,42 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                           ),
                                         ),
                                         SizedBox(height: 35),
-                                        ProfileGrid(
-                                            title: 'Contacts',
-                                            myList: userBlocks,
-                                            type: '1'),
+                                        ListView.separated(
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          shrinkWrap: true,
+                                          itemCount: state.userBlocks.length,
+                                          itemBuilder: (context, index) {
+                                            var title = '';
+                                            switch (state
+                                                .userBlocks[index][0].type) {
+                                              case 1:
+                                                title = 'Contacts'.t(context);
+                                                break;
+                                              case 2:
+                                                title =
+                                                    'Social Media'.t(context);
+                                                break;
+                                              case 3:
+                                                title = 'Payment methods'
+                                                    .t(context);
+                                                break;
+                                              case 4:
+                                                title = 'Others'.t(context);
+                                                break;
+                                              default:
+                                            }
+                                            return BlockTypeGrid(
+                                              title: title,
+                                              blocksList:
+                                                  state.userBlocks[index],
+                                            );
+                                          },
+                                          separatorBuilder: (context, index) =>
+                                              SizedBox(
+                                            height: 25,
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
