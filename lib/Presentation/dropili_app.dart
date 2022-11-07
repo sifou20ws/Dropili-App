@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:dropili/Presentation/routing/fade_page_route_builder.dart';
 import 'package:dropili/Presentation/localization/app_localization.dart';
 import 'package:dropili/Presentation/localization/bloc/language_bloc.dart';
@@ -8,6 +11,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 
 class DropiliApp extends StatefulWidget {
   const DropiliApp({Key? key}) : super(key: key);
@@ -18,11 +22,16 @@ class DropiliApp extends StatefulWidget {
 
 class _DropiliAppState extends State<DropiliApp> {
   late LanguageBloc _languageBloc;
+  late StreamSubscription strm;
 
   @override
   void initState() {
     super.initState();
     _languageBloc = getItInstace<LanguageBloc>();
+
+    strm = ReceiveSharingIntent.getTextStream().listen((event) {
+      log(event);
+    });
   }
 
   @override
