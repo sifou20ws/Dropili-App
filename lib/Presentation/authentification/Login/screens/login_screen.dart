@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: BlocListener<AuthBloc, AuthState>(
           listener: (context, state) async {
             if (state.status == Status.success) {
-              await Future.delayed(Duration(seconds: 3));
+              await Future.delayed(Duration(seconds: 1));
               Navigator.pushReplacementNamed(context, '/home');
             }
           },

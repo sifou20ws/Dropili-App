@@ -77,6 +77,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       emit(state.copyWith(status: Status.postBlockSuccess));
       //emit(state.copyWith(blocks: resp));
       //log(resp.toString());
+    
     } catch (e) {
       emit(state.copyWith(status: Status.fail));
       log(('error :'));

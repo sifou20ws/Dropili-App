@@ -4,23 +4,23 @@ enum ProfileStatus { initial, loading, success, fail, finish, getSuccess }
 
 class ProfileState extends Equatable {
   ProfileState({
-    this.messageError,
+    this.messageError = '',
     this.status = ProfileStatus.loading,
     required this.userBlocks,
     this.showProfile,
   });
 
-  final Failure? messageError;
+  final String messageError;
 
   final ProfileStatus status;
-  final List<UserBlocksItem> userBlocks;
+  final List<List<UserBlocksItem>> userBlocks;
   PostProfileResp? showProfile;
 
   ProfileState copyWith({
-    Failure? messageError,
+    String? messageError,
     ProfileStatus? status,
     String? id,
-    List<UserBlocksItem>? userBlocks,
+    List<List<UserBlocksItem>>? userBlocks,
     PostProfileResp? showProfile,
   }) {
     return ProfileState(
