@@ -12,3 +12,4 @@ void main() async {
   unawaited(getIt.init());
   runApp(const DropiliApp());
 }
+
