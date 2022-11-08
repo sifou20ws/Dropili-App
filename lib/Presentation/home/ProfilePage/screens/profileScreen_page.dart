@@ -166,9 +166,10 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                                     child: Text(
                                                       getUserDescription,
                                                       style: TextStyle(
-                                                          fontSize: 15,
-                                                          color: Colors
-                                                              .grey.shade700),
+                                                        fontSize: 15,
+                                                        color: Colors
+                                                            .grey.shade700,
+                                                      ),
                                                     ),
                                                   ),
                                                 ],

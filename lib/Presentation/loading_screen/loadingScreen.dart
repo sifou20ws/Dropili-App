@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 
 import 'package:dropili/core/utils/token.dart';
+import 'package:flutter/services.dart';
 
 class LoadinScreen extends StatefulWidget {
   const LoadinScreen({super.key});
@@ -13,22 +14,46 @@ class LoadinScreen extends StatefulWidget {
 
 class _LoadinScreenState extends State<LoadinScreen> {
   String? token;
-  String? nextRoute;
+  String nextRoute = '/onBord';
+
+  static const platform = const MethodChannel('http.dropili.co/channel');
 
   @override
   void initState() {
-    //token = 'hello';
     super.initState();
-    // Navigator.pushNamed(context, '/editeProfile');
     navigate();
   }
 
   void navigate() async {
     token = await TokenHandler.loadToken();
-    String nextRout = token == null ? '/onBoard' : '/home';
-    await Future.delayed(Duration(seconds: 3), (() {
-      Navigator.pushReplacementNamed(context, nextRout);
-    }));
+
+    if (token == null) {
+      nextRoute = '/onBoard';
+    } else {
+      nextRoute = '/home';
+      startUri().then(
+        (value) {
+          var val = value.toString();
+          log(val);
+          if (val.contains('dropili')) {
+            // nextRoute = '/editProfile';
+          } else {
+            nextRoute = '/home';
+          }
+        },
+      );
+    }
+
+    await Future.delayed(Duration(seconds: 2));
+    Navigator.pushReplacementNamed(context, nextRoute);
+  }
+
+  Future<Object> startUri() async {
+    try {
+      return await platform.invokeMethod('initialLink');
+    } on PlatformException catch (e) {
+      return "Failed to Invoke: '${e.message}'.";
+    }
   }
 
   @override

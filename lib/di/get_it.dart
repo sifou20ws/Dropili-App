@@ -1,4 +1,3 @@
-import 'package:dropili/Presentation/home/root/bloc/navigation_bloc.dart';
 import 'package:dropili/Presentation/localization/bloc/language_bloc.dart';
 import 'package:dropili/core/api/post_get.dart';
 import 'package:dropili/domain/repositories/auth_repository.dart';
@@ -16,4 +15,5 @@ Future init() async {
       () => EditProfileRepository(getItInstace()));
 
   getItInstace.registerLazySingleton<LanguageBloc>(() => LanguageBloc());
+
 }
