@@ -84,10 +84,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       token = await authRepository.loginUser(
           username: state.usernameValue, password: state.passwordValue);
       await TokenHandler.storeToken(token);
+      await TokenHandler.storeUser(state.usernameValue, state.passwordValue);
+
       emit(state.copyWith(status: Status.success));
     } on Failure catch (f) {
       log(f.message);
-
       emit(
         state.copyWith(
             status: Status.fail, errorExist: true, errorMessage: f.message),
@@ -111,22 +112,37 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       return;
     }
 
+    if (state.emailValue.isEmpty ||
+        state.passwordValue.isEmpty ||
+        state.nameValue.isEmpty ||
+        state.usernameValue.isEmpty) {
+      emit(
+        state.copyWith(
+            status: Status.fail,
+            errorExist: true,
+            errorMessage: 'All fields must be filled'),
+      );
+      return;
+    }
+
     emit(state.copyWith(status: Status.loading));
     bool resp;
     try {
       resp = await authRepository.signupUser(
-          email: state.emailValue,
-          password: state.passwordValue,
-          name: state.nameValue,
-          username: state.usernameValue);
+        email: state.emailValue,
+        password: state.passwordValue,
+        name: state.nameValue,
+        username: state.usernameValue,
+      );
 
-      log(resp.toString());
+      // log(resp.toString());
 
       if (resp) {
-        emit(state.copyWith(status: Status.success));
+        add(LoginSubmittingEvent());
+        // emit(state.copyWith(status: Status.success));
       }
     } on Failure catch (f) {
-      log(f.message);
+      // log(f.message);
       emit(
         state.copyWith(
             status: Status.fail, errorExist: true, errorMessage: f.message),

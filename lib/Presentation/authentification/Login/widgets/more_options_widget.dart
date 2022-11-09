@@ -1,3 +1,4 @@
+import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class MoreOptions extends StatelessWidget {
           Text(
             'or connect'.t(context),
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 17,
               color: Colors.white,
             ),
           ),
@@ -22,15 +23,17 @@ class MoreOptions extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    border: Border.all(color: Colors.white, width: 1)),
-                child: SizedBox(
-                  height: 35,
+              Expanded(
+                child: Container(
+                  height: 50,
+                  padding: EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.white, width: 1)),
                   child: Image(
-                    image: AssetImage('assets/google_logo.png'),
+                    image: AssetImage('assets/google_logo_colored.png'),
+                    // color: MalinColors.AppBlue,
                   ),
                 ),
               ),
@@ -43,49 +46,65 @@ class MoreOptions extends StatelessWidget {
                   thickness: 1,
                 ),
               ),
-              Container(
-                padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    border: Border.all(color: Colors.white, width: 1)),
-                child: SizedBox(
-                  height: 35,
+              Expanded(
+                child: Container(
+                  height: 50,
+                  padding: EdgeInsets.all(7),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.white, width: 1)),
                   child: Image(
                     image: AssetImage('assets/fingerprint.png'),
-                    color: Colors.white,
+                    color: MalinColors.AppBlue,
                   ),
                 ),
               ),
             ],
           ),
           SizedBox(
-            height: 50,
+            height: 100,
           ),
-          Text(
-            'don\'t have an account'.t(context),
-            style: TextStyle(
-              fontSize: 18,
-              color: Colors.white,
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.pushReplacementNamed(context, '/register');
-            },
-            child: Text(
-              'Signup'.t(context),
-              style: TextStyle(
-                  fontSize: 19,
-                  decoration: TextDecoration.underline,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500),
-            ),
-          ),
+          // SwitchToSignupWidget(),
         ],
       ),
+    );
+  }
+}
+
+class SwitchToSignupWidget extends StatelessWidget {
+  const SwitchToSignupWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          'don\'t have an account'.t(context),
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.white,
+          ),
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        GestureDetector(
+          onTap: () {
+            Navigator.pushReplacementNamed(context, '/register');
+          },
+          child: Text(
+            'Signup Now'.t(context),
+            style: TextStyle(
+                fontSize: 19,
+                // decoration: TextDecoration.underline,
+                color: Colors.white,
+                fontWeight: FontWeight.w600),
+          ),
+        ),
+      ],
     );
   }
 }

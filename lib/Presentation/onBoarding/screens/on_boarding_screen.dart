@@ -1,4 +1,5 @@
 import 'package:dropili/Presentation/localization/app_localization.dart';
+import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -59,8 +60,9 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
           SizedBox(
             height: 40,
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 40, right: 40, bottom: 10),
+          Container(
+            height: 70,
+            padding: const EdgeInsets.only(left: 40, right: 25, bottom: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -75,8 +77,11 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                           child: Container(
                             child: Text(
                               'skip'.t(context),
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.white),
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         );
@@ -90,7 +95,8 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                     builder: (context, indexIndicator, child) {
                       if (indexIndicator != 2) {
                         return SizedBox(
-                          height: 40,
+                          height: 60,
+                          width: 80,
                           child: ElevatedButton(
                             onPressed: () {
                               final nextPage = selectedIndex.value + 1;
@@ -98,17 +104,25 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                                   duration: Duration(milliseconds: 400),
                                   curve: Curves.ease);
                             },
-                            child: Text(
-                              'next'.t(context),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.blue[600],
-                                  fontSize: 18),
+                            // child: Text(
+                            //   'next'.t(context),
+                            //   style: TextStyle(
+                            //       fontWeight: FontWeight.w500,
+                            //       color: Colors.blue[600],
+                            //       fontSize: 18),
+                            // ),
+                            child: Icon(
+                              Icons.arrow_forward_rounded,
+                              color: Colors.blue,
+                              size: 30,
                             ),
+
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15))),
+                              backgroundColor: Colors.white,
+                              elevation: 20,
+                              shape: CircleBorder(),
+                              shadowColor: Colors.black.withAlpha(150),
+                            ),
                           ),
                         );
                       }

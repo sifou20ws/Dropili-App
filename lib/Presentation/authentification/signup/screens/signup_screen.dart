@@ -14,10 +14,10 @@ class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
 
   @override
-  State<SignupScreen> createState() => _LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<SignupScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   late AuthBloc _authBloc;
   @override
   void initState() {
@@ -38,67 +38,70 @@ class _LoginScreenState extends State<SignupScreen> {
       child: Scaffold(
           body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.only(bottom: 20),
+          padding: EdgeInsets.only(bottom: 0, top: 0, left: 45, right: 45),
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           // padding: EdgeInsets.only(left: 100, right: 100),
           decoration: BoxDecoration(
-              color: Colors.white,
               image: DecorationImage(
                   image: AssetImage('assets/Background.png'),
                   fit: BoxFit.cover)),
           child: BlocListener<AuthBloc, AuthState>(
             listener: (context, state) async {
               if (state.status == Status.success) {
-                await Future.delayed(Duration(seconds: 3));
-                Navigator.pushReplacementNamed(context, '/signin');
+                await Future.delayed(Duration(seconds: 1));
+                Navigator.pushReplacementNamed(context, '/home');
               }
             },
             child: BlocBuilder<AuthBloc, AuthState>(
               builder: (context, state) {
                 return SafeArea(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          'Signup'.t(context),
-                          style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        FormWidget(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        state.status == Status.loading
-                            ? LoadingIndicatorWidget(
-                                text: 'Signup'.t(context) + '...',
-                              )
-                            : state.status == Status.success
-                                ? Container()
-                                : SingupButton(),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        MoreOptions(),
-                        SizedBox(
-                          height: 60,
-                        ),
-                        // Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 140, right: 140),
-                          child: Image(image: AssetImage('assets/dropili.png')),
-                        ),
-                      ],
-                    ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Spacer(),
+                      Text(
+                        'Signup'.t(context),
+                        style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      FormWidget(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      state.status == Status.loading
+                          ? LoadingIndicatorWidget(
+                              text: 'Signup'.t(context) + '...',
+                            )
+                          : state.status == Status.success
+                              ? Container()
+                              : SingupButton(),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      MoreOptions(),
+                      // SizedBox(
+                      //   height: 60,
+                      // ),
+                      Spacer(),
+                      SwitchWidget(),
+                      SizedBox(
+                        height: 60,
+                      ),
+                      // Spacer(),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(left: 140, right: 140),
+                      //   child: Image(image: AssetImage('assets/dropili.png')),
+                      // ),
+                    ],
                   ),
                 );
               },

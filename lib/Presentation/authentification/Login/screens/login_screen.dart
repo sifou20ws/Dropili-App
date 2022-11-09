@@ -1,3 +1,4 @@
+import 'package:dropili/Presentation/authentification/Login/widgets/login_form_widget%20copy.dart';
 import 'package:dropili/Presentation/authentification/comun_widgets/progress_indicator.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:dropili/domain/repositories/auth_repository.dart';
@@ -48,7 +49,8 @@ class _LoginScreenState extends State<LoginScreen> {
           child: BlocBuilder<AuthBloc, AuthState>(
             builder: (context, state) {
               return Container(
-                padding: EdgeInsets.only(bottom: 20),
+                padding:
+                    EdgeInsets.only(bottom: 20, top: 0, left: 45, right: 45),
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 // padding: EdgeInsets.only(left: 100, right: 100),
@@ -58,10 +60,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         image: AssetImage('assets/Background.png'),
                         fit: BoxFit.cover)),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Spacer(),
+                    SizedBox(
+                      height: 80,
+                    ),
                     Text(
                       'Signin'.t(context),
                       style: TextStyle(
@@ -70,9 +75,19 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: Colors.white),
                     ),
                     SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'Good to see you'.t(context),
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white),
+                    ),
+                    SizedBox(
                       height: 20,
                     ),
-                    FormWidget(),
+                    LogingFormWidget(),
                     SizedBox(
                       height: 20,
                     ),
@@ -84,14 +99,20 @@ class _LoginScreenState extends State<LoginScreen> {
                             ? Container()
                             : SigninButton(),
                     SizedBox(
-                      height: 50,
+                      height: 60,
                     ),
                     MoreOptions(),
                     Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 140, right: 140),
-                      child: Image(image: AssetImage('assets/dropili.png')),
+                    SwitchToSignupWidget(),
+                    SizedBox(
+                      height: 50,
                     ),
+                    // Image(
+                    //   image: AssetImage(
+                    //     'assets/dropili.png',
+                    //   ),
+                    //   width: 120,
+                    // ),
                   ],
                 ),
               );
