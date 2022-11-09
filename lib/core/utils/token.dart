@@ -17,4 +17,18 @@ class TokenHandler {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('access_token');
   }
+
+  static Future<void> storeUser(String username, String password) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('username', username);
+    await prefs.setString('password', password);
+  }
+
+  static Future<Map<String, String?>> loadUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return {
+      'username': await prefs.getString('username'),
+      'password': await prefs.getString('password'),
+    };
+  }
 }

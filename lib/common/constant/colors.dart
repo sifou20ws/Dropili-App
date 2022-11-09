@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MalinColors {
+  const MalinColors._();
+
   static const Color AppGreen = Color.fromRGBO(0, 207, 137, 1);
   static const Color AppBlue = Color.fromRGBO(0, 113, 222, 1);
   static const Color AppBlue2 = Color.fromARGB(255, 0, 123, 206);
