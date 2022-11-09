@@ -1,4 +1,4 @@
-import 'package:dropili/Presentation/authentification/Login/widgets/login_form_widget%20copy.dart';
+import 'package:dropili/Presentation/authentification/Login/widgets/login_form_widget%20.dart';
 import 'package:dropili/Presentation/authentification/comun_widgets/progress_indicator.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:dropili/domain/repositories/auth_repository.dart';
@@ -8,7 +8,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
 
-import 'package:dropili/Presentation/authentification/Login/widgets/login_form_widget.dart';
 import 'package:dropili/Presentation/authentification/Login/widgets/more_options_widget.dart';
 import 'package:dropili/Presentation/authentification/Login/widgets/signin_button_widget.dart';
 
