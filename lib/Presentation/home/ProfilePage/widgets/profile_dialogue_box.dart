@@ -1,37 +1,26 @@
 import 'dart:developer';
 
 import 'package:dropili/Presentation/widgets_model/snackbar.dart';
-import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:dropili/data/models/url_prefix_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ProfileDialogBox extends StatefulWidget {
+class ProfileDialogBox extends StatelessWidget {
   //final String editText;
   final String url;
-  final Image img;
-  final int index;
-  final List<UserBlocksItem> blocksList;
+  final Image iconImage;
+  final int blockId;
 
   const ProfileDialogBox({
-    //required this.editText,
-    //required this.img,
-    required this.index,
-    //required this.blocksList,
+    required this.blockId,
     required this.url,
-    required this.blocksList,
-    required this.img,
+    required this.iconImage,
   });
 
-  @override
-  _CustomDialogBoxState createState() => _CustomDialogBoxState();
-}
-
-class _CustomDialogBoxState extends State<ProfileDialogBox> {
   Future<void> _launchUrl(String url) async {
-    //final Uri _url = Uri(scheme: 'https', host: 'www.instagram.com');
     final Uri _url = Uri.parse(url);
+
     if (!await launchUrl(_url, mode: LaunchMode.externalApplication))
       log(
         'could not launch your url',
@@ -40,10 +29,6 @@ class _CustomDialogBoxState extends State<ProfileDialogBox> {
 
   @override
   Widget build(BuildContext context) {
-    bool load = false;
-    String inputUrl = '';
-    String furl = URLPrefixModel.prefix[widget.index]! ;
-
     return Dialog(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
@@ -65,27 +50,30 @@ class _CustomDialogBoxState extends State<ProfileDialogBox> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Padding(
-                      padding:
-                          const EdgeInsets.only(top: 20, right: 5, left: 5),
-                      child: GestureDetector(
-                        onTap: () async {
-                          await Clipboard.setData(
-                              ClipboardData(text: widget.url));
-                          SnackBars.showSucessSnackBar(
-                              context, 'Profile link copied to clipboard');
-                        },
-                        child: copy_filed_widget(widget: widget),
-                      )),
+                    padding: const EdgeInsets.only(top: 20, right: 5, left: 5),
+                    child: GestureDetector(
+                      onTap: () async {
+                        await Clipboard.setData(ClipboardData(text: url));
+                        SnackBars.showSucessSnackBar(
+                            context, 'Profile link copied to clipboard');
+                      },
+                      child: copy_filed_widget(
+                        url: url,
+                      ),
+                    ),
+                  ),
                   SizedBox(height: 5),
-                  (URLPrefixModel.prefix[widget.index]!=null)?Container(
-                    child: TextButton(
-                        onPressed: () {
-                          String furl = URLPrefixModel.prefix[widget.index]! ;
-                          log(furl+widget.url.replaceAll(' ', ''));
-                          _launchUrl('$furl'+widget.url.replaceAll(' ', ''));
-                        },
-                        child: Text('Redirect to link')),
-                  ):SizedBox(height: 20),
+                  (URLPrefixModel.prefix[blockId] != null)
+                      ? Container(
+                          child: TextButton(
+                              onPressed: () {
+                                String furl = URLPrefixModel.prefix[blockId]!;
+                                log(furl + url.replaceAll(' ', ''));
+                                _launchUrl('$furl' + url.replaceAll(' ', ''));
+                              },
+                              child: Text('Redirect to link')),
+                        )
+                      : SizedBox(height: 20),
                 ],
               ),
             ),
@@ -99,7 +87,7 @@ class _CustomDialogBoxState extends State<ProfileDialogBox> {
                   borderRadius: BorderRadius.circular(15),
                   color: Colors.transparent,
                 ),
-                child: widget.img,
+                child: iconImage,
               ),
             ),
             Positioned(
@@ -130,11 +118,9 @@ class _CustomDialogBoxState extends State<ProfileDialogBox> {
 }
 
 class copy_filed_widget extends StatelessWidget {
-  const copy_filed_widget({
-    required this.widget,
-  });
+  const copy_filed_widget({required this.url});
 
-  final ProfileDialogBox widget;
+  final String url;
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +136,7 @@ class copy_filed_widget extends StatelessWidget {
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Text(
-            widget.url,
+            url,
             style: TextStyle(fontSize: 17, fontWeight: FontWeight.w400),
           ),
           Icon(Icons.copy_outlined),

@@ -7,7 +7,7 @@ import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_text_
 import 'package:dropili/Presentation/widgets_model/snackbar.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
-import 'package:dropili/domain/repositories/edit_profile_repository.dart';
+import 'package:dropili/domain/repositories/profile_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -38,7 +38,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
   void initState() {
     super.initState();
     _editProfileBloc = EditProfileBloc(
-        editProfileRepository: getIt.getItInstace<EditProfileRepository>());
+        ProfileRepository: getIt.getItInstace<ProfileRepository>());
     _editProfileBloc.add(GetProfileEvent());
     _editProfileBloc.add(GetBlocksEvent());
   }
@@ -85,7 +85,6 @@ class _MyOffersPageState extends State<EditProfilePage> {
           if (state.status == Status.profileUpdateSucess) {
             Navigator.pop(context);
           }
-
         },
         child: BlocBuilder<EditProfileBloc, EditProfileState>(
           builder: (context, state) {

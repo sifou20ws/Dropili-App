@@ -12,8 +12,8 @@ class SingupButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 45,
-      width: 250,
+      height: 52,
+      width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
           BlocProvider.of<AuthBloc>(context).add(SignupSubmittingEvent());
@@ -21,12 +21,17 @@ class SingupButton extends StatelessWidget {
         child: Text(
           'Signup'.t(context),
           style: TextStyle(
-              fontWeight: FontWeight.w500, fontSize: 18, color: Colors.blue),
+            fontWeight: FontWeight.w500,
+            fontSize: 18,
+            color: Colors.blue,
+          ),
         ),
         style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25))),
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
       ),
     );
   }

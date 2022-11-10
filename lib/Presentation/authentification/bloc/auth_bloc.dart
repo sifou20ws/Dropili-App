@@ -6,6 +6,8 @@ import 'package:dropili/core/utils/token.dart';
 import 'package:dropili/domain/repositories/auth_repository.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/services.dart';
+import 'package:local_auth/local_auth.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -22,6 +24,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<LoginSubmittingEvent>(_loginSubmittingEvent);
     on<SignupSubmittingEvent>(_signupSubmittingEvent);
     on<RestoreSubmittingEvent>(_restorSubmittingEvent);
+    on<BiometricsAuthentifactionEvent>(_biometricsAuthEvent);
   }
 
   void _nameTextChangedEvent(event, Emitter<AuthState> emit) {
@@ -83,17 +86,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       token = await authRepository.loginUser(
           username: state.usernameValue, password: state.passwordValue);
-
       await TokenHandler.storeToken(token);
+      await TokenHandler.storeUser(state.usernameValue, state.passwordValue);
 
-      log(token);
- 
       emit(state.copyWith(status: Status.success));
-      //log(state.status.toString());
-
     } on Failure catch (f) {
       log(f.message);
-
       emit(
         state.copyWith(
             status: Status.fail, errorExist: true, errorMessage: f.message),
@@ -117,22 +115,33 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       return;
     }
 
+    if (state.emailValue.isEmpty ||
+        state.passwordValue.isEmpty ||
+        state.nameValue.isEmpty ||
+        state.usernameValue.isEmpty) {
+      emit(
+        state.copyWith(
+            status: Status.fail,
+            errorExist: true,
+            errorMessage: 'All fields must be filled'),
+      );
+      return;
+    }
+
     emit(state.copyWith(status: Status.loading));
     bool resp;
     try {
       resp = await authRepository.signupUser(
-          email: state.emailValue,
-          password: state.passwordValue,
-          name: state.nameValue,
-          username: state.usernameValue);
-
-      log(resp.toString());
+        email: state.emailValue,
+        password: state.passwordValue,
+        name: state.nameValue,
+        username: state.usernameValue,
+      );
 
       if (resp) {
-        emit(state.copyWith(status: Status.success));
+        add(LoginSubmittingEvent());
       }
     } on Failure catch (f) {
-      log(f.message);
       emit(
         state.copyWith(
             status: Status.fail, errorExist: true, errorMessage: f.message),
@@ -156,5 +165,67 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     //here we post to api
     await Future.delayed(const Duration(seconds: 4));
     emit(state.copyWith(status: Status.success));
+  }
+
+  void _biometricsAuthEvent(event, Emitter<AuthState> emit) async {
+    LocalAuthentication authentifier = LocalAuthentication();
+    try {
+      if (!await authentifier.canCheckBiometrics ||
+          !await authentifier.isDeviceSupported()) {
+        emit(
+          state.copyWith(
+              errorExist: true, errorMessage: 'Cannot use biometrics'),
+        );
+        return;
+      }
+
+      var biometrics = await authentifier.getAvailableBiometrics();
+      if (biometrics.isEmpty) {
+        emit(
+          state.copyWith(
+              errorExist: true, errorMessage: 'Cannot use biometrics'),
+        );
+        return;
+      }
+
+      bool authentified = await authentifier
+          .authenticate(
+        localizedReason: 'Use your biometrics to login',
+        options: const AuthenticationOptions(
+          stickyAuth: true,
+          biometricOnly: true,
+        ),
+      )
+          .then((value) {
+        return value;
+      });
+
+      if (!authentified) {
+        return;
+      }
+
+      Map<String, String?> userData = await TokenHandler.loadUser();
+      if (userData['username'] == null || userData['password'] == null) {
+        emit(
+          state.copyWith(
+              errorExist: true, errorMessage: 'No user is stored yet'),
+        );
+        return;
+      }
+
+      emit(
+        state.copyWith(
+            usernameValue: userData['username'],
+            passwordValue: userData['password']),
+      );
+
+      add(LoginSubmittingEvent());
+    } on PlatformException {
+      emit(
+        state.copyWith(
+            errorExist: true,
+            errorMessage: 'Your device doesn\'t support biometrics'),
+      );
+    }
   }
 }

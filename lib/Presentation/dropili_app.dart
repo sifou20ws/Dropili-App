@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dropili/Presentation/routing/fade_page_route_builder.dart';
 import 'package:dropili/Presentation/localization/app_localization.dart';
 import 'package:dropili/Presentation/localization/bloc/language_bloc.dart';
@@ -5,6 +7,7 @@ import 'package:dropili/Presentation/routing/routes.dart';
 import 'package:dropili/common/constant/languages.dart';
 import 'package:dropili/di/get_it.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -33,8 +36,10 @@ class _DropiliAppState extends State<DropiliApp> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: _languageBloc,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: _languageBloc),
+      ],
       child: BlocBuilder<LanguageBloc, LanguageState>(
         builder: (context, state) {
           return state is LanguageLoaded
@@ -43,7 +48,6 @@ class _DropiliAppState extends State<DropiliApp> {
                   debugShowCheckedModeBanner: false,
                   theme: ThemeData(
                       primaryColor: Colors.blue, fontFamily: 'Roboto'),
-                  // routes: Routes.getRoutes(setting),
                   supportedLocales:
                       Languages.languages.map((e) => Locale(e.code)).toList(),
                   localizationsDelegates: [

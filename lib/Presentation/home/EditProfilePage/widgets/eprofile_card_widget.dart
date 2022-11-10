@@ -51,12 +51,15 @@ class BlockCardWidget extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          Text(
-            title,
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
+          FittedBox(
+            fit: BoxFit.fitWidth,
+            child: Text(
+              title,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           )
         ],

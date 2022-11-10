@@ -9,4 +9,9 @@ abstract class CollectionEvent extends Equatable {
 
 class LoadCollectionEvent extends CollectionEvent {}
 
-class DeleteFriendEvent extends CollectionEvent {}
+class DeleteFriendEvent extends CollectionEvent {
+  final String id;
+
+  DeleteFriendEvent({required this.id});
+}
+

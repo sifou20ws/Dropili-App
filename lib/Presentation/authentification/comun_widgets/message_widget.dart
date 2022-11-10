@@ -9,12 +9,13 @@ class MessageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.85,
+      width: MediaQuery.of(context).size.width * 0.71,
       height: 30,
       decoration: BoxDecoration(
         color: color == 'red' ? Color.fromARGB(255, 255, 99, 79) : Colors.green,
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+        borderRadius: BorderRadius.circular(10),
+        // borderRadius: BorderRadius.only(
+        //     topLeft: Radius.circular(20), topRight: Radius.circular(20)),
       ),
       child: Center(
           child: Text(

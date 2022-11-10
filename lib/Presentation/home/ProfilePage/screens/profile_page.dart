@@ -1,11 +1,15 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/edite_profile_btn_widget.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/profile_grid.dart';
+import 'package:dropili/Presentation/widgets_model/snackbar.dart';
+import 'package:dropili/common/constant/colors.dart';
+import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
-import 'package:dropili/domain/repositories/edit_profile_repository.dart';
+import 'package:dropili/domain/repositories/profile_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,11 +28,7 @@ class ProfilePageWidget extends StatefulWidget {
 class _ProfilePageWidgetState extends State<ProfilePageWidget>
     with AutomaticKeepAliveClientMixin {
   late ProfileBloc _profileBloc;
-  List<UserBlocksItem> userBlocks = [],
-      contactBlocks = [],
-      reseauxBlocks = [],
-      paymentsBlocks = [],
-      diverBlocks = [];
+  late List<List<UserBlocksItem>> userBlocksLists;
 
   @override
   bool get wantKeepAlive => true;
@@ -36,8 +36,8 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
   @override
   void initState() {
     super.initState();
-    _profileBloc = ProfileBloc(
-        editProfilerepository: getIt.getItInstace<EditProfileRepository>());
+    _profileBloc =
+        ProfileBloc(ProfileRepository: getIt.getItInstace<ProfileRepository>());
     _profileBloc.add(GetUserBlocksEvent());
     _profileBloc.add(GetProfileEvent());
   }
@@ -52,15 +52,6 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
   Widget build(BuildContext context) {
     super.build(context);
 
-    Future<void> _launchUrl(String url) async {
-      //final Uri _url = Uri(scheme: 'https', host: 'www.instagram.com');
-      final Uri _url = Uri.parse(url);
-      if (!await launchUrl(_url, mode: LaunchMode.externalApplication))
-        log(
-          'could not launch your url',
-        );
-    }
-
     String getProfilePicture = '';
     String getBackgroundPicture = '', getUserDescription = '', getUserName = '';
     return BlocProvider.value(
@@ -68,14 +59,9 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
       child: BlocListener<ProfileBloc, ProfileState>(
         listener: (context, state) {
           if (state.status == ProfileStatus.fail) {
-            // ScaffoldMessenger.of(context)
-            //   ..hideCurrentSnackBar()
-            //   ..showSnackBar(
-            //     MalinSnackBars.errorSnackBar(state.messageError!.message),
-            //   );
+            SnackBars.showErrorSnackBar(context, state.messageError);
           }
           if (state.status == ProfileStatus.getSuccess) {
-            userBlocks = state.userBlocks;
             getProfilePicture =
                 _profileBloc.state.showProfile!.user.userProfile.originalUrl;
             getBackgroundPicture =
@@ -83,21 +69,12 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
             getUserName = _profileBloc.state.showProfile!.user.name;
             getUserDescription =
                 _profileBloc.state.showProfile!.user.description;
-            contactBlocks = [];
-            reseauxBlocks = [];
-            paymentsBlocks = [];
-            diverBlocks = [];
-            userBlocks.forEach((element) {
-              if (element.type == 1) contactBlocks.add(element);
-              if (element.type == 2) reseauxBlocks.add(element);
-              if (element.type == 3) paymentsBlocks.add(element);
-              if (element.type == 4) diverBlocks.add(element);
-            });
           }
         },
         child: BlocBuilder<ProfileBloc, ProfileState>(
           builder: (context, state) {
             return RefreshIndicator(
+              color: MalinColors.AppGreen,
               onRefresh: () async {
                 _profileBloc.add(GetUserBlocksEvent());
                 _profileBloc.add(GetProfileEvent());
@@ -115,6 +92,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                         ),
                       )
                     : SingleChildScrollView(
+                        physics: BouncingScrollPhysics(),
                         child: Stack(
                           children: <Widget>[
                             Container(
@@ -162,12 +140,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                               MainAxisAlignment.end,
                                           children: [
                                             GestureDetector(
-                                                onTap: () {
-                                                  /*
-                                                  log('clicked');
-                                                  _launchUrl(
-                                                      'https://snapchat.com/add /sifou');
-                                                  log('completed');*/
+                                                onTap: () async {
                                                   Navigator.pushNamed(
                                                       context, '/editProfile');
                                                 },
@@ -197,9 +170,10 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                                     child: Text(
                                                       getUserDescription,
                                                       style: TextStyle(
-                                                          fontSize: 15,
-                                                          color: Colors
-                                                              .grey.shade700),
+                                                        fontSize: 15,
+                                                        color: Colors
+                                                            .grey.shade700,
+                                                      ),
                                                     ),
                                                   ),
                                                 ],
@@ -208,25 +182,42 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                           ),
                                         ),
                                         SizedBox(height: 35),
-                                        ProfileGrid(
-                                            title: 'Contacts',
-                                            myList: contactBlocks,
-                                            type: '1'),
-                                        SizedBox(height: 20),
-                                        ProfileGrid(
-                                            title: 'Reseaux',
-                                            myList: reseauxBlocks,
-                                            type: '1'),
-                                        SizedBox(height: 20),
-                                        ProfileGrid(
-                                            title: 'Payments',
-                                            myList: paymentsBlocks,
-                                            type: '1'),
-                                        SizedBox(height: 20),
-                                        ProfileGrid(
-                                            title: 'Divers',
-                                            myList: diverBlocks,
-                                            type: '1'),
+                                        ListView.separated(
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          shrinkWrap: true,
+                                          itemCount: state.userBlocks.length,
+                                          itemBuilder: (context, index) {
+                                            var title = '';
+                                            switch (state
+                                                .userBlocks[index][0].type) {
+                                              case 1:
+                                                title = 'Contacts'.t(context);
+                                                break;
+                                              case 2:
+                                                title =
+                                                    'Social Media'.t(context);
+                                                break;
+                                              case 3:
+                                                title = 'Payment methods'
+                                                    .t(context);
+                                                break;
+                                              case 4:
+                                                title = 'Others'.t(context);
+                                                break;
+                                              default:
+                                            }
+                                            return BlockTypeGrid(
+                                              title: title,
+                                              blocksList:
+                                                  state.userBlocks[index],
+                                            );
+                                          },
+                                          separatorBuilder: (context, index) =>
+                                              SizedBox(
+                                            height: 25,
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -245,7 +236,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                   image: (getProfilePicture == '')
                                       ? 'assets/dropili_Logo_PNG.png'
                                       : getProfilePicture,
-                                  get: (getProfilePicture == '') ? false : true,
+                                  get: !(getProfilePicture == ''),
                                 ),
                               ),
                             )

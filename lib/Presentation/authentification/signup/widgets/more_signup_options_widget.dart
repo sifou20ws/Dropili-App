@@ -8,6 +8,7 @@ class MoreOptions extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Column(
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(
             'or signup'.t(context),
@@ -20,44 +21,58 @@ class MoreOptions extends StatelessWidget {
             height: 20,
           ),
           Container(
-            padding: EdgeInsets.all(8),
+            height: 50,
+            // width: double.infinity,
+            width: 120,
+            padding: EdgeInsets.all(4),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                border: Border.all(color: Colors.white, width: 1)),
-            child: SizedBox(
-              height: 35,
-              child: Image(
-                image: AssetImage('assets/google_logo.png'),
-              ),
-            ),
-          ),
-          SizedBox(height: 40),
-          Text(
-            'don\'t have an account'.t(context),
-            style: TextStyle(
-              fontSize: 18,
-              color: Colors.white,
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.pushReplacementNamed(context, '/signin');
-            },
-            child: Text(
-              'Signin'.t(context),
-              style: TextStyle(
-                fontSize: 19,
-                decoration: TextDecoration.underline,
                 color: Colors.white,
-                fontWeight: FontWeight.w500,
-              ),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.white, width: 1)),
+            child: Image(
+              image: AssetImage('assets/google_logo_colored.png'),
             ),
           ),
+          // Spacer(),
         ],
       ),
+    );
+  }
+}
+
+class SwitchWidget extends StatelessWidget {
+  const SwitchWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          'You already have an account ?'.t(context),
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.white,
+          ),
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        GestureDetector(
+          onTap: () {
+            Navigator.pushReplacementNamed(context, '/signin');
+          },
+          child: Text(
+            'Signin'.t(context),
+            style: TextStyle(
+                fontSize: 19,
+                // decoration: TextDecoration.underline,
+                color: Colors.white,
+                fontWeight: FontWeight.w600),
+          ),
+        ),
+      ],
     );
   }
 }

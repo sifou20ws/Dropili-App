@@ -22,49 +22,54 @@ class ThirdPage extends StatelessWidget {
           ),
           SizedBox(
               height: 55,
-              width: MediaQuery.of(context).size.width * 0.7,
+              width: MediaQuery.of(context).size.width * 0.8,
               child: ElevatedButton(
                 onPressed: () {
-                  // BlocProvider.of<LanguageBloc>(context)
-                  //     .add(ToggleLanguageEvent(Languages.languages[1]));
                   Navigator.pushReplacementNamed(context, '/signin');
                 },
                 child: Text(
                   'Signin'.t(context),
                   style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 19,
-                      color: Color.fromARGB(255, 0, 123, 206)),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 19,
+                    color: Colors.blue,
+                  ),
                 ),
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15))),
+                        borderRadius: BorderRadius.circular(10))),
               )),
           SizedBox(
             height: 20,
           ),
-          SizedBox(
+          GestureDetector(
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/register');
+            },
+            child: Container(
               height: 55,
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/register');
-                },
-                child: Text(
-                  'Signup'.t(context),
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 19,
-                      color: Color.fromARGB(255, 0, 123, 206)),
+              width: MediaQuery.of(context).size.width * 0.8,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Colors.white.withAlpha(50),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: Colors.white,
+                  width: 2,
                 ),
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15))),
-              )),
+              ),
+              child: Text(
+                'Signup'.t(context),
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 19,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
         ],
-        // child: PageView.builder(itemBuilder: ((context, index) => Container())),
       ),
     );
   }

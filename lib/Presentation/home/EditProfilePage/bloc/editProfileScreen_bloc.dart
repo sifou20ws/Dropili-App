@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:dropili/data/models/post_user_blocks.dart';
 import 'package:dropili/data/models/post_user_profile_response.dart';
-import 'package:dropili/domain/repositories/edit_profile_repository.dart';
+import 'package:dropili/domain/repositories/profile_repository.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:image_picker/image_picker.dart';
@@ -13,9 +13,9 @@ part 'editProfileScreen_event.dart';
 part 'editProfileScreen_state.dart';
 
 class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
-  EditProfileRepository _editProfileRepository;
-  EditProfileBloc({required EditProfileRepository editProfileRepository})
-      : _editProfileRepository = editProfileRepository,
+  ProfileRepository _ProfileRepository;
+  EditProfileBloc({required ProfileRepository ProfileRepository})
+      : _ProfileRepository = ProfileRepository,
         super(EditProfileState(blocks: [], userBlocks: [], blocksList: [])) {
     on<ItemSelectedEvent>(_itemSelectedEvent);
     on<SwitchEvent>(_switchEvent);
@@ -38,7 +38,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     List<List<BlocksItem>> blocksList;
     final List<BlocksItem> blocks;
     try {
-      resp = await _editProfileRepository.getBlocks();
+      resp = await _ProfileRepository.getBlocks();
       emit(state.copyWith(blocks: resp.blocks));
       emit(state.copyWith(userBlocks: resp.userBlocks));
       blocks = resp.blocks;
@@ -66,7 +66,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     emit(state.copyWith(status: Status.loadingUserBlocks));
     var resp;
     try {
-      resp = await _editProfileRepository.getBlocks();
+      resp = await _ProfileRepository.getBlocks();
       emit(state.copyWith(userBlocks: resp.userBlocks));
       emit(state.copyWith(status: Status.getUserBlocksSuccess));
       //log(resp.blocks.toString());
@@ -83,7 +83,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     emit(state.copyWith(status: Status.deleteLoading));
     var resp;
     try {
-      resp = await _editProfileRepository.deleteBlocks(event.id);
+      resp = await _ProfileRepository.deleteBlocks(event.id);
       emit(state.copyWith(status: Status.deleteSuccess));
       //emit(state.copyWith(userBlocks: resp ));
       log(resp.success.toString(), name: 'delete blocks :');
@@ -115,10 +115,11 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       log(event.index.toString());
       PostUserBlocks data = PostUserBlocks(id: event.index, url: event.data);
 
-      resp = await _editProfileRepository.PostUserBlocks(data.toJson());
+      resp = await _ProfileRepository.PostUserBlocks(data.toJson());
       emit(state.copyWith(status: Status.postBlockSuccess, load: false));
       //emit(state.copyWith(blocks: resp));
-      log(resp.toString());
+      //log(resp.toString());
+
     } catch (e) {
       emit(state.copyWith(status: Status.fail));
       log(('error :'));
@@ -132,7 +133,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     var resp;
     try {
       // PostUserBlocks data = PostUserBlocks(id: event.index+1 , url: event.data);
-      resp = await _editProfileRepository.PostUserBlocks(event.data);
+      resp = await _ProfileRepository.PostUserBlocks(event.data);
       //emit(state.copyWith(status: Status.getSuccess));
       //emit(state.copyWith(blocks: resp));
       log(resp.body, name: 'post block :');
@@ -209,7 +210,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       'description': event.description
     };
     try {
-      resp = await _editProfileRepository.PostUserProfile(
+      resp = await _ProfileRepository.PostUserProfile(
           profile: event.profile, background: event.background, data: map1);
       PostProfileResp profileResp = PostProfileResp.fromJson(resp);
       (profileResp.success)
@@ -230,7 +231,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     emit(state.copyWith(status: Status.loadingProfile));
     var resp;
     try {
-      resp = await _editProfileRepository.getProfileShow();
+      resp = await _ProfileRepository.getProfileShow();
       emit(state.copyWith(status: Status.getProfileSuccess));
       emit(state.copyWith(showProfile: resp));
       //log(resp.toString());

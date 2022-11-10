@@ -1,10 +1,15 @@
+import 'dart:developer';
+
+import 'package:dropili/Presentation/home/collectionPage/bloc/collection_bloc.dart';
+import 'package:dropili/common/extensions/translation_extension.dart';
+import 'package:dropili/data/models/get_friends_result_model.dart.dart' as frnd;
 import 'package:flutter/material.dart';
 import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart';
-import 'package:dropili/Presentation/home/collectionPage/bloc/collection_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileCardWidget extends StatelessWidget {
-  const ProfileCardWidget({super.key});
+  final frnd.FriendsItem profile;
+  const ProfileCardWidget({super.key, required this.profile});
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +33,7 @@ class ProfileCardWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           RoundedProfilePicture(
-            image:
-                (context.read<CollectionBloc>().state as CollectionLoadedState)
-                    .profilePicUrl,
+            image: profile.userProfile.originalUrl,
             get: true,
             size: 90,
           ),
@@ -41,8 +44,7 @@ class ProfileCardWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                (context.read<CollectionBloc>().state as CollectionLoadedState)
-                    .coverPicUrl,
+                profile.name,
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 18,
@@ -65,7 +67,7 @@ class ProfileCardWidget extends StatelessWidget {
               Container(
                 // padding: EdgeInsets.symmetric(horizontal: 5, vertical: 6),
                 padding: EdgeInsets.only(left: 5, right: 0, top: 6, bottom: 6),
-                height: 45,
+                height: 50,
                 width: 180,
                 decoration: BoxDecoration(
                     color: Colors.grey.shade200,
@@ -75,18 +77,10 @@ class ProfileCardWidget extends StatelessWidget {
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   // shrinkWrap: true,
-
-                  itemCount: (context.read<CollectionBloc>().state
-                          as CollectionLoadedState)
-                      .blocks
-                      .length,
+                  itemCount: profile.blocks.length,
                   itemBuilder: (context, index) {
                     return Image.network(
-                      (context.read<CollectionBloc>().state
-                              as CollectionLoadedState)
-                          .blocks[index]
-                          .icon
-                          .originalUrl,
+                      profile.blocks[index].icon.originalUrl,
                       // height: 30,
                       // width: 30,
                     );
@@ -113,7 +107,27 @@ class ProfileCardWidget extends StatelessWidget {
                 ),
               ],
             ),
-            child: Icon(Icons.more_horiz),
+            // child: Icon(Icons.more_horiz),
+            child: PopupMenuButton<String>(
+              icon: Icon(Icons.more_horiz),
+              elevation: 2,
+              onSelected: ((value) async {
+                if (value == 'Delete') {
+                  BlocProvider.of<CollectionBloc>(context)
+                      .add(DeleteFriendEvent(id: profile.id.toString()));
+                } else if (value == 'Show') {}
+              }),
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                PopupMenuItem<String>(
+                  value: 'Delete',
+                  child: Text('Delete'.t(context)),
+                ),
+                PopupMenuItem<String>(
+                  value: 'Show',
+                  child: Text('Show'.t(context)),
+                )
+              ],
+            ),
           )
         ],
       ),

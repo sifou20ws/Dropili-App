@@ -102,17 +102,23 @@ class Network {
     }
   }*/
 
-  Future postPictureWithHeader(apiUrl, String profile , String background  , data ) async {
+  Future postPictureWithHeader(
+      apiUrl, String profile, String background, data) async {
     try {
       var fullUrl = host + version + apiUrl;
       var request = http.MultipartRequest('POST', Uri.parse(fullUrl));
       request.headers.addAll(await _setHeadersWithToken());
-      (background!='')?request.files.add(await http.MultipartFile.fromPath('background', background,
-          filename: 'background')):null;
-      (profile!='')?request.files.add(await http.MultipartFile.fromPath('profile', profile,
-          filename: 'profile')):null;
+      (background != '')
+          ? request.files.add(await http.MultipartFile.fromPath(
+              'background', background,
+              filename: 'background'))
+          : null;
+      (profile != '')
+          ? request.files.add(await http.MultipartFile.fromPath(
+              'profile', profile,
+              filename: 'profile'))
+          : null;
       request.fields.addAll(data);
-
 
       var res = await request.send();
       final respStr = await res.stream.bytesToString();
@@ -179,8 +185,8 @@ class Network {
       final response = await http
           .get(Uri.parse(fullUrl), headers: await _setHeadersWithToken())
           .timeout(Duration(seconds: timeOut));
-      if (response.statusCode == 401) {
-        throw Failure(message: 'authentication required');
+      if (response.statusCode == 422) {
+        throw Failure(message: jsonDecode(response.body)['message']);
       }
       return response;
     } on SocketException catch (_) {
@@ -224,4 +230,4 @@ class Network {
       throw 'Connection failed';
     }
   }
-} 
+}

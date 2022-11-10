@@ -1,16 +1,16 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:dropili/core/api/post_get.dart';
 import 'package:dropili/data/models/delete_block_response_model.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
+import 'package:dropili/data/models/get_friends_result_model.dart.dart';
 import 'package:dropili/data/models/post_user_profile_response.dart';
 import 'package:http/http.dart' as http;
 
-class EditProfileRepository {
+class ProfileRepository {
   final Network _network;
 
-  EditProfileRepository(this._network);
+  ProfileRepository(this._network);
 
   Future<dynamic> getBlocks() async {
     http.Response response;
@@ -75,19 +75,16 @@ class EditProfileRepository {
     }
   }
 
-  Future<dynamic> PostUserProfile({dynamic data, dynamic background , dynamic profile}) async {
+  Future<dynamic> PostUserProfile(
+      {dynamic data, dynamic background, dynamic profile}) async {
     dynamic response;
     var dataR;
     try {
-      log('hi');
-      response =
-          await _network.postPictureWithHeader('/profile/update', profile ,background, data);
+      response = await _network.postPictureWithHeader(
+          '/profile/update', profile, background, data);
       dataR = json.decode(response);
-      log(dataR.toString() , name: 'post user profile :');
       return dataR;
     } catch (e) {
-      log('repo:');
-      log(e.toString());
       rethrow;
     }
   }
@@ -101,8 +98,31 @@ class EditProfileRepository {
         var data = json.decode(response.body);
         myProfile = PostProfileResp.fromJson(data);
       }
-      log(myProfile.user.userProfile.originalUrl);
       return myProfile;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<FriendsItem>> getFriends() async {
+    http.Response response;
+    late GetFriendsModel friends;
+    try {
+      response = await _network.getWithHeader('/friends');
+      var data = json.decode(response.body);
+      friends = GetFriendsModel.fromJson(data);
+      return friends.friends;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<bool> deleteFriend(String id) async {
+    http.Response response;
+    try {
+      response = await _network.deleteWithHeader('/friends/' + id);
+      var data = json.decode(response.body);
+      return data['success'];
     } catch (e) {
       rethrow;
     }
