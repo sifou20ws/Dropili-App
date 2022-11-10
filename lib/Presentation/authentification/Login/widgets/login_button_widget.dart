@@ -28,6 +28,8 @@ class SigninButton extends StatelessWidget {
           ),
         ),
         style: ElevatedButton.styleFrom(
+          elevation: 5,
+          shadowColor: Colors.black.withAlpha(150),
           backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),

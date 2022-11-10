@@ -1,13 +1,8 @@
-import 'dart:developer';
-
 import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:local_auth/local_auth.dart';
-import 'package:local_auth_android/local_auth_android.dart';
 
 class MoreOptions extends StatelessWidget {
   const MoreOptions({super.key});
@@ -75,9 +70,9 @@ class MoreOptions extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
-            height: 100,
-          ),
+          // SizedBox(
+          //   height: 100,
+          // ),
           // SwitchToSignupWidget(),
         ],
       ),

@@ -6,11 +6,10 @@ import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_media
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_text_widget.dart';
 import 'package:dropili/Presentation/widgets_model/snackbar.dart';
 import 'package:dropili/common/constant/colors.dart';
+import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:dropili/domain/repositories/profile_repository.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_grid.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
@@ -91,7 +90,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
             return SafeArea(
               child: Scaffold(
                 backgroundColor: Colors.white,
-                resizeToAvoidBottomInset: false,
+                resizeToAvoidBottomInset: true,
                 body: (state.status == Status.loadingBlocks ||
                         state.status == Status.loadingProfile)
                     ? Center(
@@ -196,7 +195,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
                           Navigator.pop(context);
                         },
                         child: ButtomBtn(
-                          text: 'Annuler',
+                          text: 'Back'.t(context),
                           save: false,
                         ),
                       ),
@@ -210,7 +209,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
                               profile: state.profileImg,
                               background: state.backgroundImg));
                         },
-                        child: ButtomBtn(text: 'Enregistrer'),
+                        child: ButtomBtn(text: 'Save'.t(context)),
                       ),
                     ],
                   ),
@@ -241,10 +240,10 @@ class ButtomBtn extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-              // color: MalinColors.AppGreen,
-              color: save ? Colors.white : Colors.black,
-              fontSize: 15,
-              fontWeight: FontWeight.w500),
+            color: save ? Colors.white : Colors.black,
+            fontSize: 17,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
     );

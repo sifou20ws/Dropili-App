@@ -113,7 +113,6 @@ flutter:
     - assets/
     - assets/languages/
     - assets/appIcons/
-    - assets/IconsFR/
     - assets/lottie/
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -63,9 +63,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Spacer(),
-                    SizedBox(
-                      height: 80,
-                    ),
                     Text(
                       'Signin'.t(context),
                       style: TextStyle(
@@ -104,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Spacer(),
                     SwitchToSignupWidget(),
                     SizedBox(
-                      height: 50,
+                      height: 40,
                     ),
                     // Image(
                     //   image: AssetImage(

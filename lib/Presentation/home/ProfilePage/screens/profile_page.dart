@@ -1,6 +1,3 @@
-import 'dart:developer';
-import 'dart:ui';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/edite_profile_btn_widget.dart';
@@ -16,7 +13,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
 import 'package:lottie/lottie.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePageWidget extends StatefulWidget {
   const ProfilePageWidget({Key? key}) : super(key: key);
@@ -141,8 +137,14 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                           children: [
                                             GestureDetector(
                                                 onTap: () async {
-                                                  Navigator.pushNamed(
-                                                      context, '/editProfile');
+                                                  Navigator.pushNamed(context,
+                                                          '/editProfile')
+                                                      .then((value) {
+                                                    _profileBloc.add(
+                                                        GetUserBlocksEvent());
+                                                    _profileBloc
+                                                        .add(GetProfileEvent());
+                                                  });
                                                 },
                                                 child: EditeProfileBtnWidget()),
                                           ],

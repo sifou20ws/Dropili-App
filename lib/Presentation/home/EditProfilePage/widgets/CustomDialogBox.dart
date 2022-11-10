@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
+import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -87,7 +88,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                                     DeleteUserBlocksEvent(
                                         id: widget.index.toString()));
                               },
-                              child: Text('Supprimer')),
+                              child: Text('Remove'.t(context))),
                         ),
                         Expanded(
                           child: TextButton(
@@ -96,7 +97,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                                   ItemSelectedEvent(
                                       index: widget.index, data: inputUrl));
                             },
-                            child: Text('Sauvegarder'),
+                            child: Text('Save'.t(context)),
                           ),
                         ),
                       ],
@@ -104,18 +105,25 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                   ],
                 ),
               ),
-              Positioned(
-                left: 20,
-                right: 20,
-                child: Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Colors.transparent,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 80,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color.fromARGB(50, 0, 0, 0),
+                          offset: Offset(0.0, 5.0),
+                          blurRadius: 10,
+                          spreadRadius: 1,
+                        ),
+                      ],
+                    ),
+                    child: Image.network(widget.img),
                   ),
-                  child: Image.network(widget.img),
-                ),
+                ],
               ),
               Positioned(
                 right: 5,
@@ -177,6 +185,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
       errorBorder: InputBorder.none,
       disabledBorder: InputBorder.none,
       labelText: text,
+      floatingLabelBehavior: FloatingLabelBehavior.never,
     );
   }
 }
