@@ -57,3 +57,5 @@ class LoginSubmittingEvent extends AuthEvent {}
 class SignupSubmittingEvent extends AuthEvent {}
 
 class RestoreSubmittingEvent extends AuthEvent {}
+
+class BiometricsAuthentifactionEvent extends AuthEvent {}

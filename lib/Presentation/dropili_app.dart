@@ -21,16 +21,11 @@ class DropiliApp extends StatefulWidget {
 
 class _DropiliAppState extends State<DropiliApp> {
   late LanguageBloc _languageBloc;
-  late String intiRoute = '/';
-
-  static const platform = const MethodChannel('http.dropili.co/channel');
 
   @override
   void initState() {
     super.initState();
     _languageBloc = getItInstace<LanguageBloc>();
-
-    // log(startUri().toString());
   }
 
   @override
@@ -39,13 +34,11 @@ class _DropiliAppState extends State<DropiliApp> {
     _languageBloc.close();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(value: _languageBloc),
-        // BlocProvider.value(value: _intentBloc),
       ],
       child: BlocBuilder<LanguageBloc, LanguageState>(
         builder: (context, state) {
@@ -66,7 +59,7 @@ class _DropiliAppState extends State<DropiliApp> {
                   builder: (context, child) {
                     return child!;
                   },
-                  initialRoute: intiRoute,
+                  initialRoute: '/',
                   onGenerateRoute: (settings) {
                     final routes = Routes.getRoutes(settings);
                     final WidgetBuilder builder = routes[settings.name]!;
