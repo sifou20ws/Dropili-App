@@ -26,7 +26,7 @@ class CustomDialogBox extends StatefulWidget {
 class _CustomDialogBoxState extends State<CustomDialogBox> {
   @override
   Widget build(BuildContext context) {
-    bool load = false;
+    bool error = false;
     String inputUrl = '';
     return BlocListener<EditProfileBloc, EditProfileState>(
       listener: (context, state) async {
@@ -37,7 +37,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
         }
         if (BlocProvider.of<EditProfileBloc>(context).state.status ==
             Status.deleteSuccess) {
-          await Future.delayed(Duration(seconds: 1));
+          //await Future.delayed(Duration(seconds: 1));
           Navigator.of(context).pop(false);
         }
       },
@@ -62,13 +62,19 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.only(top: 20 , right: 5 , left: 5),
-                      child: TextFormField(
-                        onChanged: (value) {
-                          inputUrl = value;
-                        },
-                        decoration: buildInputDecoration(
-                            (widget.url == '') ? widget.editText : widget.url),
+                      padding:
+                          const EdgeInsets.only(top: 20, right: 5, left: 5),
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            onChanged: (value) {
+                              inputUrl = value;
+                            },
+                            decoration: buildInputDecoration((widget.url == '')
+                                ? widget.editText
+                                : widget.url),
+                          ),
+                        ],
                       ),
                     ),
                     SizedBox(height: 5),
@@ -102,13 +108,13 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                 left: 20,
                 right: 20,
                 child: Container(
-                    width: 80,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.transparent,
-                    ),
-                    child: Image.network(widget.img),
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Colors.transparent,
+                  ),
+                  child: Image.network(widget.img),
                 ),
               ),
               Positioned(

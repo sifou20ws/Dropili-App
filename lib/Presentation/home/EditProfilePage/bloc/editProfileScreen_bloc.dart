@@ -16,10 +16,11 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   EditProfileRepository _editProfileRepository;
   EditProfileBloc({required EditProfileRepository editProfileRepository})
       : _editProfileRepository = editProfileRepository,
-        super(EditProfileState(blocks: [], userBlocks: [])) {
+        super(EditProfileState(blocks: [], userBlocks: [], blocksList: [])) {
     on<ItemSelectedEvent>(_itemSelectedEvent);
     on<SwitchEvent>(_switchEvent);
     on<GetBlocksEvent>(_getBlocks);
+    on<GetUserBlocksEvent>(_getUserBlocks);
     on<ImportCoverImageEvent>(_importCoverImageEvent);
     on<ImportProfileImageEvent>(_importProfileImageEvent);
     on<PostBlocksEvent>(_postBlocksEvent);
@@ -34,13 +35,42 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   void _getBlocks(GetBlocksEvent event, Emitter<EditProfileState> emit) async {
     emit(state.copyWith(status: Status.loadingBlocks));
     var resp;
+    List<List<BlocksItem>> blocksList;
+    final List<BlocksItem> blocks;
     try {
       resp = await _editProfileRepository.getBlocks();
       emit(state.copyWith(blocks: resp.blocks));
       emit(state.copyWith(userBlocks: resp.userBlocks));
-      emit(state.copyWith(status: Status.getBlocksSuccess));
+      blocks = resp.blocks;
+      blocksList = [
+        blocks.where((element) => element.type == 1).toList(),
+        blocks.where((element) => element.type == 2).toList(),
+        blocks.where((element) => element.type == 3).toList(),
+        blocks.where((element) => element.type == 4).toList(),
+      ];
+      emit(state.copyWith(
+        blocksList: blocksList,
+        status: Status.getBlocksSuccess,
+      ));
       //log(resp.blocks.toString());
-      log(state.userBlocks.toString(), name: 'UBL in bloc');
+      //log(state.userBlocks.toString(), name: 'UBL in bloc');
+    } catch (e) {
+      emit(state.copyWith(status: Status.fail));
+      log(('error :'));
+      log(e.toString());
+    }
+  }
+
+  void _getUserBlocks(
+      GetUserBlocksEvent event, Emitter<EditProfileState> emit) async {
+    emit(state.copyWith(status: Status.loadingUserBlocks));
+    var resp;
+    try {
+      resp = await _editProfileRepository.getBlocks();
+      emit(state.copyWith(userBlocks: resp.userBlocks));
+      emit(state.copyWith(status: Status.getUserBlocksSuccess));
+      //log(resp.blocks.toString());
+      //log(state.userBlocks.toString(), name: 'UBL in bloc');
     } catch (e) {
       emit(state.copyWith(status: Status.fail));
       log(('error :'));
@@ -66,8 +96,20 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
 
   void _itemSelectedEvent(
       ItemSelectedEvent event, Emitter<EditProfileState> emit) async {
+    if (event.data.isEmpty) {
+      log('error');
+      emit(state.copyWith(
+        status: Status.failInDialogue,
+        errorExist: true,
+        messageError: 'this field is required',
+      ));
+      emit(state.copyWith(valideName: false));
+      return;
+    }
+
     emit(state.copyWith(index: event.index));
-    emit(state.copyWith(status: Status.postBlockLoading , load: true));
+    emit(state.copyWith(status: Status.postBlockLoading, load: true));
+
     var resp;
     try {
       log(event.index.toString());

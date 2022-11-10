@@ -9,13 +9,16 @@ enum Status {
   getProfileSuccess,
   getBlocksSuccess,
   loadingBlocks,
+  getUserBlocksSuccess,
+  loadingUserBlocks,
   loadingProfile,
   postBlockLoading,
   postBlockSuccess,
   deleteLoading,
   deleteSuccess,
   loadingProfileUpdate,
-  profileUpdateSucess
+  profileUpdateSucess,
+  failInDialogue
 }
 
 class EditProfileState extends Equatable {
@@ -25,6 +28,7 @@ class EditProfileState extends Equatable {
       this.errorExist = false,
       this.status = Status.loading,
       this.id = '',
+      required this.blocksList,
       this.index = -1,
       required this.blocks,
       required this.userBlocks,
@@ -36,11 +40,11 @@ class EditProfileState extends Equatable {
       this.profileImg = '',
       this.showProfile,
       this.valideName = true,
-        this.load = false,
+      this.load = false,
       this.blockUrl = ''});
 
   final bool errorExist;
-  bool load ;
+  bool load;
   final String messageError;
   final Status status;
   final bool switchButton;
@@ -49,6 +53,7 @@ class EditProfileState extends Equatable {
   String coverImagePath = '';
   String profileImagePath = '';
   final List<BlocksItem> blocks;
+  final List<List<BlocksItem>> blocksList;
   final String userName;
   final String userDescription;
   final String backgroundImg;
@@ -65,6 +70,7 @@ class EditProfileState extends Equatable {
       String? id,
       int? index,
       List<BlocksItem>? blocks,
+      List<UserBlocksItem>? userBlocks,
       String? coverImagePath,
       String? profileImagePath,
       String? backgroundImg,
@@ -75,8 +81,8 @@ class EditProfileState extends Equatable {
       String? blockUrl,
       bool? errorExist,
       bool? valideName,
-        bool?load,
-      List<UserBlocksItem>? userBlocks}) {
+      bool? load,
+      List<List<BlocksItem>>? blocksList}) {
     return EditProfileState(
       messageError: messageError ?? this.messageError,
       status: status ?? this.status,
@@ -95,7 +101,8 @@ class EditProfileState extends Equatable {
       errorExist: errorExist ?? this.errorExist,
       valideName: valideName ?? this.valideName,
       userBlocks: userBlocks ?? this.userBlocks,
-      load:load??this.load,
+      load: load ?? this.load,
+      blocksList: blocksList ?? this.blocksList,
     );
   }
 
@@ -107,7 +114,7 @@ class EditProfileState extends Equatable {
         id,
         index,
         blocks,
-    load,
+        load,
         coverImagePath,
         profileImagePath,
         userName,
@@ -118,6 +125,7 @@ class EditProfileState extends Equatable {
         blockUrl,
         errorExist,
         valideName,
-        userBlocks
+        userBlocks,
+        blocksList
       ];
 }

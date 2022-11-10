@@ -34,6 +34,12 @@ class GetBlocksEvent extends EditProfileEvent {
   List<Object?> get props => [];
 }
 
+class GetUserBlocksEvent extends EditProfileEvent {
+  GetUserBlocksEvent();
+
+  @override
+  List<Object?> get props => [];
+}
 class PostBlocksEvent extends EditProfileEvent {
   final data;
   PostBlocksEvent(this.data);
@@ -108,3 +114,4 @@ class DeleteUserBlocksEvent extends EditProfileEvent {
   @override
   List<Object?> get props => [];
 }
+

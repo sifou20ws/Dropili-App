@@ -30,8 +30,9 @@ class _MyOffersPageState extends State<EditProfilePage> {
       reseauxBlocks = [],
       paymentsBlocks = [],
       diverBlocks = [];
+  List<List<BlocksItem>> blocksList = [];
   List<UserBlocksItem> userBlocks = [];
-  String name='' , description='';
+  String name = '', description = '';
 
   @override
   void initState() {
@@ -58,22 +59,15 @@ class _MyOffersPageState extends State<EditProfilePage> {
           if (state.status == Status.getBlocksSuccess) {
             blocks = state.blocks;
             userBlocks = state.userBlocks;
-            contactBlocks = [];
-            reseauxBlocks = [];
-            paymentsBlocks = [];
-            diverBlocks = [];
-            blocks.forEach((element) {
-              if (element.type == 1) contactBlocks.add(element);
-              if (element.type == 2) reseauxBlocks.add(element);
-              if (element.type == 3) paymentsBlocks.add(element);
-              if (element.type == 4) diverBlocks.add(element);
-            });
+            blocksList = state.blocksList;
+            contactBlocks = blocksList[0];
+            reseauxBlocks = blocksList[1];
+            paymentsBlocks = blocksList[2];
+            diverBlocks = blocksList[3];
           }
           if (state.status == Status.getProfileSuccess) {
             name = state.showProfile!.user.name;
             description = state.showProfile!.user.description;
-            log(name);
-            log(description);
           }
           if (state.status == Status.postBlockSuccess) {
             _editProfileBloc.add(GetBlocksEvent());
@@ -89,8 +83,9 @@ class _MyOffersPageState extends State<EditProfilePage> {
             SnackBars.showSucessSnackBar(context, state.messageError);
           }
           if (state.status == Status.profileUpdateSucess) {
-              Navigator.pop(context);
+            Navigator.pop(context);
           }
+
         },
         child: BlocBuilder<EditProfileBloc, EditProfileState>(
           builder: (context, state) {
@@ -136,7 +131,10 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          EditProfileTextWidget(name: name, description: description,),
+                                          EditProfileTextWidget(
+                                            name: name,
+                                            description: description,
+                                          ),
                                           SizedBox(height: 15),
                                           EditProfileButtonsWidget(),
                                           SizedBox(height: 15),
@@ -163,7 +161,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                               type: 4,
                                               title: 'Divers',
                                               blocksList: diverBlocks),
-                                          SizedBox(height: 50),
+                                          SizedBox(height: 20),
                                         ],
                                       ),
                                     ),
@@ -206,7 +204,9 @@ class _MyOffersPageState extends State<EditProfilePage> {
                       GestureDetector(
                         onTap: () async {
                           _editProfileBloc.add(PostProfileUpdateEvent(
-                              name: (state.userName=='')?name :state.userName,
+                              name: (state.userName == '')
+                                  ? name
+                                  : state.userName,
                               description: state.userDescription,
                               profile: state.profileImg,
                               background: state.backgroundImg));
@@ -237,17 +237,12 @@ class ButtomBtn extends StatelessWidget {
         color: save ? MalinColors.AppGreen : Colors.grey.withOpacity(0.3),
         borderRadius: BorderRadius.circular(12),
       ),
-      // height: 50,
       width: MediaQuery.of(context).size.width * 0.40,
       child: Center(
         child: Text(
           text,
-          /*style: TextStyle(
-              color: save ? Colors.white : Colors.black,
-              fontSize: 20,
-              fontWeight: FontWeight.w400),*/
           style: TextStyle(
-            // color: MalinColors.AppGreen,
+              // color: MalinColors.AppGreen,
               color: save ? Colors.white : Colors.black,
               fontSize: 15,
               fontWeight: FontWeight.w500),

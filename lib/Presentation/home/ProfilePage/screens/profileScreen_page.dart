@@ -1,8 +1,9 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/edite_profile_btn_widget.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/profile_grid.dart';
-import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:dropili/domain/repositories/edit_profile_repository.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
 import 'package:lottie/lottie.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePageWidget extends StatefulWidget {
   const ProfilePageWidget({Key? key}) : super(key: key);
@@ -22,7 +24,11 @@ class ProfilePageWidget extends StatefulWidget {
 class _ProfilePageWidgetState extends State<ProfilePageWidget>
     with AutomaticKeepAliveClientMixin {
   late ProfileBloc _profileBloc;
-  List<UserBlocksItem> userBlocks = [];
+  List<UserBlocksItem> userBlocks = [],
+      contactBlocks = [],
+      reseauxBlocks = [],
+      paymentsBlocks = [],
+      diverBlocks = [];
 
   @override
   bool get wantKeepAlive => true;
@@ -46,6 +52,15 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
   Widget build(BuildContext context) {
     super.build(context);
 
+    Future<void> _launchUrl(String url) async {
+      //final Uri _url = Uri(scheme: 'https', host: 'www.instagram.com');
+      final Uri _url = Uri.parse(url);
+      if (!await launchUrl(_url, mode: LaunchMode.externalApplication))
+        log(
+          'could not launch your url',
+        );
+    }
+
     String getProfilePicture = '';
     String getBackgroundPicture = '', getUserDescription = '', getUserName = '';
     return BlocProvider.value(
@@ -68,6 +83,16 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
             getUserName = _profileBloc.state.showProfile!.user.name;
             getUserDescription =
                 _profileBloc.state.showProfile!.user.description;
+            contactBlocks = [];
+            reseauxBlocks = [];
+            paymentsBlocks = [];
+            diverBlocks = [];
+            userBlocks.forEach((element) {
+              if (element.type == 1) contactBlocks.add(element);
+              if (element.type == 2) reseauxBlocks.add(element);
+              if (element.type == 3) paymentsBlocks.add(element);
+              if (element.type == 4) diverBlocks.add(element);
+            });
           }
         },
         child: BlocBuilder<ProfileBloc, ProfileState>(
@@ -138,6 +163,11 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                           children: [
                                             GestureDetector(
                                                 onTap: () {
+                                                  /*
+                                                  log('clicked');
+                                                  _launchUrl(
+                                                      'https://snapchat.com/add /sifou');
+                                                  log('completed');*/
                                                   Navigator.pushNamed(
                                                       context, '/editProfile');
                                                 },
@@ -180,7 +210,22 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                         SizedBox(height: 35),
                                         ProfileGrid(
                                             title: 'Contacts',
-                                            myList: userBlocks,
+                                            myList: contactBlocks,
+                                            type: '1'),
+                                        SizedBox(height: 20),
+                                        ProfileGrid(
+                                            title: 'Reseaux',
+                                            myList: reseauxBlocks,
+                                            type: '1'),
+                                        SizedBox(height: 20),
+                                        ProfileGrid(
+                                            title: 'Payments',
+                                            myList: paymentsBlocks,
+                                            type: '1'),
+                                        SizedBox(height: 20),
+                                        ProfileGrid(
+                                            title: 'Divers',
+                                            myList: diverBlocks,
                                             type: '1'),
                                       ],
                                     ),
