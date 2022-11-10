@@ -1,19 +1,17 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:dropili/core/error/failure.dart';
 import 'package:dropili/data/models/get_friends_result_model.dart.dart';
-import 'package:dropili/domain/repositories/edit_profile_repository.dart';
+import 'package:dropili/domain/repositories/profile_repository.dart';
 import 'package:equatable/equatable.dart';
 
 part 'collection_event.dart';
 part 'collection_state.dart';
 
 class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
-  final EditProfileRepository editProfileRepository;
+  final ProfileRepository _profileRepository;
 
-  CollectionBloc({required EditProfileRepository editProfileRepository})
-      : this.editProfileRepository = editProfileRepository,
+  CollectionBloc({required ProfileRepository profileRepository})
+      : this._profileRepository = profileRepository,
         super(CollectionLoadingState()) {
     on<LoadCollectionEvent>(_loadCollection);
     on<DeleteFriendEvent>(_deleteFriendEvent);
@@ -25,7 +23,7 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
     emit(CollectionLoadingState());
     List<FriendsItem> friendsList;
     try {
-      friendsList = await editProfileRepository.getFriends();
+      friendsList = await _profileRepository.getFriends();
 
       if (friendsList.length == 0) {
         emit(CollectionEmptyState());
@@ -41,7 +39,7 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
 
   void _deleteFriendEvent(event, Emitter<CollectionState> emit) async {
     try {
-      if (await editProfileRepository.deleteFriend(event.id)) {
+      if (await _profileRepository.deleteFriend(event.id)) {
         emit(CollectionSucessState('Deleted sucessfully'));
         add(LoadCollectionEvent());
       } else {

@@ -8,8 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
 
-import 'package:dropili/Presentation/authentification/Login/widgets/more_options_widget.dart';
-import 'package:dropili/Presentation/authentification/Login/widgets/signin_button_widget.dart';
+import 'package:dropili/Presentation/authentification/Login/widgets/login_more_options_widget.dart';
+import 'package:dropili/Presentation/authentification/Login/widgets/login_button_widget.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

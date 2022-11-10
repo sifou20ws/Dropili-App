@@ -1,6 +1,15 @@
 part of 'profileScreen_bloc.dart';
 
-enum ProfileStatus { initial, loading, success, fail, finish, getSuccess }
+enum ProfileStatus {
+  initial,
+  loading,
+  success,
+  fail,
+  finish,
+  getSuccess,
+  loadingBlocks,
+  getBlocksSuccess,
+}
 
 class ProfileState extends Equatable {
   ProfileState({
@@ -22,6 +31,7 @@ class ProfileState extends Equatable {
     String? id,
     List<List<UserBlocksItem>>? userBlocks,
     PostProfileResp? showProfile,
+    List<BlocksItem>? blocks,
   }) {
     return ProfileState(
       messageError: messageError ?? this.messageError,

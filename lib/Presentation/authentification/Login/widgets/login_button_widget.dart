@@ -1,4 +1,3 @@
-import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

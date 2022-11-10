@@ -5,7 +5,7 @@ class PostProfileResp {
   final User user;
   final String message;
 
-  PostProfileResp({
+ PostProfileResp({
     this.success = false,
     required this.user,
     this.message = '',

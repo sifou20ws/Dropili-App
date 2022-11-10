@@ -4,7 +4,7 @@ import 'package:dropili/Presentation/widgets_model/snackbar.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:dropili/data/models/get_friends_result_model.dart.dart';
-import 'package:dropili/domain/repositories/edit_profile_repository.dart';
+import 'package:dropili/domain/repositories/profile_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +25,7 @@ class _CollectionPageState extends State<CollectionPage>
   void initState() {
     super.initState();
     _collectionBloc = CollectionBloc(
-        editProfileRepository: getIt.getItInstace<EditProfileRepository>());
+        profileRepository: getIt.getItInstace<ProfileRepository>());
   }
 
   @override

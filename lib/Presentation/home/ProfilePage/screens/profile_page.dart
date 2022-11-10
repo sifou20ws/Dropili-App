@@ -8,15 +8,15 @@ import 'package:dropili/Presentation/home/ProfilePage/widgets/profile_grid.dart'
 import 'package:dropili/Presentation/widgets_model/snackbar.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
-import 'package:dropili/core/utils/token.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
-import 'package:dropili/domain/repositories/edit_profile_repository.dart';
+import 'package:dropili/domain/repositories/profile_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
 import 'package:lottie/lottie.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePageWidget extends StatefulWidget {
   const ProfilePageWidget({Key? key}) : super(key: key);
@@ -36,8 +36,8 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
   @override
   void initState() {
     super.initState();
-    _profileBloc = ProfileBloc(
-        editProfilerepository: getIt.getItInstace<EditProfileRepository>());
+    _profileBloc =
+        ProfileBloc(ProfileRepository: getIt.getItInstace<ProfileRepository>());
     _profileBloc.add(GetUserBlocksEvent());
     _profileBloc.add(GetProfileEvent());
   }
@@ -236,7 +236,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                   image: (getProfilePicture == '')
                                       ? 'assets/dropili_Logo_PNG.png'
                                       : getProfilePicture,
-                                  get: (getProfilePicture == '') ? false : true,
+                                  get: !(getProfilePicture == ''),
                                 ),
                               ),
                             )

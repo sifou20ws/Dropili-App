@@ -2,7 +2,7 @@ import 'package:dropili/Presentation/Nfc/nfc_dialoge.dart';
 import 'package:dropili/Presentation/home/collectionPage/collection_page.dart';
 import 'package:dropili/Presentation/home/navigation_bar/navigation_bar_widget.dart';
 import 'package:dropili/Presentation/home/qr_page/qr_page.dart';
-import 'package:dropili/Presentation/home/ProfilePage/screens/profileScreen_page.dart';
+import 'package:dropili/Presentation/home/ProfilePage/screens/profile_page.dart';
 import 'package:dropili/Presentation/home/drawerPage/drawerPage.dart';
 import 'package:dropili/Presentation/home/root/bloc/navigation_bloc.dart';
 import 'package:flutter/material.dart';

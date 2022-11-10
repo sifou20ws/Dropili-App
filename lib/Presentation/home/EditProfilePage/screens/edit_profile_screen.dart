@@ -1,4 +1,5 @@
-import 'package:dropili/Presentation/authentification/comun_widgets/message_widget.dart';
+import 'dart:developer';
+
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/eProfile_buttons_row.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_media_widget.dart';
@@ -6,14 +7,13 @@ import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_text_
 import 'package:dropili/Presentation/widgets_model/snackbar.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
-import 'package:dropili/domain/repositories/edit_profile_repository.dart';
+import 'package:dropili/domain/repositories/profile_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_grid.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -30,13 +30,15 @@ class _MyOffersPageState extends State<EditProfilePage> {
       reseauxBlocks = [],
       paymentsBlocks = [],
       diverBlocks = [];
+  List<List<BlocksItem>> blocksList = [];
   List<UserBlocksItem> userBlocks = [];
+  String name = '', description = '';
 
   @override
   void initState() {
     super.initState();
     _editProfileBloc = EditProfileBloc(
-        editProfileRepository: getIt.getItInstace<EditProfileRepository>());
+        ProfileRepository: getIt.getItInstace<ProfileRepository>());
     _editProfileBloc.add(GetProfileEvent());
     _editProfileBloc.add(GetBlocksEvent());
   }
@@ -54,28 +56,24 @@ class _MyOffersPageState extends State<EditProfilePage> {
       value: _editProfileBloc,
       child: BlocListener<EditProfileBloc, EditProfileState>(
         listener: (context, state) {
-          /* if (state.status == Status.fail) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                MalinSnackBars.errorSnackBar(state.messageError),
-              );
-          }*/
           if (state.status == Status.getBlocksSuccess) {
             blocks = state.blocks;
             userBlocks = state.userBlocks;
-            contactBlocks = [];
-            reseauxBlocks = [];
-            paymentsBlocks = [];
-            diverBlocks = [];
-            blocks.forEach((element) {
-              if (element.type == 1) contactBlocks.add(element);
-              if (element.type == 2) reseauxBlocks.add(element);
-              if (element.type == 3) paymentsBlocks.add(element);
-              if (element.type == 4) diverBlocks.add(element);
-            });
+            blocksList = state.blocksList;
+            contactBlocks = blocksList[0];
+            reseauxBlocks = blocksList[1];
+            paymentsBlocks = blocksList[2];
+            diverBlocks = blocksList[3];
+          }
+          if (state.status == Status.getProfileSuccess) {
+            name = state.showProfile!.user.name;
+            description = state.showProfile!.user.description;
           }
           if (state.status == Status.postBlockSuccess) {
+            _editProfileBloc.add(GetBlocksEvent());
+            userBlocks = state.userBlocks;
+          }
+          if (state.status == Status.deleteSuccess) {
             _editProfileBloc.add(GetBlocksEvent());
             userBlocks = state.userBlocks;
           }
@@ -83,6 +81,9 @@ class _MyOffersPageState extends State<EditProfilePage> {
             SnackBars.showErrorSnackBar(context, state.messageError);
           } else if (state.status == Status.success) {
             SnackBars.showSucessSnackBar(context, state.messageError);
+          }
+          if (state.status == Status.profileUpdateSucess) {
+            Navigator.pop(context);
           }
         },
         child: BlocBuilder<EditProfileBloc, EditProfileState>(
@@ -129,7 +130,10 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          EditProfileTextWidget(),
+                                          EditProfileTextWidget(
+                                            name: name,
+                                            description: description,
+                                          ),
                                           SizedBox(height: 15),
                                           EditProfileButtonsWidget(),
                                           SizedBox(height: 15),
@@ -156,7 +160,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                               type: 4,
                                               title: 'Divers',
                                               blocksList: diverBlocks),
-                                          SizedBox(height: 50),
+                                          SizedBox(height: 20),
                                         ],
                                       ),
                                     ),
@@ -199,7 +203,9 @@ class _MyOffersPageState extends State<EditProfilePage> {
                       GestureDetector(
                         onTap: () async {
                           _editProfileBloc.add(PostProfileUpdateEvent(
-                              name: state.userName,
+                              name: (state.userName == '')
+                                  ? name
+                                  : state.userName,
                               description: state.userDescription,
                               profile: state.profileImg,
                               background: state.backgroundImg));
@@ -230,15 +236,15 @@ class ButtomBtn extends StatelessWidget {
         color: save ? MalinColors.AppGreen : Colors.grey.withOpacity(0.3),
         borderRadius: BorderRadius.circular(12),
       ),
-      // height: 50,
       width: MediaQuery.of(context).size.width * 0.40,
       child: Center(
         child: Text(
           text,
           style: TextStyle(
+              // color: MalinColors.AppGreen,
               color: save ? Colors.white : Colors.black,
-              fontSize: 20,
-              fontWeight: FontWeight.w400),
+              fontSize: 15,
+              fontWeight: FontWeight.w500),
         ),
       ),
     );
