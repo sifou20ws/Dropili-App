@@ -30,9 +30,10 @@ class ThirdPage extends StatelessWidget {
                 child: Text(
                   'Signin'.t(context),
                   style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 19,
-                      color: Color.fromARGB(255, 0, 123, 206)),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 19,
+                    color: Colors.blue,
+                  ),
                 ),
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,

@@ -1,6 +1,13 @@
+import 'dart:developer';
+
+import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:local_auth_android/local_auth_android.dart';
 
 class MoreOptions extends StatelessWidget {
   const MoreOptions({super.key});
@@ -47,16 +54,22 @@ class MoreOptions extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: Container(
-                  height: 50,
-                  padding: EdgeInsets.all(7),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.white, width: 1)),
-                  child: Image(
-                    image: AssetImage('assets/fingerprint.png'),
-                    color: MalinColors.AppBlue,
+                child: GestureDetector(
+                  onTap: () async {
+                    BlocProvider.of<AuthBloc>(context)
+                        .add(BiometricsAuthentifactionEvent());
+                  },
+                  child: Container(
+                    height: 50,
+                    padding: EdgeInsets.all(7),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.white, width: 1)),
+                    child: Image(
+                      image: AssetImage('assets/fingerprint.png'),
+                      color: MalinColors.AppBlue,
+                    ),
                   ),
                 ),
               ),

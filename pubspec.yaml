@@ -67,6 +67,7 @@ dependencies:
   cached_network_image: ^3.2.2
   receive_sharing_intent: ^1.4.5
   device_info_plus: ^8.0.0
+  local_auth: ^2.1.2
 
 
 
@@ -161,6 +162,17 @@ flutter:
         - asset: assets/fonts/inter/Inter-ExtraBold.ttf
         - asset: assets/fonts/inter/Inter-Black.ttf
 
+    - family: Nunito
+      fonts:
+        # - asset: assets/fonts/mukta/
+        - asset: assets/fonts/nunito/Nunito-ExtraLight.ttf
+        - asset: assets/fonts/nunito/Nunito-Light.ttf
+        - asset: assets/fonts/nunito/Nunito-Regular.ttf
+        - asset: assets/fonts/nunito/Nunito-Medium.ttf
+        - asset: assets/fonts/nunito/Nunito-SemiBold.ttf
+        - asset: assets/fonts/nunito/Nunito-Bold.ttf
+        - asset: assets/fonts/nunito/Nunito-ExtraBold.ttf
+        - asset: assets/fonts/nunito/Nunito-Black.ttf
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:
