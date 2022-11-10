@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dropili/Presentation/home/ProfilePage/widgets/profile_dialogue_box.dart';
 import 'package:dropili/Presentation/home/collectionPage/bloc/collection_bloc.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:dropili/data/models/get_friends_result_model.dart.dart' as frnd;
@@ -79,10 +80,25 @@ class ProfileCardWidget extends StatelessWidget {
                   // shrinkWrap: true,
                   itemCount: profile.blocks.length,
                   itemBuilder: (context, index) {
-                    return Image.network(
-                      profile.blocks[index].icon.originalUrl,
-                      // height: 30,
-                      // width: 30,
+                    return GestureDetector(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: ((context) {
+                              return ProfileDialogBox(
+                                blockId: profile.blocks[index].id,
+                                url: profile.blocks[index].hint.ar,
+                                iconImage: Image.network(
+                                  profile.blocks[index].icon.originalUrl,
+                                ),
+                              );
+                            }));
+                      },
+                      child: Image.network(
+                        profile.blocks[index].icon.originalUrl,
+                        // height: 30,
+                        // width: 30,
+                      ),
                     );
                   },
                   separatorBuilder: (context, index) => SizedBox(
