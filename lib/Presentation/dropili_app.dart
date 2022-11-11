@@ -39,6 +39,7 @@ class _DropiliAppState extends State<DropiliApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(value: _languageBloc),
+
       ],
       child: BlocBuilder<LanguageBloc, LanguageState>(
         builder: (context, state) {

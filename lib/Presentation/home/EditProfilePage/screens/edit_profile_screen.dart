@@ -97,6 +97,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
                         child: Lottie.asset(
                           'assets/lottie/loading-green.json',
                           height: 100,
+                          frameRate: FrameRate(120),
                         ),
                       )
                     : Container(

@@ -1,5 +1,6 @@
 import 'package:dropili/Presentation/home/collectionPage/bloc/collection_bloc.dart';
 import 'package:dropili/Presentation/home/collectionPage/widgets/profile_card_widget.dart';
+import 'package:dropili/Presentation/widgets_model/loading_widget.dart';
 import 'package:dropili/Presentation/widgets_model/snackbar.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
@@ -51,12 +52,7 @@ class _CollectionPageState extends State<CollectionPage>
               },
               color: MalinColors.AppGreen,
               child: state is CollectionLoadingState
-                  ? Center(
-                      child: Lottie.asset(
-                        'assets/lottie/loading-green.json',
-                        height: 100,
-                      ),
-                    )
+                  ? LoadingWidget()
                   : state is CollectionLoadedState
                       ? SingleChildScrollView(
                           physics: BouncingScrollPhysics(),

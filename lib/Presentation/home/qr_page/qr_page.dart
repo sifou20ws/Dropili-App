@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:ui' as ui;
 
+import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/qr_page/copy_field_widget.dart';
 import 'package:dropili/Presentation/home/qr_page/share_button_widget.dart';
 import 'package:dropili/Presentation/widgets_model/snackbar.dart';
@@ -9,8 +10,10 @@ import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:gallery_saver/gallery_saver.dart';
+import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -122,8 +125,14 @@ class _QrPageState extends State<QrPage> {
           ),
           GestureDetector(
               onTap: () async {
-                await Clipboard.setData(
-                    ClipboardData(text: 'Dropili.co/link/abdenourgnx'));
+                await Clipboard.setData(ClipboardData(
+                    text: 'Dropili.co/link/' +
+                        context
+                            .read<ProfileBloc>()
+                            .state
+                            .showProfile!
+                            .user
+                            .name));
                 SnackBars.showSucessSnackBar(
                     context, 'Profile link copied to clipboard'.t(context));
               },
@@ -133,14 +142,13 @@ class _QrPageState extends State<QrPage> {
           ),
           GestureDetector(
             onTap: (() async {
-              log('someth');
               await FlutterShare.share(
                 title: 'Dropili profile',
-                text: 'Abdenourgnx Profile',
-                linkUrl: 'dorpili.co/link/abdenourgnx',
+                text: context.read<ProfileBloc>().state.showProfile!.user.name +
+                    ' Profile',
+                linkUrl: 'dorpili.co/link/abdenourgnx' +
+                    context.read<ProfileBloc>().state.showProfile!.user.name,
               );
-              // Share.share('www.profile.com');
-              // await Share.share('somethins', subject: 'somethins');
             }),
             child: ShareButton(),
           ),

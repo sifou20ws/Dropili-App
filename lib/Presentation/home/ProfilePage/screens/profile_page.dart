@@ -1,13 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/edite_profile_btn_widget.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/profile_grid.dart';
 import 'package:dropili/Presentation/widgets_model/cachedImage_widget.dart';
+import 'package:dropili/Presentation/widgets_model/loading_widget.dart';
 import 'package:dropili/Presentation/widgets_model/snackbar.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
-import 'package:dropili/domain/repositories/profile_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,8 +32,8 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
   @override
   void initState() {
     super.initState();
-    _profileBloc =
-        ProfileBloc(ProfileRepository: getIt.getItInstace<ProfileRepository>());
+    _profileBloc = getIt.getItInstace<ProfileBloc>();
+    // ProfileBloc(ProfileRepository: getIt.getItInstace<ProfileRepository>());
     _profileBloc.add(GetUserBlocksEvent());
     _profileBloc.add(GetProfileEvent());
   }
@@ -82,12 +81,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                 width: MediaQuery.of(context).size.width,
                 color: Colors.white,
                 child: (state.status == ProfileStatus.loading)
-                    ? Center(
-                        child: Lottie.asset(
-                          'assets/lottie/loading-green.json',
-                          height: 100,
-                        ),
-                      )
+                    ? LoadingWidget()
                     : SingleChildScrollView(
                         physics: BouncingScrollPhysics(),
                         child: Stack(

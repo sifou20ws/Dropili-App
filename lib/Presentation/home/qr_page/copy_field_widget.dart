@@ -1,4 +1,6 @@
+import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CopyLinkWidget extends StatelessWidget {
   const CopyLinkWidget({super.key});
@@ -16,9 +18,19 @@ class CopyLinkWidget extends StatelessWidget {
         padding: EdgeInsets.only(left: 20, right: 15, top: 15, bottom: 15),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Text(
-            'Dropili.co/link/abdenourgnx',
-            style: TextStyle(fontSize: 17, fontWeight: FontWeight.w400),
+          FittedBox(
+            fit: BoxFit.fitWidth,
+            child: Text(
+              'Dropili.co/link/' +
+                  context
+                      .read<ProfileBloc>()
+                      .state
+                      .showProfile!
+                      .user
+                      .id
+                      .toString(),
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w400),
+            ),
           ),
           Icon(Icons.copy_outlined),
         ]),
