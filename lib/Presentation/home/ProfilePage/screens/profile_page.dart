@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/edite_profile_btn_widget.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/profile_grid.dart';
+import 'package:dropili/Presentation/widgets_model/cachedImage_widget.dart';
 import 'package:dropili/Presentation/widgets_model/snackbar.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
@@ -83,7 +84,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                 child: (state.status == ProfileStatus.loading)
                     ? Center(
                         child: Lottie.asset(
-                          'assets/lottie/loading.json',
+                          'assets/lottie/loading-green.json',
                           height: 100,
                         ),
                       )
@@ -101,13 +102,8 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                   alignment: Alignment.topCenter,
                                 ),
                               ),
-                              child: CachedNetworkImage(
-                                imageUrl: getBackgroundPicture,
-                                placeholder: (context, url) =>
-                                    Center(child: CircularProgressIndicator()),
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
-                                fit: BoxFit.cover,
+                              child: cachedImageModelWidget(
+                                image: getBackgroundPicture,
                               ),
                             ),
                             Column(

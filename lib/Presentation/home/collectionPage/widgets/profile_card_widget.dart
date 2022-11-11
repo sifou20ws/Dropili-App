@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dropili/Presentation/home/ProfilePage/widgets/profile_dialogue_box.dart';
 import 'package:dropili/Presentation/home/collectionPage/bloc/collection_bloc.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
@@ -31,16 +29,25 @@ class ProfileCardWidget extends StatelessWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          RoundedProfilePicture(
-            image: profile.userProfile.originalUrl,
-            get: true,
-            size: 90,
+          GestureDetector(
+            onTap: () async {
+              var result = await Navigator.pushNamed(context, '/showFriend',
+                  arguments: profile);
+              if (result as bool) {
+                BlocProvider.of<CollectionBloc>(context)
+                    .add(DeleteFriendEvent(id: profile.id.toString()));
+              } else {
+                return;
+              }
+            },
+            child: RoundedProfilePicture(
+              image: profile.userProfile.originalUrl,
+              get: true,
+              size: 80,
+            ),
           ),
-          // SizedBox(
-          //   width: 10,
-          // ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -77,6 +84,7 @@ class ProfileCardWidget extends StatelessWidget {
                 //     state.blocks[0].icon.originalUrl),
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
+                  physics: BouncingScrollPhysics(),
                   // shrinkWrap: true,
                   itemCount: profile.blocks.length,
                   itemBuilder: (context, index) {
@@ -131,7 +139,16 @@ class ProfileCardWidget extends StatelessWidget {
                 if (value == 'Delete') {
                   BlocProvider.of<CollectionBloc>(context)
                       .add(DeleteFriendEvent(id: profile.id.toString()));
-                } else if (value == 'Show') {}
+                } else if (value == 'Show') {
+                  var result = await Navigator.pushNamed(context, '/showFriend',
+                      arguments: profile);
+                  if (result as bool) {
+                    BlocProvider.of<CollectionBloc>(context)
+                        .add(DeleteFriendEvent(id: profile.id.toString()));
+                  } else {
+                    return;
+                  }
+                }
               }),
               itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
                 PopupMenuItem<String>(

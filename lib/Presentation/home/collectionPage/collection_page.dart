@@ -53,7 +53,7 @@ class _CollectionPageState extends State<CollectionPage>
               child: state is CollectionLoadingState
                   ? Center(
                       child: Lottie.asset(
-                        'assets/lottie/loading.json',
+                        'assets/lottie/loading-green.json',
                         height: 100,
                       ),
                     )
