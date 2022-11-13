@@ -86,6 +86,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                           'assets/lottie/loading.json',
                           height: 100,
                         ),
+
                       )
                     : SingleChildScrollView(
                         physics: BouncingScrollPhysics(),
