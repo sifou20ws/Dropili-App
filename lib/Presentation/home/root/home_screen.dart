@@ -103,13 +103,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 .user
                                 .name +
                             ' Profile',
-                        linkUrl: 'dorpili.co/link/abdenourgnx' +
+                        linkUrl: 'dorpili.co/link/' +
                             context
                                 .read<ProfileBloc>()
                                 .state
                                 .showProfile!
                                 .user
-                                .name,
+                                .username,
                       );
                       // do something
                     },

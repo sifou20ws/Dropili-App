@@ -209,11 +209,14 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                     padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
                         color: Colors.white, shape: BoxShape.circle),
-                    child: RoundedProfilePicture(
-                      image: (_freindProfile.userProfile.originalUrl == '')
-                          ? 'assets/dropili_Logo_PNG.png'
-                          : _freindProfile.userProfile.originalUrl,
-                      get: !(_freindProfile.userProfile.originalUrl == ''),
+                    child: Hero(
+                      tag: _freindProfile.name,
+                      child: RoundedProfilePicture(
+                        image: (_freindProfile.userProfile.originalUrl == '')
+                            ? 'assets/dropili_Logo_PNG.png'
+                            : _freindProfile.userProfile.originalUrl,
+                        get: !(_freindProfile.userProfile.originalUrl == ''),
+                      ),
                     ),
                   ),
                 )

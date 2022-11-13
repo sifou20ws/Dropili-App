@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/profile_dialogue_box.dart';
 import 'package:dropili/Presentation/home/collectionPage/bloc/collection_bloc.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
@@ -42,10 +43,13 @@ class ProfileCardWidget extends StatelessWidget {
                 return;
               }
             },
-            child: RoundedProfilePicture(
-              image: profile.userProfile.originalUrl,
-              get: true,
-              size: 80,
+            child: Hero(
+              tag: profile.name,
+              child: RoundedProfilePicture(
+                image: profile.userProfile.originalUrl,
+                get: true,
+                size: 80,
+              ),
             ),
           ),
           Column(
@@ -102,10 +106,17 @@ class ProfileCardWidget extends StatelessWidget {
                               );
                             }));
                       },
-                      child: Image.network(
-                        profile.blocks[index].icon.originalUrl,
-                        // height: 30,
-                        // width: 30,
+                      // child: Image.network(
+                      //   profile.blocks[index].icon.originalUrl,
+                      //   // height: 30,
+                      //   // width: 30,
+                      // ),
+                      child: CachedNetworkImage(
+                        imageUrl: profile.blocks[index].icon.originalUrl,
+                        fadeOutDuration: Duration.zero,
+                        fadeInDuration: Duration.zero,
+                        placeholderFadeInDuration: Duration.zero,
+                        fit: BoxFit.cover,
                       ),
                     );
                   },

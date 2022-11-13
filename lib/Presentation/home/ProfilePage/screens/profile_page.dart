@@ -1,6 +1,7 @@
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/edite_profile_btn_widget.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/profile_grid.dart';
+import 'package:dropili/Presentation/home/collectionPage/bloc/collection_bloc.dart';
 import 'package:dropili/Presentation/widgets_model/cachedImage_widget.dart';
 import 'package:dropili/Presentation/widgets_model/loading_widget.dart';
 import 'package:dropili/Presentation/widgets_model/snackbar.dart';
@@ -86,6 +87,10 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                         physics: BouncingScrollPhysics(),
                         child: Stack(
                           children: <Widget>[
+                            Container(
+                              color: Colors.white,
+                              height: MediaQuery.of(context).size.height,
+                            ),
                             Container(
                               height: MediaQuery.of(context).size.height * 0.25,
                               width: MediaQuery.of(context).size.width,

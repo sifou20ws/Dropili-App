@@ -57,6 +57,8 @@ class _CollectionPageState extends State<CollectionPage>
                       ? SingleChildScrollView(
                           physics: BouncingScrollPhysics(),
                           child: Container(
+                            constraints: BoxConstraints(
+                                minHeight: MediaQuery.of(context).size.height),
                             padding:
                                 EdgeInsets.only(top: 20, left: 20, right: 20),
                             child: Column(

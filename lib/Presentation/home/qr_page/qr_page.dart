@@ -103,11 +103,22 @@ class _QrPageState extends State<QrPage> {
                 ],
               ),
               child: QrImage(
-                data: 'dropili.co/link/abdenourgnx',
+                data: 'Dropili.co/link/' +
+                    context
+                        .read<ProfileBloc>()
+                        .state
+                        .showProfile!
+                        .user
+                        .username,
                 size: MediaQuery.of(context).size.width * 0.6,
                 version: QrVersions.auto,
                 embeddedImage: AssetImage('assets/dropili_rounded_black.png'),
-                embeddedImageStyle: QrEmbeddedImageStyle(size: Size(30, 30)),
+                embeddedImageStyle: QrEmbeddedImageStyle(
+                  size: Size(
+                    30,
+                    30,
+                  ),
+                ),
 
                 // gapless: false,
               ),
@@ -125,14 +136,16 @@ class _QrPageState extends State<QrPage> {
           ),
           GestureDetector(
               onTap: () async {
-                await Clipboard.setData(ClipboardData(
-                    text: 'Dropili.co/link/' +
-                        context
-                            .read<ProfileBloc>()
-                            .state
-                            .showProfile!
-                            .user
-                            .name));
+                await Clipboard.setData(
+                  ClipboardData(
+                      text: 'Dropili.co/link/' +
+                          context
+                              .read<ProfileBloc>()
+                              .state
+                              .showProfile!
+                              .user
+                              .username),
+                );
                 SnackBars.showSucessSnackBar(
                     context, 'Profile link copied to clipboard'.t(context));
               },
@@ -146,8 +159,13 @@ class _QrPageState extends State<QrPage> {
                 title: 'Dropili profile',
                 text: context.read<ProfileBloc>().state.showProfile!.user.name +
                     ' Profile',
-                linkUrl: 'dorpili.co/link/abdenourgnx' +
-                    context.read<ProfileBloc>().state.showProfile!.user.name,
+                linkUrl: 'dorpili.co/link/' +
+                    context
+                        .read<ProfileBloc>()
+                        .state
+                        .showProfile!
+                        .user
+                        .username,
               );
             }),
             child: ShareButton(),

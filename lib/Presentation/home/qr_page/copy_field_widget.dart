@@ -27,7 +27,7 @@ class CopyLinkWidget extends StatelessWidget {
                       .state
                       .showProfile!
                       .user
-                      .id
+                      .username
                       .toString(),
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w400),
             ),
