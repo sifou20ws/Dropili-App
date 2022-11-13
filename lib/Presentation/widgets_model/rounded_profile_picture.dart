@@ -1,10 +1,9 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/icon_container.dart';
+import 'package:dropili/Presentation/widgets_model/cachedImage_widget.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 
 class RoundedProfilePicture extends StatelessWidget {
   final String image;
@@ -35,13 +34,13 @@ class RoundedProfilePicture extends StatelessWidget {
                   blurRadius: 10,
                 ),
               ],
-              image: DecorationImage(
-                //fit: BoxFit.fill,
-                image: AssetImage(
-                  'assets/dropili_app_logo.png',
-                ),
-                alignment: Alignment.topCenter,
-              ),
+              // image: DecorationImage(
+              //   //fit: BoxFit.fill,
+              //   image: AssetImage(
+              //     'assets/dropili_app_logo.png',
+              //   ),
+              //   alignment: Alignment.topCenter,
+              // ),
             ),
             child: Container(
               height: size,
@@ -60,19 +59,7 @@ class RoundedProfilePicture extends StatelessWidget {
                             height: 100,
                             fit: BoxFit.cover,
                           )
-                        : CachedNetworkImage(
-                            imageUrl: image,
-                            placeholder: (context, url) => Center(
-                                child: Center(
-                              child: Lottie.asset(
-                                'assets/lottie/loading.json',
-                                height: 100,
-                              ),
-                            )),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                            fit: BoxFit.cover,
-                          )
+                        : cachedImageModelWidget(image: image)
                     : file
                         ? Image.file(
                             File(image),

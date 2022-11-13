@@ -1,4 +1,5 @@
 import 'package:dropili/Presentation/Nfc/nfc_dialoge.dart';
+import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/collectionPage/collection_page.dart';
 import 'package:dropili/Presentation/home/navigation_bar/navigation_bar_widget.dart';
 import 'package:dropili/Presentation/home/qr_page/qr_page.dart';
@@ -7,6 +8,8 @@ import 'package:dropili/Presentation/home/drawerPage/drawerPage.dart';
 import 'package:dropili/Presentation/home/root/bloc/navigation_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dropili/di/get_it.dart' as getIt;
+import 'package:flutter_share/flutter_share.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late NavigationBloc _navigationBloc;
+  late ProfileBloc _profileBloc;
 
   final _pageController = PageController();
   late List<Widget> _pages;
@@ -24,7 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _navigationBloc = NavigationBloc();
+    _navigationBloc = getIt.getItInstace<NavigationBloc>();
+    _profileBloc = getIt.getItInstace<ProfileBloc>();
 
     _pages = [
       ProfilePageWidget(),
@@ -38,12 +43,16 @@ class _HomeScreenState extends State<HomeScreen> {
   void dispose() {
     super.dispose();
     _navigationBloc.close();
+    _profileBloc.close();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: _navigationBloc,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: _navigationBloc),
+        BlocProvider.value(value: _profileBloc),
+      ],
       child: BlocListener<NavigationBloc, NavigationState>(
         listener: (context, state) async {
           if (state.currentPage == Pages.scanner) {
@@ -54,7 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
               context: context,
               builder: (context) {
                 return NfcScanWidget(
-                  dataToTag: 'http://dropili.co/link/abdenourgnx',
+                  dataToTag: 'http://dropili.co/link/' +
+                      _profileBloc.state.showProfile!.user.name,
                 );
               },
             );
@@ -83,7 +93,24 @@ class _HomeScreenState extends State<HomeScreen> {
                       Icons.share,
                       color: Colors.black54,
                     ),
-                    onPressed: () {
+                    onPressed: () async {
+                      await FlutterShare.share(
+                        title: 'Dropili profile',
+                        text: context
+                                .read<ProfileBloc>()
+                                .state
+                                .showProfile!
+                                .user
+                                .name +
+                            ' Profile',
+                        linkUrl: 'dorpili.co/link/' +
+                            context
+                                .read<ProfileBloc>()
+                                .state
+                                .showProfile!
+                                .user
+                                .username,
+                      );
                       // do something
                     },
                   )

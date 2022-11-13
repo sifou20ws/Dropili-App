@@ -1,3 +1,5 @@
+import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
+import 'package:dropili/Presentation/home/root/bloc/navigation_bloc.dart';
 import 'package:dropili/Presentation/localization/bloc/language_bloc.dart';
 import 'package:dropili/core/api/post_get.dart';
 import 'package:dropili/domain/repositories/auth_repository.dart';
@@ -13,6 +15,11 @@ Future init() async {
 
   getItInstace.registerLazySingleton<ProfileRepository>(
       () => ProfileRepository(getItInstace()));
+
+  getItInstace.registerLazySingleton<NavigationBloc>(() => NavigationBloc());
+
+  getItInstace.registerLazySingleton<ProfileBloc>(
+      () => ProfileBloc(ProfileRepository: getItInstace()));
 
   getItInstace.registerLazySingleton<LanguageBloc>(() => LanguageBloc());
 }

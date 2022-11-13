@@ -1,3 +1,4 @@
+import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/root/bloc/navigation_bloc.dart';
 import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart';
 import 'package:dropili/common/constant/colors.dart';
@@ -5,7 +6,6 @@ import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:dropili/core/utils/token.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class DrawerPage extends StatelessWidget {
   const DrawerPage({Key? key}) : super(key: key);
@@ -37,13 +37,21 @@ class DrawerPage extends StatelessWidget {
               height: 20,
             ),
             RoundedProfilePicture(
-              image: 'assets/mee.jpeg',
+              image: context
+                  .read<ProfileBloc>()
+                  .state
+                  .showProfile!
+                  .user
+                  .userProfile
+                  .originalUrl,
+              get: true,
             ),
             SizedBox(
               height: 20,
             ),
             Text(
-              'Abdennour kharouri',
+              context.read<ProfileBloc>().state.showProfile!.user.name,
+              textAlign: TextAlign.center,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
             ),
             Padding(

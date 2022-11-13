@@ -65,40 +65,5 @@ class BlockCardWidget extends StatelessWidget {
         ],
       ),
     );
-    // return Container(
-    //   decoration: BoxDecoration(
-    //     color: selected
-    //         ? MalinColors.AppGreen.withOpacity(0.5)
-    //         : Colors.grey.shade100,
-    //     borderRadius: BorderRadius.all(Radius.circular(15)),
-    //   ),
-    //   child: Padding(
-    //       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-    //       child: Column(
-    //         crossAxisAlignment: CrossAxisAlignment.center,
-    //         children: [
-    //           Expanded(
-    //             child: Container(
-    //               decoration: BoxDecoration(
-    //                 borderRadius: BorderRadius.all(Radius.circular(15)),
-    //                 boxShadow: [
-    //                   BoxShadow(
-    //                     color: Colors.black.withOpacity(0.1),
-    //                     spreadRadius: 4,
-    //                     blurRadius: 5,
-    //                   )
-    //                 ],
-    //               ),
-    //               child: Image.network(
-    //                 imageUrl,
-    //                 width: MediaQuery.of(context).size.width * 0.2,
-    //               ),
-    //             ),
-    //           ),
-    //           SizedBox(height: 5),
-    //           Text(title),
-    //         ],
-    //       )),
-    // );
   }
 }
