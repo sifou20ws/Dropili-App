@@ -1,9 +1,9 @@
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/edite_profile_btn_widget.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/profile_grid.dart';
-import 'package:dropili/Presentation/home/collectionPage/bloc/collection_bloc.dart';
 import 'package:dropili/Presentation/widgets_model/cachedImage_widget.dart';
 import 'package:dropili/Presentation/widgets_model/loading_widget.dart';
+import 'package:dropili/Presentation/widgets_model/profile_information_widget.dart';
 import 'package:dropili/Presentation/widgets_model/snackbar.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
@@ -13,7 +13,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
-import 'package:lottie/lottie.dart';
 
 class ProfilePageWidget extends StatefulWidget {
   const ProfilePageWidget({Key? key}) : super(key: key);
@@ -34,9 +33,6 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
   void initState() {
     super.initState();
     _profileBloc = getIt.getItInstace<ProfileBloc>();
-    // ProfileBloc(ProfileRepository: getIt.getItInstace<ProfileRepository>());
-    _profileBloc.add(GetUserBlocksEvent());
-    _profileBloc.add(GetProfileEvent());
   }
 
   @override
@@ -134,50 +130,25 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                                 onTap: () async {
                                                   Navigator.pushNamed(context,
                                                           '/editProfile')
-                                                      .then((value) {
-                                                    _profileBloc.add(
-                                                        GetUserBlocksEvent());
-                                                    _profileBloc
-                                                        .add(GetProfileEvent());
-                                                  });
+                                                      .then(
+                                                    (value) {
+                                                      _profileBloc.add(
+                                                          GetUserBlocksEvent());
+                                                      _profileBloc.add(
+                                                          GetProfileEvent());
+                                                    },
+                                                  );
                                                 },
                                                 child: EditeProfileBtnWidget()),
                                           ],
                                         ),
                                         SizedBox(height: 20),
                                         Padding(
-                                          padding: EdgeInsets.only(left: 10),
-                                          child: Row(
-                                            children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    getUserName,
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: Colors.black),
-                                                  ),
-                                                  SizedBox(height: 5),
-                                                  SizedBox(
-                                                    width: 300,
-                                                    child: Text(
-                                                      getUserDescription,
-                                                      style: TextStyle(
-                                                        fontSize: 15,
-                                                        color: Colors
-                                                            .grey.shade700,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                            padding: EdgeInsets.only(left: 10),
+                                            child: InformationWidget(
+                                              name: getUserName,
+                                              discrtptio: getUserDescription,
+                                            )),
                                         SizedBox(height: 35),
                                         ListView.separated(
                                           physics:

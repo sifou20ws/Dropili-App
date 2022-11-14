@@ -16,6 +16,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<GetUserBlocksEvent>(_getUserBlocksEvent);
     on<GetProfileEvent>(_getProfileEvent);
     // on<DeleteUserBlocksEvent>(_deleteUserBlocksEvent);
+    add(GetUserBlocksEvent());
+    add(GetProfileEvent());
   }
 
   void _editButtonClickedEvent(event, Emitter<ProfileState> emit) {

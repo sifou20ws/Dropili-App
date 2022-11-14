@@ -2,6 +2,7 @@ import 'package:dropili/Presentation/change_language/change_language_sceen2.dart
 import 'package:dropili/Presentation/home/EditProfilePage/screens/edit_profile_screen.dart';
 import 'package:dropili/Presentation/home/collectionPage/screens/friend_profile_screen.dart';
 import 'package:dropili/Presentation/home/root/home_screen.dart';
+import 'package:dropili/Presentation/home/scanned_profile/scanned_profile_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dropili/Presentation/authentification/Login/screens/login_screen.dart';
@@ -21,5 +22,6 @@ class Routes {
         '/home': ((context) => HomeScreen()),
         '/editProfile': ((context) => EditProfilePage()),
         '/showFriend': (context) => FriendProfileScreen(),
+        '/scannedProfile': (context) => ScannedProfileScreen(),
       };
 }

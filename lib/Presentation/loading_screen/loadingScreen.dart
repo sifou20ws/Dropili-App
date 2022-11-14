@@ -27,6 +27,8 @@ class _LoadinScreenState extends State<LoadinScreen> {
   void navigate() async {
     token = await TokenHandler.loadToken();
 
+    String url = '';
+
     if (token == null) {
       nextRoute = '/onBoard';
     } else {
@@ -36,7 +38,8 @@ class _LoadinScreenState extends State<LoadinScreen> {
           var val = value.toString();
           log(val);
           if (val.contains('dropili')) {
-            // nextRoute = '/editProfile';
+            url = value.toString();
+            nextRoute = '/scannedProfile';
           } else {
             nextRoute = '/home';
           }
@@ -45,6 +48,13 @@ class _LoadinScreenState extends State<LoadinScreen> {
     }
 
     await Future.delayed(Duration(seconds: 2));
+
+    if (nextRoute == '/scannedProfile') {
+      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushNamed(context, nextRoute, arguments: url);
+      return;
+    }
+
     Navigator.pushReplacementNamed(context, nextRoute);
   }
 
