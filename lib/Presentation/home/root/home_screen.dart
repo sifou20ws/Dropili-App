@@ -45,9 +45,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     super.dispose();
-    _navigationBloc.close();
-    _profileBloc.close();
-    log('disposing');
   }
 
   @override
@@ -120,11 +117,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   )
                 ],
               ),
-              // body: state.currentPage == Pages.profile
-              //     ? _pages[0]
-              //     : state.currentPage == Pages.qr
-              //         ? _pages[1]
-              //         : _pages[2],
               body: PageView(
                 controller: _pageController,
                 children: _pages,

@@ -33,11 +33,12 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
   void initState() {
     super.initState();
     _profileBloc = getIt.getItInstace<ProfileBloc>();
+    _profileBloc.add(GetUserBlocksEvent());
+    _profileBloc.add(GetProfileEvent());
   }
 
   @override
   void dispose() {
-    _profileBloc.close();
     super.dispose();
   }
 

@@ -18,7 +18,7 @@ class ProfileCardWidget extends StatelessWidget {
       padding: EdgeInsets.only(right: 10, left: 10, top: 15, bottom: 15),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
             color: Color.fromARGB(20, 29, 29, 29),

@@ -9,7 +9,6 @@ import 'package:dropili/domain/repositories/profile_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 
 class CollectionPage extends StatefulWidget {
   const CollectionPage({super.key});
@@ -48,20 +47,18 @@ class _CollectionPageState extends State<CollectionPage>
             return RefreshIndicator(
               onRefresh: () async {
                 _collectionBloc.add(LoadCollectionEvent());
-                // await Future.delayed(Duration(seconds: 2));
               },
               color: MalinColors.AppGreen,
-              child: state is CollectionLoadingState
-                  ? LoadingWidget()
-                  : state is CollectionLoadedState
-                      ? SingleChildScrollView(
-                          physics: BouncingScrollPhysics(),
-                          child: Container(
-                            constraints: BoxConstraints(
-                                minHeight: MediaQuery.of(context).size.height),
-                            padding:
-                                EdgeInsets.only(top: 20, left: 20, right: 20),
-                            child: Column(
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Container(
+                  constraints: BoxConstraints(
+                      minHeight: MediaQuery.of(context).size.height - 150),
+                  padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+                  child: state is CollectionLoadingState
+                      ? LoadingWidget()
+                      : state is CollectionLoadedState
+                          ? Column(
                               children: [
                                 Row(
                                   children: [
@@ -88,19 +85,19 @@ class _CollectionPageState extends State<CollectionPage>
                                 FriendsListWidget(
                                     friendsList: state.friendsList),
                               ],
-                            ),
-                          ),
-                        )
-                      : state is CollectionEmptyState
-                          ? Center(
-                              child: Text(
-                                'No collection yet'.t(context),
-                                style: TextStyle(
-                                    color: Colors.grey.shade500,
-                                    fontWeight: FontWeight.w400),
-                              ),
                             )
-                          : Container(),
+                          : state is CollectionEmptyState
+                              ? Center(
+                                  child: Text(
+                                    'No collection yet'.t(context),
+                                    style: TextStyle(
+                                        color: Colors.grey.shade500,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                )
+                              : Container(),
+                ),
+              ),
             );
           },
         ),
