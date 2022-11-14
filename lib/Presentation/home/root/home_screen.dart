@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dropili/Presentation/Nfc/nfc_dialoge.dart';
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/collectionPage/collection_page.dart';
@@ -10,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
 import 'package:flutter_share/flutter_share.dart';
+import 'package:http/http.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -42,8 +45,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     super.dispose();
-    _navigationBloc.close();
-    _profileBloc.close();
   }
 
   @override
@@ -64,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
               builder: (context) {
                 return NfcScanWidget(
                   dataToTag: 'http://dropili.co/link/' +
-                      _profileBloc.state.showProfile!.user.name,
+                      _profileBloc.state.showProfile!.user.username,
                 );
               },
             );
@@ -116,11 +117,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   )
                 ],
               ),
-              // body: state.currentPage == Pages.profile
-              //     ? _pages[0]
-              //     : state.currentPage == Pages.qr
-              //         ? _pages[1]
-              //         : _pages[2],
               body: PageView(
                 controller: _pageController,
                 children: _pages,

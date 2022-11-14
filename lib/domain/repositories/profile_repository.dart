@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dropili/core/api/post_get.dart';
+import 'package:dropili/core/error/failure.dart';
 import 'package:dropili/data/models/delete_block_response_model.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:dropili/data/models/get_friends_result_model.dart.dart';
@@ -117,12 +119,45 @@ class ProfileRepository {
     }
   }
 
+  Future<void> addFriend(int id) async {
+    http.Response response;
+    var data = {'id': id};
+
+    try {
+      response = await _network.postWithHeader('/friends', data);
+
+      if (response.statusCode == 500) {
+        throw Failure(message: 'Could not add friend');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<bool> deleteFriend(String id) async {
     http.Response response;
     try {
       response = await _network.deleteWithHeader('/friends/' + id);
       var data = json.decode(response.body);
       return data['success'];
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<int> getIdFromUsername(String username) async {
+    http.Response response;
+
+    try {
+      response = await _network.getWithHeader('/get-id/' + username);
+
+      var data = json.decode(response.body);
+
+      if (data['user'] == null) {
+        throw Failure(message: 'No user registred with this name');
+      }
+
+      return data['user']['id'];
     } catch (e) {
       rethrow;
     }
