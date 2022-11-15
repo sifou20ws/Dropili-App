@@ -38,11 +38,15 @@ class _FormWidgetState extends State<FormWidget> {
                 BlocProvider.of<AuthBloc>(context)
                     .add(NameTextChangedEvent(value));
               },
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
               decoration: buildInputDecoration(
                 text: 'name'.t(context),
               ).copyWith(
-                // icon: Icon(Icons.person),
-                // labelText: 'name'.t(context),
+                prefixIcon: Icon(
+                  Icons.person,
+                  color: Colors.white,
+                ),
                 errorText: context.read<AuthBloc>().state.nameValid
                     ? null
                     : 'name'.t(context) + ' ' + 'short'.t(context),
@@ -57,8 +61,14 @@ class _FormWidgetState extends State<FormWidget> {
                 BlocProvider.of<AuthBloc>(context)
                     .add(UsernameChangedEvent(value));
               },
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
               decoration: buildInputDecoration(text: 'username'.t(context))
                   .copyWith(
+                      prefixIcon: Icon(
+                        Icons.person_outline_rounded,
+                        color: Colors.white,
+                      ),
                       // icon: Icon(Icons.person),
                       errorText: context.read<AuthBloc>().state.usernameValid
                           ? null
@@ -75,9 +85,15 @@ class _FormWidgetState extends State<FormWidget> {
                 BlocProvider.of<AuthBloc>(context)
                     .add(EmailTextChangeEvent(value));
               },
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
               decoration: buildInputDecoration(
                 text: 'email'.t(context),
               ).copyWith(
+                prefixIcon: Icon(
+                  Icons.email_outlined,
+                  color: Colors.white,
+                ),
                 errorText: context.read<AuthBloc>().state.emailValid
                     ? null
                     : 'email'.t(context) + ' ' + 'not valid'.t(context),
@@ -93,16 +109,18 @@ class _FormWidgetState extends State<FormWidget> {
                 BlocProvider.of<AuthBloc>(context)
                     .add(PasswordTextChangeEvent(value));
               },
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
               decoration: buildInputDecoration(
                 text: 'password'.t(context),
               ).copyWith(
-                // icon: Icon(Icons.lock),
-                // hintText: "Password",
-                // labelText: 'password'.t(context),
+                prefixIcon: Icon(
+                  Icons.lock,
+                  color: Colors.white,
+                ),
                 errorText: context.read<AuthBloc>().state.passwordValid
                     ? null
                     : 'password'.t(context) + ' ' + 'short'.t(context),
-                // labelText: 'Email',
                 suffixIcon: IconButton(
                   onPressed: (() {
                     BlocProvider.of<AuthBloc>(context).add(
