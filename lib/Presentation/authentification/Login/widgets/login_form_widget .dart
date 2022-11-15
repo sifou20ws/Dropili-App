@@ -39,6 +39,11 @@ class _FormWidgetState extends State<LogingFormWidget> {
                   TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
               decoration: buildInputDecoration(
                 text: 'Username',
+              ).copyWith(
+                prefixIcon: Icon(
+                  Icons.person_outline,
+                  color: Colors.white,
+                ),
               ),
               validator: null,
             ),
@@ -54,6 +59,10 @@ class _FormWidgetState extends State<LogingFormWidget> {
               style:
                   TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
               decoration: buildInputDecoration(text: 'password').copyWith(
+                prefixIcon: Icon(
+                  Icons.lock_outline_rounded,
+                  color: Colors.white,
+                ),
                 suffixIcon: IconButton(
                   onPressed: (() {
                     BlocProvider.of<AuthBloc>(context).add(
