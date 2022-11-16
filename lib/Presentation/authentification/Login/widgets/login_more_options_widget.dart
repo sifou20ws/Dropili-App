@@ -1,11 +1,18 @@
+import 'dart:developer';
+
 import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class MoreOptions extends StatelessWidget {
   const MoreOptions({super.key});
+
+  Future<void> _signIn() async {
+    var s = await GoogleSignInApi.login();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +33,19 @@ class MoreOptions extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                child: Container(
-                  height: 50,
-                  padding: EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.white, width: 1)),
-                  child: Image(
-                    image: AssetImage('assets/google_logo_colored.png'),
-                    // color: MalinColors.AppBlue,
+                child: GestureDetector(
+                  onTap: _signIn,
+                  child: Container(
+                    height: 50,
+                    padding: EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.white, width: 1)),
+                    child: Image(
+                      image: AssetImage('assets/google_logo_colored.png'),
+                      // color: MalinColors.AppBlue,
+                    ),
                   ),
                 ),
               ),
@@ -115,4 +125,10 @@ class SwitchToSignupWidget extends StatelessWidget {
       ],
     );
   }
+}
+
+class GoogleSignInApi {
+  static final _googleSignIn = GoogleSignIn();
+
+  static Future<GoogleSignInAccount?> login() => _googleSignIn.signIn();
 }
