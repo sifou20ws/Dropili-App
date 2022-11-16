@@ -1,6 +1,7 @@
 part of 'editProfileScreen_bloc.dart';
 
 enum Status {
+  directOnMeSuccess,
   initial,
   loading,
   success,
@@ -18,7 +19,8 @@ enum Status {
   deleteSuccess,
   loadingProfileUpdate,
   profileUpdateSucess,
-  failInDialogue
+  failInDialogue,
+  costumeBlock
 }
 
 class EditProfileState extends Equatable {
@@ -39,8 +41,11 @@ class EditProfileState extends Equatable {
       this.backgroundImg = '',
       this.profileImg = '',
       this.showProfile,
+      this.addCostumeBlockImgPath = 'assets/dropili_app_logo.png',
+      this.profileUserUrl = '',
       this.valideName = true,
       this.load = false,
+      this.openDirectMeDialogue = false,
       this.blockUrl = ''});
 
   final bool errorExist;
@@ -56,13 +61,15 @@ class EditProfileState extends Equatable {
   final List<List<BlocksItem>> blocksList;
   final String userName;
   final String userDescription;
+  String addCostumeBlockImgPath = '';
   final String backgroundImg;
+  bool openDirectMeDialogue;
   final String profileImg;
   final PostProfileResp? showProfile;
   final String blockUrl;
   final bool valideName;
   final List<UserBlocksItem> userBlocks;
-
+  String profileUserUrl;
   EditProfileState copyWith(
       {bool? switchButton,
       String? messageError,
@@ -76,12 +83,15 @@ class EditProfileState extends Equatable {
       String? backgroundImg,
       String? profileImg,
       String? userName,
+      String? addCostumeBlockImgPath,
       String? userDescription,
       PostProfileResp? showProfile,
       String? blockUrl,
       bool? errorExist,
       bool? valideName,
+      bool? openDirectMeDialogue,
       bool? load,
+      String? profileUserUrl,
       List<List<BlocksItem>>? blocksList}) {
     return EditProfileState(
       messageError: messageError ?? this.messageError,
@@ -99,10 +109,14 @@ class EditProfileState extends Equatable {
       showProfile: showProfile ?? this.showProfile,
       blockUrl: blockUrl ?? this.blockUrl,
       errorExist: errorExist ?? this.errorExist,
+      addCostumeBlockImgPath:
+          addCostumeBlockImgPath ?? this.addCostumeBlockImgPath,
       valideName: valideName ?? this.valideName,
       userBlocks: userBlocks ?? this.userBlocks,
       load: load ?? this.load,
+      profileUserUrl: profileUserUrl ?? this.profileUserUrl,
       blocksList: blocksList ?? this.blocksList,
+      openDirectMeDialogue: openDirectMeDialogue ?? this.openDirectMeDialogue,
     );
   }
 
@@ -117,6 +131,8 @@ class EditProfileState extends Equatable {
         load,
         coverImagePath,
         profileImagePath,
+        addCostumeBlockImgPath,
+        profileUserUrl,
         userName,
         userDescription,
         profileImg,
@@ -126,6 +142,7 @@ class EditProfileState extends Equatable {
         errorExist,
         valideName,
         userBlocks,
-        blocksList
+        blocksList,
+        openDirectMeDialogue,
       ];
 }

@@ -115,3 +115,20 @@ class DeleteUserBlocksEvent extends EditProfileEvent {
   List<Object?> get props => [];
 }
 
+class DirectOnMeEvent extends EditProfileEvent {
+  final String direct , url ;
+  DirectOnMeEvent(
+      {required this.direct ,
+        required this.url  ,});
+
+  @override
+  List<Object?> get props => [];
+}
+
+class GetCostumeBlockImage extends EditProfileEvent {
+  GetCostumeBlockImage();
+
+  @override
+  List<Object?> get props => [];
+}
+

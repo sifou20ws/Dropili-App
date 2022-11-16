@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dropili/core/api/post_get.dart';
 import 'package:dropili/data/models/delete_block_response_model.dart';
@@ -127,4 +128,18 @@ class ProfileRepository {
       rethrow;
     }
   }
+
+  Future<dynamic> directOnMe({dynamic data}) async {
+    dynamic response;
+    var dataR;
+    try {
+      response = await _network.patchWithHeader('/direct', data);
+      dataR = json.decode(response.body);
+      log(dataR.toString());
+      return dataR;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 }

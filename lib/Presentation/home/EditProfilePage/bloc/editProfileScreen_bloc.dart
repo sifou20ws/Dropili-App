@@ -24,12 +24,14 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     on<ImportCoverImageEvent>(_importCoverImageEvent);
     on<ImportProfileImageEvent>(_importProfileImageEvent);
     on<PostBlocksEvent>(_postBlocksEvent);
+    on<DirectOnMeEvent>(_directOnMeEvent);
     on<PostProfileUpdateEvent>(_postProfileUpdateEvent);
     on<PostUserNameEvent>(_postUserNameEvent);
     on<PostDescriptionEvent>(_postDescriptionEvent);
     on<GetProfileEvent>(_getProfileEvent);
     on<BlockUrlEvent>(_blockUrlEvent);
     on<DeleteUserBlocksEvent>(_deleteUserBlocksEvent);
+    on<GetCostumeBlockImage>(_getCostumeBlockImage);
   }
 
   void _getBlocks(GetBlocksEvent event, Emitter<EditProfileState> emit) async {
@@ -146,7 +148,8 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   }
 
   void _switchEvent(SwitchEvent event, Emitter<EditProfileState> emit) {
-    emit(state.copyWith(switchButton: event.state));
+    emit(state.copyWith(switchButton: event.state ,
+      openDirectMeDialogue: event.state,));
   }
 
   void _blockUrlEvent(BlockUrlEvent event, Emitter<EditProfileState> emit) {
@@ -238,6 +241,42 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     } catch (e) {
       emit(state.copyWith(status: Status.fail));
       log(('error :'));
+      log(e.toString());
+    }
+  }
+
+  void _directOnMeEvent(
+      DirectOnMeEvent event, Emitter<EditProfileState> emit) async {
+    var resp;
+    Map<String, String> map1 = {'direct': event.direct, 'url': event.url , 'block_id' : event.direct};
+    PostProfileResp showProfile;
+    try {
+      resp = await _ProfileRepository.directOnMe(data: map1);
+
+      showProfile = await _ProfileRepository.getProfileShow();
+      emit(state.copyWith(
+        profileUserUrl: showProfile.user.url,
+        status: Status.directOnMeSuccess,
+      ));
+      log(resp.toString(), name: 'edit bloc :');
+      log(state.profileUserUrl, name: 'after updating');
+    } catch (e) {
+      log('bloc:');
+      log(e.toString());
+    }
+  }
+
+  void _getCostumeBlockImage(
+      GetCostumeBlockImage event, Emitter<EditProfileState> emit) async {
+    XFile? file;
+    try {
+      file = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (file != null) {
+        emit(state.copyWith(
+            addCostumeBlockImgPath: file.path, status: Status.costumeBlock));
+        log(state.addCostumeBlockImgPath, name: 'costume block image path');
+      }
+    } catch (e) {
       log(e.toString());
     }
   }

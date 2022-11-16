@@ -1,10 +1,12 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 
 class CustomDialogBox extends StatefulWidget {
   final String editText;
@@ -121,7 +123,18 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                         ),
                       ],
                     ),
-                    child: Image.network(widget.img),
+                    child: CachedNetworkImage(
+                      imageUrl: widget.img,
+                      placeholder: (context, url) => Center(
+                          child: Center(
+                        child: Lottie.asset(
+                          'assets/lottie/loading.json',
+                          height: 80,
+                        ),
+                      )),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ],
               ),
