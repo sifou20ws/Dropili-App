@@ -17,10 +17,10 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   EditProfileBloc({required ProfileRepository ProfileRepository})
       : _ProfileRepository = ProfileRepository,
         super(EditProfileState(blocks: [], userBlocks: [], blocksList: [])) {
-    on<ItemSelectedEvent>(_itemSelectedEvent);
-    on<SwitchEvent>(_switchEvent);
     on<GetBlocksEvent>(_getBlocks);
     on<GetUserBlocksEvent>(_getUserBlocks);
+    on<ItemSelectedEvent>(_itemSelectedEvent);
+    on<SwitchEvent>(_switchEvent);
     on<ImportCoverImageEvent>(_importCoverImageEvent);
     on<ImportProfileImageEvent>(_importProfileImageEvent);
     on<PostBlocksEvent>(_postBlocksEvent);
@@ -32,6 +32,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     on<BlockUrlEvent>(_blockUrlEvent);
     on<DeleteUserBlocksEvent>(_deleteUserBlocksEvent);
     on<GetCostumeBlockImage>(_getCostumeBlockImage);
+    on<PostCostumeBlock>(_postCostumeBlock);
   }
 
   void _getBlocks(GetBlocksEvent event, Emitter<EditProfileState> emit) async {
@@ -148,8 +149,10 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   }
 
   void _switchEvent(SwitchEvent event, Emitter<EditProfileState> emit) {
-    emit(state.copyWith(switchButton: event.state ,
-      openDirectMeDialogue: event.state,));
+    emit(state.copyWith(
+      switchButton: event.state,
+      openDirectMeDialogue: event.state,
+    ));
   }
 
   void _blockUrlEvent(BlockUrlEvent event, Emitter<EditProfileState> emit) {
@@ -248,7 +251,11 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   void _directOnMeEvent(
       DirectOnMeEvent event, Emitter<EditProfileState> emit) async {
     var resp;
-    Map<String, String> map1 = {'direct': event.direct, 'url': event.url , 'block_id' : event.direct};
+    Map<String, String> map1 = {
+      'direct': event.direct,
+      'url': event.url,
+      'block_id': event.direct
+    };
     PostProfileResp showProfile;
     try {
       resp = await _ProfileRepository.directOnMe(data: map1);
@@ -277,6 +284,37 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         log(state.addCostumeBlockImgPath, name: 'costume block image path');
       }
     } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  void _postCostumeBlock(
+      PostCostumeBlock event, Emitter<EditProfileState> emit) async {
+    if (event.url.isEmpty || event.titleAr.isEmpty || event.titleFr.isEmpty) {
+      emit(state.copyWith(
+        //status: Status.fail,
+        //errorExist: true,
+        messageError: 'url field is required',
+      ));
+      //emit(state.copyWith(valideName: false));
+      return;
+    }
+
+    var resp;
+    Map<String, String> map1 = {'url': event.url, 'title.ar': event.titleAr ,'title.fr': event.titleFr};
+    try {
+      resp = await _ProfileRepository.PostCostumeBlock(
+          icon: event.icon, data: map1 ,);
+      PostProfileResp profileResp = PostProfileResp.fromJson(resp);
+      (profileResp.success)
+          ? emit(state.copyWith(
+              status: Status.success, messageError: profileResp.message))
+          : emit(state.copyWith(
+              status: Status.fail, messageError: profileResp.message));
+
+      ;
+    } catch (e) {
+      log('bloc:');
       log(e.toString());
     }
   }

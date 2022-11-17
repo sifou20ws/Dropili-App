@@ -51,7 +51,7 @@ class EditProfileState extends Equatable {
   final bool errorExist;
   bool load;
   final String messageError;
-  final Status status;
+  Status status;
   final bool switchButton;
   final String id;
   final int index;

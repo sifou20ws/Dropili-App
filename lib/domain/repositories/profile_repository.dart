@@ -142,4 +142,17 @@ class ProfileRepository {
     }
   }
 
+  Future<dynamic> PostCostumeBlock({dynamic data, dynamic icon}) async {
+    dynamic response;
+    var dataR;
+    try {
+      response = await _network.postOnePictureWithHeader(
+          '/custom-blocks', icon, data);
+      dataR = json.decode(response);
+      return dataR;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 }

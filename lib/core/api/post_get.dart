@@ -102,6 +102,31 @@ class Network {
     }
   }*/
 
+  Future postOnePictureWithHeader(apiUrl, String icon , data) async {
+    try {
+      var fullUrl = host + version + apiUrl;
+      var request = http.MultipartRequest('POST', Uri.parse(fullUrl));
+      request.headers.addAll(await _setHeadersWithToken());
+      (icon == '')
+          ? request.files.add(await http.MultipartFile.fromPath('image', icon,
+          filename: 'icon'))
+          : null;
+      request.fields.addAll(data);
+
+      var res = await request.send();
+      final respStr = await res.stream.bytesToString();
+      // final response = json.decode(respStr);
+      // if (response["data"]["status"] == 401) {
+      //   throw Failure(message: 'authentication required');
+      // }
+      return respStr;
+    } on SocketException {
+      throw 'Connection failed';
+    } on TimeoutException {
+      throw 'Connection failed';
+    }
+  }
+
   Future postPictureWithHeader(
       apiUrl, String profile, String background, data) async {
     try {
