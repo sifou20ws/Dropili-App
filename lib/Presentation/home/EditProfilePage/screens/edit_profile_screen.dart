@@ -118,8 +118,9 @@ class _MyOffersPageState extends State<EditProfilePage> {
                         state.status == Status.loadingProfile)
                     ? Center(
                         child: Lottie.asset(
-                          'assets/lottie/loading.json',
+                          'assets/lottie/loading-green.json',
                           height: 100,
+                          frameRate: FrameRate(120),
                         ),
                       )
                     : Container(

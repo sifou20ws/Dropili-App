@@ -1,5 +1,5 @@
-import 'dart:developer';
-
+import 'package:dropili/Presentation/authentification/comun_widgets/fields_decoration.dart';
+import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:dropili/domain/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -81,27 +81,34 @@ class _ResetPasswordScreen extends State<ResetPasswordScreen> {
                         ],
                       ),
                       Spacer(),
-                      Text(
-                        'Rester votre mot de pass',
-                        style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      FormWidget(),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      state.status == Status.loading
-                          ? LoadingIndicatorWidget(
-                              text: 'Soumission...',
-                            )
-                          : ResetButton(),
-                      SizedBox(
-                        height: 30,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 45, right: 45),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Restore your password'.t(context),
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            FormWidget(),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            state.status == Status.loading
+                                ? LoadingIndicatorWidget(
+                                    text: 'Soumission...',
+                                  )
+                                : ResetButton(),
+                            SizedBox(
+                              height: 30,
+                            ),
+                          ],
+                        ),
                       ),
                       Spacer(),
                       Padding(
@@ -128,22 +135,26 @@ class ResetButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 45,
-      width: 250,
+      height: 52,
+      width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
           BlocProvider.of<AuthBloc>(context).add(RestoreSubmittingEvent());
-          // Navigator.pushReplacementNamed(context, '/signin');
         },
         child: Text(
-          'Soumettre',
+          'Submit'.t(context),
           style: TextStyle(
-              fontWeight: FontWeight.w400, fontSize: 18, color: Colors.blue),
+            fontWeight: FontWeight.w500,
+            fontSize: 18,
+            color: Colors.blue,
+          ),
         ),
         style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(13))),
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
       ),
     );
   }
@@ -160,19 +171,6 @@ class _FormWidgetState extends State<FormWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.85,
-      // height: 300,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(25),
-        boxShadow: [
-          BoxShadow(
-            color: Color.fromARGB(50, 29, 29, 29),
-            offset: Offset(0.0, 2.0),
-            blurRadius: 10,
-          ),
-        ],
-      ),
       child: Column(
         children: [
           context.read<AuthBloc>().state.status == Status.fail
@@ -185,29 +183,20 @@ class _FormWidgetState extends State<FormWidget> {
                       text: 'Recovery link sent to email',
                     )
                   : Container(),
-          Padding(
-            padding:
-                const EdgeInsets.only(bottom: 10, left: 20, right: 30, top: 10),
-            child: Column(children: [
-              TextFormField(
-                onChanged: (value) {
-                  BlocProvider.of<AuthBloc>(context)
-                      .add(EmailTextChangeEvent(value));
-                },
-                decoration: InputDecoration(
-                  icon: Icon(Icons.email),
-                  labelText: 'Email',
-                  errorText: context.read<AuthBloc>().state.emailValid
-                      ? null
-                      : 'Adresse e-mail non valide',
-                  // labelText: 'Email',
-                ),
-                validator: null,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-            ]),
+          SizedBox(
+            height: 15,
+          ),
+          TextFormField(
+            onChanged: (value) {
+              BlocProvider.of<AuthBloc>(context)
+                  .add(EmailTextChangeEvent(value));
+            },
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+            decoration: buildInputDecoration(text: 'Email'),
+            validator: null,
+          ),
+          SizedBox(
+            height: 15,
           ),
         ],
       ),

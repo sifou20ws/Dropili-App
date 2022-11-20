@@ -1,5 +1,6 @@
 import 'package:dropili/Presentation/home/ProfilePage/widgets/block_card.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/profile_dialogue_box.dart';
+import 'package:dropili/Presentation/widgets_model/cachedImage_widget.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:flutter/material.dart';
 
@@ -34,23 +35,24 @@ class BlockTypeGrid extends StatelessWidget {
           itemCount: blocksList.length,
           itemBuilder: (BuildContext ctx, index) {
             return GestureDetector(
-                onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: ((context) {
-                        return ProfileDialogBox(
-                          blockId: blocksList[index].id,
-                          url: blocksList[index].pivot.url,
-                          iconImage: Image.network(
-                            blocksList[index].icon.originalUrl,
-                          ),
-                        );
-                      }));
-                },
-                child: BlockCardWidget(
-                    blockImage:
-                        Image.network(blocksList[index].icon.originalUrl),
-                    blockName: blocksList[index].title.ar));
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: ((context) {
+                    return ProfileDialogBox(
+                      blockId: blocksList[index].id,
+                      url: blocksList[index].pivot.url,
+                      iconImage: Image.network(
+                        blocksList[index].icon.originalUrl,
+                      ),
+                    );
+                  }),
+                );
+              },
+              child: BlockCardWidget(
+                  blockImageUrl: blocksList[index].icon.originalUrl,
+                  blockName: blocksList[index].title.ar),
+            );
           },
         ),
       ],

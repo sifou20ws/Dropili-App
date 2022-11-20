@@ -12,17 +12,17 @@ class EditeProfileBtnWidget extends StatelessWidget {
       height: 40,
       width: 130,
       decoration: BoxDecoration(
-        color: MalinColors.AppGreen.withAlpha(190),
+        color: MalinColors.AppGreen,
         // color: Colors.white,
         borderRadius: BorderRadius.circular(15),
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Color.fromARGB(20, 29, 29, 29),
-        //     offset: Offset(0.0, 2.0),
-        //     blurRadius: 10,
-        //     spreadRadius: 5,
-        //   ),
-        // ],
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromARGB(20, 29, 29, 29),
+            offset: Offset(0.0, 2.0),
+            blurRadius: 10,
+            spreadRadius: 5,
+          ),
+        ],
       ),
       child: Text(
         'Edit Profile'.t(context),

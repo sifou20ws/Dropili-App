@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dropili/Presentation/Nfc/bloc/nfc_bloc.dart';
 import 'package:dropili/Presentation/Nfc/widgets/nfc_not_found_widget.dart';

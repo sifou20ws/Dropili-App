@@ -1,4 +1,5 @@
 import 'package:dropili/core/services/safe_convert.dart';
+import 'package:dropili/data/models/get_blocks_model.dart';
 
 class GetFriendsModel {
   final List<FriendsItem> friends;
@@ -36,7 +37,7 @@ class FriendsItem {
   final UserProfile userProfile;
   final UserBackground userBackground;
   final Pivot pivot;
-  final List<BlocksItem> blocks;
+  final List<UserBlocksItem> blocks;
   final List<dynamic> customBlocks;
   final List<MediaItem> media;
 
@@ -79,8 +80,9 @@ class FriendsItem {
         userProfile: UserProfile.fromJson(asMap(json, 'user_profile')),
         userBackground: UserBackground.fromJson(asMap(json, 'user_background')),
         pivot: Pivot.fromJson(asMap(json, 'pivot')),
-        blocks:
-            asList(json, 'blocks').map((e) => BlocksItem.fromJson(e)).toList(),
+        blocks: asList(json, 'blocks')
+            .map((e) => UserBlocksItem.fromJson(e))
+            .toList(),
         customBlocks:
             asList(json, 'custom_blocks').map((e) => e.toString()).toList(),
         media: asList(json, 'media').map((e) => MediaItem.fromJson(e)).toList(),
@@ -338,61 +340,61 @@ class Pivot {
       };
 }
 
-class BlocksItem {
-  final int id;
-  final Title title;
-  final Hint hint;
-  final int type;
-  final int active;
-  final int order;
-  final String createdAt;
-  final String updatedAt;
-  final Icon icon;
-  final Pivot pivot;
-  final List<MediaItem> media;
+// class BlocksItem {
+//   final int id;
+//   final Title title;
+//   final Hint hint;
+//   final int type;
+//   final int active;
+//   final int order;
+//   final String createdAt;
+//   final String updatedAt;
+//   final Icon icon;
+//   final Pivot pivot;
+//   final List<MediaItem> media;
 
-  BlocksItem({
-    this.id = 0,
-    required this.title,
-    required this.hint,
-    this.type = 0,
-    this.active = 0,
-    this.order = 0,
-    this.createdAt = '',
-    this.updatedAt = '',
-    required this.icon,
-    required this.pivot,
-    required this.media,
-  });
+//   BlocksItem({
+//     this.id = 0,
+//     required this.title,
+//     required this.hint,
+//     this.type = 0,
+//     this.active = 0,
+//     this.order = 0,
+//     this.createdAt = '',
+//     this.updatedAt = '',
+//     required this.icon,
+//     required this.pivot,
+//     required this.media,
+//   });
 
-  factory BlocksItem.fromJson(Map<String, dynamic>? json) => BlocksItem(
-        id: asInt(json, 'id'),
-        title: Title.fromJson(asMap(json, 'title')),
-        hint: Hint.fromJson(asMap(json, 'hint')),
-        type: asInt(json, 'type'),
-        active: asInt(json, 'active'),
-        order: asInt(json, 'order'),
-        createdAt: asString(json, 'created_at'),
-        updatedAt: asString(json, 'updated_at'),
-        icon: Icon.fromJson(asMap(json, 'icon')),
-        pivot: Pivot.fromJson(asMap(json, 'pivot')),
-        media: asList(json, 'media').map((e) => MediaItem.fromJson(e)).toList(),
-      );
+//   factory BlocksItem.fromJson(Map<String, dynamic>? json) => BlocksItem(
+//         id: asInt(json, 'id'),
+//         title: Title.fromJson(asMap(json, 'title')),
+//         hint: Hint.fromJson(asMap(json, 'hint')),
+//         type: asInt(json, 'type'),
+//         active: asInt(json, 'active'),
+//         order: asInt(json, 'order'),
+//         createdAt: asString(json, 'created_at'),
+//         updatedAt: asString(json, 'updated_at'),
+//         icon: Icon.fromJson(asMap(json, 'icon')),
+//         pivot: Pivot.fromJson(asMap(json, 'pivot')),
+//         media: asList(json, 'media').map((e) => MediaItem.fromJson(e)).toList(),
+//       );
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title.toJson(),
-        'hint': hint.toJson(),
-        'type': type,
-        'active': active,
-        'order': order,
-        'created_at': createdAt,
-        'updated_at': updatedAt,
-        'icon': icon.toJson(),
-        'pivot': pivot.toJson(),
-        'media': media.map((e) => e.toJson()).toList(),
-      };
-}
+//   Map<String, dynamic> toJson() => {
+//         'id': id,
+//         'title': title.toJson(),
+//         'hint': hint.toJson(),
+//         'type': type,
+//         'active': active,
+//         'order': order,
+//         'created_at': createdAt,
+//         'updated_at': updatedAt,
+//         'icon': icon.toJson(),
+//         'pivot': pivot.toJson(),
+//         'media': media.map((e) => e.toJson()).toList(),
+//       };
+// }
 
 class Title {
   final String ar;

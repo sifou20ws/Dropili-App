@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:dropili/Presentation/routing/fade_page_route_builder.dart';
+import 'package:dropili/Presentation/routing/transition_page_route_builder.dart';
 import 'package:dropili/Presentation/localization/app_localization.dart';
 import 'package:dropili/Presentation/localization/bloc/language_bloc.dart';
 import 'package:dropili/Presentation/routing/routes.dart';
@@ -39,6 +39,7 @@ class _DropiliAppState extends State<DropiliApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(value: _languageBloc),
+
       ],
       child: BlocBuilder<LanguageBloc, LanguageState>(
         builder: (context, state) {

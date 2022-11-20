@@ -11,6 +11,7 @@ class AuthRepository {
   String _deviceName = ' ';
 
   AuthRepository(this._network) {}
+
   Future<String> loginUser({
     required String username,
     required String password,
@@ -26,7 +27,6 @@ class AuthRepository {
           androidInfo.model;
       log(_deviceName);
     } else {
-      // log('other');
       IosDeviceInfo iosinfo = await deviceInfo.iosInfo;
       _deviceName = iosinfo.model ?? 'iphone';
     }
