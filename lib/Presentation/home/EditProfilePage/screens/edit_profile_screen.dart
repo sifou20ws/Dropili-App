@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/add_C_block_widget.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/direct_sur_dialoge.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/eProfile_buttons_row.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_media_widget.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_text_widget.dart';
@@ -31,8 +33,8 @@ class _MyOffersPageState extends State<EditProfilePage> {
       diverBlocks = [];
   List<List<BlocksItem>> blocksList = [];
   List<UserBlocksItem> userBlocks = [];
-  String name = '', description = '';
-
+  String name = '', description = '', profileUserUrl = '';
+  int blockId = 0;
   @override
   void initState() {
     super.initState();
@@ -67,6 +69,8 @@ class _MyOffersPageState extends State<EditProfilePage> {
           if (state.status == Status.getProfileSuccess) {
             name = state.showProfile!.user.name;
             description = state.showProfile!.user.description;
+            profileUserUrl = state.showProfile!.user.url;
+            blockId = state.showProfile!.user.blockId;
           }
           if (state.status == Status.postBlockSuccess) {
             _editProfileBloc.add(GetBlocksEvent());
@@ -75,6 +79,25 @@ class _MyOffersPageState extends State<EditProfilePage> {
           if (state.status == Status.deleteSuccess) {
             _editProfileBloc.add(GetBlocksEvent());
             userBlocks = state.userBlocks;
+          }
+          if (state.openDirectMeDialogue) {
+            //log(state.profileUserUrl, name: 'in dialogue open');
+            //state.copyWith(openDirectMeDialogue: false);
+            state.openDirectMeDialogue = false;
+            //log(state.openDirectMeDialogue.toString() ,name: 'dialogue state');
+            showModalBottomSheet(
+              isScrollControlled: true,
+              backgroundColor: Colors.transparent,
+              context: context,
+              builder: (context) {
+                return DirectSurWidget(
+                  userBlocks: state.userBlocks,
+                  profileUrl: profileUserUrl,
+                );
+              },
+            ).then((value) {
+              _editProfileBloc.add(GetProfileEvent());
+            });
           }
           if (state.status == Status.fail) {
             SnackBars.showErrorSnackBar(context, state.messageError);
@@ -161,6 +184,14 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                               title: 'Divers',
                                               blocksList: diverBlocks),
                                           SizedBox(height: 20),
+                                          Text(
+                                            'Custom Blocks',
+                                            style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+                                          ),
+                                          AddCostumeBlocksIcon(
+                                            imagePath:
+                                                state.addCostumeBlockImgPath,
+                                          ),
                                         ],
                                       ),
                                     ),

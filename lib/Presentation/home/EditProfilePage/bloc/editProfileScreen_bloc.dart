@@ -17,19 +17,22 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   EditProfileBloc({required ProfileRepository ProfileRepository})
       : _ProfileRepository = ProfileRepository,
         super(EditProfileState(blocks: [], userBlocks: [], blocksList: [])) {
-    on<ItemSelectedEvent>(_itemSelectedEvent);
-    on<SwitchEvent>(_switchEvent);
     on<GetBlocksEvent>(_getBlocks);
     on<GetUserBlocksEvent>(_getUserBlocks);
+    on<ItemSelectedEvent>(_itemSelectedEvent);
+    on<SwitchEvent>(_switchEvent);
     on<ImportCoverImageEvent>(_importCoverImageEvent);
     on<ImportProfileImageEvent>(_importProfileImageEvent);
     on<PostBlocksEvent>(_postBlocksEvent);
+    on<DirectOnMeEvent>(_directOnMeEvent);
     on<PostProfileUpdateEvent>(_postProfileUpdateEvent);
     on<PostUserNameEvent>(_postUserNameEvent);
     on<PostDescriptionEvent>(_postDescriptionEvent);
     on<GetProfileEvent>(_getProfileEvent);
     on<BlockUrlEvent>(_blockUrlEvent);
     on<DeleteUserBlocksEvent>(_deleteUserBlocksEvent);
+    on<GetCostumeBlockImage>(_getCostumeBlockImage);
+    on<PostCostumeBlock>(_postCostumeBlock);
   }
 
   void _getBlocks(GetBlocksEvent event, Emitter<EditProfileState> emit) async {
@@ -99,11 +102,12 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     if (event.data.isEmpty) {
       log('error');
       emit(state.copyWith(
-        status: Status.failInDialogue,
-        errorExist: true,
+        //status: Status.failInDialogue,
+        //errorExist: true,
+
         messageError: 'this field is required',
       ));
-      emit(state.copyWith(valideName: false));
+      //emit(state.copyWith(valideName: false));
       return;
     }
 
@@ -146,7 +150,10 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   }
 
   void _switchEvent(SwitchEvent event, Emitter<EditProfileState> emit) {
-    emit(state.copyWith(switchButton: event.state));
+    emit(state.copyWith(
+      switchButton: event.state,
+      openDirectMeDialogue: event.state,
+    ));
   }
 
   void _blockUrlEvent(BlockUrlEvent event, Emitter<EditProfileState> emit) {
@@ -238,6 +245,77 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     } catch (e) {
       emit(state.copyWith(status: Status.fail));
       log(('error :'));
+      log(e.toString());
+    }
+  }
+
+  void _directOnMeEvent(
+      DirectOnMeEvent event, Emitter<EditProfileState> emit) async {
+    var resp;
+    Map<String, String> map1 = {
+      'direct': event.direct,
+      'url': event.url,
+      'block_id': event.direct
+    };
+    PostProfileResp showProfile;
+    try {
+      resp = await _ProfileRepository.directOnMe(data: map1);
+
+      showProfile = await _ProfileRepository.getProfileShow();
+      emit(state.copyWith(
+        profileUserUrl: showProfile.user.url,
+        status: Status.directOnMeSuccess,
+      ));
+      log(resp.toString(), name: 'edit bloc :');
+      log(state.profileUserUrl, name: 'after updating');
+    } catch (e) {
+      log('bloc:');
+      log(e.toString());
+    }
+  }
+
+  void _getCostumeBlockImage(
+      GetCostumeBlockImage event, Emitter<EditProfileState> emit) async {
+    XFile? file;
+    try {
+      file = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (file != null) {
+        emit(state.copyWith(
+            addCostumeBlockImgPath: file.path, status: Status.costumeBlock));
+        log(state.addCostumeBlockImgPath, name: 'costume block image path');
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  void _postCostumeBlock(
+      PostCostumeBlock event, Emitter<EditProfileState> emit) async {
+    if (event.url.isEmpty || event.titleAr.isEmpty || event.titleFr.isEmpty) {
+      emit(state.copyWith(
+        //status: Status.fail,
+        //errorExist: true,
+        messageError: 'url field is required',
+      ));
+      //emit(state.copyWith(valideName: false));
+      return;
+    }
+
+    var resp;
+    Map<String, String> map1 = {'url': event.url, 'title.ar': event.titleAr ,'title.fr': event.titleFr};
+    try {
+      resp = await _ProfileRepository.PostCostumeBlock(
+          icon: event.icon, data: map1 ,);
+      PostProfileResp profileResp = PostProfileResp.fromJson(resp);
+      (profileResp.success)
+          ? emit(state.copyWith(
+              status: Status.success, messageError: profileResp.message))
+          : emit(state.copyWith(
+              status: Status.fail, messageError: profileResp.message));
+
+      ;
+    } catch (e) {
+      log('bloc:');
       log(e.toString());
     }
   }

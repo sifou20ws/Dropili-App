@@ -40,6 +40,7 @@ class GetUserBlocksEvent extends EditProfileEvent {
   @override
   List<Object?> get props => [];
 }
+
 class PostBlocksEvent extends EditProfileEvent {
   final data;
   PostBlocksEvent(this.data);
@@ -83,16 +84,15 @@ class PostProfileUpdateEvent extends EditProfileEvent {
   final String profile, background;
   PostProfileUpdateEvent(
       {required this.name,
-        this.description = '',
-        this.profile='',
-        this.background=''});
+      this.description = '',
+      this.profile = '',
+      this.background = ''});
 
   @override
   List<Object?> get props => [];
 }
 
 class GetProfileEvent extends EditProfileEvent {
-
   GetProfileEvent();
 
   @override
@@ -115,3 +115,34 @@ class DeleteUserBlocksEvent extends EditProfileEvent {
   List<Object?> get props => [];
 }
 
+class DirectOnMeEvent extends EditProfileEvent {
+  final String direct, url;
+  DirectOnMeEvent({
+    required this.direct,
+    required this.url,
+  });
+
+  @override
+  List<Object?> get props => [];
+}
+
+class GetCostumeBlockImage extends EditProfileEvent {
+  GetCostumeBlockImage();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class PostCostumeBlock extends EditProfileEvent {
+  final String url, titleAr, titleFr;
+  final dynamic icon;
+  PostCostumeBlock({
+    required this.url,
+    required this.titleAr,
+    this.icon,
+    required this.titleFr,
+  });
+
+  @override
+  List<Object?> get props => [];
+}
