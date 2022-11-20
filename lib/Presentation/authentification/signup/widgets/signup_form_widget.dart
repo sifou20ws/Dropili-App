@@ -22,11 +22,11 @@ class _FormWidgetState extends State<FormWidget> {
           context.read<AuthBloc>().state.status == Status.fail
               ? MessageWidget(
                   color: 'red',
-                  text: context.read<AuthBloc>().state.errorMessage)
+                  text: context.read<AuthBloc>().state.errorMessage.t(context))
               : context.read<AuthBloc>().state.status == Status.success
                   ? MessageWidget(
                       color: 'green',
-                      text: 'User created successfully',
+                      text: 'User created successfully'.t(context),
                     )
                   : Container(),
           SizedBox(

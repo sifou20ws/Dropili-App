@@ -86,7 +86,7 @@ class _ResetPasswordScreen extends State<ResetPasswordScreen> {
                         child: Column(
                           children: [
                             Text(
-                              'Resoter your password'.t(context),
+                              'Restore your password'.t(context),
                               style: TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.w500,
@@ -142,7 +142,7 @@ class ResetButton extends StatelessWidget {
           BlocProvider.of<AuthBloc>(context).add(RestoreSubmittingEvent());
         },
         child: Text(
-          'Submite'.t(context),
+          'Submit'.t(context),
           style: TextStyle(
             fontWeight: FontWeight.w500,
             fontSize: 18,
