@@ -23,12 +23,30 @@ enum Status {
   costumeBlock
 }
 
+enum BlocksStatus {
+  initial,
+  getBlocks,
+  getBlocksSuccess,
+  getBlocksFail,
+  getUserBlocks,
+  getUserBlocksSuccess,
+  getUserBlocksFail,
+  postBlock,
+  postBlockSuccess,
+  postBlockFail,
+  invalidUrl,
+  deleteBlocks,
+  deleteBlocksSuccess,
+  deleteBlocksFail,
+}
+
 class EditProfileState extends Equatable {
   EditProfileState(
       {this.switchButton = false,
       this.messageError = '',
       this.errorExist = false,
       this.status = Status.loading,
+      //this.blocksStatus = BlocksStatus.initial,
       this.id = '',
       required this.blocksList,
       this.index = -1,
@@ -52,6 +70,7 @@ class EditProfileState extends Equatable {
   bool load;
   final String messageError;
   Status status;
+  //final BlocksStatus blocksStatus;
   final bool switchButton;
   final String id;
   final int index;
@@ -70,10 +89,12 @@ class EditProfileState extends Equatable {
   final bool valideName;
   final List<UserBlocksItem> userBlocks;
   String profileUserUrl;
+
   EditProfileState copyWith(
       {bool? switchButton,
       String? messageError,
       Status? status,
+      //BlocksStatus? blocksStatus,
       String? id,
       int? index,
       List<BlocksItem>? blocks,
@@ -117,6 +138,7 @@ class EditProfileState extends Equatable {
       profileUserUrl: profileUserUrl ?? this.profileUserUrl,
       blocksList: blocksList ?? this.blocksList,
       openDirectMeDialogue: openDirectMeDialogue ?? this.openDirectMeDialogue,
+      //blocksStatus: blocksStatus ?? this.blocksStatus,
     );
   }
 
@@ -138,6 +160,7 @@ class EditProfileState extends Equatable {
         profileImg,
         backgroundImg,
         showProfile,
+       // blocksStatus,
         blockUrl,
         errorExist,
         valideName,

@@ -50,7 +50,7 @@ class BlockCardWidget extends StatelessWidget {
             child: blockImage,
           ),
           SizedBox(
-            height: 10,
+            height: 5,
           ),
           FittedBox(
             fit: BoxFit.fitWidth,

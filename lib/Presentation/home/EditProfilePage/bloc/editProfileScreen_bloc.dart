@@ -102,11 +102,12 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     if (event.data.isEmpty) {
       log('error');
       emit(state.copyWith(
-        status: Status.failInDialogue,
-        errorExist: true,
+        //status: Status.failInDialogue,
+        //errorExist: true,
+
         messageError: 'this field is required',
       ));
-      emit(state.copyWith(valideName: false));
+      //emit(state.copyWith(valideName: false));
       return;
     }
 

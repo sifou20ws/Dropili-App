@@ -43,146 +43,150 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
           //await Future.delayed(Duration(seconds: 1));
           Navigator.of(context).pop(false);
         }
+        /*if ((BlocProvider.of<EditProfileBloc>(context).state.blocksStatus ==
+            BlocksStatus.invalidUrl)) {
+          error = true;
+          log(error.toString());
+        }*/
       },
-      child: Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          backgroundColor: Colors.transparent,
-          child: Stack(
-            children: <Widget>[
-              Container(
-                padding:
-                    EdgeInsets.only(left: 10, top: 50, right: 10, bottom: 10),
-                margin: EdgeInsets.only(top: 40),
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(top: 20, right: 5, left: 5),
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            onChanged: (value) {
-                              inputUrl = value;
-                            },
-                            decoration: buildInputDecoration((widget.url == '')
-                                ? widget.editText
-                                : widget.url),
+      child: BlocBuilder<EditProfileBloc, EditProfileState>(
+        builder: (context, state) {
+          return Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              backgroundColor: Colors.transparent,
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(
+                        left: 10, top: 50, right: 10, bottom: 10),
+                    margin: EdgeInsets.only(top: 40),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(top: 20, right: 5, left: 5),
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                onChanged: (value) {
+                                  inputUrl = value;
+                                },
+                                decoration: buildInputDecoration(
+                                    text: (widget.url == '')
+                                        ? widget.editText
+                                        : widget.url,
+                                    error: error),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
+                        SizedBox(height: 5),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextButton(
+                                  onPressed: () {
+                                    (widget.url == '')
+                                        ? Navigator.of(context).pop(false)
+                                        : BlocProvider.of<EditProfileBloc>(
+                                                context)
+                                            .add(DeleteUserBlocksEvent(
+                                                id: widget.index.toString()));
+                                  },
+                                  child: (widget.url == '')
+                                      ? Text('Cancel'.t(context))
+                                      : Text('Remove'.t(context))),
+                            ),
+                            Expanded(
+                              child: TextButton(
+                                onPressed: () {
+                                  BlocProvider.of<EditProfileBloc>(context).add(
+                                      ItemSelectedEvent(
+                                          index: widget.index, data: inputUrl));
+                                },
+                                child: Text('Save'.t(context)),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 80,
+                        height: 80,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color.fromARGB(50, 0, 0, 0),
+                              offset: Offset(0.0, 5.0),
+                              blurRadius: 10,
+                              spreadRadius: 1,
+                            ),
+                          ],
+                        ),
+                        child: CachedNetworkImage(
+                          imageUrl: widget.img,
+                          placeholder: (context, url) => Center(
+                              child: Center(
+                            child: Lottie.asset(
+                              'assets/lottie/loading.json',
+                              height: 80,
+                            ),
+                          )),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                    right: 5,
+                    top: 5,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pop(false);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(top: 40),
+                        width: 30,
+                        height: 30,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: Colors.black12,
+                        ),
+                        child: Icon(
+                          Icons.close_rounded,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
-                    SizedBox(height: 5),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextButton(
-                              onPressed: () {
-                                BlocProvider.of<EditProfileBloc>(context).add(
-                                    DeleteUserBlocksEvent(
-                                        id: widget.index.toString()));
-                              },
-                              child: Text('Remove'.t(context))),
-                        ),
-                        Expanded(
-                          child: TextButton(
-                            onPressed: () {
-                              BlocProvider.of<EditProfileBloc>(context).add(
-                                  ItemSelectedEvent(
-                                      index: widget.index, data: inputUrl));
-                            },
-                            child: Text('Save'.t(context)),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 80,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color.fromARGB(50, 0, 0, 0),
-                          offset: Offset(0.0, 5.0),
-                          blurRadius: 10,
-                          spreadRadius: 1,
-                        ),
-                      ],
-                    ),
-                    child: CachedNetworkImage(
-                      imageUrl: widget.img,
-                      placeholder: (context, url) => Center(
-                          child: Center(
-                        child: Lottie.asset(
-                          'assets/lottie/loading.json',
-                          height: 80,
-                        ),
-                      )),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  )
                 ],
-              ),
-              Positioned(
-                right: 5,
-                top: 5,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop(false);
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(top: 40),
-                    width: 30,
-                    height: 30,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: Colors.black12,
-                    ),
-                    child: Icon(
-                      Icons.close_rounded,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              )
-            ],
-          )),
+              ));
+        },
+      ),
     );
   }
 
   contentBox(context) {}
-  InputDecoration buildInputDecoration(String text) {
+  InputDecoration buildInputDecoration(
+      {required String text, required bool error}) {
     return InputDecoration(
-      /*enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide(
-          color: MalinColors.AppBlue,
-          width: 2.0,
-        ),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide(
-          color: MalinColors.AppGreen,
-          width: 2.0,
-        ),
-      ),
-      border: OutlineInputBorder(),*/
+      errorText: error ? 'this value is required' : null,
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(7),
         borderSide: BorderSide.none,
@@ -193,7 +197,6 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
         borderRadius: BorderRadius.circular(7),
         borderSide: BorderSide.none,
       ),
-      //border: OutlineInputBorder(),
       border: InputBorder.none,
       errorBorder: InputBorder.none,
       disabledBorder: InputBorder.none,
