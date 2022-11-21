@@ -1,26 +1,32 @@
 part of 'editProfileScreen_bloc.dart';
 
 enum Status {
-  directOnMeSuccess,
   initial,
   loading,
   success,
   fail,
   finish,
-  getProfileSuccess,
-  getBlocksSuccess,
+
   loadingBlocks,
+  getBlocksSuccess,
   getUserBlocksSuccess,
   loadingUserBlocks,
-  loadingProfile,
   postBlockLoading,
   postBlockSuccess,
+  postBlockInvalidUrl,
+  postBlockFail,
   deleteLoading,
   deleteSuccess,
+  failInBlocksDialogue,
+
+  loadingProfile,
+  getProfileSuccess,
   loadingProfileUpdate,
   profileUpdateSucess,
-  failInDialogue,
-  costumeBlock
+  profileUpdateFail,
+
+  costumeBlock,
+  directOnMeSuccess,
 }
 
 enum BlocksStatus {
@@ -43,25 +49,28 @@ enum BlocksStatus {
 class EditProfileState extends Equatable {
   EditProfileState(
       {this.switchButton = false,
+      this.profileActiveButton = false,
       this.messageError = '',
       this.errorExist = false,
       this.status = Status.loading,
       //this.blocksStatus = BlocksStatus.initial,
       this.id = '',
+      /** Blocks and user blocks */
+      required this.blocks,
       required this.blocksList,
       this.index = -1,
-      required this.blocks,
       required this.userBlocks,
-      this.coverImagePath = '',
-      this.profileImagePath = '',
+      /** profile */
       this.userName = '',
       this.userDescription = '',
       this.backgroundImg = '',
       this.profileImg = '',
       this.showProfile,
-      this.addCostumeBlockImgPath = 'assets/dropili_app_logo.png',
       this.profileUserUrl = '',
       this.valideName = true,
+      this.coverImagePath = '',
+      this.profileImagePath = '',
+      this.addCostumeBlockImgPath = 'assets/dropili_app_logo.png',
       this.load = false,
       this.openDirectMeDialogue = false,
       this.blockUrl = ''});
@@ -72,6 +81,7 @@ class EditProfileState extends Equatable {
   Status status;
   //final BlocksStatus blocksStatus;
   final bool switchButton;
+  final bool profileActiveButton;
   final String id;
   final int index;
   String coverImagePath = '';
@@ -92,6 +102,7 @@ class EditProfileState extends Equatable {
 
   EditProfileState copyWith(
       {bool? switchButton,
+      bool? profileActiveButton,
       String? messageError,
       Status? status,
       //BlocksStatus? blocksStatus,
@@ -118,6 +129,7 @@ class EditProfileState extends Equatable {
       messageError: messageError ?? this.messageError,
       status: status ?? this.status,
       switchButton: switchButton ?? this.switchButton,
+      profileActiveButton: profileActiveButton ?? this.profileActiveButton,
       id: id ?? this.id,
       index: index ?? this.index,
       blocks: blocks ?? this.blocks,
@@ -147,6 +159,7 @@ class EditProfileState extends Equatable {
         messageError,
         status,
         switchButton,
+        profileActiveButton,
         id,
         index,
         blocks,
@@ -160,7 +173,7 @@ class EditProfileState extends Equatable {
         profileImg,
         backgroundImg,
         showProfile,
-       // blocksStatus,
+        // blocksStatus,
         blockUrl,
         errorExist,
         valideName,

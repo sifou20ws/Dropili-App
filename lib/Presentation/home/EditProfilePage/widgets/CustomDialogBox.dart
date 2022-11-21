@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dropili/Presentation/authentification/comun_widgets/message_widget.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
@@ -13,13 +14,14 @@ class CustomDialogBox extends StatefulWidget {
   final String img, url;
   final int index;
   final List<BlocksItem> blocksList;
-
+  final bool put;
   const CustomDialogBox({
     required this.editText,
     required this.img,
     required this.index,
     required this.blocksList,
     required this.url,
+    required this.put,
   });
 
   @override
@@ -33,21 +35,14 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
     String inputUrl = '';
     return BlocListener<EditProfileBloc, EditProfileState>(
       listener: (context, state) async {
-        if (BlocProvider.of<EditProfileBloc>(context).state.status ==
-            Status.postBlockSuccess) {
-          //await Future.delayed(Duration(seconds: 1));
+        if (state.status == Status.postBlockSuccess) {
+          await Future.delayed(Duration(milliseconds: 500));
           Navigator.of(context).pop(false);
         }
-        if (BlocProvider.of<EditProfileBloc>(context).state.status ==
-            Status.deleteSuccess) {
-          //await Future.delayed(Duration(seconds: 1));
+        if (state.status == Status.deleteSuccess) {
+          await Future.delayed(Duration(milliseconds: 500));
           Navigator.of(context).pop(false);
         }
-        /*if ((BlocProvider.of<EditProfileBloc>(context).state.blocksStatus ==
-            BlocksStatus.invalidUrl)) {
-          error = true;
-          log(error.toString());
-        }*/
       },
       child: BlocBuilder<EditProfileBloc, EditProfileState>(
         builder: (context, state) {
@@ -76,6 +71,12 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                               const EdgeInsets.only(top: 20, right: 5, left: 5),
                           child: Column(
                             children: [
+                              state.status == Status.failInBlocksDialogue
+                                  ? MessageWidget(
+                                      color: 'red',
+                                      text: state.messageError.t(context),
+                                    )
+                                  : Container(),
                               TextFormField(
                                 onChanged: (value) {
                                   inputUrl = value;
@@ -84,40 +85,59 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                                     text: (widget.url == '')
                                         ? widget.editText
                                         : widget.url,
-                                    error: error),
+                                    error: state.status ==
+                                            Status.postBlockInvalidUrl
+                                        ? true
+                                        : false),
                               ),
                             ],
                           ),
                         ),
                         SizedBox(height: 5),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: TextButton(
-                                  onPressed: () {
-                                    (widget.url == '')
-                                        ? Navigator.of(context).pop(false)
-                                        : BlocProvider.of<EditProfileBloc>(
+                        (state.status == Status.postBlockLoading ||
+                                state.status == Status.deleteLoading)
+                            ? Lottie.asset(
+                                'assets/lottie/loading.json',
+                                height: 60,
+                              )
+                            : Row(
+                                children: [
+                                  Expanded(
+                                    child: TextButton(
+                                      onPressed: () {
+                                        (widget.url == '')
+                                            ? Navigator.of(context).pop(false)
+                                            : BlocProvider.of<EditProfileBloc>(
+                                                    context)
+                                                .add(DeleteUserBlocksEvent(
+                                                    id: widget.index
+                                                        .toString()));
+                                      },
+                                      child: (widget.url == '')
+                                          ? Text('Cancel'.t(context))
+                                          : Text('Remove'.t(context)),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: TextButton(
+                                      onPressed: () {
+                                        BlocProvider.of<EditProfileBloc>(
                                                 context)
-                                            .add(DeleteUserBlocksEvent(
-                                                id: widget.index.toString()));
-                                  },
-                                  child: (widget.url == '')
-                                      ? Text('Cancel'.t(context))
-                                      : Text('Remove'.t(context))),
-                            ),
-                            Expanded(
-                              child: TextButton(
-                                onPressed: () {
-                                  BlocProvider.of<EditProfileBloc>(context).add(
-                                      ItemSelectedEvent(
-                                          index: widget.index, data: inputUrl));
-                                },
-                                child: Text('Save'.t(context)),
+                                            .add(
+                                          ItemSelectedEvent(
+                                            index: widget.index,
+                                            data: inputUrl,
+                                            put: widget.put,
+                                          ),
+                                        );
+                                      },
+                                      child: (widget.put)
+                                          ? Text('update'.t(context))
+                                          : Text('save'.t(context)),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
                       ],
                     ),
                   ),

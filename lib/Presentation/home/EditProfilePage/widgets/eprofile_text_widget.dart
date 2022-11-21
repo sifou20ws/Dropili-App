@@ -11,10 +11,9 @@ class EditProfileTextWidget extends StatefulWidget {
 }
 
 class _EditProfileMediaWidgetState extends State<EditProfileTextWidget> {
-
-
   @override
   Widget build(BuildContext context) {
+
     return Column(
       children: [
         SizedBox(height: 15),

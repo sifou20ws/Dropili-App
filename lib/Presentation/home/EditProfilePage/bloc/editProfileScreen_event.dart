@@ -10,9 +10,11 @@ abstract class EditProfileEvent extends Equatable {
 class ItemSelectedEvent extends EditProfileEvent {
   final int index;
   final String data;
-  ItemSelectedEvent({
+  final bool put ;
+  ItemSelectedEvent( {
     required this.index,
     required this.data,
+    required this.put,
   });
 
   @override
@@ -22,6 +24,13 @@ class ItemSelectedEvent extends EditProfileEvent {
 class SwitchEvent extends EditProfileEvent {
   final bool state;
   SwitchEvent({required this.state});
+
+  @override
+  List<Object?> get props => [state];
+}
+class ProfileActiveEvent extends EditProfileEvent {
+  final bool state;
+  ProfileActiveEvent({required this.state});
 
   @override
   List<Object?> get props => [state];
@@ -116,8 +125,10 @@ class DeleteUserBlocksEvent extends EditProfileEvent {
 }
 
 class DirectOnMeEvent extends EditProfileEvent {
-  final String direct, url;
+  final String block_id, url;
+  final bool direct;
   DirectOnMeEvent({
+    required this.block_id,
     required this.direct,
     required this.url,
   });
