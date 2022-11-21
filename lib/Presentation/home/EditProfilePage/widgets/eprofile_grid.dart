@@ -26,6 +26,13 @@ class Grid extends StatelessWidget {
     });
     return ret;
   }
+  bool userBlockExist(int id) {
+    bool selected = false;
+    userBlocks.forEach((element) {
+      if (element.id == id) selected = true;
+    });
+    return selected;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,12 +65,14 @@ class Grid extends StatelessWidget {
                     builder: (_) {
                       return BlocProvider.value(
                         value: context.read<EditProfileBloc>(),
+                        //child: CustomDialogBox(
                         child: CustomDialogBox(
                           index: blocksList[index].id,
                           img: blocksList[index].icon.originalUrl,
                           editText: blocksList[index].hint.fr,
                           blocksList: blocksList,
                           url: blockExist(blocksList[index].id),
+                          put: userBlockExist(blocksList[index].id),
                         ),
                       );
                     },
@@ -75,13 +84,12 @@ class Grid extends StatelessWidget {
                     imageUrl: blocksList[index].icon.originalUrl,
                     placeholder: (context, url) => Center(
                         child: Center(
-                          child: Lottie.asset(
-                            'assets/lottie/loading.json',
-                            height: 80,
-                          ),
-                        )),
-                    errorWidget: (context, url, error) =>
-                        Icon(Icons.error),
+                      child: Lottie.asset(
+                        'assets/lottie/loading.json',
+                        height: 80,
+                      ),
+                    )),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                     fit: BoxFit.cover,
                   ),
                   title: blocksList[index].title.ar,

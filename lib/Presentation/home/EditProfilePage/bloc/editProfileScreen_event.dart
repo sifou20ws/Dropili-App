@@ -10,9 +10,11 @@ abstract class EditProfileEvent extends Equatable {
 class ItemSelectedEvent extends EditProfileEvent {
   final int index;
   final String data;
-  ItemSelectedEvent({
+  final bool put ;
+  ItemSelectedEvent( {
     required this.index,
     required this.data,
+    required this.put,
   });
 
   @override

@@ -77,6 +77,21 @@ class ProfileRepository {
     }
   }
 
+  Future<dynamic> PutUserBlocks(dynamic data , int id) async {
+    http.Response response;
+    var dataR;
+    try {
+      response = await _network.putWithHeader('/blocks/$id', data);
+      //if(response.statusCode == 200){
+      dataR = json.decode(response.body);
+      //myBlocks = GetBlocksModel.fromJson(data);
+      //}
+      return response.body;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<dynamic> PostUserProfile(
       {dynamic data, dynamic background, dynamic profile}) async {
     dynamic response;

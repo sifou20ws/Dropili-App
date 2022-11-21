@@ -1,26 +1,33 @@
 part of 'editProfileScreen_bloc.dart';
 
 enum Status {
-  directOnMeSuccess,
   initial,
   loading,
   success,
   fail,
   finish,
-  getProfileSuccess,
-  getBlocksSuccess,
+
   loadingBlocks,
+  getBlocksSuccess,
   getUserBlocksSuccess,
   loadingUserBlocks,
-  loadingProfile,
   postBlockLoading,
   postBlockSuccess,
+  postBlockInvalidUrl,
+  postBlockFail,
   deleteLoading,
   deleteSuccess,
+  failInBlocksDialogue,
+
+  loadingProfile,
+  getProfileSuccess,
   loadingProfileUpdate,
   profileUpdateSucess,
-  failInDialogue,
-  costumeBlock
+  profileUpdateFail,
+
+  costumeBlock,
+  directOnMeSuccess,
+
 }
 
 enum BlocksStatus {
@@ -48,20 +55,22 @@ class EditProfileState extends Equatable {
       this.status = Status.loading,
       //this.blocksStatus = BlocksStatus.initial,
       this.id = '',
+      /** Blocks and user blocks */
+      required this.blocks,
       required this.blocksList,
       this.index = -1,
-      required this.blocks,
       required this.userBlocks,
-      this.coverImagePath = '',
-      this.profileImagePath = '',
+      /** profile */
       this.userName = '',
       this.userDescription = '',
       this.backgroundImg = '',
       this.profileImg = '',
       this.showProfile,
-      this.addCostumeBlockImgPath = 'assets/dropili_app_logo.png',
       this.profileUserUrl = '',
       this.valideName = true,
+      this.coverImagePath = '',
+      this.profileImagePath = '',
+      this.addCostumeBlockImgPath = 'assets/dropili_app_logo.png',
       this.load = false,
       this.openDirectMeDialogue = false,
       this.blockUrl = ''});
@@ -160,7 +169,7 @@ class EditProfileState extends Equatable {
         profileImg,
         backgroundImg,
         showProfile,
-       // blocksStatus,
+        // blocksStatus,
         blockUrl,
         errorExist,
         valideName,

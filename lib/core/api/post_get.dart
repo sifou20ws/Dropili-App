@@ -63,6 +63,26 @@ class Network {
       throw 'Connection failed';
     }
   }
+
+  Future<http.Response> putWithHeader(apiUrl, data) async {
+    try {
+      var fullUrl = host + version + apiUrl;
+      final response = await http
+          .put(Uri.parse(fullUrl),
+          body: jsonEncode(data), headers: await _setHeadersWithToken())
+          .timeout(Duration(seconds: timeOut));
+
+      if (response.statusCode == 401) {
+        throw Failure(message: 'authentication required');
+      }
+      return response;
+    } on SocketException {
+      throw 'Connection failed';
+    } on TimeoutException {
+      throw 'Connection failed';
+    }
+  }
+
   /*Future<http.Response> deleteWithHeader(apiUrl, data) async {
     try {
       var fullUrl = host + version + apiUrl;
