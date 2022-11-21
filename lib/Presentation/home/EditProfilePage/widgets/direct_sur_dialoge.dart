@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
@@ -7,6 +8,7 @@ import 'package:dropili/domain/repositories/profile_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
+import 'package:lottie/lottie.dart';
 
 class DirectSurWidget extends StatefulWidget {
   final List<UserBlocksItem> userBlocks;
@@ -29,7 +31,7 @@ class _DirectSurWidgetState extends State<DirectSurWidget> {
 
   @override
   Widget build(BuildContext context) {
-    log(profileUrl , name: 'dialogue opened');
+    log(profileUrl, name: 'dialogue opened');
     return BlocProvider(
       create: (context) => EditProfileBloc(
           ProfileRepository: getIt.getItInstace<ProfileRepository>()),
@@ -55,43 +57,37 @@ class _DirectSurWidgetState extends State<DirectSurWidget> {
             },
             child: BlocBuilder<EditProfileBloc, EditProfileState>(
                 builder: (context, state) {
-                  return SingleChildScrollView(
-                    child: Column(
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Container(
-                                height: 30,
-                                width: 30,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  color: Colors.black12,
-                                ),
-                                child: Icon(
-                                  Icons.close,
-                                  size: 25,
-                                ),
-                              ),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Container(
+                            height: 30,
+                            width: 30,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: Colors.black12,
                             ),
-                          ],
-                        ),
-                        /*Container(
-                      child: DialogeGrid(
-                        //profileUrl: url,
-                        userBlocks: widget.userBlocks,
-                      ),
-                    ),*/
-                        DialogeGrid(
-                          userBlocks: widget.userBlocks,
-                          profileUrl: profileUrl,
+                            child: Icon(
+                              Icons.close,
+                              size: 25,
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                  );
-                }),
+                    DialogeGrid(
+                      userBlocks: widget.userBlocks,
+                      profileUrl: profileUrl,
+                    ),
+                  ],
+                ),
+              );
+            }),
           ),
         ),
       ),
@@ -126,24 +122,40 @@ class DialogeGrid extends StatelessWidget {
             alignment: Alignment.center,
             child: GestureDetector(
               onTap: () {
-                log(profileUrl , name: 'onclick');
-                BlocProvider.of<EditProfileBloc>(context).add(DirectOnMeEvent(
-                    direct: userBlocks[index].id.toString(),
-                    url: userBlocks[index].pivot.url));
+                log(profileUrl, name: 'onclick');
+                BlocProvider.of<EditProfileBloc>(context).add(
+                  DirectOnMeEvent(
+                    direct: true,
+                    url: userBlocks[index].pivot.url,
+                    block_id: userBlocks[index].id.toString(),
+                  ),
+                );
               },
               child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(13),
-                    border: userBlocks[index].pivot.url == profileUrl
-                        ? Border.all(
-                        color: MalinColors.AppGreen.withAlpha(100),
-                        width: 2)
-                        : null,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(13),
+                  border: userBlocks[index].pivot.url == profileUrl
+                      ? Border.all(
+                          color: MalinColors.AppGreen.withAlpha(100), width: 2)
+                      : null,
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(2),
+                  //child: Image.network(userBlocks[index].icon.originalUrl),
+                  child: CachedNetworkImage(
+                    imageUrl: userBlocks[index].icon.originalUrl,
+                    placeholder: (context, url) => Center(
+                        child: Center(
+                      child: Lottie.asset(
+                        'assets/lottie/loading.json',
+                        height: 80,
+                      ),
+                    )),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                    fit: BoxFit.cover,
                   ),
-                  child: Padding(
-                      padding: EdgeInsets.all(2),
-                      child:
-                      Image.network(userBlocks[index].icon.originalUrl))),
+                ),
+              ),
             ),
           );
         },

@@ -28,6 +28,13 @@ class SwitchEvent extends EditProfileEvent {
   @override
   List<Object?> get props => [state];
 }
+class ProfileActiveEvent extends EditProfileEvent {
+  final bool state;
+  ProfileActiveEvent({required this.state});
+
+  @override
+  List<Object?> get props => [state];
+}
 
 class GetBlocksEvent extends EditProfileEvent {
   GetBlocksEvent();
@@ -118,8 +125,10 @@ class DeleteUserBlocksEvent extends EditProfileEvent {
 }
 
 class DirectOnMeEvent extends EditProfileEvent {
-  final String direct, url;
+  final String block_id, url;
+  final bool direct;
   DirectOnMeEvent({
+    required this.block_id,
     required this.direct,
     required this.url,
   });

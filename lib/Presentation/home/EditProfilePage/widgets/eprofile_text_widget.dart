@@ -13,11 +13,7 @@ class EditProfileTextWidget extends StatefulWidget {
 class _EditProfileMediaWidgetState extends State<EditProfileTextWidget> {
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<EditProfileBloc>(context)
-        .add(PostUserNameEvent(name: widget.name));
 
-    BlocProvider.of<EditProfileBloc>(context)
-        .add(PostDescriptionEvent(description: widget.description));
     return Column(
       children: [
         SizedBox(height: 15),

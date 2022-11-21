@@ -63,6 +63,10 @@ class _MyOffersPageState extends State<EditProfilePage> {
             description = state.showProfile!.user.description;
             profileUserUrl = state.showProfile!.user.url;
             blockId = state.showProfile!.user.blockId;
+
+            _editProfileBloc.add(PostUserNameEvent(name: name));
+            _editProfileBloc
+                .add(PostDescriptionEvent(description: description));
           }
           if (state.status == Status.postBlockSuccess) {
             _editProfileBloc.add(GetBlocksEvent());
@@ -233,7 +237,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      InkWell(
+                      GestureDetector(
                         onTap: () {
                           Navigator.pop(context);
                         },
@@ -245,16 +249,11 @@ class _MyOffersPageState extends State<EditProfilePage> {
                       GestureDetector(
                         onTap: () async {
                           _editProfileBloc.add(PostProfileUpdateEvent(
-                            name: state.userName ,
-                            description: state.userDescription ,
-                              /*name: (state.userName == '')
-                                  ? name
-                                  : state.userName,
-                              description: (state.userDescription == '')
-                                  ? ''
-                                  : state.userDescription,*/
-                              profile: state.profileImg,
-                              background: state.backgroundImg));
+                            name: state.userName,
+                            description: state.userDescription,
+                            profile: state.profileImg,
+                            background: state.backgroundImg,
+                          ));
                         },
                         child: ButtomBtn(text: 'Save'.t(context)),
                       ),

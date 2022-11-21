@@ -1,8 +1,14 @@
+import 'dart:developer';
+
 import 'package:dropili/Presentation/home/ProfilePage/widgets/block_card.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/profile_dialogue_box.dart';
 import 'package:dropili/Presentation/widgets_model/cachedImage_widget.dart';
+import 'package:dropili/Presentation/widgets_model/snackbar.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
+import 'package:dropili/data/models/url_prefix_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BlockTypeGrid extends StatelessWidget {
   final String title;
@@ -11,6 +17,13 @@ class BlockTypeGrid extends StatelessWidget {
     required this.title,
     required this.blocksList,
   });
+
+  Future<void> _launchUrl(String url) async {
+    final Uri _url = Uri.parse(url);
+
+    if (!await launchUrl(_url, mode: LaunchMode.externalApplication))
+      log('could not launch your url');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +48,8 @@ class BlockTypeGrid extends StatelessWidget {
           itemCount: blocksList.length,
           itemBuilder: (BuildContext ctx, index) {
             return GestureDetector(
-              onTap: () {
-                showDialog(
+              onTap: () async {
+                /*showDialog(
                   context: context,
                   builder: ((context) {
                     return ProfileDialogBox(
@@ -47,7 +60,19 @@ class BlockTypeGrid extends StatelessWidget {
                       ),
                     );
                   }),
-                );
+                );*/
+                if (URLPrefixModel.prefix[blocksList[index].id] != null) {
+                  String furl = URLPrefixModel.prefix[blocksList[index].id]!;
+                  log(furl + blocksList[index].pivot.url.replaceAll(' ', ''));
+                  _launchUrl('$furl' +
+                      blocksList[index].pivot.url.replaceAll(' ', ''));
+                } else {
+                  await Clipboard.setData(
+                      ClipboardData(text: blocksList[index].pivot.url));
+                  SnackBars.showSucessSnackBar(
+                      context, 'Profile link copied to clipboard');
+                }
+                ;
               },
               child: BlockCardWidget(
                   blockImageUrl: blocksList[index].icon.originalUrl,

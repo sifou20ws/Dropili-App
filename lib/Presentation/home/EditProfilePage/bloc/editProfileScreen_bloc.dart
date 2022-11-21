@@ -33,6 +33,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     on<DeleteUserBlocksEvent>(_deleteUserBlocksEvent);
     on<GetCostumeBlockImage>(_getCostumeBlockImage);
     on<PostCostumeBlock>(_postCostumeBlock);
+    on<ProfileActiveEvent>(_profileActiveEvent);
   }
 
   void _getBlocks(GetBlocksEvent event, Emitter<EditProfileState> emit) async {
@@ -156,6 +157,11 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       openDirectMeDialogue: event.state,
     ));
   }
+  void _profileActiveEvent(ProfileActiveEvent event, Emitter<EditProfileState> emit) {
+    emit(state.copyWith(
+      profileActiveButton: event.state,
+    ));
+  }
 
   void _blockUrlEvent(BlockUrlEvent event, Emitter<EditProfileState> emit) {
     emit(state.copyWith(blockUrl: event.url));
@@ -207,13 +213,15 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     if (event.name.isEmpty) {
       log('error');
       emit(state.copyWith(
-        status: Status.fail,
+        status: Status.profileUpdateFail,
         errorExist: true,
         messageError: 'name field is required',
       ));
       emit(state.copyWith(valideName: false));
       return;
     }
+
+    emit(state.copyWith(status: Status.loadingProfileUpdate));
 
     var resp;
     Map<String, String> map1 = {
@@ -232,7 +240,10 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
 
       ;
     } catch (e) {
-      log('bloc:');
+      emit(state.copyWith(
+        status: Status.profileUpdateFail,
+        messageError: e.toString(),
+      ));
       log(e.toString());
     }
   }
@@ -257,10 +268,10 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   void _directOnMeEvent(
       DirectOnMeEvent event, Emitter<EditProfileState> emit) async {
     var resp;
-    Map<String, String> map1 = {
+    Map<String, dynamic> map1 = {
       'direct': event.direct,
       'url': event.url,
-      'block_id': event.direct
+      'block_id': event.block_id
     };
     PostProfileResp showProfile;
     try {
@@ -272,6 +283,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         status: Status.directOnMeSuccess,
       ));
       log(resp.toString(), name: 'edit bloc :');
+      log(showProfile.user.directOnMe.toString() , name:'direct_on_me');
       log(state.profileUserUrl, name: 'after updating');
     } catch (e) {
       log('bloc:');
