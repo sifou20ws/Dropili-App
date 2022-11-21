@@ -36,11 +36,9 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
     return BlocListener<EditProfileBloc, EditProfileState>(
       listener: (context, state) async {
         if (state.status == Status.postBlockSuccess) {
-          await Future.delayed(Duration(milliseconds: 500));
           Navigator.of(context).pop(false);
         }
         if (state.status == Status.deleteSuccess) {
-          await Future.delayed(Duration(milliseconds: 500));
           Navigator.of(context).pop(false);
         }
       },
@@ -174,8 +172,8 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                     ],
                   ),
                   Positioned(
-                    right: 5,
-                    top: 5,
+                    right: 8,
+                    top: 8,
                     child: GestureDetector(
                       onTap: () {
                         Navigator.of(context).pop(false);
@@ -190,7 +188,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                         ),
                         child: Icon(
                           Icons.close_rounded,
-                          color: Colors.black,
+                          color: Colors.grey.shade800,
                         ),
                       ),
                     ),

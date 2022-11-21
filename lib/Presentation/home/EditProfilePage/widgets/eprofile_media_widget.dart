@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/icon_container.dart';
+import 'package:dropili/Presentation/widgets_model/cachedImage_widget.dart';
 import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:flutter/material.dart';
@@ -57,10 +58,24 @@ class _EditProfileMediaWidgetState extends State<EditProfileMediaWidget> {
                       fit: BoxFit.cover,
                     )
               : (coverPicture == '')
-                  ? Image.network(
-                      getBackgroundPicture,
-                      fit: BoxFit.cover,
+                  // ? Image.network(
+                  //     getBackgroundPicture,
+                  //     fit: BoxFit.cover,
+                  //     width: MediaQuery.of(context).size.width,
+                  //   )
+                  ? Container(
+                      height: MediaQuery.of(context).size.height * 0.25,
                       width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: AssetImage('assets/transparent.png'),
+                          alignment: Alignment.topCenter,
+                        ),
+                      ),
+                      child: cachedImageModelWidget(
+                        image: getBackgroundPicture,
+                      ),
                     )
                   : Image.file(
                       File(coverPicture),
