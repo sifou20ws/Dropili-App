@@ -1,5 +1,7 @@
+import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MoreOptions extends StatelessWidget {
   const MoreOptions({super.key});
@@ -20,17 +22,21 @@ class MoreOptions extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-          Container(
-            height: 50,
-            // width: double.infinity,
-            width: 120,
-            padding: EdgeInsets.all(4),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Colors.white, width: 1)),
-            child: Image(
-              image: AssetImage('assets/google_logo_colored.png'),
+          GestureDetector(
+            onTap: () {
+              BlocProvider.of<AuthBloc>(context).add(GoogleAuthEvent());
+            },
+            child: Container(
+              height: 50,
+              width: 120,
+              padding: EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.white, width: 1)),
+              child: Image(
+                image: AssetImage('assets/google_logo_colored.png'),
+              ),
             ),
           ),
           // Spacer(),

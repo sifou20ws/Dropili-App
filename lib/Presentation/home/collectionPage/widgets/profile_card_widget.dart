@@ -106,11 +106,6 @@ class ProfileCardWidget extends StatelessWidget {
                               );
                             }));
                       },
-                      // child: Image.network(
-                      //   profile.blocks[index].icon.originalUrl,
-                      //   // height: 30,
-                      //   // width: 30,
-                      // ),
                       child: CachedNetworkImage(
                         imageUrl: profile.blocks[index].icon.originalUrl,
                         fadeOutDuration: Duration.zero,

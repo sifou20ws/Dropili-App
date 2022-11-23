@@ -1,12 +1,14 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:dropili/core/api/google_auth_api.dart';
 import 'package:dropili/core/error/failure.dart';
 import 'package:dropili/core/utils/token.dart';
 import 'package:dropili/domain/repositories/auth_repository.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:local_auth/local_auth.dart';
 
 part 'auth_event.dart';
@@ -22,9 +24,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<PasswordTextChangeEvent>(_passwordTextChangeEvent);
     on<PasswordVisibiltyChangeEvent>(_passwordVisiblityChangeEvent);
     on<LoginSubmittingEvent>(_loginSubmittingEvent);
+    on<GoogleAuthEvent>(_googleAuthEvent);
     on<SignupSubmittingEvent>(_signupSubmittingEvent);
     on<RestoreSubmittingEvent>(_restorSubmittingEvent);
     on<BiometricsAuthentifactionEvent>(_biometricsAuthEvent);
+    on<LogoutEvent>(_logoutEvent);
   }
 
   void _nameTextChangedEvent(event, Emitter<AuthState> emit) {
@@ -97,6 +101,52 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             status: Status.fail, errorExist: true, errorMessage: f.message),
       );
     } catch (e) {
+      emit(
+        state.copyWith(
+          status: Status.fail,
+          errorExist: true,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  void _googleAuthEvent(event, Emitter<AuthState> emit) async {
+    final GoogleSignInAccount? account = await GoogleAuthApi.login();
+
+    if (account == null) {
+      emit(
+        state.copyWith(
+            status: Status.fail,
+            errorExist: true,
+            errorMessage: 'Something went wrong'),
+      );
+      return;
+    }
+
+    emit(state.copyWith(status: Status.loading));
+
+    String token;
+
+    try {
+      log((await account.authentication).accessToken ?? 'nothing');
+
+      token = await authRepository.googleLogin(
+        name: account.displayName ?? ' ',
+        email: account.email,
+        access_token: (await account.authentication).accessToken,
+      );
+
+      await TokenHandler.storeToken(token);
+
+      emit(state.copyWith(status: Status.success));
+    } on Failure catch (f) {
+      emit(
+        state.copyWith(
+            status: Status.fail, errorExist: true, errorMessage: f.message),
+      );
+    } catch (e) {
+      log(e.toString());
       emit(
         state.copyWith(
           status: Status.fail,
@@ -227,5 +277,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             errorMessage: 'Your device doesn\'t support biometrics'),
       );
     }
+  }
+
+  void _logoutEvent(event, Emitter<AuthState> emit) async {
+    await TokenHandler.deleteToken();
+
+    if (await GoogleAuthApi.isConnected()) {
+      await GoogleAuthApi.signout();
+    }
+
+    log('loged out');
   }
 }

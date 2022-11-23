@@ -6,13 +6,10 @@ import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:local_auth/error_codes.dart';
 
 class MoreOptions extends StatelessWidget {
   const MoreOptions({super.key});
-
-  Future<void> _signIn() async {
-    var s = await GoogleSignInApi.login();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +31,9 @@ class MoreOptions extends StatelessWidget {
             children: [
               Expanded(
                 child: GestureDetector(
-                  onTap: _signIn,
+                  onTap: () {
+                    BlocProvider.of<AuthBloc>(context).add(GoogleAuthEvent());
+                  },
                   child: Container(
                     height: 50,
                     padding: EdgeInsets.all(4),
@@ -61,8 +60,7 @@ class MoreOptions extends StatelessWidget {
               Expanded(
                 child: GestureDetector(
                   onTap: () async {
-                    BlocProvider.of<AuthBloc>(context)
-                        .add(BiometricsAuthentifactionEvent());
+                    BlocProvider.of<AuthBloc>(context).add(BiometricsAuthentifactionEvent());
                   },
                   child: Container(
                     height: 50,
@@ -125,12 +123,4 @@ class SwitchToSignupWidget extends StatelessWidget {
       ],
     );
   }
-}
-
-class GoogleSignInApi {
-  static final _googleSignIn = GoogleSignIn();
-
-  static Future<GoogleSignInAccount?> login() => _googleSignIn.signIn();
-
-  static Future<void> signout() => _googleSignIn.signOut();
 }
