@@ -1,9 +1,12 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/add_C_block_widget.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/costume_block_widget.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/direct_sur_dialoge.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/eProfile_buttons_row.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_card_widget.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_media_widget.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_text_widget.dart';
 import 'package:dropili/Presentation/widgets_model/snackbar.dart';
@@ -38,6 +41,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
         ProfileRepository: getIt.getItInstace<ProfileRepository>());
     _editProfileBloc.add(GetProfileEvent());
     _editProfileBloc.add(GetBlocksEvent());
+    _editProfileBloc.add(GetCostumeBlocksEvent());
   }
 
   @override
@@ -76,6 +80,12 @@ class _MyOffersPageState extends State<EditProfilePage> {
             _editProfileBloc.add(GetBlocksEvent());
             userBlocks = state.userBlocks;
           }
+          if (state.status == Status.postCostumeBlocksSuccess) {
+            _editProfileBloc.add(GetCostumeBlocksEvent());
+          }
+          if (state.status == Status.deleteCostumeBlocksSuccess) {
+            _editProfileBloc.add(GetCostumeBlocksEvent());
+          }
           if (state.openDirectMeDialogue) {
             state.openDirectMeDialogue = false;
             showModalBottomSheet(
@@ -112,7 +122,8 @@ class _MyOffersPageState extends State<EditProfilePage> {
                 backgroundColor: Colors.white,
                 resizeToAvoidBottomInset: true,
                 body: (state.status == Status.loadingBlocks ||
-                        state.status == Status.loadingProfile)
+                        state.status == Status.loadingProfile ||
+                        state.status == Status.getCostumeBlocks)
                     ? Center(
                         child: Lottie.asset(
                           'assets/lottie/loading-green.json',
@@ -202,6 +213,13 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                                 fontSize: 30,
                                                 fontWeight: FontWeight.w600),
                                           ),
+                                          SizedBox(height: 15),
+                                          (state.costumeBlocks.length != null)
+                                              ? CostumeBlocksGrid(
+                                                  costumeBlocksList:
+                                                      state.costumeBlocks,
+                                                )
+                                              : Container(),
                                           SizedBox(height: 15),
                                           AddCostumeBlocksIcon(
                                             imagePath:

@@ -2,13 +2,9 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
-import 'package:dropili/Presentation/home/EditProfilePage/widgets/icon_container.dart';
-import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
-import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 
 class AddCustomBlocksDialog extends StatefulWidget {
   const AddCustomBlocksDialog();
@@ -28,8 +24,16 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
       BlocProvider.of<EditProfileBloc>(context).add(GetCostumeBlockImage());
     }
     String titlear='' , titlefr='' , url='';
+    bool iconPath = false;
     return BlocListener<EditProfileBloc, EditProfileState>(
-        listener: (context, state) async {},
+        listener: (context, state) async {
+          if(state.status == Status.costumeBlockImageSuccess){
+            iconPath = true;
+          }
+          if(state.status == Status.postCostumeBlocksSuccess){
+            Navigator.of(context).pop(false);
+          }
+        },
         child: BlocBuilder<EditProfileBloc, EditProfileState>(
           builder: (context, state) {
             return Stack(
@@ -106,9 +110,10 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
                                   Expanded(
                                     child: TextButton(
                                       onPressed: () {
+                                        log(name:'icon' , state.addCostumeBlockImgPath);
                                         BlocProvider.of<EditProfileBloc>(
                                                 context)
-                                            .add(PostCostumeBlock(url: url , titleAr: titlear , titleFr: titlefr, icon: state.addCostumeBlockImgPath ));
+                                            .add(PostCostumeBlock(url: url , titleAr: titlear , titleFr: titlefr,  icon: iconPath ? state.addCostumeBlockImgPath : ''  ));
                                       },
                                       child: Text('Save'.t(context)),
                                     ),

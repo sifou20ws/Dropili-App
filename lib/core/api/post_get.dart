@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
@@ -69,7 +70,7 @@ class Network {
       var fullUrl = host + version + apiUrl;
       final response = await http
           .put(Uri.parse(fullUrl),
-          body: jsonEncode(data), headers: await _setHeadersWithToken())
+              body: jsonEncode(data), headers: await _setHeadersWithToken())
           .timeout(Duration(seconds: timeOut));
 
       if (response.statusCode == 401) {
@@ -122,14 +123,14 @@ class Network {
     }
   }*/
 
-  Future postOnePictureWithHeader(apiUrl, String icon , data) async {
+  Future postOnePictureWithHeader(apiUrl, String icon, data) async {
     try {
       var fullUrl = host + version + apiUrl;
       var request = http.MultipartRequest('POST', Uri.parse(fullUrl));
       request.headers.addAll(await _setHeadersWithToken());
-      (icon == '')
-          ? request.files.add(await http.MultipartFile.fromPath('image', icon,
-          filename: 'icon'))
+      (icon != '')
+          ? request.files.add(
+              await http.MultipartFile.fromPath('icon', icon, filename: 'icon'))
           : null;
       request.fields.addAll(data);
 

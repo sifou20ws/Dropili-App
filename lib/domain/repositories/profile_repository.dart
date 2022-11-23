@@ -3,8 +3,10 @@ import 'dart:developer';
 
 import 'package:dropili/core/api/post_get.dart';
 import 'package:dropili/core/error/failure.dart';
+import 'package:dropili/data/models/costume_block_model.dart';
 import 'package:dropili/data/models/delete_block_response_model.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
+import 'package:dropili/data/models/get_costume_block_response.dart';
 import 'package:dropili/data/models/get_friends_result_model.dart.dart';
 import 'package:dropili/data/models/post_user_profile_response.dart';
 import 'package:http/http.dart' as http;
@@ -177,6 +179,7 @@ class ProfileRepository {
     dynamic response;
     var dataR;
     try {
+      log(name:'icon repo' , icon);
       response = await _network.postOnePictureWithHeader(
           '/custom-blocks', icon, data);
       dataR = json.decode(response);
@@ -186,6 +189,19 @@ class ProfileRepository {
     }
   }
 
+  Future<dynamic> UpdateCostumeBlock({dynamic data, dynamic icon , dynamic id}) async {
+    dynamic response;
+    var dataR;
+    try {
+      log(name:'icon repo' , icon);
+      response = await _network.postOnePictureWithHeader(
+          '/custom-blocks/$id/update', icon, data);
+      dataR = json.decode(response);
+      return dataR;
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   Future<int> getIdFromUsername(String username) async {
     http.Response response;
@@ -204,4 +220,37 @@ class ProfileRepository {
       rethrow;
     }
   }
+
+  Future<GetCostumeBlocksResponse> getCostumeBlocks() async {
+    http.Response response;
+    late GetCostumeBlocksResponse CostumeBlocks;
+    try {
+      response = await _network.getWithHeader('/custom-blocks');
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        CostumeBlocks = GetCostumeBlocksResponse.fromJson(data);
+      }
+      log(response.body);
+      return CostumeBlocks;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<DeleteBlockResponse> deleteCostumeBlocks(String id) async {
+    http.Response response;
+    late DeleteBlockResponse deleteResponse;
+    try {
+      response = await _network.deleteWithHeader('/custom-blocks/$id');
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        deleteResponse = DeleteBlockResponse.fromJson(data);
+        //log(response.body , name: 'delete blocks :');
+      }
+      return deleteResponse;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 }

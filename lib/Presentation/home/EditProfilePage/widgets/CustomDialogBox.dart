@@ -36,11 +36,9 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
     return BlocListener<EditProfileBloc, EditProfileState>(
       listener: (context, state) async {
         if (state.status == Status.postBlockSuccess) {
-          await Future.delayed(Duration(milliseconds: 500));
           Navigator.of(context).pop(false);
         }
         if (state.status == Status.deleteSuccess) {
-          await Future.delayed(Duration(milliseconds: 500));
           Navigator.of(context).pop(false);
         }
       },

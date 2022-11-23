@@ -19,6 +19,21 @@ enum Status {
   deleteSuccess,
   failInBlocksDialogue,
 
+  getCostumeBlocks ,
+  getCostumeBlocksSuccess,
+  getCostumeBlocksFail,
+  postCostumeBlocksLoading,
+  postCostumeBlocksSuccess,
+  postCostumeBlocksInvalidUrl,
+  postCostumeBlocksInvalidTitleAr,
+  postCostumeBlocksInvalidTitleFr,
+  postCostumeBlocksFail,
+  costumeBlockImageSuccess,
+  deleteCostumeBlocksLoading,
+  deleteCostumeBlocksSuccess,
+  deleteCostumeBlocksFail,
+
+
   loadingProfile,
   getProfileSuccess,
   loadingProfileUpdate,
@@ -57,6 +72,7 @@ class EditProfileState extends Equatable {
       this.id = '',
       /** Blocks and user blocks */
       required this.blocks,
+      required this.costumeBlocks,
       required this.blocksList,
       this.index = -1,
       required this.userBlocks,
@@ -88,6 +104,7 @@ class EditProfileState extends Equatable {
   String profileImagePath = '';
   final List<BlocksItem> blocks;
   final List<List<BlocksItem>> blocksList;
+  final List<CustomBlocksItem> costumeBlocks;
   final String userName;
   final String userDescription;
   String addCostumeBlockImgPath = '';
@@ -124,6 +141,7 @@ class EditProfileState extends Equatable {
       bool? openDirectMeDialogue,
       bool? load,
       String? profileUserUrl,
+      List<CustomBlocksItem>? costumeBlocks,
       List<List<BlocksItem>>? blocksList}) {
     return EditProfileState(
       messageError: messageError ?? this.messageError,
@@ -150,6 +168,7 @@ class EditProfileState extends Equatable {
       profileUserUrl: profileUserUrl ?? this.profileUserUrl,
       blocksList: blocksList ?? this.blocksList,
       openDirectMeDialogue: openDirectMeDialogue ?? this.openDirectMeDialogue,
+      costumeBlocks: costumeBlocks ?? this.costumeBlocks,
       //blocksStatus: blocksStatus ?? this.blocksStatus,
     );
   }
@@ -180,5 +199,6 @@ class EditProfileState extends Equatable {
         userBlocks,
         blocksList,
         openDirectMeDialogue,
+        costumeBlocks,
       ];
 }
