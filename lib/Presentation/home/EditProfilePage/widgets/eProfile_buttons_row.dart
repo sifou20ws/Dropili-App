@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EditProfileButtonsWidget extends StatefulWidget {
   const EditProfileButtonsWidget({Key? key}) : super(key: key);
-
   @override
   State<EditProfileButtonsWidget> createState() => _EditProfileButtonsWidget();
 }
@@ -36,6 +35,10 @@ class _EditProfileButtonsWidget extends State<EditProfileButtonsWidget> {
                 onChanged: (bool state) {
                   BlocProvider.of<EditProfileBloc>(context)
                       .add(SwitchEvent(state: state));
+                  if(state==false){
+                    BlocProvider.of<EditProfileBloc>(context)
+                        .add(DirectOnMeEvent(direct: false , block_id: 'null' , url: 'null' ));
+                  }
                 },
                 activeColor: MalinColors.AppGreen,
               ),

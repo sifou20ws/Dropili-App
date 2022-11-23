@@ -77,6 +77,21 @@ class ProfileRepository {
     }
   }
 
+  Future<dynamic> PutUserBlocks(dynamic data , int id) async {
+    http.Response response;
+    var dataR;
+    try {
+      response = await _network.putWithHeader('/blocks/$id', data);
+      //if(response.statusCode == 200){
+      dataR = json.decode(response.body);
+      //myBlocks = GetBlocksModel.fromJson(data);
+      //}
+      return response.body;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<dynamic> PostUserProfile(
       {dynamic data, dynamic background, dynamic profile}) async {
     dynamic response;
@@ -144,6 +159,33 @@ class ProfileRepository {
       rethrow;
     }
   }
+
+  Future<dynamic> directOnMe({dynamic data}) async {
+    dynamic response;
+    var dataR;
+    try {
+      response = await _network.patchWithHeader('/direct', data);
+      dataR = json.decode(response.body);
+      log(dataR.toString());
+      return dataR;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<dynamic> PostCostumeBlock({dynamic data, dynamic icon}) async {
+    dynamic response;
+    var dataR;
+    try {
+      response = await _network.postOnePictureWithHeader(
+          '/custom-blocks', icon, data);
+      dataR = json.decode(response);
+      return dataR;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 
   Future<int> getIdFromUsername(String username) async {
     http.Response response;

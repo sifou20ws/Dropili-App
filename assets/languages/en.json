@@ -7,6 +7,8 @@
     "Signup": "Signup",
     "next" : "Next",
     "skip": "Skip",
+
+    "Good to see you": "Good to see you",
     "name":"Name",
     "username": "Username",
     "password": "Password",
@@ -18,8 +20,23 @@
     "have account": "You already have an account",
     "not valid": "not valid",
     "short": "so short",
+    "Signed in successfully": "Signed in successfully",
+    "Empty email or password fields": "Empty email or password fields",
+    "Connection failed": "Connection failed",
+    "The provided credentials are incorrect." :"The provided credentials are incorrect.",
+
+    "All fields must be filled": "All fields must be filled",
+    "The username has already been taken.": "The username has already been taken.",
+    "The email has already been taken.": "The email has already been taken.",
+
+    "Restore your password" : "Restore your password",
+    "Submit" : "Submit",
+
+    
+    
     "Change Language" :"Change Language",
     "Choose Language":"Choose a language :",
+
     "nfc looking text": "Try moving your NFC tag around to find the NFC reader on your device",
     "nfc not found text": "No Nfc Adabter detected, try turnning on the NFC scanner from the settings"
     

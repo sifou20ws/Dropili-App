@@ -36,6 +36,7 @@ class User {
   final String lang;
   final bool directOnMe;
   final dynamic url;
+  final int blockId;
   final dynamic profilePhotoPath;
   final String createdAt;
   final String updatedAt;
@@ -54,6 +55,7 @@ class User {
     this.lang = '',
     this.directOnMe = false,
     this.url,
+    this.blockId = 0,
     this.profilePhotoPath,
     this.createdAt = '',
     this.updatedAt = '',
@@ -174,27 +176,27 @@ class UserProfile {
       );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'model_type': modelType,
-        'model_id': modelId,
-        'uuid': uuid,
-        'collection_name': collectionName,
-        'name': name,
-        'file_name': fileName,
-        'mime_type': mimeType,
-        'disk': disk,
-        'conversions_disk': conversionsDisk,
-        'size': size,
-        'manipulations': manipulations.map((e) => e).toList(),
-        'custom_properties': customProperties.map((e) => e).toList(),
-        'generated_conversions': generatedConversions.toJson(),
-        'responsive_images': responsiveImages.map((e) => e).toList(),
-        'order_column': orderColumn,
-        'created_at': createdAt,
-        'updated_at': updatedAt,
-        'original_url': originalUrl,
-        'preview_url': previewUrl,
-      };
+            'id': id,
+            'model_type': modelType,
+            'model_id': modelId,
+            'uuid': uuid,
+            'collection_name': collectionName,
+            'name': name,
+            'file_name': fileName,
+            'mime_type': mimeType,
+            'disk': disk,
+            'conversions_disk': conversionsDisk,
+            'size': size,
+            'manipulations': manipulations.map((e) => e).toList(),
+            'custom_properties': customProperties.map((e) => e).toList(),
+            'generated_conversions': generatedConversions.toJson(),
+            'responsive_images': responsiveImages.map((e) => e).toList(),
+            'order_column': orderColumn,
+            'created_at': createdAt,
+            'updated_at': updatedAt,
+            'original_url': originalUrl,
+            'preview_url': previewUrl,
+          };
 }
 
 class GeneratedConversions {
@@ -260,31 +262,35 @@ class UserBackground {
   });
 
   factory UserBackground.fromJson(Map<String, dynamic>? json) => UserBackground(
-        id: asInt(json, 'id'),
-        modelType: asString(json, 'model_type'),
-        modelId: asInt(json, 'model_id'),
-        uuid: asString(json, 'uuid'),
-        collectionName: asString(json, 'collection_name'),
-        name: asString(json, 'name'),
-        fileName: asString(json, 'file_name'),
-        mimeType: asString(json, 'mime_type'),
-        disk: asString(json, 'disk'),
-        conversionsDisk: asString(json, 'conversions_disk'),
-        size: asInt(json, 'size'),
-        manipulations:
+            id: asInt(json, 'id'),
+            modelType: asString(json, 'model_type'),
+            modelId: asInt(json, 'model_id'),
+            uuid: asString(json, 'uuid'),
+            collectionName: asString(json, 'collection_name'),
+            name: asString(json, 'name'),
+            fileName: asString(json, 'file_name'),
+            mimeType: asString(json, 'mime_type'),
+            disk: asString(json, 'disk'),
+            conversionsDisk: asString(json, 'conversions_disk'),
+            size: asInt(json, 'size'),
+            manipulations:
+           
             asList(json, 'manipulations').map((e) => e.toString()).toList(),
-        customProperties:
+            customProperties:
+           
             asList(json, 'custom_properties').map((e) => e.toString()).toList(),
-        generatedConversions:
+            generatedConversions:
+           
             GeneratedConversions.fromJson(asMap(json, 'generated_conversions')),
-        responsiveImages:
+            responsiveImages:
+           
             asList(json, 'responsive_images').map((e) => e.toString()).toList(),
-        orderColumn: asInt(json, 'order_column'),
-        createdAt: asString(json, 'created_at'),
-        updatedAt: asString(json, 'updated_at'),
-        originalUrl: asString(json, 'original_url'),
-        previewUrl: asString(json, 'preview_url'),
-      );
+            orderColumn: asInt(json, 'order_column'),
+            createdAt: asString(json, 'created_at'),
+            updatedAt: asString(json, 'updated_at'),
+            originalUrl: asString(json, 'original_url'),
+            previewUrl: asString(json, 'preview_url'),
+          );
 
   Map<String, dynamic> toJson() => {
         'id': id,

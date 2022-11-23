@@ -4,6 +4,8 @@ import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_card_
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:lottie/lottie.dart';
 
 class Grid extends StatelessWidget {
   final String title;
@@ -23,6 +25,14 @@ class Grid extends StatelessWidget {
       if (element.id == id) ret = element.pivot.url;
     });
     return ret;
+  }
+
+  bool userBlockExist(int id) {
+    bool selected = false;
+    userBlocks.forEach((element) {
+      if (element.id == id) selected = true;
+    });
+    return selected;
   }
 
   @override
@@ -56,19 +66,21 @@ class Grid extends StatelessWidget {
                     builder: (_) {
                       return BlocProvider.value(
                         value: context.read<EditProfileBloc>(),
+                        //child: CustomDialogBox(
                         child: CustomDialogBox(
                           index: blocksList[index].id,
                           img: blocksList[index].icon.originalUrl,
                           editText: blocksList[index].hint.fr,
                           blocksList: blocksList,
                           url: blockExist(blocksList[index].id),
+                          put: userBlockExist(blocksList[index].id),
                         ),
                       );
                     },
                   );
                 },
                 child: BlockCardWidget(
-                  blockImage: Image.network(blocksList[index].icon.originalUrl),
+                  blockImage: blocksList[index].icon.originalUrl,
                   title: blocksList[index].title.ar,
                   id: blocksList[index].id,
                   userBlocks: userBlocks,

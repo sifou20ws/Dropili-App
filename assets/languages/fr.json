@@ -1,4 +1,3 @@
-
 {
     "welcome title": "Bienvenue sur Dropili",
     "welcome text": "Partagez vos coordonnees, reseaux sociaux et bien plus avec Dropilii",
@@ -8,6 +7,8 @@
     "Signup": "S'inscrire",
     "next" : "Suivent",
     "skip": "Passer",
+
+    "Good to see you": "Content de te voir",
     "name":"Nom",
     "username": "Nom d'utilisateur",
     "password": "Mot de pass",
@@ -19,7 +20,23 @@
     "have account": "Vous avez déjà un compte ?",
     "not valid": "non valid",
     "short": "trop court",
-    "Change Language" :"Changer la langue",
-    "Choose Language":"Choisir une langue :"
+    "Signed in successfully": "Signed in successfully",
+    "Empty email or password fields": "Empty email or password fields",
+    "Connection failed": "Connection failed",
+    "The provided credentials are incorrect." :"The provided credentials are incorrect.",
 
+    "All fields must be filled": "All fields must be filled",
+    "The username has already been taken.": "The username has already been taken.",
+    "The email has already been taken.": "The email has already been taken.",
+
+    "Restore your password" : "Restore your password",
+    "Submit" : "Submit",
+
+
+
+    "Change Language" :"Changer la langue",
+    "Choose Language":"Choisir une langue :",
+
+    "nfc looking text": "Try moving your NFC tag around to find the NFC reader on your device",
+    "nfc not found text": "No Nfc Adabter detected, try turnning on the NFC scanner from the settings"
 }

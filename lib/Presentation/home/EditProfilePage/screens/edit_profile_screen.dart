@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/add_C_block_widget.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/direct_sur_dialoge.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/eProfile_buttons_row.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_media_widget.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_text_widget.dart';
@@ -24,15 +26,11 @@ class EditProfilePage extends StatefulWidget {
 
 class _MyOffersPageState extends State<EditProfilePage> {
   late EditProfileBloc _editProfileBloc;
-  List<BlocksItem> blocks = [],
-      contactBlocks = [],
-      reseauxBlocks = [],
-      paymentsBlocks = [],
-      diverBlocks = [];
+  List<BlocksItem> blocks = [];
   List<List<BlocksItem>> blocksList = [];
   List<UserBlocksItem> userBlocks = [];
-  String name = '', description = '';
-
+  String name = '', description = '', profileUserUrl = '';
+  int blockId = 0;
   @override
   void initState() {
     super.initState();
@@ -54,19 +52,21 @@ class _MyOffersPageState extends State<EditProfilePage> {
     return BlocProvider.value(
       value: _editProfileBloc,
       child: BlocListener<EditProfileBloc, EditProfileState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state.status == Status.getBlocksSuccess) {
             blocks = state.blocks;
             userBlocks = state.userBlocks;
             blocksList = state.blocksList;
-            contactBlocks = blocksList[0];
-            reseauxBlocks = blocksList[1];
-            paymentsBlocks = blocksList[2];
-            diverBlocks = blocksList[3];
           }
           if (state.status == Status.getProfileSuccess) {
             name = state.showProfile!.user.name;
             description = state.showProfile!.user.description;
+            profileUserUrl = state.showProfile!.user.url;
+            blockId = state.showProfile!.user.blockId;
+
+            _editProfileBloc.add(PostUserNameEvent(name: name));
+            _editProfileBloc
+                .add(PostDescriptionEvent(description: description));
           }
           if (state.status == Status.postBlockSuccess) {
             _editProfileBloc.add(GetBlocksEvent());
@@ -76,13 +76,33 @@ class _MyOffersPageState extends State<EditProfilePage> {
             _editProfileBloc.add(GetBlocksEvent());
             userBlocks = state.userBlocks;
           }
+          if (state.openDirectMeDialogue) {
+            state.openDirectMeDialogue = false;
+            showModalBottomSheet(
+              isScrollControlled: true,
+              backgroundColor: Colors.transparent,
+              context: context,
+              builder: (context) {
+                return DirectSurWidget(
+                  userBlocks: state.userBlocks,
+                  profileUrl: profileUserUrl,
+                );
+              },
+            ).then((value) {
+              _editProfileBloc.add(GetProfileEvent());
+            });
+          } else if (state.status == Status.profileUpdateSucess) {
+            SnackBars.showSucessSnackBar(context, state.messageError);
+            await Future.delayed(Duration(milliseconds: 500));
+            Navigator.pop(context);
+          }
+          if (state.status == Status.profileUpdateFail) {
+            SnackBars.showErrorSnackBar(context, state.messageError);
+          }
           if (state.status == Status.fail) {
             SnackBars.showErrorSnackBar(context, state.messageError);
           } else if (state.status == Status.success) {
             SnackBars.showSucessSnackBar(context, state.messageError);
-          }
-          if (state.status == Status.profileUpdateSucess) {
-            Navigator.pop(context);
           }
         },
         child: BlocBuilder<EditProfileBloc, EditProfileState>(
@@ -103,18 +123,19 @@ class _MyOffersPageState extends State<EditProfilePage> {
                     : Container(
                         height: MediaQuery.of(context).size.height,
                         width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            fit: BoxFit.fill,
-                            image: AssetImage(
-                              'assets/background2.png',
-                            ),
-                            alignment: Alignment.topCenter,
-                          ),
-                        ),
+                        // decoration: BoxDecoration(
+                        //   image: DecorationImage(
+                        //     fit: BoxFit.fill,
+                        //     image: AssetImage(
+                        //       'assets/background2.png',
+                        //     ),
+                        //     alignment: Alignment.topCenter,
+                        //   ),
+                        // ),
                         child: Stack(
                           children: <Widget>[
                             SingleChildScrollView(
+                              physics: BouncingScrollPhysics(),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
@@ -137,30 +158,56 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                           SizedBox(height: 15),
                                           EditProfileButtonsWidget(),
                                           SizedBox(height: 15),
-                                          Grid(
-                                              userBlocks: userBlocks,
-                                              type: 1,
-                                              title: 'Contacts',
-                                              blocksList: contactBlocks),
-                                          SizedBox(height: 25),
-                                          Grid(
-                                              userBlocks: userBlocks,
-                                              type: 2,
-                                              title: "Réseaux Sociaux",
-                                              blocksList: reseauxBlocks),
-                                          SizedBox(height: 25),
-                                          Grid(
-                                              userBlocks: userBlocks,
-                                              type: 3,
-                                              title: 'Mode de paiments',
-                                              blocksList: paymentsBlocks),
-                                          SizedBox(height: 25),
-                                          Grid(
-                                              userBlocks: userBlocks,
-                                              type: 4,
-                                              title: 'Divers',
-                                              blocksList: diverBlocks),
-                                          SizedBox(height: 20),
+                                          ListView.separated(
+                                            physics:
+                                                NeverScrollableScrollPhysics(),
+                                            shrinkWrap: true,
+                                            itemCount: state.blocksList.length,
+                                            itemBuilder: (context, index) {
+                                              var title = '';
+                                              switch (state
+                                                  .blocksList[index][0].type) {
+                                                case 1:
+                                                  title = 'Contacts'.t(context);
+                                                  break;
+                                                case 2:
+                                                  title =
+                                                      'Social Media'.t(context);
+                                                  break;
+                                                case 3:
+                                                  title = 'Payment methods'
+                                                      .t(context);
+                                                  break;
+                                                case 4:
+                                                  title = 'Divers'.t(context);
+                                                  break;
+                                                default:
+                                              }
+                                              return Grid(
+                                                userBlocks: userBlocks,
+                                                type: 4,
+                                                title: title,
+                                                blocksList:
+                                                    state.blocksList[index],
+                                              );
+                                            },
+                                            separatorBuilder:
+                                                (context, index) => SizedBox(
+                                              height: 25,
+                                            ),
+                                          ),
+                                          SizedBox(height: 15),
+                                          Text(
+                                            'Custom Blocks',
+                                            style: TextStyle(
+                                                fontSize: 30,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                          SizedBox(height: 15),
+                                          AddCostumeBlocksIcon(
+                                            imagePath:
+                                                state.addCostumeBlockImgPath,
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -191,7 +238,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      InkWell(
+                      GestureDetector(
                         onTap: () {
                           Navigator.pop(context);
                         },
@@ -203,12 +250,11 @@ class _MyOffersPageState extends State<EditProfilePage> {
                       GestureDetector(
                         onTap: () async {
                           _editProfileBloc.add(PostProfileUpdateEvent(
-                              name: (state.userName == '')
-                                  ? name
-                                  : state.userName,
-                              description: state.userDescription,
-                              profile: state.profileImg,
-                              background: state.backgroundImg));
+                            name: state.userName,
+                            description: state.userDescription,
+                            profile: state.profileImg,
+                            background: state.backgroundImg,
+                          ));
                         },
                         child: ButtomBtn(text: 'Save'.t(context)),
                       ),

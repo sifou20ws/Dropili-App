@@ -208,7 +208,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _restorSubmittingEvent(event, Emitter<AuthState> emit) async {
-    if (!state.emailValid) {
+    if (!state.emailValid || state.emailValue.isEmpty) {
+      state.copyWith(errorExist: true, errorMessage: 'Email can\'t be empty');
       return;
     }
     emit(state.copyWith(status: Status.loading));

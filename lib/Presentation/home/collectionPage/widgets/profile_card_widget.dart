@@ -1,15 +1,29 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/profile_dialogue_box.dart';
 import 'package:dropili/Presentation/home/collectionPage/bloc/collection_bloc.dart';
+import 'package:dropili/Presentation/widgets_model/snackbar.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:dropili/data/models/get_friends_result_model.dart.dart' as frnd;
+import 'package:dropili/data/models/url_prefix_model.dart';
 import 'package:flutter/material.dart';
 import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class ProfileCardWidget extends StatelessWidget {
   final frnd.FriendsItem profile;
   const ProfileCardWidget({super.key, required this.profile});
+
+  Future<void> _launchUrl(String url) async {
+    final Uri _url = Uri.parse(url);
+
+    if (!await launchUrl(_url, mode: LaunchMode.externalApplication))
+      log('could not launch your url');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,18 +107,23 @@ class ProfileCardWidget extends StatelessWidget {
                   itemCount: profile.blocks.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: ((context) {
-                              return ProfileDialogBox(
-                                blockId: profile.blocks[index].id,
-                                url: profile.blocks[index].hint.ar,
-                                iconImage: Image.network(
-                                  profile.blocks[index].icon.originalUrl,
-                                ),
-                              );
-                            }));
+                      onTap: () async {
+                        if (URLPrefixModel.prefix[profile.blocks[index].id] !=
+                            null) {
+                          String furl =
+                              URLPrefixModel.prefix[profile.blocks[index].id]!;
+                          log(furl +
+                              profile.blocks[index].pivot.url
+                                  .replaceAll(' ', ''));
+                          _launchUrl('$furl' +
+                              profile.blocks[index].pivot.url
+                                  .replaceAll(' ', ''));
+                        } else {
+                          await Clipboard.setData(ClipboardData(
+                              text: profile.blocks[index].pivot.url));
+                          SnackBars.showSucessSnackBar(
+                              context, 'Profile link copied to clipboard');
+                        }
                       },
                       child: CachedNetworkImage(
                         imageUrl: profile.blocks[index].icon.originalUrl,
