@@ -32,3 +32,10 @@ class DeleteUserBlocksEvent extends ProfileEvent {
   @override
   List<Object?> get props => [];
 }
+
+class GetCostumeBlocksEvent extends ProfileEvent {
+  GetCostumeBlocksEvent();
+
+  @override
+  List<Object?> get props => [];
+}

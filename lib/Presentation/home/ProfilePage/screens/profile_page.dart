@@ -10,13 +10,11 @@ import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
 
 class ProfilePageWidget extends StatefulWidget {
   const ProfilePageWidget({Key? key}) : super(key: key);
-
   @override
   State<ProfilePageWidget> createState() => _ProfilePageWidgetState();
 }
@@ -35,6 +33,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
     _profileBloc = getIt.getItInstace<ProfileBloc>();
     _profileBloc.add(GetUserBlocksEvent());
     _profileBloc.add(GetProfileEvent());
+    _profileBloc.add(GetCostumeBlocksEvent());
   }
 
   @override
@@ -78,7 +77,9 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 color: Colors.white,
-                child: (state.status == ProfileStatus.loading)
+                child: (state.status == ProfileStatus.loading ||
+                        state.status == ProfileStatus.loadingBlocks ||
+                        state.status == ProfileStatus.getCostumeBlocks)
                     ? LoadingWidget()
                     : SingleChildScrollView(
                         physics: BouncingScrollPhysics(),
@@ -150,7 +151,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                               name: getUserName,
                                               discrtptio: getUserDescription,
                                             )),
-                                        SizedBox(height: 35),
+                                        SizedBox(height: 15),
                                         ListView.separated(
                                           physics:
                                               NeverScrollableScrollPhysics(),
@@ -183,10 +184,15 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                             );
                                           },
                                           separatorBuilder: (context, index) =>
-                                              SizedBox(
-                                            height: 25,
-                                          ),
+                                              SizedBox(height: 25),
                                         ),
+                                        SizedBox(height: 20),
+                                        (state.costumeBlocks.length != 0)
+                                            ? CostumeBlocksGrid(
+                                                costumeBlocksList:
+                                                    state.costumeBlocks,
+                                              )
+                                            : Container(),
                                       ],
                                     ),
                                   ),

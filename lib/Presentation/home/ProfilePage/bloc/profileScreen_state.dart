@@ -9,6 +9,10 @@ enum ProfileStatus {
   getSuccess,
   loadingBlocks,
   getBlocksSuccess,
+
+  getCostumeBlocks,
+  getCostumeBlocksSuccess,
+  getCostumeBlocksFail,
 }
 
 class ProfileState extends Equatable {
@@ -16,6 +20,7 @@ class ProfileState extends Equatable {
     this.messageError = '',
     this.status = ProfileStatus.loading,
     required this.userBlocks,
+    required this.costumeBlocks,
     this.showProfile,
   });
 
@@ -23,6 +28,7 @@ class ProfileState extends Equatable {
 
   final ProfileStatus status;
   final List<List<UserBlocksItem>> userBlocks;
+  final List<CustomBlocksItem> costumeBlocks;
   PostProfileResp? showProfile;
 
   ProfileState copyWith({
@@ -32,12 +38,14 @@ class ProfileState extends Equatable {
     List<List<UserBlocksItem>>? userBlocks,
     PostProfileResp? showProfile,
     List<BlocksItem>? blocks,
+    List<CustomBlocksItem>? costumeBlocks,
   }) {
     return ProfileState(
       messageError: messageError ?? this.messageError,
       status: status ?? this.status,
       userBlocks: userBlocks ?? this.userBlocks,
       showProfile: showProfile ?? this.showProfile,
+      costumeBlocks: costumeBlocks ?? this.costumeBlocks,
     );
   }
 
@@ -47,5 +55,6 @@ class ProfileState extends Equatable {
         status,
         userBlocks,
         showProfile,
+        costumeBlocks,
       ];
 }

@@ -157,3 +157,33 @@ class PostCostumeBlock extends EditProfileEvent {
   @override
   List<Object?> get props => [];
 }
+
+class UpdateCostumeBlock extends EditProfileEvent {
+  final String url, titleAr, titleFr , id;
+  final dynamic icon;
+  UpdateCostumeBlock({
+    required this.id,
+    required this.url,
+    required this.titleAr,
+    this.icon,
+    required this.titleFr,
+  });
+
+  @override
+  List<Object?> get props => [];
+}
+
+class GetCostumeBlocksEvent extends EditProfileEvent {
+  GetCostumeBlocksEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class DeleteCostumeBlocksEvent extends EditProfileEvent {
+  final String id;
+  DeleteCostumeBlocksEvent({required this.id});
+
+  @override
+  List<Object?> get props => [];
+}
