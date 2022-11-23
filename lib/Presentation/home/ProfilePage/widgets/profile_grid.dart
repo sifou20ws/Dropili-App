@@ -44,24 +44,11 @@ class BlockTypeGrid extends StatelessWidget {
             mainAxisSpacing: 20,
             mainAxisExtent: 138,
           ),
-          // itemCount: blocksList.length,
           itemCount: blocksList.length,
           itemBuilder: (BuildContext ctx, index) {
             return GestureDetector(
               onTap: () async {
-                /*showDialog(
-                  context: context,
-                  builder: ((context) {
-                    return ProfileDialogBox(
-                      blockId: blocksList[index].id,
-                      url: blocksList[index].pivot.url,
-                      iconImage: Image.network(
-                        blocksList[index].icon.originalUrl,
-                      ),
-                    );
-                  }),
-                );*/
-                if (URLPrefixModel.prefix[blocksList[index].id] != null) {
+                if (blocksList[index].urlPrefix != 'null') {
                   String furl = URLPrefixModel.prefix[blocksList[index].id]!;
                   log(furl + blocksList[index].pivot.url.replaceAll(' ', ''));
                   _launchUrl('$furl' +
@@ -69,8 +56,9 @@ class BlockTypeGrid extends StatelessWidget {
                 } else {
                   await Clipboard.setData(
                       ClipboardData(text: blocksList[index].pivot.url));
+                  String url = blocksList[index].pivot.url;
                   SnackBars.showSucessSnackBar(
-                      context, 'Profile link copied to clipboard');
+                      context, '\"$url\" copied to clipboard');
                 }
                 ;
               },

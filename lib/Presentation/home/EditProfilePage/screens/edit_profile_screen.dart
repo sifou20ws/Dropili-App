@@ -34,6 +34,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
   List<UserBlocksItem> userBlocks = [];
   String name = '', description = '', profileUserUrl = '';
   int blockId = 0;
+  String getProfilePicture = '', getBackgroundPicture = '';
   @override
   void initState() {
     super.initState();
@@ -67,7 +68,18 @@ class _MyOffersPageState extends State<EditProfilePage> {
             description = state.showProfile!.user.description;
             profileUserUrl = state.showProfile!.user.url;
             blockId = state.showProfile!.user.blockId;
-
+            getProfilePicture = BlocProvider.of<EditProfileBloc>(context)
+                .state
+                .showProfile!
+                .user
+                .userProfile
+                .originalUrl;
+            getBackgroundPicture = BlocProvider.of<EditProfileBloc>(context)
+                .state
+                .showProfile!
+                .user
+                .userBackground
+                .originalUrl;
             _editProfileBloc.add(PostUserNameEvent(name: name));
             _editProfileBloc
                 .add(PostDescriptionEvent(description: description));
@@ -149,7 +161,10 @@ class _MyOffersPageState extends State<EditProfilePage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  EditProfileMediaWidget(),
+                                  EditProfileMediaWidget(
+                                    getProfilePicture: getProfilePicture,
+                                    getBackgroundPicture: getBackgroundPicture,
+                                  ),
                                   Container(
                                     decoration: BoxDecoration(
                                       color: Colors.white,
@@ -207,14 +222,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                             ),
                                           ),
                                           SizedBox(height: 15),
-                                          Text(
-                                            'Custom Blocks',
-                                            style: TextStyle(
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                          SizedBox(height: 15),
-                                          (state.costumeBlocks.length != null)
+                                          (state.costumeBlocks.length != 0)
                                               ? CostumeBlocksGrid(
                                                   costumeBlocksList:
                                                       state.costumeBlocks,

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropili/Presentation/authentification/comun_widgets/message_widget.dart';
@@ -11,9 +12,10 @@ import 'package:lottie/lottie.dart';
 
 class CustomBlocksDialogBox extends StatefulWidget {
   final String img, url;
-  final int index;
+  final int index, id;
   final List<CustomBlocksItem> costumeBlocksList;
   const CustomBlocksDialogBox({
+    required this.id,
     required this.img,
     required this.index,
     required this.costumeBlocksList,
@@ -25,14 +27,26 @@ class CustomBlocksDialogBox extends StatefulWidget {
 }
 
 class _CustomBlocksDialogBoxState extends State<CustomBlocksDialogBox> {
+  bool success = false;
   @override
   Widget build(BuildContext context) {
-    bool error = false;
-    String inputUrl = '';
+    Future<void> pickImage() async {
+      BlocProvider.of<EditProfileBloc>(context).add(GetCostumeBlockImage());
+    }
+
+    String titleAr = '', titleFr = '', url = '';
+    bool iconPath = false;
+
     return BlocListener<EditProfileBloc, EditProfileState>(
       listener: (context, state) async {
         if (state.status == Status.deleteCostumeBlocksSuccess) {
           Navigator.of(context).pop(false);
+        }
+        if (state.status == Status.updateCostumeBlocksSuccess) {
+          Navigator.of(context).pop(false);
+        }
+        if (state.status == Status.costumeBlockImageSuccess) {
+          iconPath = true;
         }
       },
       child: BlocBuilder<EditProfileBloc, EditProfileState>(
@@ -69,8 +83,38 @@ class _CustomBlocksDialogBoxState extends State<CustomBlocksDialogBox> {
                                     )
                                   : Container(),
                               TextFormField(
+                                initialValue: widget
+                                    .costumeBlocksList[widget.id].title.ar,
                                 onChanged: (value) {
-                                  inputUrl = value;
+                                  titleAr = value;
+                                },
+                                decoration: buildInputDecoration(
+                                    text: widget.url,
+                                    error: state.status ==
+                                            Status.postBlockInvalidUrl
+                                        ? true
+                                        : false),
+                              ),
+                              SizedBox(height: 5),
+                              TextFormField(
+                                initialValue: widget
+                                    .costumeBlocksList[widget.id].title.fr,
+                                onChanged: (value) {
+                                  titleFr = value;
+                                },
+                                decoration: buildInputDecoration(
+                                    text: widget.url,
+                                    error: state.status ==
+                                            Status.postBlockInvalidUrl
+                                        ? true
+                                        : false),
+                              ),
+                              SizedBox(height: 5),
+                              TextFormField(
+                                initialValue:
+                                    widget.costumeBlocksList[widget.id].url,
+                                onChanged: (value) {
+                                  url = value;
                                 },
                                 decoration: buildInputDecoration(
                                     text: widget.url,
@@ -83,8 +127,9 @@ class _CustomBlocksDialogBoxState extends State<CustomBlocksDialogBox> {
                           ),
                         ),
                         SizedBox(height: 5),
-                        (state.status == Status.postBlockLoading ||
-                                state.status == Status.deleteLoading)
+                        (state.status == Status.updateCostumeBlocksLoading ||
+                                state.status ==
+                                    Status.deleteCostumeBlocksLoading)
                             ? Lottie.asset(
                                 'assets/lottie/loading.json',
                                 height: 60,
@@ -110,9 +155,29 @@ class _CustomBlocksDialogBoxState extends State<CustomBlocksDialogBox> {
                                             .add(
                                           UpdateCostumeBlock(
                                             id: widget.index.toString(),
-                                            url: '',
-                                            titleAr: '',
-                                            titleFr: '',
+                                            url: (url == '')
+                                                ? widget
+                                                    .costumeBlocksList[
+                                                        widget.id]
+                                                    .url
+                                                : url,
+                                            titleAr: (titleAr == '')
+                                                ? widget
+                                                    .costumeBlocksList[
+                                                        widget.id]
+                                                    .title
+                                                    .ar
+                                                : titleAr,
+                                            titleFr: (titleFr == '')
+                                                ? widget
+                                                    .costumeBlocksList[
+                                                        widget.id]
+                                                    .title
+                                                    .fr
+                                                : titleFr,
+                                            icon: iconPath
+                                                ? state.addCostumeBlockImgPath
+                                                : '',
                                           ),
                                         );
                                       },
@@ -140,28 +205,46 @@ class _CustomBlocksDialogBoxState extends State<CustomBlocksDialogBox> {
                             ),
                           ],
                         ),
-                        child: (widget.img != '')
-                            ? ClipRRect(
-                                borderRadius: BorderRadius.circular(15),
-                                child: CachedNetworkImage(
-                                  imageUrl: widget.img,
-                                  placeholder: (context, url) => Center(
-                                    child: Center(
-                                      child: Lottie.asset(
-                                        'assets/lottie/loading.json',
-                                        height: 80,
-                                      ),
-                                    ),
-                                  ),
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
-                                  fit: BoxFit.cover,
-                                ),
-                              )
-                            : ClipRRect(
-                                borderRadius: BorderRadius.circular(15),
-                                child:
-                                    Image.asset('assets/dropili_app_logo.png')),
+                        child: GestureDetector(
+                          onTap: () {
+                            pickImage().then((value) {
+                              success = true;
+                            });
+                            log('hi');
+                          },
+                          child: (widget.img != '')
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: success
+                                      ? Image.file(
+                                          File(state.addCostumeBlockImgPath),
+                                          fit: BoxFit.cover,
+                                        )
+                                      : CachedNetworkImage(
+                                          imageUrl: widget.img,
+                                          placeholder: (context, url) => Center(
+                                            child: Center(
+                                              child: Lottie.asset(
+                                                'assets/lottie/loading.json',
+                                                height: 80,
+                                              ),
+                                            ),
+                                          ),
+                                          errorWidget: (context, url, error) =>
+                                              Icon(Icons.error),
+                                          fit: BoxFit.cover,
+                                        ),
+                                )
+                              : ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: success
+                                      ? Image.file(
+                                          File(state.addCostumeBlockImgPath),
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.asset(
+                                          'assets/dropili_app_logo.png')),
+                        ),
                       ),
                     ],
                   ),

@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:dropili/data/models/costume_block_model.dart';
 import 'package:dropili/data/models/costume_block_response.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:dropili/data/models/get_costume_block_response.dart';
@@ -361,15 +360,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
 
   void _updateCostumeBlock(
       UpdateCostumeBlock event, Emitter<EditProfileState> emit) async {
-    /*if (event.url.isEmpty || event.titleAr.isEmpty || event.titleFr.isEmpty) {
-      emit(state.copyWith(
-        status: Status.postCostumeBlocksInvalidTitleAr,
-        messageError: 'url field is required',
-      ));
-      return;
-    }*/
-
-    emit(state.copyWith(status: Status.postCostumeBlocksLoading));
+    emit(state.copyWith(status: Status.deleteCostumeBlocksLoading));
     var resp;
     Map<String, String> map1 = {
       'url': event.url,
@@ -387,9 +378,9 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       CostumeBlockResponse.fromJson(resp);
       (costumeBlockResp.success)
           ? emit(state.copyWith(
-          status: Status.postCostumeBlocksSuccess, messageError: costumeBlockResp.message))
+          status: Status.deleteCostumeBlocksSuccess, messageError: costumeBlockResp.message))
           : emit(state.copyWith(
-          status: Status.postCostumeBlocksFail, messageError: costumeBlockResp.message));
+          status: Status.deleteCostumeBlocksFail, messageError: costumeBlockResp.message));
 
       ;
       log(resp.toString());

@@ -26,7 +26,7 @@ class CustomBlocksItem {
   final int userId;
   final String createdAt;
   final String updatedAt;
-  final CostumeIcon icon;
+  final CostumeIcon? icon;
   final List<MediaItem> media;
 
   CustomBlocksItem({
@@ -64,7 +64,7 @@ class CustomBlocksItem {
     'user_id': userId,
     'created_at': createdAt,
     'updated_at': updatedAt,
-    'icon': icon.toJson(),
+    'icon': icon!.toJson(),
     'media': media.map((e) => e.toJson()).toList(),
   };
 }

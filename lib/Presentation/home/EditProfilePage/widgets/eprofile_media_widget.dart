@@ -9,7 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EditProfileMediaWidget extends StatefulWidget {
-  const EditProfileMediaWidget({Key? key}) : super(key: key);
+  final String getProfilePicture, getBackgroundPicture;
+  const EditProfileMediaWidget(
+      {required this.getProfilePicture, required this.getBackgroundPicture});
 
   @override
   State<EditProfileMediaWidget> createState() => _EditProfileMediaWidgetState();
@@ -23,26 +25,11 @@ class _EditProfileMediaWidgetState extends State<EditProfileMediaWidget> {
     String coverPicture =
         BlocProvider.of<EditProfileBloc>(context).state.coverImagePath;
 
-    String getProfilePicture = '';
-    getProfilePicture = BlocProvider.of<EditProfileBloc>(context)
-        .state
-        .showProfile!
-        .user
-        .userProfile
-        .originalUrl;
-    String getBackgroundPicture = '';
-    getBackgroundPicture = BlocProvider.of<EditProfileBloc>(context)
-        .state
-        .showProfile!
-        .user
-        .userBackground
-        .originalUrl;
-
     return Container(
       height: MediaQuery.of(context).size.height * 0.3,
       child: Stack(
         children: <Widget>[
-          (getBackgroundPicture == '')
+          (widget.getBackgroundPicture == '')
               ? (coverPicture == '')
                   ? Image.asset(
                       'assets/transparent.png',
@@ -58,7 +45,7 @@ class _EditProfileMediaWidgetState extends State<EditProfileMediaWidget> {
                     )
               : (coverPicture == '')
                   ? Image.network(
-                      getBackgroundPicture,
+                      widget.getBackgroundPicture,
                       fit: BoxFit.cover,
                       width: MediaQuery.of(context).size.width,
                     )
@@ -106,16 +93,16 @@ class _EditProfileMediaWidgetState extends State<EditProfileMediaWidget> {
                     .add(ImportProfileImageEvent());
               },
               child: RoundedProfilePicture(
-                image: (getProfilePicture == '')
+                image: (widget.getProfilePicture == '')
                     ? (profilePicture == '')
                         ? ''
                         : profilePicture
                     : (profilePicture == '')
-                        ? getProfilePicture
+                        ? widget.getProfilePicture
                         : profilePicture,
                 edit: true,
                 file: (profilePicture == '') ? false : true,
-                get: (getProfilePicture == '') ? false : true,
+                get: (widget.getProfilePicture == '') ? false : true,
               ),
             ),
           ),

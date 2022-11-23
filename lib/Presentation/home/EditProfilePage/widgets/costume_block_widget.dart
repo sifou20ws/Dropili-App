@@ -19,6 +19,11 @@ class CostumeBlocksGrid extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        Text(
+          'Custom Blocks',
+          style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+        ),
+        SizedBox(height: 10),
         GridView.builder(
           physics: ClampingScrollPhysics(),
           shrinkWrap: true, //fix cross access count
@@ -42,7 +47,8 @@ class CostumeBlocksGrid extends StatelessWidget {
                         value: context.read<EditProfileBloc>(),
                         //child: CustomDialogBox(
                         child: CustomBlocksDialogBox(
-                          img: costumeBlocksList[index].icon.originalUrl,
+                          id: index,
+                          img: costumeBlocksList[index].icon!.originalUrl,
                           index: costumeBlocksList[index].id,
                           costumeBlocksList: costumeBlocksList,
                           url: costumeBlocksList[index].url,
@@ -75,7 +81,8 @@ class CostumeBlocksGrid extends StatelessWidget {
                             ),
                           ],
                         ),
-                        child: (costumeBlocksList[index].icon.originalUrl == '')
+                        child: (costumeBlocksList[index].icon!.originalUrl ==
+                                '')
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(15),
                                 child:
@@ -86,7 +93,7 @@ class CostumeBlocksGrid extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(15),
                                   child: CachedNetworkImage(
                                     imageUrl: costumeBlocksList[index]
-                                        .icon
+                                        .icon!
                                         .originalUrl,
                                     placeholder: (context, url) => Center(
                                         child: Center(

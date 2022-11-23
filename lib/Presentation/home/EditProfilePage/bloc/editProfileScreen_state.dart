@@ -28,10 +28,13 @@ enum Status {
   postCostumeBlocksInvalidTitleAr,
   postCostumeBlocksInvalidTitleFr,
   postCostumeBlocksFail,
-  costumeBlockImageSuccess,
+  updateCostumeBlocksLoading,
+  updateCostumeBlocksSuccess,
+  updateCostumeBlocksFail,
   deleteCostumeBlocksLoading,
   deleteCostumeBlocksSuccess,
   deleteCostumeBlocksFail,
+  costumeBlockImageSuccess,
 
 
   loadingProfile,
@@ -59,6 +62,31 @@ enum BlocksStatus {
   deleteBlocks,
   deleteBlocksSuccess,
   deleteBlocksFail,
+}
+enum CostumeBlocksStatus {
+  getCostumeBlocks ,
+  getCostumeBlocksSuccess,
+  getCostumeBlocksFail,
+  postCostumeBlocksLoading,
+  postCostumeBlocksSuccess,
+  postCostumeBlocksInvalidUrl,
+  postCostumeBlocksInvalidTitleAr,
+  postCostumeBlocksInvalidTitleFr,
+  postCostumeBlocksFail,
+  updateCostumeBlocksLoading,
+  updateCostumeBlocksSuccess,
+  updateCostumeBlocksFail,
+  deleteCostumeBlocksLoading,
+  deleteCostumeBlocksSuccess,
+  deleteCostumeBlocksFail,
+  costumeBlockImageSuccess,
+}
+enum ProfileStatus {
+  loadingProfile,
+  getProfileSuccess,
+  loadingProfileUpdate,
+  profileUpdateSucess,
+  profileUpdateFail,
 }
 
 class EditProfileState extends Equatable {
