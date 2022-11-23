@@ -133,9 +133,13 @@ class _MyOffersPageState extends State<EditProfilePage> {
               child: Scaffold(
                 backgroundColor: Colors.white,
                 resizeToAvoidBottomInset: true,
-                body: (state.status == Status.loadingBlocks ||
+                //state.status == Status.loadingBlocks ||
+                //state.status == Status.loadingProfile ||
+                //state.status == Status.getCostumeBlocks
+                body: (state.blocksStatus == BlocksStatus.getBlocks ||
                         state.status == Status.loadingProfile ||
-                        state.status == Status.getCostumeBlocks)
+                        state.costumeBlocksStatus ==
+                            CostumeBlocksStatus.getCostumeBlocks)
                     ? Center(
                         child: Lottie.asset(
                           'assets/lottie/loading-green.json',
@@ -229,6 +233,20 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                                 )
                                               : Container(),
                                           SizedBox(height: 15),
+                                          (state.costumeBlocks.length == 0)
+                                              ? Column(
+                                                  children: [
+                                                    Text(
+                                                      'Custom Blocks',
+                                                      style: TextStyle(
+                                                          fontSize: 30,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
+                                                    SizedBox(height: 15),
+                                                  ],
+                                                )
+                                              : Container(),
                                           AddCostumeBlocksIcon(
                                             imagePath:
                                                 state.addCostumeBlockImgPath,
@@ -281,7 +299,21 @@ class _MyOffersPageState extends State<EditProfilePage> {
                             background: state.backgroundImg,
                           ));
                         },
-                        child: ButtomBtn(text: 'Save'.t(context)),
+                        child: (state.status != Status.loadingProfileUpdate)
+                            ? ButtomBtn(text: 'Save'.t(context))
+                            : Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                width: MediaQuery.of(context).size.width * 0.40,
+                                child: Center(
+                                  child: Lottie.asset(
+                                    'assets/lottie/loading-green.json',
+                                    height: 60,
+                                  ),
+                                ),
+                              ),
                       ),
                     ],
                   ),

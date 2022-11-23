@@ -45,6 +45,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
 
   void _getBlocks(GetBlocksEvent event, Emitter<EditProfileState> emit) async {
     emit(state.copyWith(status: Status.loadingBlocks));
+    emit(state.copyWith(blocksStatus: BlocksStatus.getBlocks));
     var resp;
     List<List<BlocksItem>> blocksList;
     final List<BlocksItem> blocks;
@@ -63,6 +64,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         blocksList: blocksList,
         status: Status.getBlocksSuccess,
       ));
+      emit(state.copyWith(blocksStatus: BlocksStatus.getBlocksSuccess));
       //log(resp.blocks.toString());
       //log(state.userBlocks.toString(), name: 'UBL in bloc');
     } catch (e) {
@@ -395,6 +397,8 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   void _getCostumeBlocksEvent(
       GetCostumeBlocksEvent event, Emitter<EditProfileState> emit) async {
     emit(state.copyWith(status: Status.getCostumeBlocks));
+    emit(state.copyWith(costumeBlocksStatus: CostumeBlocksStatus.getCostumeBlocks));
+
     GetCostumeBlocksResponse resp;
     final List<CustomBlocksItem> costumeBlocks;
 
@@ -406,6 +410,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         costumeBlocks: costumeBlocks,
         status: Status.getCostumeBlocksSuccess,
       ));
+      emit(state.copyWith(costumeBlocksStatus: CostumeBlocksStatus.getCostumeBlocksSuccess));
 
       //log(costumeBlocks[2].icon.toString());
       //log(state.userBlocks.toString(), name: 'UBL in bloc');

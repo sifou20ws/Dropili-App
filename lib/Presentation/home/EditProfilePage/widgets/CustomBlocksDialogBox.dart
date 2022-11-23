@@ -131,7 +131,7 @@ class _CustomBlocksDialogBoxState extends State<CustomBlocksDialogBox> {
                                 state.status ==
                                     Status.deleteCostumeBlocksLoading)
                             ? Lottie.asset(
-                                'assets/lottie/loading.json',
+                                'assets/lottie/loading-green.json',
                                 height: 60,
                               )
                             : Row(
@@ -225,7 +225,7 @@ class _CustomBlocksDialogBoxState extends State<CustomBlocksDialogBox> {
                                           placeholder: (context, url) => Center(
                                             child: Center(
                                               child: Lottie.asset(
-                                                'assets/lottie/loading.json',
+                                                'assets/lottie/loading-green.json',
                                                 height: 80,
                                               ),
                                             ),

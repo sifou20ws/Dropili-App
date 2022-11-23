@@ -101,7 +101,7 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
                           (state.status == Status.postCostumeBlocksLoading ||
                                   state.status == Status.deleteCostumeBlocksLoading)
                               ? Lottie.asset(
-                                  'assets/lottie/loading.json',
+                                  'assets/lottie/loading-green.json',
                                   height: 60,
                                 )
                               : Row(

@@ -98,7 +98,7 @@ class CostumeBlocksGrid extends StatelessWidget {
                                     placeholder: (context, url) => Center(
                                         child: Center(
                                       child: Lottie.asset(
-                                        'assets/lottie/loading.json',
+                                        'assets/lottie/loading-green.json',
                                         height: 80,
                                       ),
                                     )),
