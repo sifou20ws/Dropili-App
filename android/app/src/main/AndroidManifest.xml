@@ -18,7 +18,7 @@
         android:name="android.hardware.nfc"
         android:required="true" />
     <application
-        android:label="dropili"
+        android:label="Dropili"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -48,9 +48,6 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- <category android:name="android.intent.category.SEND" /> -->
 
-                <!-- <data
-                    android:host="dropili.co"
-                    android:scheme="http" /> -->
                 <data
                     android:scheme="http"
                     android:host="dropili.co" />

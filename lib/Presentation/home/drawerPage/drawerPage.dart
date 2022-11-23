@@ -1,3 +1,4 @@
+import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/root/bloc/navigation_bloc.dart';
 import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart';
@@ -108,7 +109,8 @@ class DrawerPage extends StatelessWidget {
               icon: Icons.logout_rounded,
               title: 'Log out'.t(context),
               onDrawerItemTap: () {
-                logOut(context);
+                BlocProvider.of<AuthBloc>(context).add(LogoutEvent());
+                Navigator.pushReplacementNamed(context, '/signin');
               },
             ),
             Spacer(),
@@ -126,10 +128,7 @@ class DrawerPage extends StatelessWidget {
     );
   }
 
-  Future<void> logOut(context) async {
-    await TokenHandler.deleteToken();
-    Navigator.pushReplacementNamed(context, '/signin');
-  }
+  Future<void> logOut(context) async {}
 }
 
 class DrawerItem extends StatelessWidget {

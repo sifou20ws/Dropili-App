@@ -103,12 +103,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: 40,
                     ),
-                    // Image(
-                    //   image: AssetImage(
-                    //     'assets/dropili.png',
-                    //   ),
-                    //   width: 120,
-                    // ),
                   ],
                 ),
               );

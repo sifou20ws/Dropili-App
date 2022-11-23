@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dropili/Presentation/routing/transition_page_route_builder.dart';
 import 'package:dropili/Presentation/localization/app_localization.dart';
@@ -7,7 +6,6 @@ import 'package:dropili/Presentation/routing/routes.dart';
 import 'package:dropili/common/constant/languages.dart';
 import 'package:dropili/di/get_it.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';

@@ -54,8 +54,14 @@ class PasswordVisibiltyChangeEvent extends AuthEvent {
 
 class LoginSubmittingEvent extends AuthEvent {}
 
+class GoogleAuthEvent extends AuthEvent{}
+
 class SignupSubmittingEvent extends AuthEvent {}
 
 class RestoreSubmittingEvent extends AuthEvent {}
 
 class BiometricsAuthentifactionEvent extends AuthEvent {}
+
+class LogoutEvent extends AuthEvent{}
+
+
