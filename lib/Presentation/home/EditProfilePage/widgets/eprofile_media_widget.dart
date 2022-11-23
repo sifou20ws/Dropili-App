@@ -61,7 +61,7 @@ class _EditProfileMediaWidgetState extends State<EditProfileMediaWidget> {
                         ),
                       ),
                       child: cachedImageModelWidget(
-                        image: getBackgroundPicture,
+                        image: widget.getBackgroundPicture,
                       ),
                     )
                   : Image.file(
