@@ -1,7 +1,9 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:dropili/data/models/costume_block_response.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
+import 'package:dropili/data/models/get_costume_block_response.dart';
 import 'package:dropili/data/models/post_user_blocks.dart';
 import 'package:dropili/data/models/post_user_profile_response.dart';
 import 'package:dropili/domain/repositories/profile_repository.dart';
@@ -16,7 +18,8 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   ProfileRepository _ProfileRepository;
   EditProfileBloc({required ProfileRepository ProfileRepository})
       : _ProfileRepository = ProfileRepository,
-        super(EditProfileState(blocks: [], userBlocks: [], blocksList: [])) {
+        super(EditProfileState(
+            blocks: [], userBlocks: [], blocksList: [], costumeBlocks: [])) {
     on<GetBlocksEvent>(_getBlocks);
     on<GetUserBlocksEvent>(_getUserBlocks);
     on<ItemSelectedEvent>(_itemSelectedEvent);
@@ -34,10 +37,15 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     on<GetCostumeBlockImage>(_getCostumeBlockImage);
     on<PostCostumeBlock>(_postCostumeBlock);
     on<ProfileActiveEvent>(_profileActiveEvent);
+    on<GetCostumeBlocksEvent>(_getCostumeBlocksEvent);
+    on<DeleteCostumeBlocksEvent>(_deleteCostumeBlocksEvent);
+    on<UpdateCostumeBlock>(_updateCostumeBlock);
+
   }
 
   void _getBlocks(GetBlocksEvent event, Emitter<EditProfileState> emit) async {
     emit(state.copyWith(status: Status.loadingBlocks));
+    emit(state.copyWith(blocksStatus: BlocksStatus.getBlocks));
     var resp;
     List<List<BlocksItem>> blocksList;
     final List<BlocksItem> blocks;
@@ -56,6 +64,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         blocksList: blocksList,
         status: Status.getBlocksSuccess,
       ));
+      emit(state.copyWith(blocksStatus: BlocksStatus.getBlocksSuccess));
       //log(resp.blocks.toString());
       //log(state.userBlocks.toString(), name: 'UBL in bloc');
     } catch (e) {
@@ -120,12 +129,12 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       PostUserBlocks data = PostUserBlocks(id: event.index, url: event.data);
 
       event.put
-          ? resp = await _ProfileRepository.PutUserBlocks(data.toJson() , event.index)
+          ? resp =
+              await _ProfileRepository.PutUserBlocks(data.toJson(), event.index)
           : resp = await _ProfileRepository.PostUserBlocks(data.toJson());
       emit(state.copyWith(status: Status.postBlockSuccess, load: false));
       //emit(state.copyWith(blocks: resp));
       log(resp.toString());
-
     } catch (e) {
       emit(state.copyWith(status: Status.failInBlocksDialogue));
       log(('error :'));
@@ -157,7 +166,9 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       openDirectMeDialogue: event.state,
     ));
   }
-  void _profileActiveEvent(ProfileActiveEvent event, Emitter<EditProfileState> emit) {
+
+  void _profileActiveEvent(
+      ProfileActiveEvent event, Emitter<EditProfileState> emit) {
     emit(state.copyWith(
       profileActiveButton: event.state,
     ));
@@ -199,13 +210,13 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   void _postUserNameEvent(
       PostUserNameEvent event, Emitter<EditProfileState> emit) {
     emit(state.copyWith(userName: event.name));
-    log(event.name , name: 'postusername');
+    log(event.name, name: 'postusername');
   }
 
   void _postDescriptionEvent(
       PostDescriptionEvent event, Emitter<EditProfileState> emit) {
     emit(state.copyWith(userDescription: event.description));
-    log(event.description , name: 'postdescription');
+    log(event.description, name: 'postdescription');
   }
 
   void _postProfileUpdateEvent(
@@ -234,9 +245,11 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       PostProfileResp profileResp = PostProfileResp.fromJson(resp);
       (profileResp.success)
           ? emit(state.copyWith(
-              status: Status.profileUpdateSucess, messageError: profileResp.message))
+              status: Status.profileUpdateSucess,
+              messageError: profileResp.message))
           : emit(state.copyWith(
-              status: Status.profileUpdateFail, messageError: profileResp.message));
+              status: Status.profileUpdateFail,
+              messageError: profileResp.message));
 
       ;
     } catch (e) {
@@ -283,7 +296,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         status: Status.directOnMeSuccess,
       ));
       log(resp.toString(), name: 'edit bloc :');
-      log(showProfile.user.directOnMe.toString() , name:'direct_on_me');
+      log(showProfile.user.directOnMe.toString(), name: 'direct_on_me');
       log(state.profileUserUrl, name: 'after updating');
     } catch (e) {
       log('bloc:');
@@ -298,7 +311,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       file = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (file != null) {
         emit(state.copyWith(
-            addCostumeBlockImgPath: file.path, status: Status.costumeBlock));
+            addCostumeBlockImgPath: file.path, status: Status.costumeBlockImageSuccess));
         log(state.addCostumeBlockImgPath, name: 'costume block image path');
       }
     } catch (e) {
@@ -310,36 +323,120 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       PostCostumeBlock event, Emitter<EditProfileState> emit) async {
     if (event.url.isEmpty || event.titleAr.isEmpty || event.titleFr.isEmpty) {
       emit(state.copyWith(
-        //status: Status.fail,
-        //errorExist: true,
+        status: Status.postCostumeBlocksInvalidTitleAr,
         messageError: 'url field is required',
       ));
-      //emit(state.copyWith(valideName: false));
       return;
     }
 
+    emit(state.copyWith(status: Status.postCostumeBlocksLoading));
     var resp;
     Map<String, String> map1 = {
       'url': event.url,
-      'title.ar': event.titleAr,
-      'title.fr': event.titleFr
+      'title[ar]': event.titleAr,
+      'title[fr]': event.titleFr
     };
+
     try {
       resp = await _ProfileRepository.PostCostumeBlock(
         icon: event.icon,
         data: map1,
       );
-      PostProfileResp profileResp = PostProfileResp.fromJson(resp);
-      (profileResp.success)
+      CostumeBlockResponse costumeBlockResp =
+          CostumeBlockResponse.fromJson(resp);
+      (costumeBlockResp.success)
           ? emit(state.copyWith(
-              status: Status.success, messageError: profileResp.message))
+              status: Status.postCostumeBlocksSuccess, messageError: costumeBlockResp.message))
           : emit(state.copyWith(
-              status: Status.fail, messageError: profileResp.message));
+              status: Status.postCostumeBlocksFail, messageError: costumeBlockResp.message));
 
       ;
+      log(resp.toString());
     } catch (e) {
+      emit(state.copyWith(
+          status: Status.postCostumeBlocksFail, messageError: e.toString()));
       log('bloc:');
       log(e.toString());
     }
   }
+
+  void _updateCostumeBlock(
+      UpdateCostumeBlock event, Emitter<EditProfileState> emit) async {
+    emit(state.copyWith(status: Status.deleteCostumeBlocksLoading));
+    var resp;
+    Map<String, String> map1 = {
+      'url': event.url,
+      'title[ar]': event.titleAr,
+      'title[fr]': event.titleFr
+    };
+
+    try {
+      resp = await _ProfileRepository.UpdateCostumeBlock(
+        icon: event.icon,
+        data: map1,
+        id: event.id,
+      );
+      CostumeBlockResponse costumeBlockResp =
+      CostumeBlockResponse.fromJson(resp);
+      (costumeBlockResp.success)
+          ? emit(state.copyWith(
+          status: Status.deleteCostumeBlocksSuccess, messageError: costumeBlockResp.message))
+          : emit(state.copyWith(
+          status: Status.deleteCostumeBlocksFail, messageError: costumeBlockResp.message));
+
+      ;
+      log(resp.toString());
+    } catch (e) {
+      emit(state.copyWith(
+          status: Status.postCostumeBlocksFail, messageError: e.toString()));
+      log('bloc:');
+      log(e.toString());
+    }
+  }
+
+  void _getCostumeBlocksEvent(
+      GetCostumeBlocksEvent event, Emitter<EditProfileState> emit) async {
+    emit(state.copyWith(status: Status.getCostumeBlocks));
+    emit(state.copyWith(costumeBlocksStatus: CostumeBlocksStatus.getCostumeBlocks));
+
+    GetCostumeBlocksResponse resp;
+    final List<CustomBlocksItem> costumeBlocks;
+
+    try {
+      resp = await _ProfileRepository.getCostumeBlocks();
+      costumeBlocks = resp.customBlocks;
+
+      emit(state.copyWith(
+        costumeBlocks: costumeBlocks,
+        status: Status.getCostumeBlocksSuccess,
+      ));
+      emit(state.copyWith(costumeBlocksStatus: CostumeBlocksStatus.getCostumeBlocksSuccess));
+
+      //log(costumeBlocks[2].icon.toString());
+      //log(state.userBlocks.toString(), name: 'UBL in bloc');
+    } catch (e) {
+      emit(state.copyWith(status: Status.getCostumeBlocksFail));
+      log(('error :'));
+      log(e.toString());
+    }
+  }
+
+  void _deleteCostumeBlocksEvent(
+      DeleteCostumeBlocksEvent event, Emitter<EditProfileState> emit) async {
+    emit(state.copyWith(status: Status.deleteCostumeBlocksLoading));
+    var resp;
+    try {
+      resp = await _ProfileRepository.deleteCostumeBlocks(event.id);
+      emit(state.copyWith(status: Status.deleteCostumeBlocksSuccess));
+      //emit(state.copyWith(userBlocks: resp ));
+      log(resp.success.toString(), name: 'delete blocks :');
+    } catch (e) {
+      emit(state.copyWith(
+          status: Status.deleteCostumeBlocksFail, messageError: e.toString()));
+      log(('errorr :'));
+      log(e.toString());
+    }
+  }
+
 }
+

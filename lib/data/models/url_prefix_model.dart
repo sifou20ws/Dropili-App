@@ -8,6 +8,7 @@ class URLPrefixModel {
     5: 'https://',
     6: 'https://api.whatsapp.com/send/?phone=',
     7: 'viber://contact?number=',
+    //7:  'viber://chat?number=',
     8: 'https://m.me/',
     9: 'skype:',
     10: null,

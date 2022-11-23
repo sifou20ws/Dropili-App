@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
+import 'package:dropili/data/models/get_costume_block_response.dart';
 import 'package:dropili/data/models/post_user_profile_response.dart';
 import 'package:dropili/domain/repositories/profile_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -11,10 +14,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileRepository _ProfileRepository;
   ProfileBloc({required ProfileRepository ProfileRepository})
       : _ProfileRepository = ProfileRepository,
-        super(ProfileState(userBlocks: [])) {
+        super(ProfileState(userBlocks: [], costumeBlocks: [])) {
     on<EditButtonClickedEvent>(_editButtonClickedEvent);
     on<GetUserBlocksEvent>(_getUserBlocksEvent);
     on<GetProfileEvent>(_getProfileEvent);
+    on<GetCostumeBlocksEvent>(_getCostumeBlocksEvent);
     // on<DeleteUserBlocksEvent>(_deleteUserBlocksEvent);
     add(GetUserBlocksEvent());
     add(GetProfileEvent());
@@ -66,4 +70,30 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       );
     }
   }
+
+  void _getCostumeBlocksEvent(
+      GetCostumeBlocksEvent event, Emitter<ProfileState> emit) async {
+
+    emit(state.copyWith(status: ProfileStatus.getCostumeBlocks));
+    GetCostumeBlocksResponse resp;
+    final List<CustomBlocksItem> costumeBlocks;
+
+    try {
+      resp = await _ProfileRepository.getCostumeBlocks();
+      costumeBlocks = resp.customBlocks;
+
+      emit(state.copyWith(
+        costumeBlocks: costumeBlocks,
+        status: ProfileStatus.getCostumeBlocksSuccess,
+      ));
+
+      //log(costumeBlocks[2].icon.toString());
+      //log(state.userBlocks.toString(), name: 'UBL in bloc');
+    } catch (e) {
+      emit(state.copyWith(status: ProfileStatus.getCostumeBlocksFail));
+      log(('error :'));
+      log(e.toString());
+    }
+  }
+
 }
