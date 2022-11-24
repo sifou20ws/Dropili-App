@@ -26,6 +26,7 @@ class Grid extends StatelessWidget {
     });
     return ret;
   }
+
   bool userBlockExist(int id) {
     bool selected = false;
     userBlocks.forEach((element) {
@@ -79,19 +80,7 @@ class Grid extends StatelessWidget {
                   );
                 },
                 child: BlockCardWidget(
-                  //blockImage: Image.network(blocksList[index].icon.originalUrl),
-                  blockImage: CachedNetworkImage(
-                    imageUrl: blocksList[index].icon.originalUrl,
-                    placeholder: (context, url) => Center(
-                        child: Center(
-                      child: Lottie.asset(
-                        'assets/lottie/loading-green.json',
-                        height: 80,
-                      ),
-                    )),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                    fit: BoxFit.cover,
-                  ),
+                  blockImage: blocksList[index].icon.originalUrl,
                   title: blocksList[index].title.ar,
                   id: blocksList[index].id,
                   userBlocks: userBlocks,

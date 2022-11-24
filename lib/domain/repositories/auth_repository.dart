@@ -12,10 +12,7 @@ class AuthRepository {
 
   AuthRepository(this._network) {}
 
-  Future<String> loginUser({
-    required String username,
-    required String password,
-  }) async {
+  Future<String> _getDeviceName() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
 
     if (Platform.isAndroid) {
@@ -30,11 +27,17 @@ class AuthRepository {
       IosDeviceInfo iosinfo = await deviceInfo.iosInfo;
       _deviceName = iosinfo.model ?? 'iphone';
     }
+    return _deviceName;
+  }
 
+  Future<String> loginUser({
+    required String username,
+    required String password,
+  }) async {
     var data = {
       'username': username,
       'password': password,
-      'device_name': _deviceName,
+      'device_name': await _getDeviceName(),
     };
 
     http.Response response;
@@ -44,6 +47,29 @@ class AuthRepository {
     } catch (e) {
       rethrow;
     }
+    return response.body;
+  }
+
+  Future<String> googleLogin({
+    required String name,
+    required String email,
+    required access_token,
+  }) async {
+    var data = {
+      'email': email,
+      'name': name,
+      'device_name': await _getDeviceName(),
+      'access_token': access_token,
+    };
+
+    http.Response response;
+
+    try {
+      response = await _network.post('/auth/google', data);
+    } catch (e) {
+      rethrow;
+    }
+
     return response.body;
   }
 

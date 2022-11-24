@@ -1,6 +1,7 @@
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/add_C_blocks_dialogueBox.dart';
 import 'package:dropili/common/constant/colors.dart';
+import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,8 +12,6 @@ class AddCostumeBlocksIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 130,
-      width: 110,
       child: GestureDetector(
         onTap: () {
           showDialog<void>(
@@ -27,6 +26,7 @@ class AddCostumeBlocksIcon extends StatelessWidget {
           );
         },
         child: Container(
+          padding: EdgeInsets.all(15),
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: MalinColors.greyElemntsColor,
@@ -48,15 +48,15 @@ class AddCostumeBlocksIcon extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Icon(Icons.add_circle_outline_rounded, size: 100),
+                child: Icon(Icons.add_circle_outline_rounded, size: 90),
               ),
               FittedBox(
                 fit: BoxFit.fitWidth,
                 child: Text(
-                  'Costum Block',
+                  'Costum Block'.t(context),
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 15,
+                    fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),
                 ),

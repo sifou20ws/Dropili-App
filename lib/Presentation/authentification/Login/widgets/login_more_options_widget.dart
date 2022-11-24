@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:local_auth/error_codes.dart';
 
 class MoreOptions extends StatelessWidget {
   const MoreOptions({super.key});
@@ -26,16 +30,21 @@ class MoreOptions extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                child: Container(
-                  height: 50,
-                  padding: EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.white, width: 1)),
-                  child: Image(
-                    image: AssetImage('assets/google_logo_colored.png'),
-                    // color: MalinColors.AppBlue,
+                child: GestureDetector(
+                  onTap: () {
+                    BlocProvider.of<AuthBloc>(context).add(GoogleAuthEvent());
+                  },
+                  child: Container(
+                    height: 50,
+                    padding: EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.white, width: 1)),
+                    child: Image(
+                      image: AssetImage('assets/google_logo_colored.png'),
+                      // color: MalinColors.AppBlue,
+                    ),
                   ),
                 ),
               ),
@@ -51,8 +60,7 @@ class MoreOptions extends StatelessWidget {
               Expanded(
                 child: GestureDetector(
                   onTap: () async {
-                    BlocProvider.of<AuthBloc>(context)
-                        .add(BiometricsAuthentifactionEvent());
+                    BlocProvider.of<AuthBloc>(context).add(BiometricsAuthentifactionEvent());
                   },
                   child: Container(
                     height: 50,

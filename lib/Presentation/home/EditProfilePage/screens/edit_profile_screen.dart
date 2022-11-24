@@ -150,18 +150,19 @@ class _MyOffersPageState extends State<EditProfilePage> {
                     : Container(
                         height: MediaQuery.of(context).size.height,
                         width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            fit: BoxFit.fill,
-                            image: AssetImage(
-                              'assets/background2.png',
-                            ),
-                            alignment: Alignment.topCenter,
-                          ),
-                        ),
+                        // decoration: BoxDecoration(
+                        //   image: DecorationImage(
+                        //     fit: BoxFit.fill,
+                        //     image: AssetImage(
+                        //       'assets/background2.png',
+                        //     ),
+                        //     alignment: Alignment.topCenter,
+                        //   ),
+                        // ),
                         child: Stack(
                           children: <Widget>[
                             SingleChildScrollView(
+                              physics: BouncingScrollPhysics(),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dropili/Presentation/Nfc/nfc_dialoge.dart';
+import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/collectionPage/collection_page.dart';
 import 'package:dropili/Presentation/home/navigation_bar/navigation_bar_widget.dart';
@@ -8,6 +9,7 @@ import 'package:dropili/Presentation/home/qr_page/qr_page.dart';
 import 'package:dropili/Presentation/home/ProfilePage/screens/profile_page.dart';
 import 'package:dropili/Presentation/home/drawerPage/drawerPage.dart';
 import 'package:dropili/Presentation/home/root/bloc/navigation_bloc.dart';
+import 'package:dropili/domain/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
@@ -24,6 +26,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late NavigationBloc _navigationBloc;
   late ProfileBloc _profileBloc;
+  late AuthBloc _authBloc;
 
   final _pageController = PageController();
   late List<Widget> _pages;
@@ -33,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _navigationBloc = getIt.getItInstace<NavigationBloc>();
     _profileBloc = getIt.getItInstace<ProfileBloc>();
+    _authBloc = AuthBloc(getIt.getItInstace<AuthRepository>());
 
     _pages = [
       ProfilePageWidget(),
@@ -53,6 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
       providers: [
         BlocProvider.value(value: _navigationBloc),
         BlocProvider.value(value: _profileBloc),
+        BlocProvider.value(value: _authBloc),
       ],
       child: BlocListener<NavigationBloc, NavigationState>(
         listener: (context, state) async {

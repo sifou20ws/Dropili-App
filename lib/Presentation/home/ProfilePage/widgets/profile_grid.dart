@@ -60,7 +60,6 @@ class BlockTypeGrid extends StatelessWidget {
                   SnackBars.showSucessSnackBar(
                       context, '\"$url\" copied to clipboard');
                 }
-                ;
               },
               child: BlockCardWidget(
                   blockImageUrl: blocksList[index].icon.originalUrl,

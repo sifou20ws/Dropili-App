@@ -4,7 +4,7 @@ import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:flutter/material.dart';
 
 class BlockCardWidget extends StatelessWidget {
-  final CachedNetworkImage blockImage;
+  final String blockImage;
   final String title;
   final int id;
   final List<UserBlocksItem> userBlocks;
@@ -47,10 +47,16 @@ class BlockCardWidget extends StatelessWidget {
                 ),
               ],
             ),
-            child: blockImage,
+            child: CachedNetworkImage(
+              imageUrl: blockImage,
+              fadeOutDuration: Duration.zero,
+              fadeInDuration: Duration.zero,
+              placeholderFadeInDuration: Duration.zero,
+              fit: BoxFit.cover,
+            ),
           ),
           SizedBox(
-            height: 5,
+            height: 10,
           ),
           FittedBox(
             fit: BoxFit.fitWidth,
@@ -58,7 +64,7 @@ class BlockCardWidget extends StatelessWidget {
               title,
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 15,
+                fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),
             ),

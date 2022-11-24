@@ -18,20 +18,23 @@ class CopyLinkWidget extends StatelessWidget {
         padding: EdgeInsets.only(left: 20, right: 15, top: 15, bottom: 15),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          FittedBox(
-            fit: BoxFit.fitWidth,
-            child: Text(
-              'Dropili.co/link/' +
-                  context
-                      .read<ProfileBloc>()
-                      .state
-                      .showProfile!
-                      .user
-                      .username
-                      .toString(),
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w400),
+          Expanded(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Text(
+                'Dropili.co/link/' +
+                    context
+                        .read<ProfileBloc>()
+                        .state
+                        .showProfile!
+                        .user
+                        .username
+                        .toString(),
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w400),
+              ),
             ),
           ),
+          SizedBox(width: 10,),
           Icon(Icons.copy_outlined),
         ]),
       ),

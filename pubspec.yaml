@@ -69,6 +69,7 @@ dependencies:
   receive_sharing_intent: ^1.4.5
   device_info_plus: ^8.0.0
   local_auth: ^2.1.2
+  google_sign_in: ^5.4.2
 
 
 
