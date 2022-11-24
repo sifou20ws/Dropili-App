@@ -21,7 +21,6 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
 
   @override
   Widget build(BuildContext context) {
-
     Future<void> pickImage() async {
       BlocProvider.of<EditProfileBloc>(context).add(GetCostumeBlockImage());
     }
@@ -41,8 +40,7 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
         return Stack(
           children: <Widget>[
             Container(
-              padding:
-                  EdgeInsets.only(left: 10, top: 50, right: 10, bottom: 0),
+              padding: EdgeInsets.only(left: 10, top: 50, right: 10, bottom: 0),
               margin: EdgeInsets.only(top: 40),
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
@@ -59,7 +57,7 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
                     Container(
                       padding: EdgeInsets.only(
                           left: 10, top: 50, right: 10, bottom: 0),
-                      margin: EdgeInsets.only(top: 40 ),
+                      margin: EdgeInsets.only(top: 40),
                       decoration: BoxDecoration(
                         shape: BoxShape.rectangle,
                         color: Colors.white,
@@ -97,9 +95,9 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
                               ],
                             ),
                           ),
-
                           (state.status == Status.postCostumeBlocksLoading ||
-                                  state.status == Status.deleteCostumeBlocksLoading)
+                                  state.status ==
+                                      Status.deleteCostumeBlocksLoading)
                               ? Lottie.asset(
                                   'assets/lottie/loading-green.json',
                                   height: 60,

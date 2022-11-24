@@ -37,10 +37,12 @@ class _BottomNavigationBarPageState extends State<NavigatioBarWidget> {
           end: Alignment.topLeft,
           colors: [MalinColors.AppGreen, MalinColors.AppGreen]),
       showSelectedLabels: true,
-      height: 75,
+      height: 70,
       showUnselectedLabels: true,
       currentIndex: context.read<NavigationBloc>().state.index,
       elevation: 30,
+      selectedLabelStyle: TextStyle(fontSize: 13),
+      unselectedLabelStyle: TextStyle(fontSize: 13),
 
       onTap: (value) async {
         BlocProvider.of<NavigationBloc>(context).add(NavigationEvent(value));

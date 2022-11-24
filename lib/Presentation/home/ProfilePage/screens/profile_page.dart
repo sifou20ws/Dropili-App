@@ -4,6 +4,7 @@ import 'package:dropili/Presentation/home/ProfilePage/widgets/edite_profile_btn_
 import 'package:dropili/Presentation/home/ProfilePage/widgets/profile_grid.dart';
 import 'package:dropili/Presentation/widgets_model/cachedImage_widget.dart';
 import 'package:dropili/Presentation/widgets_model/loading_widget.dart';
+import 'package:dropili/Presentation/widgets_model/no_connection_dialog.dart';
 import 'package:dropili/Presentation/widgets_model/profile_information_widget.dart';
 import 'package:dropili/Presentation/widgets_model/snackbar.dart';
 import 'package:dropili/common/constant/colors.dart';
@@ -28,13 +29,17 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
   @override
   bool get wantKeepAlive => true;
 
+  void getAllData() {
+    _profileBloc.add(GetUserBlocksEvent());
+    _profileBloc.add(GetProfileEvent());
+    _profileBloc.add(GetCostumeBlocksEvent());
+  }
+
   @override
   void initState() {
     super.initState();
     _profileBloc = getIt.getItInstace<ProfileBloc>();
-    _profileBloc.add(GetUserBlocksEvent());
-    _profileBloc.add(GetProfileEvent());
-    _profileBloc.add(GetCostumeBlocksEvent());
+    getAllData();
   }
 
   @override
@@ -53,7 +58,12 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
       child: BlocListener<ProfileBloc, ProfileState>(
         listener: (context, state) {
           if (state.status == ProfileStatus.fail) {
-            SnackBars.showErrorSnackBar(context, state.messageError);
+            // SnackBars.showErrorSnackBar(context, state.messageError);
+            showDialog(
+                context: context,
+                builder: (context) => NoConnectionDialogue()).then((_) {
+              getAllData();
+            });
           }
           if (state.status == ProfileStatus.getSuccess) {
             getProfilePicture =
@@ -70,8 +80,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
             return RefreshIndicator(
               color: MalinColors.AppGreen,
               onRefresh: () async {
-                _profileBloc.add(GetUserBlocksEvent());
-                _profileBloc.add(GetProfileEvent());
+                getAllData();
                 await Future.delayed(Duration(seconds: 1));
               },
               child: Container(
@@ -135,10 +144,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                                           '/editProfile')
                                                       .then(
                                                     (value) {
-                                                      _profileBloc.add(
-                                                          GetUserBlocksEvent());
-                                                      _profileBloc.add(
-                                                          GetProfileEvent());
+                                                      getAllData();
                                                     },
                                                   );
                                                 },

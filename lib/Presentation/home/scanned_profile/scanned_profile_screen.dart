@@ -6,7 +6,6 @@ import 'package:dropili/Presentation/widgets_model/profile_information_widget.da
 import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
-import 'package:dropili/data/models/get_friends_result_model.dart.dart' as frnd;
 import 'package:dropili/domain/repositories/profile_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
