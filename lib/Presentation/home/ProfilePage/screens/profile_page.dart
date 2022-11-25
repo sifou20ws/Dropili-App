@@ -1,5 +1,6 @@
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/CostumeBlocksGrid.dart';
+import 'package:dropili/Presentation/home/ProfilePage/widgets/all_blocks_widget.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/edite_profile_btn_widget.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/profile_grid.dart';
 import 'package:dropili/Presentation/widgets_model/cachedImage_widget.dart';
@@ -159,47 +160,10 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                               discrtptio: getUserDescription,
                                             )),
                                         SizedBox(height: 15),
-                                        ListView.separated(
-                                          physics:
-                                              NeverScrollableScrollPhysics(),
-                                          shrinkWrap: true,
-                                          itemCount: state.userBlocks.length,
-                                          itemBuilder: (context, index) {
-                                            var title = '';
-                                            switch (state
-                                                .userBlocks[index][0].type) {
-                                              case 1:
-                                                title = 'Contacts'.t(context);
-                                                break;
-                                              case 2:
-                                                title =
-                                                    'Social Media'.t(context);
-                                                break;
-                                              case 3:
-                                                title = 'Payment methods'
-                                                    .t(context);
-                                                break;
-                                              case 4:
-                                                title = 'Others'.t(context);
-                                                break;
-                                              default:
-                                            }
-                                            return BlockTypeGrid(
-                                              title: title,
-                                              blocksList:
-                                                  state.userBlocks[index],
-                                            );
-                                          },
-                                          separatorBuilder: (context, index) =>
-                                              SizedBox(height: 25),
+                                        AllBlockWidget(
+                                          userBlocks: state.userBlocks,
+                                          costumeBlocks: state.costumeBlocks,
                                         ),
-                                        SizedBox(height: 20),
-                                        (state.costumeBlocks.length != 0)
-                                            ? CostumeBlocksGrid(
-                                                costumeBlocksList:
-                                                    state.costumeBlocks,
-                                              )
-                                            : Container(),
                                       ],
                                     ),
                                   ),

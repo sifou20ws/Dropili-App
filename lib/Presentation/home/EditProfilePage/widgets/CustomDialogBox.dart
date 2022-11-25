@@ -31,7 +31,6 @@ class CustomDialogBox extends StatefulWidget {
 class _CustomDialogBoxState extends State<CustomDialogBox> {
   @override
   Widget build(BuildContext context) {
-    bool error = false;
     String inputUrl = '';
     return BlocListener<EditProfileBloc, EditProfileState>(
       listener: (context, state) async {

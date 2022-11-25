@@ -1,4 +1,7 @@
 import 'package:dropili/Presentation/home/ProfilePage/widgets/profile_grid.dart';
+import 'package:dropili/Presentation/home/collectionPage/widgets/all_block_widget.dart';
+import 'package:dropili/Presentation/home/collectionPage/widgets/friend_Custom_Blocks_grid.dart';
+import 'package:dropili/Presentation/home/common_widgets/profile_unactive_widget.dart';
 import 'package:dropili/Presentation/widgets_model/cachedImage_widget.dart';
 import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
@@ -96,18 +99,6 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 GestureDetector(
-                                    onTap: () async {
-                                      Navigator.pushNamed(
-                                              context, '/editProfile')
-                                          .then((value) {});
-                                    },
-                                    child: Container()),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                GestureDetector(
                                   onTap: () {
                                     Navigator.pop(context, true);
                                   },
@@ -165,36 +156,11 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                               ),
                             ),
                             SizedBox(height: 35),
-                            ListView.separated(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: blocksTypesList.length,
-                              itemBuilder: (context, index) {
-                                var title = '';
-                                switch (blocksTypesList[index][0].type) {
-                                  case 1:
-                                    title = 'Contacts'.t(context);
-                                    break;
-                                  case 2:
-                                    title = 'Social Media'.t(context);
-                                    break;
-                                  case 3:
-                                    title = 'Payment methods'.t(context);
-                                    break;
-                                  case 4:
-                                    title = 'Others'.t(context);
-                                    break;
-                                  default:
-                                }
-                                return BlockTypeGrid(
-                                  title: title,
-                                  blocksList: blocksTypesList[index],
-                                );
-                              },
-                              separatorBuilder: (context, index) => SizedBox(
-                                height: 25,
-                              ),
-                            ),
+                            _freindProfile.active
+                                ? AllBlockWidget(
+                                    blocksTypesList: blocksTypesList,
+                                    freindProfile: _freindProfile)
+                                : ProfileUnactiveWidget(),
                           ],
                         ),
                       ),

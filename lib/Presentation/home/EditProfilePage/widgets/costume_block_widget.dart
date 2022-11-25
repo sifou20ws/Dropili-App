@@ -21,7 +21,7 @@ class CostumeBlocksGrid extends StatelessWidget {
       children: <Widget>[
         Text(
           'Custom Blocks',
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
         ),
         SizedBox(height: 10),
         GridView.builder(

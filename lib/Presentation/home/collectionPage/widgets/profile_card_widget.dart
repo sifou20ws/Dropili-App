@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dropili/Presentation/home/ProfilePage/widgets/profile_dialogue_box.dart';
 import 'package:dropili/Presentation/home/collectionPage/bloc/collection_bloc.dart';
 import 'package:dropili/Presentation/widgets_model/snackbar.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
@@ -12,7 +11,6 @@ import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart'
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class ProfileCardWidget extends StatelessWidget {
   final frnd.FriendsItem profile;
@@ -27,6 +25,7 @@ class ProfileCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var allBlocks = profile.blocks + profile.customBlocks;
     return Container(
       // padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
       padding: EdgeInsets.only(right: 10, left: 10, top: 15, bottom: 15),
@@ -76,17 +75,17 @@ class ProfileCardWidget extends StatelessWidget {
                     fontSize: 18,
                     fontWeight: FontWeight.w600),
               ),
-              Text(
-                DateTime.now().day.toString() +
-                    '/' +
-                    DateTime.now().month.toString() +
-                    '/' +
-                    DateTime.now().year.toString(),
-                style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400),
-              ),
+              // Text(
+              //   DateTime.now().day.toString() +
+              //       '/' +
+              //       DateTime.now().month.toString() +
+              //       '/' +
+              //       DateTime.now().year.toString(),
+              //   style: TextStyle(
+              //       color: Colors.grey,
+              //       fontSize: 14,
+              //       fontWeight: FontWeight.w400),
+              // ),
               SizedBox(
                 height: 10,
               ),
@@ -95,49 +94,62 @@ class ProfileCardWidget extends StatelessWidget {
                 padding: EdgeInsets.only(left: 5, right: 0, top: 6, bottom: 6),
                 height: 50,
                 width: 180,
+                alignment: Alignment.center,
                 decoration: BoxDecoration(
                     color: Colors.grey.shade200,
                     borderRadius: BorderRadius.circular(10)),
-                // child: Image.network(
-                //     state.blocks[0].icon.originalUrl),
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  physics: BouncingScrollPhysics(),
-                  // shrinkWrap: true,
-                  itemCount: profile.blocks.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () async {
-                        if (URLPrefixModel.prefix[profile.blocks[index].id] !=
-                            null) {
-                          String furl =
-                              URLPrefixModel.prefix[profile.blocks[index].id]!;
-                          log(furl +
-                              profile.blocks[index].pivot.url
-                                  .replaceAll(' ', ''));
-                          _launchUrl('$furl' +
-                              profile.blocks[index].pivot.url
-                                  .replaceAll(' ', ''));
-                        } else {
-                          await Clipboard.setData(ClipboardData(
-                              text: profile.blocks[index].pivot.url));
-                          SnackBars.showSucessSnackBar(
-                              context, 'Profile link copied to clipboard');
-                        }
-                      },
-                      child: CachedNetworkImage(
-                        imageUrl: profile.blocks[index].icon.originalUrl,
-                        fadeOutDuration: Duration.zero,
-                        fadeInDuration: Duration.zero,
-                        placeholderFadeInDuration: Duration.zero,
-                        fit: BoxFit.cover,
+                child: profile.active
+                    ? ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        physics: BouncingScrollPhysics(),
+                        // shrinkWrap: true,
+                        itemCount: allBlocks.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () async {
+                              if (URLPrefixModel.prefix[allBlocks[index].id] !=
+                                  null) {
+                                String furl =
+                                    URLPrefixModel.prefix[allBlocks[index].id]!;
+                                _launchUrl('$furl' +
+                                    allBlocks[index]
+                                        .pivot
+                                        .url
+                                        .replaceAll(' ', ''));
+                              } else {
+                                await Clipboard.setData(ClipboardData(
+                                    text: allBlocks[index].pivot.url));
+                                SnackBars.showSucessSnackBar(
+                                    context,
+                                    'Profile link copied to clipboard'
+                                        .t(context));
+                              }
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(7),
+                              child: CachedNetworkImage(
+                                imageUrl: allBlocks[index].icon.originalUrl,
+                                fadeOutDuration: Duration.zero,
+                                fadeInDuration: Duration.zero,
+                                placeholderFadeInDuration: Duration.zero,
+                                fit: BoxFit.cover,
+                                errorWidget: (context, url, error) => Image(
+                                  image:
+                                      AssetImage('assets/dropili_app_logo.png'),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) => SizedBox(
+                          width: 5,
+                        ),
+                      )
+                    : Text(
+                        'Profile not active'.t(context),
+                        style: TextStyle(
+                            color: Colors.grey.shade700, fontSize: 14),
                       ),
-                    );
-                  },
-                  separatorBuilder: (context, index) => SizedBox(
-                    width: 5,
-                  ),
-                ),
               ),
             ],
           ),
