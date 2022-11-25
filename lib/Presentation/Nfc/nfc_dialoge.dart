@@ -1,4 +1,3 @@
-
 import 'package:dropili/Presentation/Nfc/bloc/nfc_bloc.dart';
 import 'package:dropili/Presentation/Nfc/widgets/nfc_not_found_widget.dart';
 import 'package:dropili/Presentation/Nfc/widgets/nfc_searching_widget.dart';
@@ -41,13 +40,13 @@ class _NfcScanWidgetState extends State<NfcScanWidget> {
               if (state is NfcSearchingState) {
               } else if (state is NfcTagWrittenState) {
                 await Future.delayed(Duration(seconds: 3));
-                Navigator.pop(context, null);
+                Navigator.pop(context);
               } else if (state is NfcWriteErrorState) {
                 await Future.delayed(Duration(seconds: 3));
-                Navigator.pop(context, null);
+                Navigator.pop(context);
               } else if (state is NfcNotFoundState) {
                 await Future.delayed(Duration(seconds: 3));
-                Navigator.pop(context, null);
+                Navigator.pop(context);
               }
             },
             child: BlocBuilder<NfcBloc, NfcState>(
