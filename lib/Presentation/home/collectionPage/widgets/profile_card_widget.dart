@@ -49,6 +49,7 @@ class ProfileCardWidget extends StatelessWidget {
             onTap: () async {
               var result = await Navigator.pushNamed(context, '/showFriend',
                   arguments: profile);
+              if (result == null) return;
               if (result as bool) {
                 BlocProvider.of<CollectionBloc>(context)
                     .add(DeleteFriendEvent(id: profile.id.toString()));

@@ -1,15 +1,11 @@
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
-import 'package:dropili/Presentation/home/ProfilePage/widgets/CostumeBlocksGrid.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/all_blocks_widget.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/edite_profile_btn_widget.dart';
-import 'package:dropili/Presentation/home/ProfilePage/widgets/profile_grid.dart';
 import 'package:dropili/Presentation/widgets_model/cachedImage_widget.dart';
 import 'package:dropili/Presentation/widgets_model/loading_widget.dart';
 import 'package:dropili/Presentation/widgets_model/no_connection_dialog.dart';
 import 'package:dropili/Presentation/widgets_model/profile_information_widget.dart';
-import 'package:dropili/Presentation/widgets_model/snackbar.dart';
 import 'package:dropili/common/constant/colors.dart';
-import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -62,7 +62,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                         children: [
                           ElevatedButton(
                             onPressed: () {
-                              Navigator.pop(context);
+                              Navigator.pop(context, false);
                             },
                             child: Icon(
                               Icons.arrow_back_rounded,

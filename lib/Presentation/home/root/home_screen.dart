@@ -14,7 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
 import 'package:flutter_share/flutter_share.dart';
-import 'package:http/http.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -63,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
         listener: (context, state) async {
           if (state.currentPage == Pages.scanner) {
             context.read<NavigationBloc>().add(NavigationEvent(0));
-            showModalBottomSheet(
+            showModalBottomSheet<void>(
               backgroundColor: Colors.transparent,
               enableDrag: true,
               context: context,
