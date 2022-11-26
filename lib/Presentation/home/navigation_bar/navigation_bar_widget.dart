@@ -60,7 +60,7 @@ class _BottomNavigationBarPageState extends State<NavigatioBarWidget> {
               Icons.nfc_outlined,
               size: 25,
             ),
-            label: 'Scanner'.t(context)),
+            label: 'Activate'.t(context)),
         BottomNavigationBarItem(
             icon: Icon(
               Icons.qr_code_2_rounded,
