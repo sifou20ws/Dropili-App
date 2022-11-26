@@ -37,10 +37,12 @@ class _BottomNavigationBarPageState extends State<NavigatioBarWidget> {
           end: Alignment.topLeft,
           colors: [MalinColors.AppGreen, MalinColors.AppGreen]),
       showSelectedLabels: true,
-      height: 75,
+      height: 70,
       showUnselectedLabels: true,
       currentIndex: context.read<NavigationBloc>().state.index,
       elevation: 30,
+      selectedLabelStyle: TextStyle(fontSize: 13),
+      unselectedLabelStyle: TextStyle(fontSize: 13),
 
       onTap: (value) async {
         BlocProvider.of<NavigationBloc>(context).add(NavigationEvent(value));
@@ -58,7 +60,7 @@ class _BottomNavigationBarPageState extends State<NavigatioBarWidget> {
               Icons.nfc_outlined,
               size: 25,
             ),
-            label: 'Scanner'.t(context)),
+            label: 'Activate'.t(context)),
         BottomNavigationBarItem(
             icon: Icon(
               Icons.qr_code_2_rounded,

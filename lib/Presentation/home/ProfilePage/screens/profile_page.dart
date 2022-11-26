@@ -1,13 +1,11 @@
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
-import 'package:dropili/Presentation/home/ProfilePage/widgets/CostumeBlocksGrid.dart';
+import 'package:dropili/Presentation/home/ProfilePage/widgets/all_blocks_widget.dart';
 import 'package:dropili/Presentation/home/ProfilePage/widgets/edite_profile_btn_widget.dart';
-import 'package:dropili/Presentation/home/ProfilePage/widgets/profile_grid.dart';
 import 'package:dropili/Presentation/widgets_model/cachedImage_widget.dart';
 import 'package:dropili/Presentation/widgets_model/loading_widget.dart';
+import 'package:dropili/Presentation/widgets_model/no_connection_dialog.dart';
 import 'package:dropili/Presentation/widgets_model/profile_information_widget.dart';
-import 'package:dropili/Presentation/widgets_model/snackbar.dart';
 import 'package:dropili/common/constant/colors.dart';
-import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,13 +26,17 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
   @override
   bool get wantKeepAlive => true;
 
+  void getAllData() {
+    _profileBloc.add(GetUserBlocksEvent());
+    _profileBloc.add(GetProfileEvent());
+    _profileBloc.add(GetCostumeBlocksEvent());
+  }
+
   @override
   void initState() {
     super.initState();
     _profileBloc = getIt.getItInstace<ProfileBloc>();
-    _profileBloc.add(GetUserBlocksEvent());
-    _profileBloc.add(GetProfileEvent());
-    _profileBloc.add(GetCostumeBlocksEvent());
+    getAllData();
   }
 
   @override
@@ -53,7 +55,12 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
       child: BlocListener<ProfileBloc, ProfileState>(
         listener: (context, state) {
           if (state.status == ProfileStatus.fail) {
-            SnackBars.showErrorSnackBar(context, state.messageError);
+            // SnackBars.showErrorSnackBar(context, state.messageError);
+            showDialog(
+                context: context,
+                builder: (context) => NoConnectionDialogue()).then((_) {
+              getAllData();
+            });
           }
           if (state.status == ProfileStatus.getSuccess) {
             getProfilePicture =
@@ -70,8 +77,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
             return RefreshIndicator(
               color: MalinColors.AppGreen,
               onRefresh: () async {
-                _profileBloc.add(GetUserBlocksEvent());
-                _profileBloc.add(GetProfileEvent());
+                getAllData();
                 await Future.delayed(Duration(seconds: 1));
               },
               child: Container(
@@ -135,10 +141,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                                           '/editProfile')
                                                       .then(
                                                     (value) {
-                                                      _profileBloc.add(
-                                                          GetUserBlocksEvent());
-                                                      _profileBloc.add(
-                                                          GetProfileEvent());
+                                                      getAllData();
                                                     },
                                                   );
                                                 },
@@ -153,47 +156,10 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                               discrtptio: getUserDescription,
                                             )),
                                         SizedBox(height: 15),
-                                        ListView.separated(
-                                          physics:
-                                              NeverScrollableScrollPhysics(),
-                                          shrinkWrap: true,
-                                          itemCount: state.userBlocks.length,
-                                          itemBuilder: (context, index) {
-                                            var title = '';
-                                            switch (state
-                                                .userBlocks[index][0].type) {
-                                              case 1:
-                                                title = 'Contacts'.t(context);
-                                                break;
-                                              case 2:
-                                                title =
-                                                    'Social Media'.t(context);
-                                                break;
-                                              case 3:
-                                                title = 'Payment methods'
-                                                    .t(context);
-                                                break;
-                                              case 4:
-                                                title = 'Others'.t(context);
-                                                break;
-                                              default:
-                                            }
-                                            return BlockTypeGrid(
-                                              title: title,
-                                              blocksList:
-                                                  state.userBlocks[index],
-                                            );
-                                          },
-                                          separatorBuilder: (context, index) =>
-                                              SizedBox(height: 25),
+                                        AllBlockWidget(
+                                          userBlocks: state.userBlocks,
+                                          costumeBlocks: state.costumeBlocks,
                                         ),
-                                        SizedBox(height: 20),
-                                        (state.costumeBlocks.length != 0)
-                                            ? CostumeBlocksGrid(
-                                                costumeBlocksList:
-                                                    state.costumeBlocks,
-                                              )
-                                            : Container(),
                                       ],
                                     ),
                                   ),

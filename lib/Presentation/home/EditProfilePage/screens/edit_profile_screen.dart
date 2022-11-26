@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/add_C_block_widget.dart';
@@ -34,6 +33,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
   bool active = false;
   int blockId = 0;
   String getProfilePicture = '', getBackgroundPicture = '';
+
   @override
   void initState() {
     super.initState();
@@ -69,13 +69,13 @@ class _MyOffersPageState extends State<EditProfilePage> {
             blockId = state.showProfile!.user.blockId;
             active = state.showProfile!.user.active;
             _editProfileBloc.add(ActiveEvent(state: active));
-            log(name: 'active', active.toString());
             getProfilePicture = BlocProvider.of<EditProfileBloc>(context)
                 .state
                 .showProfile!
                 .user
                 .userProfile
                 .originalUrl;
+
             getBackgroundPicture = BlocProvider.of<EditProfileBloc>(context)
                 .state
                 .showProfile!
@@ -136,9 +136,6 @@ class _MyOffersPageState extends State<EditProfilePage> {
               child: Scaffold(
                 backgroundColor: Colors.white,
                 resizeToAvoidBottomInset: true,
-                //state.status == Status.loadingBlocks ||
-                //state.status == Status.loadingProfile ||
-                //state.status == Status.getCostumeBlocks
                 body: (state.blocksStatus == BlocksStatus.getBlocks ||
                         state.status == Status.loadingProfile ||
                         state.costumeBlocksStatus ==
@@ -153,15 +150,6 @@ class _MyOffersPageState extends State<EditProfilePage> {
                     : Container(
                         height: MediaQuery.of(context).size.height,
                         width: MediaQuery.of(context).size.width,
-                        // decoration: BoxDecoration(
-                        //   image: DecorationImage(
-                        //     fit: BoxFit.fill,
-                        //     image: AssetImage(
-                        //       'assets/background2.png',
-                        //     ),
-                        //     alignment: Alignment.topCenter,
-                        //   ),
-                        // ),
                         child: Stack(
                           children: <Widget>[
                             SingleChildScrollView(

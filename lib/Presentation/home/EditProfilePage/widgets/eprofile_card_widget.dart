@@ -38,6 +38,7 @@ class BlockCardWidget extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               color: Colors.transparent,
+              borderRadius: BorderRadius.circular(15),
               boxShadow: [
                 BoxShadow(
                   color: Color.fromARGB(50, 0, 0, 0),
@@ -47,12 +48,15 @@ class BlockCardWidget extends StatelessWidget {
                 ),
               ],
             ),
-            child: CachedNetworkImage(
-              imageUrl: blockImage,
-              fadeOutDuration: Duration.zero,
-              fadeInDuration: Duration.zero,
-              placeholderFadeInDuration: Duration.zero,
-              fit: BoxFit.cover,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: CachedNetworkImage(
+                imageUrl: blockImage,
+                fadeOutDuration: Duration.zero,
+                fadeInDuration: Duration.zero,
+                placeholderFadeInDuration: Duration.zero,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           SizedBox(

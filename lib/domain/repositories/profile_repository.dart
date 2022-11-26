@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
+// import 'dart:developer';
 
 import 'package:dropili/core/api/post_get.dart';
 import 'package:dropili/core/error/failure.dart';
@@ -78,7 +78,7 @@ class ProfileRepository {
     }
   }
 
-  Future<dynamic> PutUserBlocks(dynamic data , int id) async {
+  Future<dynamic> PutUserBlocks(dynamic data, int id) async {
     http.Response response;
     var dataR;
     try {
@@ -167,7 +167,7 @@ class ProfileRepository {
     try {
       response = await _network.patchWithHeader('/direct', data);
       dataR = json.decode(response.body);
-      log(dataR.toString());
+      // log(dataR.toString());
       return dataR;
     } catch (e) {
       rethrow;
@@ -178,9 +178,9 @@ class ProfileRepository {
     dynamic response;
     var dataR;
     try {
-      log(name:'icon repo' , icon);
-      response = await _network.postOnePictureWithHeader(
-          '/custom-blocks', icon, data);
+      // log(name:'icon repo' , icon);
+      response =
+          await _network.postOnePictureWithHeader('/custom-blocks', icon, data);
       dataR = json.decode(response);
       return dataR;
     } catch (e) {
@@ -188,11 +188,12 @@ class ProfileRepository {
     }
   }
 
-  Future<dynamic> UpdateCostumeBlock({dynamic data, dynamic icon , dynamic id}) async {
+  Future<dynamic> UpdateCostumeBlock(
+      {dynamic data, dynamic icon, dynamic id}) async {
     dynamic response;
     var dataR;
     try {
-      log(name:'icon repo' , icon);
+      // log(name:'icon repo' , icon);
       response = await _network.postOnePictureWithHeader(
           '/custom-blocks/$id/update', icon, data);
       dataR = json.decode(response);
@@ -251,5 +252,4 @@ class ProfileRepository {
       rethrow;
     }
   }
-
 }

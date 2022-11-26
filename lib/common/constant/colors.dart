@@ -10,7 +10,7 @@ class MalinColors {
   static const Color shadow = Color.fromRGBO(0, 174, 166, 1);
   static const Color navBarBackground = Color.fromARGB(255, 55, 51, 70);
   static const Color cardsColor = Color.fromARGB(255, 246, 246, 246);
-  static const Color greyElemntsColor = Color.fromARGB(255, 247, 247, 247);
+  static const Color greyElemntsColor = Color.fromARGB(255, 250, 250, 250);
 
   static const Gradient blueGradient = LinearGradient(
       begin: Alignment.topRight,

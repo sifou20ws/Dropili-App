@@ -22,8 +22,8 @@ class cachedImageModelWidget extends StatelessWidget {
       )),
       errorWidget: (context, url, error) => Icon(
         Icons.image_not_supported_outlined,
-        color: Colors.grey.shade600,
-        size: 30,
+        color: Colors.grey.shade500,
+        size: 50,
       ),
       fit: BoxFit.cover,
     );

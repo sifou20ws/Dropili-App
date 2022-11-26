@@ -1,5 +1,6 @@
 import 'package:dropili/Presentation/widgets_model/snackbar.dart';
 import 'package:dropili/common/constant/colors.dart';
+import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:dropili/data/models/get_costume_block_response.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -18,8 +19,8 @@ class CostumeBlocksGrid extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          'Custom Blocks',
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+          'Custom Blocks'.t(context),
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
         ),
         SizedBox(height: 10),
         GridView.builder(
@@ -36,10 +37,10 @@ class CostumeBlocksGrid extends StatelessWidget {
             return Container(
               alignment: Alignment.center,
               child: GestureDetector(
-                onTap: () async{
+                onTap: () async {
                   await Clipboard.setData(
                       ClipboardData(text: costumeBlocksList[index].url));
-                  String url = costumeBlocksList[index].url ;
+                  String url = costumeBlocksList[index].url;
                   SnackBars.showSucessSnackBar(
                       context, '"$url" copied to clipboard');
                 },
@@ -47,7 +48,7 @@ class CostumeBlocksGrid extends StatelessWidget {
                   alignment: Alignment.center,
                   padding: EdgeInsets.all(15),
                   decoration: BoxDecoration(
-                    color: MalinColors.AppGreen.withAlpha(20),
+                    color: MalinColors.greyElemntsColor,
                     borderRadius: BorderRadius.circular(13),
                   ),
                   child: Column(
@@ -66,32 +67,32 @@ class CostumeBlocksGrid extends StatelessWidget {
                           ],
                         ),
                         child: (costumeBlocksList[index].icon!.originalUrl ==
-                            '')
+                                '')
                             ? ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child:
-                            Image.asset('assets/dropili_app_logo.png'))
+                                borderRadius: BorderRadius.circular(15),
+                                child:
+                                    Image.asset('assets/dropili_app_logo.png'))
                             : AspectRatio(
-                          aspectRatio: 1,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: CachedNetworkImage(
-                              imageUrl: costumeBlocksList[index]
-                                  .icon!
-                                  .originalUrl,
-                              placeholder: (context, url) => Center(
-                                  child: Center(
-                                    child: Lottie.asset(
-                                      'assets/lottie/loading-green.json',
-                                      height: 80,
-                                    ),
-                                  )),
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
+                                aspectRatio: 1,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: CachedNetworkImage(
+                                    imageUrl: costumeBlocksList[index]
+                                        .icon!
+                                        .originalUrl,
+                                    placeholder: (context, url) => Center(
+                                        child: Center(
+                                      child: Lottie.asset(
+                                        'assets/lottie/loading-green.json',
+                                        height: 80,
+                                      ),
+                                    )),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
                       ),
                       SizedBox(
                         height: 10,

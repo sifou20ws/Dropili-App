@@ -11,14 +11,14 @@ class NfcTagErrorWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
-          'Scan Dropili tag'.t(context),
+          'Activate Dropili tag'.t(context),
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
             fontSize: 23,
           ),
         ),
-        Lottie.asset('assets/lottie/nfc-fail.json', height: 240 ,repeat: false),
+        Lottie.asset('assets/lottie/nfc-fail.json', height: 240, repeat: false),
         Text(
           'Wrong tag'.t(context),
           style: TextStyle(

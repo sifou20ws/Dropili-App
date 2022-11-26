@@ -1,4 +1,5 @@
-import 'package:dropili/Presentation/home/ProfilePage/widgets/profile_grid.dart';
+import 'package:dropili/Presentation/home/collectionPage/widgets/all_block_widget.dart';
+import 'package:dropili/Presentation/home/common_widgets/profile_unactive_widget.dart';
 import 'package:dropili/Presentation/home/scanned_profile/bloc/scanned_profile_bloc.dart';
 import 'package:dropili/Presentation/widgets_model/cachedImage_widget.dart';
 import 'package:dropili/Presentation/widgets_model/loading_widget.dart';
@@ -6,7 +7,6 @@ import 'package:dropili/Presentation/widgets_model/profile_information_widget.da
 import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
-import 'package:dropili/data/models/get_friends_result_model.dart.dart' as frnd;
 import 'package:dropili/domain/repositories/profile_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,11 +53,12 @@ class _scannedProfileScreen extends State<ScannedProfileScreen> {
                     height: MediaQuery.of(context).size.height,
                     width: MediaQuery.of(context).size.width,
                     color: Colors.white,
-                    alignment: Alignment.center,
                     child: SingleChildScrollView(
                       physics: BouncingScrollPhysics(),
                       child: state is ProfileLoadingState
-                          ? LoadingWidget()
+                          ? Container(
+                              height: MediaQuery.of(context).size.height,
+                              child: LoadingWidget())
                           : state is ProfileLoadedState
                               ? Stack(
                                   children: <Widget>[
@@ -137,51 +138,14 @@ class _scannedProfileScreen extends State<ScannedProfileScreen> {
                                                   ),
                                                 ),
                                                 SizedBox(height: 35),
-                                                ListView.separated(
-                                                  physics:
-                                                      NeverScrollableScrollPhysics(),
-                                                  shrinkWrap: true,
-                                                  itemCount: state
-                                                      .blocksTypesList.length,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    var title = '';
-                                                    switch (state
-                                                        .blocksTypesList[index]
-                                                            [0]
-                                                        .type) {
-                                                      case 1:
-                                                        title = 'Contacts'
-                                                            .t(context);
-                                                        break;
-                                                      case 2:
-                                                        title = 'Social Media'
-                                                            .t(context);
-                                                        break;
-                                                      case 3:
-                                                        title =
-                                                            'Payment methods'
-                                                                .t(context);
-                                                        break;
-                                                      case 4:
-                                                        title =
-                                                            'Others'.t(context);
-                                                        break;
-                                                      default:
-                                                    }
-                                                    return BlockTypeGrid(
-                                                      title: title,
-                                                      blocksList:
-                                                          state.blocksTypesList[
-                                                              index],
-                                                    );
-                                                  },
-                                                  separatorBuilder:
-                                                      (context, index) =>
-                                                          SizedBox(
-                                                    height: 25,
-                                                  ),
-                                                ),
+                                                state.scannedFriend.active
+                                                    ? AllBlockWidget(
+                                                        blocksTypesList: state
+                                                            .blocksTypesList,
+                                                        freindProfile:
+                                                            state.scannedFriend,
+                                                      )
+                                                    : ProfileUnactiveWidget(),
                                               ],
                                             ),
                                           ),

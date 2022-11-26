@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:dropili/data/models/get_costume_block_response.dart';
@@ -19,7 +17,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<GetUserBlocksEvent>(_getUserBlocksEvent);
     on<GetProfileEvent>(_getProfileEvent);
     on<GetCostumeBlocksEvent>(_getCostumeBlocksEvent);
-    // on<DeleteUserBlocksEvent>(_deleteUserBlocksEvent);
     add(GetUserBlocksEvent());
     add(GetProfileEvent());
   }
@@ -73,7 +70,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   void _getCostumeBlocksEvent(
       GetCostumeBlocksEvent event, Emitter<ProfileState> emit) async {
-
     emit(state.copyWith(status: ProfileStatus.getCostumeBlocks));
     GetCostumeBlocksResponse resp;
     final List<CustomBlocksItem> costumeBlocks;
@@ -91,9 +87,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       //log(state.userBlocks.toString(), name: 'UBL in bloc');
     } catch (e) {
       emit(state.copyWith(status: ProfileStatus.getCostumeBlocksFail));
-      log(('error :'));
-      log(e.toString());
+      // log(('error :'));
+      // log(e.toString());
     }
   }
-
 }

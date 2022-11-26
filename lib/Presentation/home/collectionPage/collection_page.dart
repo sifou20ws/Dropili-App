@@ -1,6 +1,7 @@
 import 'package:dropili/Presentation/home/collectionPage/bloc/collection_bloc.dart';
 import 'package:dropili/Presentation/home/collectionPage/widgets/profile_card_widget.dart';
 import 'package:dropili/Presentation/widgets_model/loading_widget.dart';
+import 'package:dropili/Presentation/widgets_model/no_connection_dialog.dart';
 import 'package:dropili/Presentation/widgets_model/snackbar.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
@@ -37,7 +38,14 @@ class _CollectionPageState extends State<CollectionPage>
       child: BlocListener<CollectionBloc, CollectionState>(
         listener: (context, state) {
           if (state is CollectionErrorState)
-            SnackBars.showErrorSnackBar(context, state.errorMassage);
+            showDialog(
+              barrierDismissible: false, // user must tap button!
+              context: context,
+              builder: (context) => NoConnectionDialogue(),
+            ).then((_) {
+              _collectionBloc.add(LoadCollectionEvent());
+            });
+          // SnackBars.showErrorSnackBar(context, state.errorMassage);
 
           if (state is CollectionSucessState)
             SnackBars.showSucessSnackBar(context, state.message);

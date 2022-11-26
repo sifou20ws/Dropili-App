@@ -38,7 +38,7 @@ class FriendsItem {
   final UserBackground userBackground;
   final Pivot pivot;
   final List<UserBlocksItem> blocks;
-  final List<dynamic> customBlocks;
+  final List<UserBlocksItem> customBlocks;
   final List<MediaItem> media;
 
   FriendsItem({
@@ -83,8 +83,9 @@ class FriendsItem {
         blocks: asList(json, 'blocks')
             .map((e) => UserBlocksItem.fromJson(e))
             .toList(),
-        customBlocks:
-            asList(json, 'custom_blocks').map((e) => e.toString()).toList(),
+        customBlocks: asList(json, 'custom_blocks')
+            .map((e) => UserBlocksItem.fromJson(e))
+            .toList(),
         media: asList(json, 'media').map((e) => MediaItem.fromJson(e)).toList(),
       );
 
@@ -106,7 +107,7 @@ class FriendsItem {
         'user_background': userBackground.toJson(),
         'pivot': pivot.toJson(),
         'blocks': blocks.map((e) => e.toJson()).toList(),
-        'custom_blocks': customBlocks.map((e) => e).toList(),
+        'custom_blocks': customBlocks.map((e) => e.toJson()).toList(),
         'media': media.map((e) => e.toJson()).toList(),
       };
 }
