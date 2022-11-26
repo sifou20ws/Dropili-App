@@ -166,6 +166,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       openDirectMeDialogue: event.state,
     ));
   }
+
   void _activeEvent(ActiveEvent event, Emitter<EditProfileState> emit) {
     emit(state.copyWith(
       activeButton: event.state,
@@ -243,7 +244,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     Map<String, String> map1 = {
       'name': event.name,
       'description': event.description,
-      'active': event.active? 'yes' : 'no'
+      'active': event.active ? 'yes' : 'no'
     };
     try {
       resp = await _ProfileRepository.PostUserProfile(
@@ -273,9 +274,13 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     PostProfileResp resp;
     try {
       resp = await _ProfileRepository.getProfileShow();
-      emit(state.copyWith(status: Status.getProfileSuccess));
-      emit(state.copyWith(
-          showProfile: resp, switchButton: resp.user.directOnMe));
+      emit(
+        state.copyWith(
+          showProfile: resp,
+          switchButton: resp.user.directOnMe,
+          status: Status.getProfileSuccess,
+        ),
+      );
       //log(resp.toString());
     } catch (e) {
       emit(state.copyWith(status: Status.fail));
