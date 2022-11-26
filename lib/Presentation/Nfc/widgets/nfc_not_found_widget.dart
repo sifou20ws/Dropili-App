@@ -11,7 +11,7 @@ class NoNfcFoundWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
-          'Activate Dropili tag'.t(context),
+          'Scan Dropili tag'.t(context),
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
