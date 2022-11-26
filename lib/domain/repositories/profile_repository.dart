@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:dropili/core/api/post_get.dart';
 import 'package:dropili/core/error/failure.dart';
-import 'package:dropili/data/models/costume_block_model.dart';
 import 'package:dropili/data/models/delete_block_response_model.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:dropili/data/models/get_costume_block_response.dart';
@@ -83,7 +82,7 @@ class ProfileRepository {
     http.Response response;
     var dataR;
     try {
-      response = await _network.putWithHeader('/blocks/$id', data);
+      response = await _network.postWithHeader('/blocks/$id', data);
       //if(response.statusCode == 200){
       dataR = json.decode(response.body);
       //myBlocks = GetBlocksModel.fromJson(data);
@@ -230,7 +229,7 @@ class ProfileRepository {
         var data = json.decode(response.body);
         CostumeBlocks = GetCostumeBlocksResponse.fromJson(data);
       }
-      log(response.body);
+      //log(response.body);
       return CostumeBlocks;
     } catch (e) {
       rethrow;

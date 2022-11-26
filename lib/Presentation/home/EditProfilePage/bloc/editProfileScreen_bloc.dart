@@ -24,6 +24,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     on<GetUserBlocksEvent>(_getUserBlocks);
     on<ItemSelectedEvent>(_itemSelectedEvent);
     on<SwitchEvent>(_switchEvent);
+    on<ActiveEvent>(_activeEvent);
     on<ImportCoverImageEvent>(_importCoverImageEvent);
     on<ImportProfileImageEvent>(_importProfileImageEvent);
     on<PostBlocksEvent>(_postBlocksEvent);
@@ -166,6 +167,11 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       openDirectMeDialogue: event.state,
     ));
   }
+  void _activeEvent(ActiveEvent event, Emitter<EditProfileState> emit) {
+    emit(state.copyWith(
+      activeButton: event.state,
+    ));
+  }
 
   void _profileActiveEvent(
       ProfileActiveEvent event, Emitter<EditProfileState> emit) {
@@ -237,7 +243,8 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     var resp;
     Map<String, String> map1 = {
       'name': event.name,
-      'description': event.description
+      'description': event.description,
+      'active': event.active? 'yes' : 'no'
     };
     try {
       resp = await _ProfileRepository.PostUserProfile(

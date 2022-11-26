@@ -1,13 +1,9 @@
-import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
-import 'package:dropili/Presentation/home/EditProfilePage/widgets/CustomBlocksDialogBox.dart';
-import 'package:dropili/Presentation/home/EditProfilePage/widgets/CustomDialogBox.dart';
 import 'package:dropili/Presentation/widgets_model/snackbar.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/data/models/get_costume_block_response.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 
 class CostumeBlocksGrid extends StatelessWidget {

@@ -1,12 +1,10 @@
 import 'dart:developer';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/add_C_block_widget.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/costume_block_widget.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/direct_sur_dialoge.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/eProfile_buttons_row.dart';
-import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_card_widget.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_media_widget.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_text_widget.dart';
 import 'package:dropili/Presentation/widgets_model/snackbar.dart';
@@ -33,6 +31,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
   List<List<BlocksItem>> blocksList = [];
   List<UserBlocksItem> userBlocks = [];
   String name = '', description = '', profileUserUrl = '';
+  bool active = false;
   int blockId = 0;
   String getProfilePicture = '', getBackgroundPicture = '';
   @override
@@ -68,6 +67,9 @@ class _MyOffersPageState extends State<EditProfilePage> {
             description = state.showProfile!.user.description;
             profileUserUrl = state.showProfile!.user.url;
             blockId = state.showProfile!.user.blockId;
+            active = state.showProfile!.user.active;
+            _editProfileBloc.add(ActiveEvent(state: active));
+            log(name: 'active', active.toString());
             getProfilePicture = BlocProvider.of<EditProfileBloc>(context)
                 .state
                 .showProfile!
@@ -84,6 +86,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
             _editProfileBloc
                 .add(PostDescriptionEvent(description: description));
           }
+
           if (state.status == Status.postBlockSuccess) {
             _editProfileBloc.add(GetBlocksEvent());
             userBlocks = state.userBlocks;
@@ -296,6 +299,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
                           _editProfileBloc.add(PostProfileUpdateEvent(
                             name: state.userName,
                             description: state.userDescription,
+                            active: state.activeButton,
                             profile: state.profileImg,
                             background: state.backgroundImg,
                           ));
