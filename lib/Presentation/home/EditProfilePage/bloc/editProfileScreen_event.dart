@@ -28,6 +28,14 @@ class SwitchEvent extends EditProfileEvent {
   @override
   List<Object?> get props => [state];
 }
+class ActiveEvent extends EditProfileEvent {
+  final bool state;
+  ActiveEvent({required this.state});
+
+  @override
+  List<Object?> get props => [state];
+}
+
 class ProfileActiveEvent extends EditProfileEvent {
   final bool state;
   ProfileActiveEvent({required this.state});
@@ -89,10 +97,12 @@ class PostDescriptionEvent extends EditProfileEvent {
 }
 
 class PostProfileUpdateEvent extends EditProfileEvent {
-  final String name, description;
+  final String name, description ;
   final String profile, background;
+  final bool active;
   PostProfileUpdateEvent(
       {required this.name,
+        this.active = false,
       this.description = '',
       this.profile = '',
       this.background = ''});

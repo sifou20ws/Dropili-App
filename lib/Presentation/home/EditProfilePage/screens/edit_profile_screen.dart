@@ -30,6 +30,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
   List<List<BlocksItem>> blocksList = [];
   List<UserBlocksItem> userBlocks = [];
   String name = '', description = '', profileUserUrl = '';
+  bool active = false;
   int blockId = 0;
   String getProfilePicture = '', getBackgroundPicture = '';
 
@@ -66,7 +67,8 @@ class _MyOffersPageState extends State<EditProfilePage> {
             description = state.showProfile!.user.description;
             profileUserUrl = state.showProfile!.user.url;
             blockId = state.showProfile!.user.blockId;
-
+            active = state.showProfile!.user.active;
+            _editProfileBloc.add(ActiveEvent(state: active));
             getProfilePicture = BlocProvider.of<EditProfileBloc>(context)
                 .state
                 .showProfile!
@@ -84,6 +86,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
             _editProfileBloc
                 .add(PostDescriptionEvent(description: description));
           }
+
           if (state.status == Status.postBlockSuccess) {
             _editProfileBloc.add(GetBlocksEvent());
             userBlocks = state.userBlocks;
@@ -284,6 +287,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
                           _editProfileBloc.add(PostProfileUpdateEvent(
                             name: state.userName,
                             description: state.userDescription,
+                            active: state.activeButton,
                             profile: state.profileImg,
                             background: state.backgroundImg,
                           ));

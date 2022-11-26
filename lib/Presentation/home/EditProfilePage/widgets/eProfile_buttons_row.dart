@@ -58,13 +58,12 @@ class _EditProfileButtonsWidget extends State<EditProfileButtonsWidget> {
             Transform.scale(
               scale: 0.7,
               child: CupertinoSwitch(
-                value: true,
-                /*BlocProvider.of<EditProfileBloc>(context)
+                value: BlocProvider.of<EditProfileBloc>(context)
                     .state
-                    .switchButton,*/
+                    .activeButton,
                 onChanged: (bool state) {
-                  /*BlocProvider.of<EditProfileBloc>(context)
-                      .add(SwitchEvent(state: state));*/
+                  BlocProvider.of<EditProfileBloc>(context)
+                      .add(ActiveEvent(state: state));
                 },
                 activeColor: MalinColors.AppGreen,
               ),

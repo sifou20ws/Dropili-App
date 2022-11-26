@@ -94,6 +94,7 @@ enum ProfileStatus {
 class EditProfileState extends Equatable {
   EditProfileState(
       {this.switchButton = false,
+      this.activeButton = false,
       this.profileActiveButton = false,
       this.messageError = '',
       this.errorExist = false,
@@ -129,6 +130,7 @@ class EditProfileState extends Equatable {
   /** */ final BlocksStatus blocksStatus;
   /** */ final CostumeBlocksStatus costumeBlocksStatus;
   final bool switchButton;
+  final bool activeButton;
   final bool profileActiveButton;
   final String id;
   final int index;
@@ -151,6 +153,7 @@ class EditProfileState extends Equatable {
 
   EditProfileState copyWith(
       {bool? switchButton,
+      bool? activeButton,
       bool? profileActiveButton,
       String? messageError,
       Status? status,
@@ -180,6 +183,7 @@ class EditProfileState extends Equatable {
       messageError: messageError ?? this.messageError,
       status: status ?? this.status,
       switchButton: switchButton ?? this.switchButton,
+      activeButton: activeButton ?? this.activeButton,
       profileActiveButton: profileActiveButton ?? this.profileActiveButton,
       id: id ?? this.id,
       index: index ?? this.index,
@@ -213,6 +217,7 @@ class EditProfileState extends Equatable {
         messageError,
         status,
         switchButton,
+        activeButton,
         profileActiveButton,
         id,
         index,
