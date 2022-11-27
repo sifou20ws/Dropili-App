@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dropili/Presentation/Nfc/bloc/nfc_bloc.dart';
 import 'package:dropili/Presentation/Nfc/nfc_dialoge.dart';
 import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
@@ -26,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late NavigationBloc _navigationBloc;
   late ProfileBloc _profileBloc;
   late AuthBloc _authBloc;
+  late NfcBloc _nfcBloc;
 
   final _pageController = PageController();
   late List<Widget> _pages;
@@ -36,6 +38,9 @@ class _HomeScreenState extends State<HomeScreen> {
     _navigationBloc = getIt.getItInstace<NavigationBloc>();
     _profileBloc = getIt.getItInstace<ProfileBloc>();
     _authBloc = AuthBloc(getIt.getItInstace<AuthRepository>());
+
+    _nfcBloc = getIt.getItInstace<NfcBloc>();
+    _nfcBloc.add(ReadTagEvent());
 
     _pages = [
       ProfilePageWidget(),
@@ -57,27 +62,43 @@ class _HomeScreenState extends State<HomeScreen> {
         BlocProvider.value(value: _navigationBloc),
         BlocProvider.value(value: _profileBloc),
         BlocProvider.value(value: _authBloc),
+        BlocProvider.value(value: _nfcBloc),
       ],
-      child: BlocListener<NavigationBloc, NavigationState>(
-        listener: (context, state) async {
-          if (state.currentPage == Pages.scanner) {
-            context.read<NavigationBloc>().add(NavigationEvent(0));
-            showModalBottomSheet<void>(
-              backgroundColor: Colors.transparent,
-              enableDrag: true,
-              context: context,
-              builder: (context) {
-                return NfcScanWidget(
-                  dataToTag: 'http://dropili.co/link/' +
-                      _profileBloc.state.showProfile!.user.username,
-                );
-              },
-            );
-          } else {
-            _pageController.animateToPage(state.index,
-                duration: Duration(milliseconds: 550), curve: Curves.ease);
-          }
-        },
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<NavigationBloc, NavigationState>(
+            listener: (context, state) async {
+              if (state.currentPage == Pages.scanner) {
+                context.read<NavigationBloc>().add(NavigationEvent(0));
+                showModalBottomSheet<void>(
+                  backgroundColor: Colors.transparent,
+                  enableDrag: true,
+                  context: context,
+                  builder: (context) {
+                    return NfcScanWidget(
+                      dataToTag: 'http://dropili.co/link/' +
+                          _profileBloc.state.showProfile!.user.username,
+                    );
+                  },
+                ).then((_) => _nfcBloc.add(ReadTagEvent()));
+              } else {
+                _pageController.animateToPage(state.index,
+                    duration: Duration(milliseconds: 550), curve: Curves.ease);
+              }
+            },
+          ),
+          BlocListener<NfcBloc, NfcState>(
+            listener: (context, state) async {
+              if (state is NfcReadSuccess) {
+                // log(state.content);
+
+                Navigator.pushNamed(context, '/scannedProfile',
+                    arguments: state.content);
+                _nfcBloc.add(ReadTagEvent());
+              }
+            },
+          ),
+        ],
         child: BlocBuilder<NavigationBloc, NavigationState>(
           builder: (context, state) {
             return Scaffold(

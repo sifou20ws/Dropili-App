@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dropili/Presentation/authentification/Login/widgets/login_form_widget%20.dart';
 import 'package:dropili/Presentation/authentification/comun_widgets/progress_indicator.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
@@ -10,6 +12,7 @@ import 'package:dropili/di/get_it.dart' as getIt;
 
 import 'package:dropili/Presentation/authentification/Login/widgets/login_more_options_widget.dart';
 import 'package:dropili/Presentation/authentification/Login/widgets/login_button_widget.dart';
+import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -20,10 +23,16 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   late AuthBloc _authBloc;
+
   @override
   void initState() {
     super.initState();
     _authBloc = AuthBloc(getIt.getItInstace<AuthRepository>());
+
+    var _dataStreamSub =
+        ReceiveSharingIntent.getTextStream().listen((String text) {
+      log(text);
+    });
   }
 
   @override

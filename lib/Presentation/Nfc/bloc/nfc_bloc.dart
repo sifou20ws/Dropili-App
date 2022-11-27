@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:nfc_manager/nfc_manager.dart';
@@ -6,13 +9,12 @@ part 'nfc_event.dart';
 part 'nfc_state.dart';
 
 class NfcBloc extends Bloc<NfcEvent, NfcState> {
-  final String dataToTag;
-
-  NfcBloc(this.dataToTag) : super(NfcSearchingState()) {
+  NfcBloc() : super(NfcSearchingState()) {
     on<NfcTagWrittenEvent>(_NfcTagWrittenEvent);
-    on<NfcStartEvent>(_nfcStartEvent);
+    on<WriteTagEvent>(_WriteTagEvent);
     on<NfcTagErrorEvent>(_nfcTagErrorEvent);
-    add(NfcStartEvent());
+    on<ReadTagEvent>(_readTagEvent);
+    on<TagReadSucessEvent>(_tagReadSucessEvent);
   }
 
   void _NfcTagWrittenEvent(event, Emitter<NfcState> emit) {
@@ -23,11 +25,22 @@ class NfcBloc extends Bloc<NfcEvent, NfcState> {
     emit(NfcWriteErrorState());
   }
 
-  void _nfcStartEvent(evet, Emitter<NfcState> emit) async {
+  void _tagReadSucessEvent(event, Emitter<NfcState> emit) {
+    emit(
+      NfcReadSuccess(
+        event.url,
+      ),
+    );
+  }
+
+  void _WriteTagEvent(event, Emitter<NfcState> emit) async {
+    emit(NfcSearchingState());
     var isAvailble = await NfcManager.instance.isAvailable();
+
     if (!isAvailble) {
       emit(NfcNotFoundState());
     } else {
+      NfcManager.instance.stopSession();
       emit(NfcSearchingState());
       await NfcManager.instance.startSession(
           onDiscovered: await (tag) async {
@@ -39,7 +52,7 @@ class NfcBloc extends Bloc<NfcEvent, NfcState> {
         }
 
         NdefMessage message = NdefMessage([
-          NdefRecord.createUri(Uri.parse(dataToTag)),
+          NdefRecord.createUri(Uri.parse(event.url)),
         ]);
 
         try {
@@ -52,26 +65,32 @@ class NfcBloc extends Bloc<NfcEvent, NfcState> {
         }
       });
     }
+  }
 
-    // var status = await FlutterNfcReader.checkNFCAvailability();
+  void _readTagEvent(event, Emitter<NfcState> emit) async {
+    log(name: 'NFC', 'reading');
+    var isAvailble = await NfcManager.instance.isAvailable();
 
-    // if (status == NFCAvailability.available) {
-    //   // var ndef = await FlutterNfcReader.read();
-    //   NfcData result = await FlutterNfcReader.write('', '');
-    //   log(result.content!);
+    if (!isAvailble) {
+      emit(NfcNotFoundState());
+    } else {
+      emit(NfcSearchingState());
+      await NfcManager.instance.startSession(
+          onDiscovered: await (NfcTag tag) async {
+        Ndef? ndef = Ndef.from(tag);
 
-    //   // if (ndef.content == null) {
-    //   //   emit(NfcReadErrorState());
-    //   // } else {
-    //   //   log(ndef.content!);
-    //   //   emit(NfcTagFoundState(
-    //   //     ndef.content!.substring(
-    //   //       ndef.content!.indexOf('www'),
-    //   //     ),
-    //   //   ));
-    //   // }
-    // } else {
-    //   emit(NfcNotFoundState());
-    // }
+        if (ndef == null) {
+          add(NfcTagErrorEvent());
+          return;
+        }
+
+        final data = await ndef.read();
+        add(
+          TagReadSucessEvent(
+            utf8.decode(data.records.first.payload).substring(1),
+          ),
+        );
+      });
+    }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:dropili/Presentation/Nfc/bloc/nfc_bloc.dart';
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/root/bloc/navigation_bloc.dart';
 import 'package:dropili/Presentation/localization/bloc/language_bloc.dart';
@@ -20,6 +21,8 @@ Future init() async {
 
   getItInstace.registerLazySingleton<ProfileBloc>(
       () => ProfileBloc(ProfileRepository: getItInstace()));
+
+  getItInstace.registerLazySingleton<NfcBloc>(() => NfcBloc());
 
   getItInstace.registerLazySingleton<LanguageBloc>(() => LanguageBloc());
 }

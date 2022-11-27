@@ -5,6 +5,7 @@ import 'package:dropili/Presentation/Nfc/widgets/nfc_tag_error_widget.dart';
 import 'package:dropili/Presentation/Nfc/widgets/nfc_tag_found_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dropili/di/get_it.dart' as getIt;
 
 class NfcScanWidget extends StatefulWidget {
   final String dataToTag;
@@ -15,10 +16,19 @@ class NfcScanWidget extends StatefulWidget {
 }
 
 class _NfcScanWidgetState extends State<NfcScanWidget> {
+  late NfcBloc _nfcBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _nfcBloc = getIt.getItInstace<NfcBloc>();
+    _nfcBloc.add(WriteTagEvent(widget.dataToTag));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => NfcBloc(widget.dataToTag),
+    return BlocProvider.value(
+      value: _nfcBloc,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5),
         child: Container(
