@@ -24,6 +24,14 @@ class _BottomNavigationBarPageState extends State<NavigatioBarWidget> {
       // selectedItemColor: MalinColors.AppBlue,
       // unselectedItemColor: Colors.black.withAlpha(150),
 
+      backgroundGradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.topLeft,
+          colors: [
+            Colors.white.withAlpha(200),
+            Colors.white.withAlpha(200),
+          ]),
+
       unselectedItemGradient: LinearGradient(
           begin: Alignment.topRight,
           end: Alignment.topLeft,
