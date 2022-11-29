@@ -12,7 +12,7 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
   LanguageBloc()
       : super(
           LanguageLoaded(
-            Locale(Languages.deviceLanguageCode()),
+            Locale(Languages.languages[0].code),
           ),
         ) {
     on<ToggleLanguageEvent>(_toggleLanguageEvent);

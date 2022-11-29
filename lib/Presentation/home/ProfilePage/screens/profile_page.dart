@@ -148,14 +148,14 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                                 child: EditeProfileBtnWidget()),
                                           ],
                                         ),
-                                        SizedBox(height: 20),
+                                        SizedBox(height: 30),
                                         Padding(
                                             padding: EdgeInsets.only(left: 10),
                                             child: InformationWidget(
                                               name: getUserName,
                                               discrtptio: getUserDescription,
                                             )),
-                                        SizedBox(height: 15),
+                                        SizedBox(height: 30),
                                         AllBlockWidget(
                                           userBlocks: state.userBlocks,
                                           costumeBlocks: state.costumeBlocks,
@@ -166,20 +166,29 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                 ),
                               ],
                             ),
-                            Positioned(
-                              top: 120,
-                              left: 30,
-                              child: Container(
-                                padding: EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    shape: BoxShape.circle),
-                                child: RoundedProfilePicture(
-                                  image: (getProfilePicture == '')
-                                      ? 'assets/dropili_Logo_PNG.png'
-                                      : getProfilePicture,
-                                  get: !(getProfilePicture == ''),
-                                ),
+                            Container(
+                              // top: 120,
+                              // left: 30,
+                              width: MediaQuery.of(context).size.width,
+                              padding: EdgeInsets.only(
+                                  top: 120, left: 20, right: 20),
+
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        shape: BoxShape.circle),
+                                    child: RoundedProfilePicture(
+                                      image: (getProfilePicture == '')
+                                          ? 'assets/dropili_Logo_PNG.png'
+                                          : getProfilePicture,
+                                      get: !(getProfilePicture == ''),
+                                    ),
+                                  ),
+                                ],
                               ),
                             )
                           ],

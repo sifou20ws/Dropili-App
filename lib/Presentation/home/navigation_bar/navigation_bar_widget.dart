@@ -1,4 +1,6 @@
+import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/root/bloc/navigation_bloc.dart';
+import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +46,7 @@ class _BottomNavigationBarPageState extends State<NavigatioBarWidget> {
           begin: Alignment.topRight,
           end: Alignment.topLeft,
           colors: [MalinColors.AppGreen, MalinColors.AppGreen]),
+      // colors: [Colors.transparent, Colors.transparent]),
       showSelectedLabels: true,
       height: 70,
       showUnselectedLabels: true,

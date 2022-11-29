@@ -31,7 +31,7 @@ class CostumeBlocksGrid extends StatelessWidget {
             crossAxisCount: 3,
             crossAxisSpacing: 15,
             mainAxisSpacing: 20,
-            mainAxisExtent: 138,
+            childAspectRatio: 0.78,
           ),
           itemCount: costumeBlocksList.length,
           itemBuilder: (BuildContext ctx, index) {
