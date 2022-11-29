@@ -167,22 +167,31 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                     ),
                   ],
                 ),
-                Positioned(
-                  top: 120,
-                  left: 30,
-                  child: Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        color: Colors.white, shape: BoxShape.circle),
-                    child: Hero(
-                      tag: _freindProfile.name,
-                      child: RoundedProfilePicture(
-                        image: (_freindProfile.userProfile.originalUrl == '')
-                            ? 'assets/dropili_Logo_PNG.png'
-                            : _freindProfile.userProfile.originalUrl,
-                        get: !(_freindProfile.userProfile.originalUrl == ''),
+                Container(
+                  // top: 120,
+                  // left: 30,
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.only(top: 120, left: 20, right: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            color: Colors.white, shape: BoxShape.circle),
+                        child: Hero(
+                          tag: _freindProfile.name,
+                          child: RoundedProfilePicture(
+                            image:
+                                (_freindProfile.userProfile.originalUrl == '')
+                                    ? 'assets/dropili_Logo_PNG.png'
+                                    : _freindProfile.userProfile.originalUrl,
+                            get:
+                                !(_freindProfile.userProfile.originalUrl == ''),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 )
               ],

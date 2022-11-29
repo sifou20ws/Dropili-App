@@ -27,11 +27,11 @@ class CostumeBlocksGrid extends StatelessWidget {
           physics: ClampingScrollPhysics(),
           shrinkWrap: true, //fix cross access count
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            crossAxisSpacing: 15,
-            mainAxisSpacing: 20,
-            mainAxisExtent: 138,
-          ),
+              crossAxisCount: 3,
+              crossAxisSpacing: 15,
+              mainAxisSpacing: 20,
+              // mainAxisExtent: 145,
+              childAspectRatio: 0.78),
           itemCount: costumeBlocksList.length,
           itemBuilder: (BuildContext ctx, index) {
             return Container(

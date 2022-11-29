@@ -53,7 +53,9 @@ class _DropiliAppState extends State<DropiliApp> {
                     AppLocalizations.delegate,
                     GlobalMaterialLocalizations.delegate,
                     GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate
                   ],
+                  
                   locale: state.locale,
                   builder: (context, child) {
                     return child!;
