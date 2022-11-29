@@ -61,9 +61,21 @@ class _BottomNavigationBarPageState extends State<NavigatioBarWidget> {
       },
       items: [
         BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person_outline,
-              size: 25,
+            // icon: Icon(
+            //   Icons.person_outline,
+            //   size: 25,
+            // ),
+            icon: RoundedProfilePicture(
+              image: context
+                      .read<ProfileBloc>()
+                      .state
+                      .showProfile
+                      ?.user
+                      .userProfile
+                      .originalUrl ??
+                  '',
+              get: true,
+              size: 10,
             ),
             label: 'Profile'.t(context)),
         BottomNavigationBarItem(
