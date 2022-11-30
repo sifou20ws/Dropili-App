@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
-import 'package:dropili/core/utils/token.dart';
+import 'package:dropili/core/utils/storage.dart';
 import 'package:flutter/services.dart';
 
 class LoadinScreen extends StatefulWidget {
@@ -25,7 +25,7 @@ class _LoadinScreenState extends State<LoadinScreen> {
   }
 
   void navigate() async {
-    token = await TokenHandler.loadToken();
+    token = await LocalStorageHandler.loadToken();
 
     String url = '';
 

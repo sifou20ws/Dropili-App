@@ -96,8 +96,8 @@ class _DropDownMenueWidgetState extends State<DropDownMenueWidget> {
     getCurrent();
   }
 
-  void getCurrent() {
-    String code = Languages.deviceLanguageCode();
+  void getCurrent() async{
+    String code = await Languages.initialLanguage();
     Languages.languages.forEach((element) {
       if (code == element.code) _languageValue = element.value;
     });

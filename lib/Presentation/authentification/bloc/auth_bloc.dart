@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:dropili/core/api/google_auth_api.dart';
 import 'package:dropili/core/error/failure.dart';
-import 'package:dropili/core/utils/token.dart';
+import 'package:dropili/core/utils/storage.dart';
 import 'package:dropili/domain/repositories/auth_repository.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:equatable/equatable.dart';
@@ -90,8 +90,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       token = await authRepository.loginUser(
           username: state.usernameValue, password: state.passwordValue);
-      await TokenHandler.storeToken(token);
-      await TokenHandler.storeUser(state.usernameValue, state.passwordValue);
+      await LocalStorageHandler.storeToken(token);
+      await LocalStorageHandler.storeUser(
+          state.usernameValue, state.passwordValue);
 
       emit(state.copyWith(status: Status.success));
     } on Failure catch (f) {
@@ -137,7 +138,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         access_token: (await account.authentication).accessToken,
       );
 
-      await TokenHandler.storeToken(token);
+      await LocalStorageHandler.storeToken(token);
 
       emit(state.copyWith(status: Status.success));
     } on Failure catch (f) {
@@ -255,7 +256,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         return;
       }
 
-      Map<String, String?> userData = await TokenHandler.loadUser();
+      Map<String, String?> userData = await LocalStorageHandler.loadUser();
       if (userData['username'] == null || userData['password'] == null) {
         emit(
           state.copyWith(
@@ -281,7 +282,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _logoutEvent(event, Emitter<AuthState> emit) async {
-    await TokenHandler.deleteToken();
+    await LocalStorageHandler.deleteToken();
 
     if (await GoogleAuthApi.isConnected()) {
       await GoogleAuthApi.signout();

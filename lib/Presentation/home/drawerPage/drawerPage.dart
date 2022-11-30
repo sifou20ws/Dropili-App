@@ -4,7 +4,7 @@ import 'package:dropili/Presentation/home/root/bloc/navigation_bloc.dart';
 import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
-import 'package:dropili/core/utils/token.dart';
+import 'package:dropili/core/utils/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
