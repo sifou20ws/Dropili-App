@@ -37,82 +37,15 @@ class DrawerPage extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            RoundedProfilePicture(
-              image: context
-                  .read<ProfileBloc>()
-                  .state
-                  .showProfile!
-                  .user
-                  .userProfile
-                  .originalUrl,
-              get: true,
-            ),
+            ProfileTopWidget(),
             SizedBox(
-              height: 20,
+              height: 30,
             ),
-            Text(
-              context.read<ProfileBloc>().state.showProfile!.user.name,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            ElementsWidget(),
+            SizedBox(
+              height: 30,
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 15, bottom: 20),
-              child: SizedBox(
-                height: 4,
-                width: 150,
-                // child: Divider(color: MalinColors.AppGreen, thickness: 2),
-                child: Container(
-                  decoration:
-                      BoxDecoration(gradient: MalinColors.greenGradient),
-                ),
-              ),
-            ),
-            DrawerItem(
-              icon: Icons.person_outlined,
-              title: 'Edite my profile'.t(context),
-              onDrawerItemTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            DrawerItem(
-              icon: Icons.qr_code_2_rounded,
-              title: 'Share profile'.t(context),
-              onDrawerItemTap: () {
-                BlocProvider.of<NavigationBloc>(context)
-                    .add(NavigationEvent(2));
-                Navigator.pop(context);
-              },
-            ),
-            DrawerItem(
-              icon: Icons.storefront_outlined,
-              title: 'Work mode'.t(context),
-              onDrawerItemTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            DrawerItem(
-              icon: Icons.language_outlined,
-              title: 'Change language'.t(context),
-              onDrawerItemTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/changeLanguage');
-              },
-            ),
-            DrawerItem(
-              icon: Icons.info_outline_rounded,
-              title: 'About dropili'.t(context),
-              onDrawerItemTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            DrawerItem(
-              icon: Icons.logout_rounded,
-              title: 'Log out'.t(context),
-              onDrawerItemTap: () {
-                BlocProvider.of<AuthBloc>(context).add(LogoutEvent());
-                Navigator.pushReplacementNamed(context, '/signin');
-              },
-            ),
+            LogoutButton(),
             Spacer(),
             Center(
               child: Container(
@@ -127,8 +60,174 @@ class DrawerPage extends StatelessWidget {
       ),
     );
   }
+}
 
-  Future<void> logOut(context) async {}
+class ElementsWidget extends StatelessWidget {
+  const ElementsWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromARGB(10, 29, 29, 29),
+            offset: Offset(0.0, 2.0),
+            blurRadius: 5,
+            spreadRadius: 0,
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          DrawerItem(
+            icon: Icons.edit,
+            title: 'Edite my profile'.t(context),
+            onDrawerItemTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/editProfile').then(
+                (value) {},
+              );
+            },
+          ),
+          SizedBox(
+            height: 10,
+            width: 230,
+            child: Divider(color: Colors.grey.shade200, thickness: 1),
+          ),
+          DrawerItem(
+            icon: Icons.qr_code_2_rounded,
+            title: 'Share profile'.t(context),
+            onDrawerItemTap: () {
+              BlocProvider.of<NavigationBloc>(context).add(NavigationEvent(2));
+              Navigator.pop(context);
+            },
+          ),
+          SizedBox(
+            height: 10,
+            width: 230,
+            child: Divider(color: Colors.grey.shade200, thickness: 1),
+          ),
+          DrawerItem(
+            icon: Icons.storefront_outlined,
+            title: 'Work mode'.t(context),
+            onDrawerItemTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          SizedBox(
+            height: 10,
+            width: 230,
+            child: Divider(color: Colors.grey.shade200, thickness: 1),
+          ),
+          DrawerItem(
+            icon: Icons.language_outlined,
+            title: 'Change language'.t(context),
+            onDrawerItemTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/changeLanguage');
+            },
+          ),
+          SizedBox(
+            height: 10,
+            width: 230,
+            child: Divider(color: Colors.grey.shade200, thickness: 1),
+          ),
+          DrawerItem(
+            icon: Icons.info_outline_rounded,
+            title: 'About dropili'.t(context),
+            onDrawerItemTap: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ProfileTopWidget extends StatelessWidget {
+  const ProfileTopWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        BlocProvider.of<NavigationBloc>(context).add(NavigationEvent(0));
+        Navigator.pop(context);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Color.fromARGB(10, 29, 29, 29),
+              offset: Offset(0.0, 2.0),
+              blurRadius: 5,
+              spreadRadius: 0,
+            ),
+          ],
+        ),
+        padding: EdgeInsets.all(10),
+        child: Row(
+          children: [
+            RoundedProfilePicture(
+              image: context
+                  .read<ProfileBloc>()
+                  .state
+                  .showProfile!
+                  .user
+                  .userProfile
+                  .originalUrl,
+              get: true,
+              size: 60,
+            ),
+            SizedBox(
+              width: 15,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  context.read<ProfileBloc>().state.showProfile!.user.name,
+                  textAlign: TextAlign.start,
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  'Show my profile'.t(context),
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.grey,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+            Spacer(),
+            Icon(
+              Icons.arrow_forward_ios_outlined,
+              size: 15,
+              color: Colors.grey.shade300,
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 class DrawerItem extends StatelessWidget {
@@ -140,22 +239,86 @@ class DrawerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Row(
-        children: <Widget>[
-          Icon(
-            icon,
-            size: 28,
-            color: MalinColors.AppBlue2,
-          ),
-          SizedBox(width: 20),
-          Text(
-            title,
-            style: TextStyle(fontSize: 19, fontWeight: FontWeight.w400),
+    return Container(
+      child: ListTile(
+        title: Row(
+          children: <Widget>[
+            Icon(
+              icon,
+              size: 28,
+              color: MalinColors.AppBlue2,
+            ),
+            SizedBox(width: 20),
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            Spacer(),
+            Icon(
+              Icons.arrow_forward_ios_outlined,
+              size: 15,
+              color: Colors.grey.shade300,
+            )
+          ],
+        ),
+        onTap: onDrawerItemTap,
+      ),
+    );
+  }
+}
+
+class LogoutButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      // padding: EdgeInsets.all(17),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromARGB(10, 29, 29, 29),
+            offset: Offset(0.0, 2.0),
+            blurRadius: 5,
+            spreadRadius: 0,
           ),
         ],
       ),
-      onTap: onDrawerItemTap,
+      child: ListTile(
+        title: Row(
+          // mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Icon(
+              Icons.logout_rounded,
+              size: 28,
+              color: Colors.red.shade400,
+            ),
+            SizedBox(width: 10),
+            Text(
+              'Log out'.t(context).toUpperCase(),
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+                color: Colors.red.shade400,
+              ),
+            ),
+            Spacer(),
+            Icon(
+              Icons.arrow_forward_ios_outlined,
+              size: 15,
+              color: Colors.grey.shade300,
+            )
+          ],
+        ),
+        onTap: () {
+          BlocProvider.of<AuthBloc>(context).add(LogoutEvent());
+          Navigator.pushReplacementNamed(context, '/signin');
+        },
+      ),
     );
   }
 }

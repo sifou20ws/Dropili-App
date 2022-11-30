@@ -128,7 +128,7 @@ class _QrPageState extends State<QrPage> {
             height: 30,
           ),
           Text(
-            'Tap to save QR Code to photos'.t(context),
+            'Tap to save'.t(context),
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
           ),
           SizedBox(

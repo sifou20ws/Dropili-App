@@ -20,7 +20,7 @@ class _EditProfileButtonsWidget extends State<EditProfileButtonsWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Direct sur',
+              'Direct',
               style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 18,
@@ -35,9 +35,10 @@ class _EditProfileButtonsWidget extends State<EditProfileButtonsWidget> {
                 onChanged: (bool state) {
                   BlocProvider.of<EditProfileBloc>(context)
                       .add(SwitchEvent(state: state));
-                  if(state==false){
-                    BlocProvider.of<EditProfileBloc>(context)
-                        .add(DirectOnMeEvent(direct: false , block_id: 'null' , url: 'null' ));
+                  if (state == false) {
+                    BlocProvider.of<EditProfileBloc>(context).add(
+                        DirectOnMeEvent(
+                            direct: false, block_id: 'null', url: 'null'));
                   }
                 },
                 activeColor: MalinColors.AppGreen,
@@ -49,7 +50,7 @@ class _EditProfileButtonsWidget extends State<EditProfileButtonsWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'profile active',
+              'Profile active',
               style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 18,

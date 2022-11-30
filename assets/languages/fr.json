@@ -20,23 +20,60 @@
     "have account": "Vous avez déjà un compte ?",
     "not valid": "non valid",
     "short": "trop court",
-    "Signed in successfully": "Signed in successfully",
-    "Empty email or password fields": "Empty email or password fields",
-    "Connection failed": "Connection failed",
-    "The provided credentials are incorrect." :"The provided credentials are incorrect.",
 
-    "All fields must be filled": "All fields must be filled",
-    "The username has already been taken.": "The username has already been taken.",
-    "The email has already been taken.": "The email has already been taken.",
+    "Signed in successfully": "",
+    "Empty email or password fields": "",
+    "Connection failed": "",
+    "The provided credentials are incorrect." :"",
 
-    "Restore your password" : "Restore your password",
-    "Submit" : "Submit",
+    "All fields must be filled": "",
+    "The username has already been taken.": "",
+    "The email has already been taken.": "",
 
+    "Restore your password" : "",
+    "Submit" : "",
+
+    "Contacts" : "",
+    "Social Media" : "",
+    "Payment" : "",
+    "Others" : "",
+    "Custom" : "",
+
+    "Edit Profile": "",
+    "Direct": "",
+    "Profile active": "",
+
+    "Save":"",
+    "Back":"",
+    
+
+    "Profile": "",
+    "Activate": "",
+    "Share": "",
+    "Collection": "",
+
+    "Edit my profile":"",
+    "Share Profile":"",
+    "Work mode":"",
+    "About Dropili":"",
+    "Log out":"",
+
+
+    "Sharing Dropili Profile":"",
+    "Tap to save":"",
+    
+
+    
+    "Show":"",
+    "Delete":"",
+    "Delete Friend":"",
+    "Profile not active":"",
+    
 
 
     "Change Language" :"Changer la langue",
     "Choose Language":"Choisir une langue :",
 
-    "nfc looking text": "Try moving your NFC tag around to find the NFC reader on your device",
-    "nfc not found text": "No Nfc Adabter detected, try turnning on the NFC scanner from the settings"
+    "nfc looking text": "",
+    "nfc not found text": ""
 }

@@ -32,6 +32,41 @@
     "Restore your password" : "Restore your password",
     "Submit" : "Submit",
 
+    "Contacts" : "Contacts",
+    "Social Media" : "Social Media",
+    "Payment" : "Payment Methods",
+    "Others" : "Others",
+    "Custom" : "Custom",
+
+    "Edit Profile": "Edite Profile",
+    "Direct": "Direct to",
+    "Profile active": "Profile active",
+
+    "Save":"Save",
+    "Back":"Back",
+    
+
+    "Profile": "Profile",
+    "Activate": "Activate",
+    "Share": "Share",
+    "Collection": "Collection",
+
+    "Edit my profile":"Edite my profile",
+    "Share Profile":"Share Profile",
+    "Work mode":"Work mode",
+    "About Dropili":"About Dropili",
+    "Log out":"Log out",
+
+
+    "Sharing Dropili Profile":"Sharing Dropili Profile",
+    "Tap to save":"Tap to save QR Code to gallery",
+    
+
+    
+    "Show":"Show",
+    "Delete":"Delete",
+    "Delete Friend":"Delete Friend",
+    "Profile not active":"Profile not active",
     
     
     "Change Language" :"Change Language",
@@ -39,6 +74,9 @@
 
     "nfc looking text": "Try moving your NFC tag around to find the NFC reader on your device",
     "nfc not found text": "No Nfc Adabter detected, try turnning on the NFC scanner from the settings"
+
+
+
     
     
 }

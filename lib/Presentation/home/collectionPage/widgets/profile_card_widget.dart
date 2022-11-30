@@ -190,13 +190,13 @@ class ProfileCardWidget extends StatelessWidget {
               }),
               itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
                 PopupMenuItem<String>(
+                  value: 'Show',
+                  child: Text('Show'.t(context)),
+                ),
+                PopupMenuItem<String>(
                   value: 'Delete',
                   child: Text('Delete'.t(context)),
                 ),
-                PopupMenuItem<String>(
-                  value: 'Show',
-                  child: Text('Show'.t(context)),
-                )
               ],
             ),
           )

@@ -20,7 +20,7 @@ class CostumeBlocksGrid extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          'Custom Blocks',
+          'Custom',
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
         ),
         SizedBox(height: 10),

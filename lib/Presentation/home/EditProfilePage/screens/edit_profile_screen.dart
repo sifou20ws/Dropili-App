@@ -199,7 +199,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                                       .t(context);
                                                   break;
                                                 case 4:
-                                                  title = 'Divers'.t(context);
+                                                  title = 'Others'.t(context);
                                                   break;
                                                 default:
                                               }
@@ -228,7 +228,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                               ? Column(
                                                   children: [
                                                     Text(
-                                                      'Custom Blocks',
+                                                      'Custom',
                                                       style: TextStyle(
                                                           fontSize: 30,
                                                           fontWeight:
