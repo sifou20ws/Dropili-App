@@ -20,7 +20,11 @@ class _BottomNavigationBarPageState extends State<NavigatioBarWidget> {
     return SnakeNavigationBar.gradient(
       behaviour: SnakeBarBehaviour.pinned,
       snakeShape: SnakeShape.indicator,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(13),
+        topRight: Radius.circular(13),
+      )),
       // padding: EdgeInsets.only(bottom: 20, right: 10, left: 10),
       // snakeViewColor: MalinColors.AppBlue,
       // selectedItemColor: MalinColors.AppBlue,
@@ -30,8 +34,8 @@ class _BottomNavigationBarPageState extends State<NavigatioBarWidget> {
           begin: Alignment.topRight,
           end: Alignment.topLeft,
           colors: [
-            Colors.white.withAlpha(200),
-            Colors.white.withAlpha(200),
+            Colors.white.withAlpha(250),
+            Colors.white.withAlpha(250),
           ]),
 
       unselectedItemGradient: LinearGradient(
@@ -61,21 +65,9 @@ class _BottomNavigationBarPageState extends State<NavigatioBarWidget> {
       },
       items: [
         BottomNavigationBarItem(
-            // icon: Icon(
-            //   Icons.person_outline,
-            //   size: 25,
-            // ),
-            icon: RoundedProfilePicture(
-              image: context
-                      .read<ProfileBloc>()
-                      .state
-                      .showProfile
-                      ?.user
-                      .userProfile
-                      .originalUrl ??
-                  '',
-              get: true,
-              size: 10,
+            icon: Icon(
+              Icons.person_outline,
+              size: 25,
             ),
             label: 'Profile'.t(context)),
         BottomNavigationBarItem(

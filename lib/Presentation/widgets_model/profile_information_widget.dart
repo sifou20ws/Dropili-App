@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class InformationWidget extends StatelessWidget {
   final String name, discrtptio;
 

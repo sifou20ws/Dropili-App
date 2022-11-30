@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
+import 'package:lottie/lottie.dart';
 
 class ProfilePageWidget extends StatefulWidget {
   const ProfilePageWidget({Key? key}) : super(key: key);
@@ -148,12 +149,25 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                                 child: EditeProfileBtnWidget()),
                                           ],
                                         ),
-                                        SizedBox(height: 30),
+                                        SizedBox(height: 20),
                                         Padding(
-                                            padding: EdgeInsets.only(left: 10),
-                                            child: InformationWidget(
-                                              name: getUserName,
-                                              discrtptio: getUserDescription,
+                                            padding: EdgeInsets.only(
+                                                left: 10, right: 10),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                InformationWidget(
+                                                  name: getUserName,
+                                                  discrtptio:
+                                                      getUserDescription,
+                                                ),
+                                                // Lottie.asset(
+                                                //   'assets/lottie/scanning.json',
+                                                //   width: 120,
+                                                //   frameRate: FrameRate(120),
+                                                // ),
+                                              ],
                                             )),
                                         SizedBox(height: 30),
                                         AllBlockWidget(
