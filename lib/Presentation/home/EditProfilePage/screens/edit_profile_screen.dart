@@ -196,6 +196,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                                   break;
                                                 case 3:
                                                   title = 'Payment methods'
+                                                      .t(context)
                                                       .t(context);
                                                   break;
                                                 case 4:

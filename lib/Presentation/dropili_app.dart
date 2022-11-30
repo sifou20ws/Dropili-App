@@ -1,4 +1,3 @@
-
 import 'package:dropili/Presentation/routing/transition_page_route_builder.dart';
 import 'package:dropili/Presentation/localization/app_localization.dart';
 import 'package:dropili/Presentation/localization/bloc/language_bloc.dart';
@@ -37,7 +36,6 @@ class _DropiliAppState extends State<DropiliApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(value: _languageBloc),
-
       ],
       child: BlocBuilder<LanguageBloc, LanguageState>(
         builder: (context, state) {
@@ -52,10 +50,9 @@ class _DropiliAppState extends State<DropiliApp> {
                   localizationsDelegates: [
                     AppLocalizations.delegate,
                     GlobalMaterialLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                    GlobalCupertinoLocalizations.delegate
+                    // GlobalWidgetsLocalizations.delegate,
+                    // GlobalCupertinoLocalizations.delegate
                   ],
-                  
                   locale: state.locale,
                   builder: (context, child) {
                     return child!;

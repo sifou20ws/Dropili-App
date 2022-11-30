@@ -20,7 +20,8 @@ class _FormWidgetState extends State<LogingFormWidget> {
       children: [
         context.read<AuthBloc>().state.status == Status.fail
             ? MessageWidget(
-                color: 'red', text: context.read<AuthBloc>().state.errorMessage.t(context))
+                color: 'red',
+                text: context.read<AuthBloc>().state.errorMessage.t(context))
             : context.read<AuthBloc>().state.status == Status.success
                 ? MessageWidget(
                     color: 'green',
@@ -38,7 +39,7 @@ class _FormWidgetState extends State<LogingFormWidget> {
               style:
                   TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
               decoration: buildInputDecoration(
-                text: 'Username',
+                text: 'Username'.t(context),
               ).copyWith(
                 prefixIcon: Icon(
                   Icons.person_outline,
@@ -58,7 +59,8 @@ class _FormWidgetState extends State<LogingFormWidget> {
               cursorColor: Colors.white,
               style:
                   TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
-              decoration: buildInputDecoration(text: 'password').copyWith(
+              decoration:
+                  buildInputDecoration(text: 'password'.t(context)).copyWith(
                 prefixIcon: Icon(
                   Icons.lock_outline_rounded,
                   color: Colors.white,

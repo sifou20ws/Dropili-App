@@ -1,29 +1,30 @@
 
 {
     "welcome title": "مرحبا بك في دروبيلي",
-    "welcome text": "Share your coordinates, Social media accounts and more with Dropili",
-    "Share title": "Share with ease",
-    "Share text": "Share your data in an easy, fast and intelligente way with Dropili",
+    "welcome text": "شارك تفاصيل الاتصال الخاصة بك والشبكات الاجتماعية والمزيد مع دروبيلي",
+    "Share title": "شارك بسرعة البرق",
+    "Share text": "شارك بياناتك بطريقة سهلة وسريعة وذكية مع دروبيلي",
     "Signin": "تسجيل الدخول",
-    "Signup": "Signup",
-    "next" : "Next",
-    "skip": "Skip",
+    "Signup": "تسجيل",
+    "next" : "",
+    "skip": "تخطي",
 
-    "Good to see you": "Good to see you",
-    "name":"Name",
-    "username": "إسم المستخدم",
-    "password": "Password",
-    "email" : "Email",
-    "forget password": "Forget password ?",
-    "or connect" : "Or Connect using",
-    "don't have an account": "You don't have an account ?",
-    "or signup": "Or signup using",
-    "have account": "You already have an account",
-    "not valid": "not valid",
-    "short": "so short",
-    "Signed in successfully": "Signed in successfully",
+    "Good to see you": "سعيد لرؤيتك",
+    "name":"الاسم",
+    "Username": "إسم المستخدم",
+    "password": "كلمة المرور",
+    "email" : "بريد الالكتروني",
+    "forget password": "نسيت كلمة السر ؟",
+    "or connect" : "أو تواصل مع",
+    "don't have an account": "ليس لديك حساب ؟",
+    "or signup": "",
+    "biometric msg":"تسجيل الدخول باستخدام المسح البيومتري",
+    "have account": "لديك حساب ؟",
+    "not valid": "غير صالح",
+    "short": "قصير",
+    "Signed in successfully": "تم التسجيل الدخول",
     "Empty email or password fields": "Empty email or password fields",
-    "Connection failed": "Connection failed",
+    "Connection failed": "خطأ في تسجيل الدخول",
     "The provided credentials are incorrect." :"The provided credentials are incorrect.",
 
     "All fields must be filled": "All fields must be filled",
@@ -31,12 +32,46 @@
     "The email has already been taken.": "The email has already been taken.",
 
     "Restore your password" : "Restore your password",
-    "Submit" : "Submit",
+    "Submit" :"إرسال",
+
+    "Contacts" : "اتصال مباشر",
+    "Social Media" : "وسائل التواصل الاجتماعي",
+    "Payment methods" : "وسائل الدفع",
+    "Others" : "روابط أخرى",
+    "Custom" : "Custom",
+
+    "Edit Profile": "تعديل ملفي الشخصي",
+    "Direct": "مباشر على",
+    "Profile active": "حساب موقف",
+
+    "Save":"حفظ",
+    "Back":"إلغاء",
+    
+
+    "Profile": "حساب",
+    "Activate": "تفعيل",
+    "Share": "مشاركة",
+    "Collection": "اصدقاء",
+
+    "Edit my profile":"تعديل ملفي الشخصي",
+    "Share Profile":"Share Profile",
+    "Work mode":"Work mode",
+    "About Dropili":"About Dropili",
+    "Log out":"تسجيل الخروج",
+
+
+    "Sharing Dropili Profile":"مشاركة الحساب",
+    "Tap to save":"إضغط لتحميل رمز QR",
+    
 
     
+    "Show":"إظهار",
+    "Delete":"حذف",
+    "Delete Friend":"حذف الحساب",
+    "Profile not active":"حساب موقف",
     
-    "Change Language" :"Change Language",
-    "Choose Language":"Choose a language :",
+    "Change Language" :"تغيير اللغة",
+    "Choose Language":"إختر لغة",
 
     "nfc looking text": "Try moving your NFC tag around to find the NFC reader on your device",
     "nfc not found text": "No Nfc Adabter detected, try turnning on the NFC scanner from the settings"

@@ -10,7 +10,8 @@ class AllBlockWidget extends StatelessWidget {
     Key? key,
     required this.blocksTypesList,
     required frnd.FriendsItem freindProfile,
-  }) : _freindProfile = freindProfile, super(key: key);
+  })  : _freindProfile = freindProfile,
+        super(key: key);
 
   final List<List<UserBlocksItem>> blocksTypesList;
   final frnd.FriendsItem _freindProfile;
@@ -52,8 +53,7 @@ class AllBlockWidget extends StatelessWidget {
         SizedBox(height: 20),
         !_freindProfile.customBlocks.isEmpty
             ? FriendCostumeBlocksGrid(
-                costumeBlocksList:
-                    _freindProfile.customBlocks)
+                costumeBlocksList: _freindProfile.customBlocks)
             : Container(),
       ],
     );

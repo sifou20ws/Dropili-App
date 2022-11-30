@@ -112,7 +112,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                                       borderRadius: BorderRadius.circular(15),
                                     ),
                                     child: Text(
-                                      'Delete friend'.t(context),
+                                      'Delete Friend'.t(context),
                                       style: TextStyle(
                                           // color: MalinColors.AppGreen,
                                           color: Colors.white,
