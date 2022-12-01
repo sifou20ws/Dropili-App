@@ -1,12 +1,15 @@
 import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/root/bloc/navigation_bloc.dart';
+import 'package:dropili/Presentation/localization/bloc/language_bloc.dart';
 import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart';
 import 'package:dropili/common/constant/colors.dart';
+import 'package:dropili/common/constant/languages.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:dropili/core/utils/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dropili/di/get_it.dart' as getIt;
 
 class DrawerPage extends StatelessWidget {
   const DrawerPage({Key? key}) : super(key: key);
@@ -35,7 +38,7 @@ class DrawerPage extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 20,
+              height: 10,
             ),
             ProfileTopWidget(),
             SizedBox(
@@ -113,24 +116,25 @@ class ElementsWidget extends StatelessWidget {
             width: 230,
             child: Divider(color: Colors.grey.shade200, thickness: 1),
           ),
-          DrawerItem(
-            icon: Icons.storefront_outlined,
-            title: 'Work mode'.t(context),
-            onDrawerItemTap: () {
-              Navigator.pop(context);
-            },
-          ),
+          // DrawerItem(
+          //   icon: Icons.language_outlined,
+          //   title: 'Change language'.t(context),
+          //   onDrawerItemTap: () {
+          //     Navigator.pop(context);
+          //     Navigator.pushNamed(context, '/changeLanguage');
+          //   },
+          // ),
+          ChangeLanguageExpensionTile(),
           SizedBox(
             height: 10,
             width: 230,
             child: Divider(color: Colors.grey.shade200, thickness: 1),
           ),
           DrawerItem(
-            icon: Icons.language_outlined,
-            title: 'Change language'.t(context),
+            icon: Icons.storefront_outlined,
+            title: 'Work mode'.t(context),
             onDrawerItemTap: () {
               Navigator.pop(context);
-              Navigator.pushNamed(context, '/changeLanguage');
             },
           ),
           SizedBox(
@@ -145,6 +149,64 @@ class ElementsWidget extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class ChangeLanguageExpensionTile extends StatelessWidget {
+  const ChangeLanguageExpensionTile({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Theme(
+      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+      child: ExpansionTile(
+        childrenPadding: EdgeInsets.only(left: 20),
+        collapsedIconColor: Colors.grey.shade300,
+        title: Row(
+          children: <Widget>[
+            Icon(
+              Icons.language_outlined,
+              size: 28,
+              color: MalinColors.AppBlue2,
+            ),
+            SizedBox(width: 20),
+            Text(
+              'Change Language'.t(context),
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+        children: [
+          for (var language in Languages.languages)
+            ListTile(
+              dense: true,
+              title: Text(
+                language.value,
+                style: TextStyle(
+                  fontSize: 15,
+                  color: (context.read<LanguageBloc>().state as LanguageLoaded)
+                              .locale
+                              .languageCode
+                              .toLowerCase() ==
+                          language.code
+                      ? Colors.blue
+                      : Colors.black,
+                ),
+              ),
+              onTap: () {
+                BlocProvider.of<LanguageBloc>(context)
+                    .add(ToggleLanguageEvent(language));
+                Navigator.pop(context);
+              },
+            )
         ],
       ),
     );
