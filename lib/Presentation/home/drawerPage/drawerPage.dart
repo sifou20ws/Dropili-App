@@ -40,16 +40,24 @@ class DrawerPage extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            ProfileTopWidget(),
-            SizedBox(
-              height: 30,
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ProfileTopWidget(),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    ElementsWidget(),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    LogoutButton(),
+                  ],
+                ),
+              ),
             ),
-            ElementsWidget(),
-            SizedBox(
-              height: 30,
-            ),
-            LogoutButton(),
-            Spacer(),
+            // Spacer(),
             Center(
               child: Container(
                 child: Image.asset(
