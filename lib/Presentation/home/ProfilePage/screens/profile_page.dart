@@ -153,7 +153,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                             padding: EdgeInsets.only(left: 10),
                                             child: InformationWidget(
                                               name: getUserName,
-                                              discrtptio: getUserDescription,
+                                              description: getUserDescription,
                                             )),
                                         SizedBox(height: 15),
                                         AllBlockWidget(

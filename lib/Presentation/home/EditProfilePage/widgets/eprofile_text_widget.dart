@@ -1,4 +1,5 @@
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
+import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,7 +25,7 @@ class _EditProfileMediaWidgetState extends State<EditProfileTextWidget> {
             BlocProvider.of<EditProfileBloc>(context)
                 .add(PostUserNameEvent(name: value));
           },
-          decoration: buildInputDecoration(hint: 'Nom' , name: true),
+          decoration: buildInputDecoration(hint: 'Nom'.t(context) , name: true),
         ),
         SizedBox(height: 15),
         TextFormField(
@@ -33,7 +34,7 @@ class _EditProfileMediaWidgetState extends State<EditProfileTextWidget> {
             BlocProvider.of<EditProfileBloc>(context)
                 .add(PostDescriptionEvent(description: value));
           },
-          decoration: buildInputDecoration(hint:'A propos de moi'),
+          decoration: buildInputDecoration(hint:'A propos de moi'.t(context)),
           maxLines: 4,
         ),
       ],
@@ -45,7 +46,7 @@ class _EditProfileMediaWidgetState extends State<EditProfileTextWidget> {
         errorText: name
             ? BlocProvider.of<EditProfileBloc>(context).state.valideName
                 ? null
-                : 'Value Can\'t Be Empty'
+                : 'This value Can\'t Be Empty'.t(context)
             : null,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(7),

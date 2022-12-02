@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/icon_container.dart';
 import 'package:dropili/Presentation/widgets_model/cachedImage_widget.dart';
@@ -45,11 +44,6 @@ class _EditProfileMediaWidgetState extends State<EditProfileMediaWidget> {
                       fit: BoxFit.cover,
                     )
               : (coverPicture == '')
-                  // ? Image.network(
-                  //     getBackgroundPicture,
-                  //     fit: BoxFit.cover,
-                  //     width: MediaQuery.of(context).size.width,
-                  //   )
                   ? Container(
                       height: MediaQuery.of(context).size.height * 0.25,
                       width: MediaQuery.of(context).size.width,
@@ -87,8 +81,12 @@ class _EditProfileMediaWidgetState extends State<EditProfileMediaWidget> {
             right: 10,
             child: GestureDetector(
               onTap: () {
+                double h = MediaQuery.of(context).size.height * 0.25;
                 BlocProvider.of<EditProfileBloc>(context)
-                    .add(ImportCoverImageEvent());
+                    .add(ImportCoverImageEvent(
+                  width: MediaQuery.of(context).size.width.toInt(),
+                  height: h.round(),
+                ));
               },
               child: IconContainer(
                 icon: Icon(

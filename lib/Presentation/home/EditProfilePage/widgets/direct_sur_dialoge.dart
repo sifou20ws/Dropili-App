@@ -51,7 +51,11 @@ class _DirectSurWidgetState extends State<DirectSurWidget> {
               if (state.status == Status.directOnMeSuccess) {
                 profileUrl = state.profileUserUrl;
                 log(profileUrl, name: 'in dialogue listener');
-                await Future.delayed(Duration(seconds: 1));
+                await Future.delayed(Duration(milliseconds:500 ));
+                Navigator.of(context, rootNavigator: true).pop();
+              }
+              if (state.status == Status.directOnMeFail) {
+                //await Future.delayed(Duration(milliseconds:500 ));
                 Navigator.of(context, rootNavigator: true).pop();
               }
             },

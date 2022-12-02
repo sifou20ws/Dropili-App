@@ -50,49 +50,34 @@ class _MyOffersPageState extends State<EditProfilePage> {
   }
 
   bool selected = false;
+
+
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: _editProfileBloc,
       child: BlocListener<EditProfileBloc, EditProfileState>(
         listener: (context, state) async {
-          if (state.status == Status.getBlocksSuccess) {
-            blocks = state.blocks;
-            userBlocks = state.userBlocks;
-            blocksList = state.blocksList;
-          }
+          if (state.status == Status.getBlocksSuccess) {}
           if (state.status == Status.getProfileSuccess) {
-            name = state.showProfile!.user.name;
-            description = state.showProfile!.user.description;
-            profileUserUrl = state.showProfile!.user.url;
             blockId = state.showProfile!.user.blockId;
-            active = state.showProfile!.user.active;
-            _editProfileBloc.add(ActiveEvent(state: active));
-            getProfilePicture = BlocProvider.of<EditProfileBloc>(context)
-                .state
-                .showProfile!
-                .user
-                .userProfile
-                .originalUrl;
-
-            getBackgroundPicture = BlocProvider.of<EditProfileBloc>(context)
-                .state
-                .showProfile!
-                .user
-                .userBackground
-                .originalUrl;
-            _editProfileBloc.add(PostUserNameEvent(name: name));
             _editProfileBloc
-                .add(PostDescriptionEvent(description: description));
+                .add(ActiveEvent(state: state.showProfile!.user.active));
+            getProfilePicture = state.showProfile!.user.userProfile.originalUrl;
+            getBackgroundPicture =
+                state.showProfile!.user.userBackground.originalUrl;
+            _editProfileBloc
+                .add(PostUserNameEvent(name: state.showProfile!.user.name));
+            _editProfileBloc.add(PostDescriptionEvent(
+                description: state.showProfile!.user.description));
           }
 
           if (state.status == Status.postBlockSuccess) {
             _editProfileBloc.add(GetBlocksEvent());
-            userBlocks = state.userBlocks;
           }
           if (state.status == Status.deleteSuccess) {
             _editProfileBloc.add(GetBlocksEvent());
-            userBlocks = state.userBlocks;
           }
           if (state.status == Status.postCostumeBlocksSuccess) {
             _editProfileBloc.add(GetCostumeBlocksEvent());
@@ -109,7 +94,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
               builder: (context) {
                 return DirectSurWidget(
                   userBlocks: state.userBlocks,
-                  profileUrl: profileUserUrl,
+                  profileUrl: state.showProfile!.user.url,
                 );
               },
             ).then((value) {
@@ -122,6 +107,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
           }
           if (state.status == Status.profileUpdateFail) {
             SnackBars.showErrorSnackBar(context, state.messageError);
+            state.status = Status.initial;
           }
           if (state.status == Status.fail) {
             SnackBars.showErrorSnackBar(context, state.messageError);
@@ -172,8 +158,8 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
                                           EditProfileTextWidget(
-                                            name: name,
-                                            description: description,
+                                            name: state.userName,
+                                            description: state.userDescription,
                                           ),
                                           SizedBox(height: 15),
                                           EditProfileButtonsWidget(),
@@ -204,7 +190,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                                 default:
                                               }
                                               return Grid(
-                                                userBlocks: userBlocks,
+                                                userBlocks: state.userBlocks,
                                                 type: 4,
                                                 title: title,
                                                 blocksList:
@@ -228,7 +214,8 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                               ? Column(
                                                   children: [
                                                     Text(
-                                                      'Custom Blocks',
+                                                      'Custom Blocks'
+                                                          .t(context),
                                                       style: TextStyle(
                                                           fontSize: 30,
                                                           fontWeight:

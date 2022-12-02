@@ -132,7 +132,7 @@ class _scannedProfileScreen extends State<ScannedProfileScreen> {
                                                   child: InformationWidget(
                                                     name: state
                                                         .scannedFriend.name,
-                                                    discrtptio: state
+                                                    description: state
                                                         .scannedFriend
                                                         .description,
                                                   ),

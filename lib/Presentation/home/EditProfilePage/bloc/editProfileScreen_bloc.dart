@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:dropili/data/models/costume_block_response.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
@@ -10,6 +9,7 @@ import 'package:dropili/domain/repositories/profile_repository.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 part 'editProfileScreen_event.dart';
 part 'editProfileScreen_state.dart';
@@ -41,6 +41,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     on<GetCostumeBlocksEvent>(_getCostumeBlocksEvent);
     on<DeleteCostumeBlocksEvent>(_deleteCostumeBlocksEvent);
     on<UpdateCostumeBlock>(_updateCostumeBlock);
+    on<ResetCostumeBlocksEvent>(_resetCostumeBlocksEvent);
   }
 
   void _getBlocks(GetBlocksEvent event, Emitter<EditProfileState> emit) async {
@@ -61,10 +62,9 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         blocks.where((element) => element.type == 4).toList(),
       ];
       emit(state.copyWith(
-        blocksList: blocksList,
-        status: Status.getBlocksSuccess,
-      ));
-      emit(state.copyWith(blocksStatus: BlocksStatus.getBlocksSuccess));
+          blocksList: blocksList,
+          status: Status.getBlocksSuccess,
+          blocksStatus: BlocksStatus.getBlocksSuccess));
       //log(resp.blocks.toString());
       //log(state.userBlocks.toString(), name: 'UBL in bloc');
     } catch (e) {
@@ -189,25 +189,60 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     XFile? file;
     try {
       file = await ImagePicker().pickImage(source: ImageSource.gallery);
+
       if (file != null) {
-        emit(state.copyWith(coverImagePath: file.path));
-        emit(state.copyWith(backgroundImg: file.path));
+        CroppedFile? croppedFile = (await ImageCropper().cropImage(
+          sourcePath: file.path,
+
+          aspectRatio: CropAspectRatio(
+            ratioY: 1.0,
+            ratioX: 2.5,
+          ),
+          maxWidth: event.width,
+          maxHeight: event.height,
+        ));
+        if (croppedFile  == null) {
+          return ;
+        }
+
+        log('success' , name: 'cropped');
+        emit(state.copyWith(coverImagePath: croppedFile!.path));
+        emit(state.copyWith(backgroundImg: croppedFile!.path));
       }
+
     } catch (e) {
       log(e.toString());
     }
+
   }
 
   void _importProfileImageEvent(
       ImportProfileImageEvent event, Emitter<EditProfileState> emit) async {
-    //emit(state.copyWith(status: Status.loading));
     XFile? file;
     try {
       file = await ImagePicker().pickImage(source: ImageSource.gallery);
+      // if (file != null) {
+      //   emit(state.copyWith(profileImagePath: file.path));
+      //   emit(state.copyWith(profileImg: file.path));
+      // }
       if (file != null) {
-        emit(state.copyWith(profileImagePath: file.path));
-        emit(state.copyWith(profileImg: file.path));
+        CroppedFile? croppedFile = (await ImageCropper().cropImage(
+          sourcePath: file.path,
+
+          aspectRatio: CropAspectRatio(
+            ratioY: 1.0,
+            ratioX: 1.0,
+          ),
+        ));
+        if (croppedFile  == null) {
+          return ;
+        }
+
+        log('success' , name: 'cropped');
+        emit(state.copyWith(profileImagePath: croppedFile!.path));
+        emit(state.copyWith(profileImg: croppedFile!.path));
       }
+
     } catch (e) {
       log(e.toString());
     }
@@ -252,17 +287,19 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       PostProfileResp profileResp = PostProfileResp.fromJson(resp);
       (profileResp.success)
           ? emit(state.copyWith(
+              messageError: profileResp.message,
               status: Status.profileUpdateSucess,
-              messageError: profileResp.message))
+            ))
           : emit(state.copyWith(
+              messageError: profileResp.message,
               status: Status.profileUpdateFail,
-              messageError: profileResp.message));
+            ));
 
       ;
     } catch (e) {
       emit(state.copyWith(
-        status: Status.profileUpdateFail,
         messageError: e.toString(),
+        status: Status.profileUpdateFail,
       ));
       log(e.toString());
     }
@@ -306,10 +343,9 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         profileUserUrl: showProfile.user.url,
         status: Status.directOnMeSuccess,
       ));
-      log(resp.toString(), name: 'edit bloc :');
-      log(showProfile.user.directOnMe.toString(), name: 'direct_on_me');
-      log(state.profileUserUrl, name: 'after updating');
     } catch (e) {
+      emit(state.copyWith(
+          status: Status.directOnMeFail, messageError: e.toString()));
       log('bloc:');
       log(e.toString());
     }
@@ -320,12 +356,31 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     XFile? file;
     try {
       file = await ImagePicker().pickImage(source: ImageSource.gallery);
+      // if (file != null) {
+      //   emit(state.copyWith(
+      //       addCostumeBlockImgPath: file.path,
+      //       status: Status.costumeBlockImageSuccess));
+      //   //log(state.addCostumeBlockImgPath, name: 'costume block image path');
+      // }
+
       if (file != null) {
-        emit(state.copyWith(
-            addCostumeBlockImgPath: file.path,
-            status: Status.costumeBlockImageSuccess));
-        log(state.addCostumeBlockImgPath, name: 'costume block image path');
+        CroppedFile? croppedFile = (await ImageCropper().cropImage(
+          sourcePath: file.path,
+          aspectRatio: CropAspectRatio(
+            ratioY: 1.0,
+            ratioX: 1.0,
+          ),
+        ));
+        if (croppedFile  == null) {
+          return ;
+        }
+
+        log('success' , name: 'cropped');
+        emit(state.copyWith(addCostumeBlockImgPath: croppedFile!.path));
+        emit(state.copyWith(status: Status.costumeBlockImageSuccess));
       }
+
+
     } catch (e) {
       log(e.toString());
     }
@@ -335,11 +390,30 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       PostCostumeBlock event, Emitter<EditProfileState> emit) async {
     if (event.url.isEmpty || event.titleAr.isEmpty || event.titleFr.isEmpty) {
       emit(state.copyWith(
-        status: Status.postCostumeBlocksInvalidTitleAr,
         messageError: 'url field is required',
+        cBValideUrl: !event.url.isEmpty,
+        cBValideArName: !event.titleAr.isEmpty,
+        cBValideFrName: !event.titleFr.isEmpty,
       ));
+      log(state.cBValideArName.toString(), name: 'ar');
+      log(state.cBValideFrName.toString(), name: 'fr');
+      log(state.cBValideUrl.toString(), name: 'url');
       return;
     }
+    // if (event.titleAr.isEmpty) {
+    //   emit(state.copyWith(
+    //     messageError: 'url field is required',
+    //     cBValideArName: false,
+    //   ));
+    //   return;
+    // }
+    // if (event.titleFr.isEmpty) {
+    //   emit(state.copyWith(
+    //     messageError: 'url field is required',
+    //     cBValideFrName: false,
+    //   ));
+    //   return;
+    // }
 
     emit(state.copyWith(status: Status.postCostumeBlocksLoading));
     var resp;
@@ -358,17 +432,21 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
           CostumeBlockResponse.fromJson(resp);
       (costumeBlockResp.success)
           ? emit(state.copyWith(
+              messageError: costumeBlockResp.message,
               status: Status.postCostumeBlocksSuccess,
-              messageError: costumeBlockResp.message))
+            ))
           : emit(state.copyWith(
+              messageError: costumeBlockResp.message,
               status: Status.postCostumeBlocksFail,
-              messageError: costumeBlockResp.message));
+            ));
 
       ;
       log(resp.toString());
     } catch (e) {
       emit(state.copyWith(
-          status: Status.postCostumeBlocksFail, messageError: e.toString()));
+        messageError: e.toString(),
+        status: Status.postCostumeBlocksFail,
+      ));
       log('bloc:');
       log(e.toString());
     }
@@ -394,17 +472,21 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
           CostumeBlockResponse.fromJson(resp);
       (costumeBlockResp.success)
           ? emit(state.copyWith(
+              messageError: costumeBlockResp.message,
               status: Status.deleteCostumeBlocksSuccess,
-              messageError: costumeBlockResp.message))
+            ))
           : emit(state.copyWith(
+              messageError: costumeBlockResp.message,
               status: Status.deleteCostumeBlocksFail,
-              messageError: costumeBlockResp.message));
+            ));
 
       ;
       // log(resp.toString());
     } catch (e) {
       emit(state.copyWith(
-          status: Status.postCostumeBlocksFail, messageError: e.toString()));
+        messageError: e.toString(),
+        status: Status.postCostumeBlocksFail,
+      ));
       log('bloc:');
       log(e.toString());
     }
@@ -424,10 +506,8 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       costumeBlocks = resp.customBlocks;
 
       emit(state.copyWith(
-        costumeBlocks: costumeBlocks,
-        status: Status.getCostumeBlocksSuccess,
-      ));
-      emit(state.copyWith(
+          costumeBlocks: costumeBlocks,
+          status: Status.getCostumeBlocksSuccess,
           costumeBlocksStatus: CostumeBlocksStatus.getCostumeBlocksSuccess));
 
       //log(costumeBlocks[2].icon.toString());
@@ -447,12 +527,20 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       resp = await _ProfileRepository.deleteCostumeBlocks(event.id);
       emit(state.copyWith(status: Status.deleteCostumeBlocksSuccess));
       //emit(state.copyWith(userBlocks: resp ));
-      log(resp.success.toString(), name: 'delete blocks :');
+      //log(resp.success.toString(), name: 'delete blocks :');
     } catch (e) {
       emit(state.copyWith(
-          status: Status.deleteCostumeBlocksFail, messageError: e.toString()));
+        messageError: e.toString(),
+        status: Status.deleteCostumeBlocksFail,
+      ));
       log(('errorr :'));
       log(e.toString());
     }
+  }
+
+  void _resetCostumeBlocksEvent(
+      ResetCostumeBlocksEvent event, Emitter<EditProfileState> emit) async {
+    emit(state.copyWith(
+        cBValideFrName: true, cBValideArName: true, cBValideUrl: true));
   }
 }
