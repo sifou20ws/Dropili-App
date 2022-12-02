@@ -70,7 +70,7 @@ dependencies:
   device_info_plus: ^8.0.0
   local_auth: ^2.1.2
   google_sign_in: ^5.4.2
-
+  image_cropper: ^3.0.1
 
 
 

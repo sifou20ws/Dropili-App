@@ -1,5 +1,6 @@
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
 import 'package:dropili/common/constant/colors.dart';
+import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +21,7 @@ class _EditProfileButtonsWidget extends State<EditProfileButtonsWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Direct',
+              'Direct sur'.t(context),
               style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 18,
@@ -50,7 +51,7 @@ class _EditProfileButtonsWidget extends State<EditProfileButtonsWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Profile active',
+              'profile active'.t(context),
               style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 18,

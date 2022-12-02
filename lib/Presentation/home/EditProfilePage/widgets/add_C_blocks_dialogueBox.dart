@@ -18,6 +18,7 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
   bool success = false;
 
   _AddCustomBlocksDialogState();
+  String titlear = '', titlefr = '', url = '';
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,6 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
       BlocProvider.of<EditProfileBloc>(context).add(GetCostumeBlockImage());
     }
 
-    String titlear = '', titlefr = '', url = '';
     bool iconPath = false;
     return BlocListener<EditProfileBloc, EditProfileState>(
         listener: (context, state) async {
@@ -76,21 +76,26 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
                                   onChanged: (value) {
                                     titlear = value;
                                   },
-                                  decoration: buildInputDecoration('Name ar'),
+                                  decoration: buildInputDecoration(
+                                      text: 'Name ar',
+                                      error: !state.cBValideArName),
                                 ),
                                 SizedBox(height: 5),
                                 TextFormField(
                                   onChanged: (value) {
                                     titlefr = value;
                                   },
-                                  decoration: buildInputDecoration('Name fr'),
+                                  decoration: buildInputDecoration(
+                                      text: 'Name fr',
+                                      error: !state.cBValideFrName),
                                 ),
                                 SizedBox(height: 5),
                                 TextFormField(
                                   onChanged: (value) {
                                     url = value;
                                   },
-                                  decoration: buildInputDecoration('Url'),
+                                  decoration: buildInputDecoration(
+                                      text: 'Url', error: !state.cBValideUrl),
                                 ),
                               ],
                             ),
@@ -107,6 +112,9 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
                                     Expanded(
                                       child: TextButton(
                                         onPressed: () {
+                                          BlocProvider.of<EditProfileBloc>(
+                                                  context)
+                                              .add(ResetCostumeBlocksEvent());
                                           Navigator.pop(context);
                                         },
                                         child: Text('Cancel'.t(context)),
@@ -183,8 +191,10 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
 }
 
 contentBox(context) {}
-InputDecoration buildInputDecoration(String text) {
+InputDecoration buildInputDecoration(
+    {required String text, required bool error}) {
   return InputDecoration(
+    errorText: error ? 'this value is required' : null,
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(7),
       borderSide: BorderSide.none,
@@ -196,7 +206,10 @@ InputDecoration buildInputDecoration(String text) {
       borderSide: BorderSide.none,
     ),
     border: InputBorder.none,
-    errorBorder: InputBorder.none,
+    errorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(7),
+      borderSide: BorderSide.none,
+    ),
     disabledBorder: InputBorder.none,
     labelText: text,
     floatingLabelBehavior: FloatingLabelBehavior.never,

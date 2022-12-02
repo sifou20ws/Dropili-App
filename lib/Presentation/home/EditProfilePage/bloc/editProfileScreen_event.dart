@@ -10,8 +10,8 @@ abstract class EditProfileEvent extends Equatable {
 class ItemSelectedEvent extends EditProfileEvent {
   final int index;
   final String data;
-  final bool put ;
-  ItemSelectedEvent( {
+  final bool put;
+  ItemSelectedEvent({
     required this.index,
     required this.data,
     required this.put,
@@ -28,6 +28,7 @@ class SwitchEvent extends EditProfileEvent {
   @override
   List<Object?> get props => [state];
 }
+
 class ActiveEvent extends EditProfileEvent {
   final bool state;
   ActiveEvent({required this.state});
@@ -67,7 +68,8 @@ class PostBlocksEvent extends EditProfileEvent {
 }
 
 class ImportCoverImageEvent extends EditProfileEvent {
-  ImportCoverImageEvent();
+  final int width, height;
+  ImportCoverImageEvent({required this.width, required this.height});
 
   @override
   List<Object?> get props => [];
@@ -97,12 +99,12 @@ class PostDescriptionEvent extends EditProfileEvent {
 }
 
 class PostProfileUpdateEvent extends EditProfileEvent {
-  final String name, description ;
+  final String name, description;
   final String profile, background;
   final bool active;
   PostProfileUpdateEvent(
       {required this.name,
-        this.active = false,
+      this.active = false,
       this.description = '',
       this.profile = '',
       this.background = ''});
@@ -169,7 +171,7 @@ class PostCostumeBlock extends EditProfileEvent {
 }
 
 class UpdateCostumeBlock extends EditProfileEvent {
-  final String url, titleAr, titleFr , id;
+  final String url, titleAr, titleFr, id;
   final dynamic icon;
   UpdateCostumeBlock({
     required this.id,
@@ -193,6 +195,13 @@ class GetCostumeBlocksEvent extends EditProfileEvent {
 class DeleteCostumeBlocksEvent extends EditProfileEvent {
   final String id;
   DeleteCostumeBlocksEvent({required this.id});
+
+  @override
+  List<Object?> get props => [];
+}
+
+class ResetCostumeBlocksEvent extends EditProfileEvent {
+  ResetCostumeBlocksEvent();
 
   @override
   List<Object?> get props => [];

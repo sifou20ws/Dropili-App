@@ -74,6 +74,12 @@
     "Change Language" :"Changer la langue",
     "Choose Language":"Choisir une langue :",
 
-    "nfc looking text": "",
-    "nfc not found text": ""
+    "nfc looking text": "Try moving your NFC tag around to find the NFC reader on your device",
+    "nfc not found text": "No Nfc Adabter detected, try turnning on the NFC scanner from the settings",
+    "Edit profile name field text" : "Nom",
+    "Edit profile name field error text" : "Nom",
+    "Edit profile description field text" : "A propos de moi",
+    "Edit profile direct sur button text": "Direct sur",
+    "Edit profile active button text": "profile activé",
+    "": ""
 }

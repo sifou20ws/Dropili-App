@@ -151,23 +151,10 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                                         ),
                                         SizedBox(height: 20),
                                         Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 10, right: 10),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                InformationWidget(
-                                                  name: getUserName,
-                                                  discrtptio:
-                                                      getUserDescription,
-                                                ),
-                                                // Lottie.asset(
-                                                //   'assets/lottie/scanning.json',
-                                                //   width: 120,
-                                                //   frameRate: FrameRate(120),
-                                                // ),
-                                              ],
+                                            padding: EdgeInsets.only(left: 10),
+                                            child: InformationWidget(
+                                              name: getUserName,
+                                              description: getUserDescription,
                                             )),
                                         SizedBox(height: 30),
                                         AllBlockWidget(

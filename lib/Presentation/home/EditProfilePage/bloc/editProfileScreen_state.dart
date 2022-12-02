@@ -44,6 +44,7 @@ enum Status {
 
   costumeBlock,
   directOnMeSuccess,
+  directOnMeFail,
 }
 
 enum BlocksStatus {
@@ -92,36 +93,40 @@ enum ProfileStatus {
 }
 
 class EditProfileState extends Equatable {
-  EditProfileState(
-      {this.switchButton = false,
-      this.activeButton = false,
-      this.profileActiveButton = false,
-      this.messageError = '',
-      this.errorExist = false,
-      this.status = Status.loading,
-      /** */ this.blocksStatus = BlocksStatus.initial,
-      /** */ this.costumeBlocksStatus = CostumeBlocksStatus.initial,
-      this.id = '',
-      /** Blocks and user blocks */
-      required this.blocks,
-      required this.costumeBlocks,
-      required this.blocksList,
-      this.index = -1,
-      required this.userBlocks,
-      /** profile */
-      this.userName = '',
-      this.userDescription = '',
-      this.backgroundImg = '',
-      this.profileImg = '',
-      this.showProfile,
-      this.profileUserUrl = '',
-      this.valideName = true,
-      this.coverImagePath = '',
-      this.profileImagePath = '',
-      this.addCostumeBlockImgPath = 'assets/dropili_app_logo.png',
-      this.load = false,
-      this.openDirectMeDialogue = false,
-      this.blockUrl = ''});
+  EditProfileState({
+    this.switchButton = false,
+    this.activeButton = false,
+    this.profileActiveButton = false,
+    this.messageError = '',
+    this.errorExist = false,
+    this.status = Status.loading,
+    /** */ this.blocksStatus = BlocksStatus.initial,
+    /** */ this.costumeBlocksStatus = CostumeBlocksStatus.initial,
+    this.id = '',
+    /** Blocks and user blocks */
+    required this.blocks,
+    required this.costumeBlocks,
+    required this.blocksList,
+    this.index = -1,
+    required this.userBlocks,
+    /** profile */
+    this.userName = '',
+    this.userDescription = '',
+    this.backgroundImg = '',
+    this.profileImg = '',
+    this.showProfile,
+    this.profileUserUrl = '',
+    this.valideName = true,
+    this.coverImagePath = '',
+    this.profileImagePath = '',
+    this.addCostumeBlockImgPath = 'assets/dropili_app_logo.png',
+    this.load = false,
+    this.openDirectMeDialogue = false,
+    this.blockUrl = '',
+    this.cBValideArName = true,
+    this.cBValideFrName = true,
+    this.cBValideUrl = true,
+  });
 
   final bool errorExist;
   bool load;
@@ -143,42 +148,49 @@ class EditProfileState extends Equatable {
   final String userDescription;
   String addCostumeBlockImgPath = '';
   final String backgroundImg;
-  bool openDirectMeDialogue;
   final String profileImg;
+  bool openDirectMeDialogue;
   final PostProfileResp? showProfile;
   final String blockUrl;
   final bool valideName;
   final List<UserBlocksItem> userBlocks;
   String profileUserUrl;
+  final bool cBValideArName;
+  final bool cBValideFrName;
+  final bool cBValideUrl;
 
-  EditProfileState copyWith(
-      {bool? switchButton,
-      bool? activeButton,
-      bool? profileActiveButton,
-      String? messageError,
-      Status? status,
-      /** */ BlocksStatus? blocksStatus,
-      /** */ CostumeBlocksStatus? costumeBlocksStatus,
-      String? id,
-      int? index,
-      List<BlocksItem>? blocks,
-      List<UserBlocksItem>? userBlocks,
-      String? coverImagePath,
-      String? profileImagePath,
-      String? backgroundImg,
-      String? profileImg,
-      String? userName,
-      String? addCostumeBlockImgPath,
-      String? userDescription,
-      PostProfileResp? showProfile,
-      String? blockUrl,
-      bool? errorExist,
-      bool? valideName,
-      bool? openDirectMeDialogue,
-      bool? load,
-      String? profileUserUrl,
-      List<CustomBlocksItem>? costumeBlocks,
-      List<List<BlocksItem>>? blocksList}) {
+  EditProfileState copyWith({
+    bool? switchButton,
+    bool? activeButton,
+    bool? profileActiveButton,
+    String? messageError,
+    Status? status,
+    /** */ BlocksStatus? blocksStatus,
+    /** */ CostumeBlocksStatus? costumeBlocksStatus,
+    String? id,
+    int? index,
+    List<BlocksItem>? blocks,
+    List<UserBlocksItem>? userBlocks,
+    String? coverImagePath,
+    String? profileImagePath,
+    String? backgroundImg,
+    String? profileImg,
+    String? userName,
+    String? addCostumeBlockImgPath,
+    String? userDescription,
+    PostProfileResp? showProfile,
+    String? blockUrl,
+    bool? errorExist,
+    bool? valideName,
+    bool? openDirectMeDialogue,
+    bool? load,
+    String? profileUserUrl,
+    List<CustomBlocksItem>? costumeBlocks,
+    List<List<BlocksItem>>? blocksList,
+    bool? cBValideArName,
+    bool? cBValideFrName,
+    bool? cBValideUrl,
+  }) {
     return EditProfileState(
       messageError: messageError ?? this.messageError,
       status: status ?? this.status,
@@ -209,6 +221,9 @@ class EditProfileState extends Equatable {
       /** */ blocksStatus: blocksStatus ?? this.blocksStatus,
       /** */ costumeBlocksStatus:
           costumeBlocksStatus ?? this.costumeBlocksStatus,
+      cBValideArName: cBValideArName ?? this.cBValideArName,
+      cBValideFrName: cBValideFrName ?? this.cBValideArName,
+      cBValideUrl: cBValideUrl ?? this.cBValideArName,
     );
   }
 
@@ -241,5 +256,8 @@ class EditProfileState extends Equatable {
         blocksList,
         openDirectMeDialogue,
         costumeBlocks,
+        cBValideArName,
+        cBValideFrName,
+        cBValideUrl,
       ];
 }
