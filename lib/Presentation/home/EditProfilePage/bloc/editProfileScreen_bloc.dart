@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:bloc/bloc.dart';
+import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/data/models/costume_block_response.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:dropili/data/models/get_costume_block_response.dart';
@@ -7,6 +8,7 @@ import 'package:dropili/data/models/post_user_blocks.dart';
 import 'package:dropili/data/models/post_user_profile_response.dart';
 import 'package:dropili/domain/repositories/profile_repository.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -191,29 +193,16 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       file = await ImagePicker().pickImage(source: ImageSource.gallery);
 
       if (file != null) {
-        CroppedFile? croppedFile = (await ImageCropper().cropImage(
-          sourcePath: file.path,
+        String croppedFile = await cropImage(file: file, ratioY: 1, ratioX:2.5);
 
-          aspectRatio: CropAspectRatio(
-            ratioY: 1.0,
-            ratioX: 2.5,
-          ),
-          maxWidth: event.width,
-          maxHeight: event.height,
-        ));
-        if (croppedFile  == null) {
-          return ;
-        }
 
-        log('success' , name: 'cropped');
-        emit(state.copyWith(coverImagePath: croppedFile!.path));
-        emit(state.copyWith(backgroundImg: croppedFile!.path));
+        log('success', name: 'cropped');
+        emit(state.copyWith(coverImagePath: croppedFile));
+        emit(state.copyWith(backgroundImg: croppedFile));
       }
-
     } catch (e) {
       log(e.toString());
     }
-
   }
 
   void _importProfileImageEvent(
@@ -226,23 +215,13 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       //   emit(state.copyWith(profileImg: file.path));
       // }
       if (file != null) {
-        CroppedFile? croppedFile = (await ImageCropper().cropImage(
-          sourcePath: file.path,
+        String croppedFile = await cropImage(file: file, ratioY: 1, ratioX:1);
 
-          aspectRatio: CropAspectRatio(
-            ratioY: 1.0,
-            ratioX: 1.0,
-          ),
-        ));
-        if (croppedFile  == null) {
-          return ;
-        }
 
-        log('success' , name: 'cropped');
-        emit(state.copyWith(profileImagePath: croppedFile!.path));
-        emit(state.copyWith(profileImg: croppedFile!.path));
+        log('success', name: 'cropped');
+        emit(state.copyWith(profileImagePath: croppedFile));
+        emit(state.copyWith(profileImg: croppedFile));
       }
-
     } catch (e) {
       log(e.toString());
     }
@@ -364,23 +343,33 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       // }
 
       if (file != null) {
-        CroppedFile? croppedFile = (await ImageCropper().cropImage(
-          sourcePath: file.path,
-          aspectRatio: CropAspectRatio(
-            ratioY: 1.0,
-            ratioX: 1.0,
-          ),
-        ));
-        if (croppedFile  == null) {
-          return ;
-        }
+        // CroppedFile? croppedFile = (await ImageCropper().cropImage(
+        //   sourcePath: file.path,
+        //   aspectRatio: CropAspectRatio(
+        //     ratioY: 1.0,
+        //     ratioX: 1.0,
+        //   ),
+        //   uiSettings: [
+        //     AndroidUiSettings(
+        //       toolbarTitle: 'Edit your image',
+        //       toolbarColor: MalinColors.AppBlue,
+        //       toolbarWidgetColor: Colors.white,
+        //       activeControlsWidgetColor: MalinColors.AppGreen,
+        //       initAspectRatio: CropAspectRatioPreset.original,
+        //       cropFrameStrokeWidth: 10,
+        //       lockAspectRatio: false,
+        //     ),
+        //     IOSUiSettings(
+        //       title: 'Cropper',
+        //     ),
+        //   ],
+        // ));
+        String croppedFile = await cropImage(file: file, ratioY: 1, ratioX:1);
 
-        log('success' , name: 'cropped');
-        emit(state.copyWith(addCostumeBlockImgPath: croppedFile!.path));
+        log('success', name: 'cropped');
+        emit(state.copyWith(addCostumeBlockImgPath: croppedFile));
         emit(state.copyWith(status: Status.costumeBlockImageSuccess));
       }
-
-
     } catch (e) {
       log(e.toString());
     }
@@ -400,20 +389,6 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       log(state.cBValideUrl.toString(), name: 'url');
       return;
     }
-    // if (event.titleAr.isEmpty) {
-    //   emit(state.copyWith(
-    //     messageError: 'url field is required',
-    //     cBValideArName: false,
-    //   ));
-    //   return;
-    // }
-    // if (event.titleFr.isEmpty) {
-    //   emit(state.copyWith(
-    //     messageError: 'url field is required',
-    //     cBValideFrName: false,
-    //   ));
-    //   return;
-    // }
 
     emit(state.copyWith(status: Status.postCostumeBlocksLoading));
     var resp;
@@ -542,5 +517,37 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       ResetCostumeBlocksEvent event, Emitter<EditProfileState> emit) async {
     emit(state.copyWith(
         cBValideFrName: true, cBValideArName: true, cBValideUrl: true));
+  }
+
+  Future<String> cropImage(
+      {required XFile file,
+      required double ratioY,
+      required double ratioX}) async {
+    CroppedFile? croppedFile = (await ImageCropper().cropImage(
+      sourcePath: file.path,
+      aspectRatio: CropAspectRatio(
+        ratioY: ratioY,
+        ratioX: ratioX,
+      ),
+      uiSettings: [
+        AndroidUiSettings(
+          toolbarTitle: 'Edit your image',
+          toolbarColor: MalinColors.AppBlue,
+          toolbarWidgetColor: Colors.white,
+          activeControlsWidgetColor: MalinColors.AppGreen,
+          initAspectRatio: CropAspectRatioPreset.original,
+          cropFrameStrokeWidth: 10,
+          lockAspectRatio: false,
+        ),
+        IOSUiSettings(
+          title: 'Cropper',
+        ),
+      ],
+    ));
+
+    if (croppedFile == null) {
+      return '';
+    }
+    return croppedFile.path;
   }
 }
