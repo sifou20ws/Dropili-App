@@ -17,12 +17,19 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<GetUserBlocksEvent>(_getUserBlocksEvent);
     on<GetProfileEvent>(_getProfileEvent);
     on<GetCostumeBlocksEvent>(_getCostumeBlocksEvent);
+    on<GetEverytihngEvent>(_getEverything);
     add(GetUserBlocksEvent());
     add(GetProfileEvent());
   }
 
   void _editButtonClickedEvent(event, Emitter<ProfileState> emit) {
     emit(state.copyWith(status: ProfileStatus.success));
+  }
+
+  void _getEverything(event, Emitter<ProfileState> emit) {
+    add(GetProfileEvent());
+    add(GetUserBlocksEvent());
+    add(GetCostumeBlocksEvent());
   }
 
   void _getUserBlocksEvent(event, Emitter<ProfileState> emit) async {

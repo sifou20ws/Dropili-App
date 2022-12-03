@@ -39,3 +39,5 @@ class GetCostumeBlocksEvent extends ProfileEvent {
   @override
   List<Object?> get props => [];
 }
+
+class GetEverytihngEvent extends ProfileEvent{}

@@ -193,8 +193,8 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       file = await ImagePicker().pickImage(source: ImageSource.gallery);
 
       if (file != null) {
-        String croppedFile = await cropImage(file: file, ratioY: 1, ratioX:2.5);
-
+        String croppedFile =
+            await cropImage(file: file, ratioY: 1, ratioX: 1.5);
 
         log('success', name: 'cropped');
         emit(state.copyWith(coverImagePath: croppedFile));
@@ -215,8 +215,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       //   emit(state.copyWith(profileImg: file.path));
       // }
       if (file != null) {
-        String croppedFile = await cropImage(file: file, ratioY: 1, ratioX:1);
-
+        String croppedFile = await cropImage(file: file, ratioY: 1, ratioX: 1);
 
         log('success', name: 'cropped');
         emit(state.copyWith(profileImagePath: croppedFile));
@@ -364,7 +363,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         //     ),
         //   ],
         // ));
-        String croppedFile = await cropImage(file: file, ratioY: 1, ratioX:1);
+        String croppedFile = await cropImage(file: file, ratioY: 1, ratioX: 1);
 
         log('success', name: 'cropped');
         emit(state.copyWith(addCostumeBlockImgPath: croppedFile));

@@ -1,5 +1,6 @@
 import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
+import 'package:dropili/Presentation/home/collectionPage/bloc/collection_bloc.dart';
 import 'package:dropili/Presentation/home/root/bloc/navigation_bloc.dart';
 import 'package:dropili/Presentation/localization/bloc/language_bloc.dart';
 import 'package:dropili/Presentation/widgets_model/rounded_profile_picture.dart';
@@ -98,7 +99,7 @@ class ElementsWidget extends StatelessWidget {
         children: [
           DrawerItem(
             icon: Icons.edit,
-            title: 'Edite my profile'.t(context),
+            title: 'Edit my profile'.t(context),
             onDrawerItemTap: () {
               Navigator.pop(context);
               Navigator.pushNamed(context, '/editProfile').then(
@@ -113,7 +114,7 @@ class ElementsWidget extends StatelessWidget {
           ),
           DrawerItem(
             icon: Icons.qr_code_2_rounded,
-            title: 'Share profile'.t(context),
+            title: 'Sharing Dropili Profile'.t(context),
             onDrawerItemTap: () {
               BlocProvider.of<NavigationBloc>(context).add(NavigationEvent(2));
               Navigator.pop(context);
@@ -152,7 +153,7 @@ class ElementsWidget extends StatelessWidget {
           ),
           DrawerItem(
             icon: Icons.info_outline_rounded,
-            title: 'About dropili'.t(context),
+            title: 'About Dropili'.t(context),
             onDrawerItemTap: () {
               Navigator.pop(context);
             },
@@ -210,9 +211,10 @@ class ChangeLanguageExpensionTile extends StatelessWidget {
                 ),
               ),
               onTap: () {
+                Navigator.pop(context);
                 BlocProvider.of<LanguageBloc>(context)
                     .add(ToggleLanguageEvent(language));
-                Navigator.pop(context);
+                BlocProvider.of<ProfileBloc>(context).add(GetEverytihngEvent());
               },
             )
         ],
