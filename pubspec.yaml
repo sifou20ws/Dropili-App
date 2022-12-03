@@ -113,7 +113,7 @@ flutter:
   assets:
     - assets/
     - assets/languages/
-    - assets/appIcons/
+    # - assets/appIcons/
     - assets/lottie/
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -138,42 +138,42 @@ flutter:
         - asset: assets/fonts/roboto/Roboto-Light.ttf
 
 
-    - family: Mukta
-      fonts:
-        # - asset: assets/fonts/mukta/
-        - asset: assets/fonts/mukta/Mukta-ExtraLight.ttf
-        - asset: assets/fonts/mukta/Mukta-Light.ttf
-        - asset: assets/fonts/mukta/Mukta-Regular.ttf
-        - asset: assets/fonts/mukta/Mukta-Medium.ttf
-        - asset: assets/fonts/mukta/Mukta-SemiBold.ttf
-        - asset: assets/fonts/mukta/Mukta-Bold.ttf
-        - asset: assets/fonts/mukta/Mukta-ExtraBold.ttf
+    # - family: Mukta
+    #   fonts:
+    #     # - asset: assets/fonts/mukta/
+    #     - asset: assets/fonts/mukta/Mukta-ExtraLight.ttf
+    #     - asset: assets/fonts/mukta/Mukta-Light.ttf
+    #     - asset: assets/fonts/mukta/Mukta-Regular.ttf
+    #     - asset: assets/fonts/mukta/Mukta-Medium.ttf
+    #     - asset: assets/fonts/mukta/Mukta-SemiBold.ttf
+    #     - asset: assets/fonts/mukta/Mukta-Bold.ttf
+    #     - asset: assets/fonts/mukta/Mukta-ExtraBold.ttf
 
 
-    - family: Inter
-      fonts:
-        # - asset: assets/fonts/mukta/
-        - asset: assets/fonts/inter/Inter-ExtraLight.ttf
-        - asset: assets/fonts/inter/Inter-Light.ttf
-        - asset: assets/fonts/inter/Inter-Thin.ttf
-        - asset: assets/fonts/inter/Inter-Regular.ttf
-        - asset: assets/fonts/inter/Inter-Medium.ttf
-        - asset: assets/fonts/inter/Inter-SemiBold.ttf
-        - asset: assets/fonts/inter/Inter-Bold.ttf
-        - asset: assets/fonts/inter/Inter-ExtraBold.ttf
-        - asset: assets/fonts/inter/Inter-Black.ttf
+    # - family: Inter
+    #   fonts:
+    #     # - asset: assets/fonts/mukta/
+    #     - asset: assets/fonts/inter/Inter-ExtraLight.ttf
+    #     - asset: assets/fonts/inter/Inter-Light.ttf
+    #     - asset: assets/fonts/inter/Inter-Thin.ttf
+    #     - asset: assets/fonts/inter/Inter-Regular.ttf
+    #     - asset: assets/fonts/inter/Inter-Medium.ttf
+    #     - asset: assets/fonts/inter/Inter-SemiBold.ttf
+    #     - asset: assets/fonts/inter/Inter-Bold.ttf
+    #     - asset: assets/fonts/inter/Inter-ExtraBold.ttf
+    #     - asset: assets/fonts/inter/Inter-Black.ttf
 
-    - family: Nunito
-      fonts:
-        # - asset: assets/fonts/mukta/
-        - asset: assets/fonts/nunito/Nunito-ExtraLight.ttf
-        - asset: assets/fonts/nunito/Nunito-Light.ttf
-        - asset: assets/fonts/nunito/Nunito-Regular.ttf
-        - asset: assets/fonts/nunito/Nunito-Medium.ttf
-        - asset: assets/fonts/nunito/Nunito-SemiBold.ttf
-        - asset: assets/fonts/nunito/Nunito-Bold.ttf
-        - asset: assets/fonts/nunito/Nunito-ExtraBold.ttf
-        - asset: assets/fonts/nunito/Nunito-Black.ttf
+    # - family: Nunito
+    #   fonts:
+    #     # - asset: assets/fonts/mukta/
+    #     - asset: assets/fonts/nunito/Nunito-ExtraLight.ttf
+    #     - asset: assets/fonts/nunito/Nunito-Light.ttf
+    #     - asset: assets/fonts/nunito/Nunito-Regular.ttf
+    #     - asset: assets/fonts/nunito/Nunito-Medium.ttf
+    #     - asset: assets/fonts/nunito/Nunito-SemiBold.ttf
+    #     - asset: assets/fonts/nunito/Nunito-Bold.ttf
+    #     - asset: assets/fonts/nunito/Nunito-ExtraBold.ttf
+    #     - asset: assets/fonts/nunito/Nunito-Black.ttf
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:
