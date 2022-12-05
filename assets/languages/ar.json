@@ -6,7 +6,7 @@
     "Share text": "شارك بياناتك بطريقة سهلة وسريعة وذكية مع دروبيلي",
     "Signin": "تسجيل الدخول",
     "Signup": "تسجيل",
-    "next" : "",
+    "next" : "التالي",
     "skip": "تخطي",
 
     "Good to see you": "سعيد لرؤيتك",
@@ -17,28 +17,28 @@
     "forget password": "نسيت كلمة السر ؟",
     "or connect" : "أو تواصل مع",
     "don't have an account": "ليس لديك حساب ؟",
-    "or signup": "",
+    "or signup": "أو سجل باستخدام",
     "biometric msg":"تسجيل الدخول باستخدام المسح البيومتري",
     "have account": "لديك حساب ؟",
     "not valid": "غير صالح",
     "short": "قصير",
     "Signed in successfully": "تم التسجيل الدخول",
-    "Empty email or password fields": "Empty email or password fields",
+    "Empty email or password fields": "حقل البريد الإلكتروني أو كلمة المرور فارغة",
     "Connection failed": "خطأ في تسجيل الدخول",
-    "The provided credentials are incorrect." :"The provided credentials are incorrect.",
+    "The provided credentials are incorrect." :"أوراق الاعتماد المقدمة غير صحيحة.",
 
-    "All fields must be filled": "All fields must be filled",
-    "The username has already been taken.": "The username has already been taken.",
-    "The email has already been taken.": "The email has already been taken.",
+    "All fields must be filled": "يجب ملء كل الفراغات",
+    "The username has already been taken.": "تم استخدام اسم المستخدم من قبل.",
+    "The email has already been taken.": "تم استخدام البريد الإلكتروني من قبل.",
 
-    "Restore your password" : "Restore your password",
+    "Restore your password" : "قم باستعادة كلمة المرور الخاصة بك",
     "Submit" :"إرسال",
 
     "Contacts" : "اتصال مباشر",
     "Social Media" : "وسائل التواصل الاجتماعي",
     "Payment methods" : "وسائل الدفع",
     "Others" : "روابط أخرى",
-    "Custom" : "Custom",
+    "Custom" : "مخصص",
 
     "Edit Profile": "تعديل ملفي الشخصي",
     "Direct": "مباشر على",
@@ -54,8 +54,8 @@
     "Collection": "اصدقاء",
 
     "Edit my profile":"تعديل ملفي الشخصي",
-    "Share Profile":"Share Profile",
-    "Work mode":"Work mode",
+    "Share Profile":"مشاركة حسابي",
+    "Work mode":"نظام العمل",
     "About Dropili":"حول دروبيلي",
     "Log out":"تسجيل الخروج",
 
@@ -73,8 +73,8 @@
     "Change Language" :"تغيير اللغة",
     "Choose Language":"إختر لغة",
 
-    "nfc looking text": "Try moving your NFC tag around to find the NFC reader on your device",
-    "nfc not found text": "No Nfc Adabter detected, try turnning on the NFC scanner from the settings"
+    "nfc looking text": "حاول تحريك علامة NFC الخاصة بك للعثور على قارئ NFC على جهازك",
+    "nfc not found text": "لم يتم اكتشاف محول Nfc ، حاول تشغيل الماسح الضوئي NFC من الإعدادات"
     
     
 }

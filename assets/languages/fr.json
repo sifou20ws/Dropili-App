@@ -20,66 +20,63 @@
     "have account": "Vous avez déjà un compte ?",
     "not valid": "non valid",
     "short": "trop court",
+    "Signed in successfully": "Connexion réussie",
+    "Empty email or password fields": "Champs d'E-mail ou de Mot de passe vides",
+    "Connection failed": "La connexion a échoué",
+    "The provided credentials are incorrect." :"Les informations d'identification fournies sont incorrectes.",
 
-    "Signed in successfully": "",
-    "Empty email or password fields": "",
-    "Connection failed": "",
-    "The provided credentials are incorrect." :"",
+    "All fields must be filled": "Tous les champs doivent être remplis",
+    "The username has already been taken.": "Le nom d'utilisateur est déjà pris.",
+    "The email has already been taken.": "Le couriel a déja été pris en compte.",
 
-    "All fields must be filled": "",
-    "The username has already been taken.": "",
-    "The email has already been taken.": "",
+    "Restore your password" : "Restaurer votre mot de passe",
+    "Submit" : "Soumettre",
 
-    "Restore your password" : "",
-    "Submit" : "",
+    "Contacts" : "Contacts",
+    "Social Media" : "Des médias sociaux",
+    "Payment" : "méthodes de payement",
+    "Others" : "Les autres",
+    "Custom" : "Personnalisé",
 
-    "Contacts" : "",
-    "Social Media" : "",
-    "Payment" : "",
-    "Others" : "",
-    "Custom" : "",
+    "Edit Profile": "Modifier le profil",
+    "Direct": "Direct à",
+    "Profile active": "Profil actif",
 
-    "Edit Profile": "",
-    "Direct": "",
-    "Profile active": "",
-
-    "Save":"",
-    "Back":"",
-    
-
-    "Profile": "",
-    "Activate": "",
-    "Share": "",
-    "Collection": "",
-
-    "Edit my profile":"",
-    "Share Profile":"",
-    "Work mode":"",
-    "About Dropili":"",
-    "Log out":"",
+    "Save":"Sauvegarder",
+    "Back":"Retour",
 
 
-    "Sharing Dropili Profile":"",
-    "Tap to save":"",
-    
+    "Profile": "Profil",
+    "Activate": "Activer",
+    "Share": "Partager",
+    "Collection": "Le recueil",
 
-    
-    "Show":"",
-    "Delete":"",
-    "Delete Friend":"",
-    "Profile not active":"",
-    
+    "Edit my profile":"Éditer mon profil",
+    "Share Profile":"Partager le profil",
+    "Work mode":"En mode travail",
+    "About Dropili":"À propos de Dropili",
+    "Log out":"Se déconnecter",
 
 
-    "Change Language" :"Changer la langue",
-    "Choose Language":"Choisir une langue :",
+    "Sharing Dropili Profile":"Partage de profil Dropili",
+    "Tap to save":"Appuyez pour enregistrer le code QR dans la galerie",
 
-    "nfc looking text": "Try moving your NFC tag around to find the NFC reader on your device",
-    "nfc not found text": "No Nfc Adabter detected, try turnning on the NFC scanner from the settings",
-    "Edit profile name field text" : "Nom",
-    "Edit profile name field error text" : "Nom",
-    "Edit profile description field text" : "A propos de moi",
-    "Edit profile direct sur button text": "Direct sur",
-    "Edit profile active button text": "profile activé",
-    "": ""
+
+
+    "Show":"Spectacle",
+    "Delete":"Supprimer",
+    "Delete Friend":"Supprimer un ami",
+    "Profile not active":"Profil non actif",
+
+
+    "Change Language" :"Changer de langue",
+    "Choose Language":"Choisissez une langue :",
+
+    "nfc looking text": "Essayez de déplacer votre tag NFC pour trouver le lecteur NFC sur votre appareil",
+    "nfc not found text": "Aucun adaptateur Nfc détecté, essayez d'activer le scanner NFC à partir des paramètres"
+
+
+
+
+
 }
