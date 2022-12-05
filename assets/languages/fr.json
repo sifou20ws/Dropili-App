@@ -28,6 +28,8 @@
     "All fields must be filled": "Tous les champs doivent être remplis",
     "The username has already been taken.": "Le nom d'utilisateur est déjà pris.",
     "The email has already been taken.": "Le couriel a déja été pris en compte.",
+    "This value can't Be Empty": "Cette valeur ne peut pas être vide",
+
 
     "Restore your password" : "Restaurer votre mot de passe",
     "Submit" : "Soumettre",
@@ -38,9 +40,15 @@
     "Others" : "Les autres",
     "Custom" : "Personnalisé",
 
+    "Name ar": "Nom en arabe",
+    "Name fr": "Nom en français",
+    "Url": "lien",
+
     "Edit Profile": "Modifier le profil",
     "Direct": "Direct à",
     "Profile active": "Profil actif",
+    "Description" : "La description",
+
 
     "Save":"Sauvegarder",
     "Back":"Retour",

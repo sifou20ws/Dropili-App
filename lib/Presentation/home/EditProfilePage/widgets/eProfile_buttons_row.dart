@@ -21,7 +21,7 @@ class _EditProfileButtonsWidget extends State<EditProfileButtonsWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Direct sur'.t(context),
+              'Direct'.t(context),
               style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 18,

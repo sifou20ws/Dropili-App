@@ -77,7 +77,7 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
                                     titlear = value;
                                   },
                                   decoration: buildInputDecoration(
-                                      text: 'Name ar',
+                                      text: 'Name ar'.t(context),
                                       error: !state.cBValideArName),
                                 ),
                                 SizedBox(height: 5),
@@ -86,7 +86,7 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
                                     titlefr = value;
                                   },
                                   decoration: buildInputDecoration(
-                                      text: 'Name fr',
+                                      text: 'Name fr'.t(context),
                                       error: !state.cBValideFrName),
                                 ),
                                 SizedBox(height: 5),
@@ -95,7 +95,7 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
                                     url = value;
                                   },
                                   decoration: buildInputDecoration(
-                                      text: 'Url', error: !state.cBValideUrl),
+                                      text: 'Url'.t(context), error: !state.cBValideUrl),
                                 ),
                               ],
                             ),
@@ -117,7 +117,7 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
                                               .add(ResetCostumeBlocksEvent());
                                           Navigator.pop(context);
                                         },
-                                        child: Text('Cancel'.t(context)),
+                                        child: Text('Back'.t(context)),
                                       ),
                                     ),
                                     Expanded(

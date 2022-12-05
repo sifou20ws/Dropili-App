@@ -30,6 +30,7 @@
     "All fields must be filled": "يجب ملء كل الفراغات",
     "The username has already been taken.": "تم استخدام اسم المستخدم من قبل.",
     "The email has already been taken.": "تم استخدام البريد الإلكتروني من قبل.",
+    "This value can't Be Empty": "لا يمكن أن تكون هذه القيمة فارغة",
 
     "Restore your password" : "قم باستعادة كلمة المرور الخاصة بك",
     "Submit" :"إرسال",
@@ -40,9 +41,14 @@
     "Others" : "روابط أخرى",
     "Custom" : "مخصص",
 
+    "Name ar": "الاسم بالعربي",
+    "Name fr": "الاسم بالفرنسي",
+    "Url": "الرابط",
+
     "Edit Profile": "تعديل ملفي الشخصي",
     "Direct": "مباشر على",
     "Profile active": "حساب موقف",
+    "Description" : "وصف",
 
     "Save":"حفظ",
     "Back":"إلغاء",
