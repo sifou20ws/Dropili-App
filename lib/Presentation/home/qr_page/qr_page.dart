@@ -130,6 +130,7 @@ class _QrPageState extends State<QrPage> {
           Text(
             'Tap to save'.t(context),
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+            textAlign: TextAlign.center,
           ),
           SizedBox(
             height: 30,
