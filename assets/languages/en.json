@@ -28,6 +28,7 @@
     "All fields must be filled": "All fields must be filled",
     "The username has already been taken.": "The username has already been taken.",
     "The email has already been taken.": "The email has already been taken.",
+    "This value can't Be Empty": "This value can't Be Empty",
 
     "Restore your password" : "Restore your password",
     "Submit" : "Submit",
@@ -37,10 +38,14 @@
     "Payment" : "Payment Methods",
     "Others" : "Others",
     "Custom" : "Custom",
+    "Name ar": "Name in arabic",
+    "Name fr": "Name in french",
+    "Url": "Link",
 
     "Edit Profile": "Edite Profile",
     "Direct": "Direct to",
     "Profile active": "Profile active",
+    "Description" : "Description",
 
     "Save":"Save",
     "Back":"Back",

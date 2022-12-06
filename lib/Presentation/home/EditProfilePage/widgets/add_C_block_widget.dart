@@ -53,7 +53,7 @@ class AddCostumeBlocksIcon extends StatelessWidget {
               FittedBox(
                 fit: BoxFit.fitWidth,
                 child: Text(
-                  'Costum Block'.t(context),
+                  'Costum'.t(context),
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 16,

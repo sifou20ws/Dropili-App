@@ -25,7 +25,7 @@ class _EditProfileMediaWidgetState extends State<EditProfileTextWidget> {
             BlocProvider.of<EditProfileBloc>(context)
                 .add(PostUserNameEvent(name: value));
           },
-          decoration: buildInputDecoration(hint: 'Nom'.t(context) , name: true),
+          decoration: buildInputDecoration(hint: 'name'.t(context) , name: true),
         ),
         SizedBox(height: 15),
         TextFormField(
@@ -34,7 +34,7 @@ class _EditProfileMediaWidgetState extends State<EditProfileTextWidget> {
             BlocProvider.of<EditProfileBloc>(context)
                 .add(PostDescriptionEvent(description: value));
           },
-          decoration: buildInputDecoration(hint:'A propos de moi'.t(context)),
+          decoration: buildInputDecoration(hint:'Description'.t(context)),
           maxLines: 4,
         ),
       ],
@@ -46,7 +46,7 @@ class _EditProfileMediaWidgetState extends State<EditProfileTextWidget> {
         errorText: name
             ? BlocProvider.of<EditProfileBloc>(context).state.valideName
                 ? null
-                : 'This value Can\'t Be Empty'.t(context)
+                : 'This value can\'t Be Empty'.t(context)
             : null,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(7),
