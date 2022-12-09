@@ -40,6 +40,7 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
   }
 
   void _deleteFriendEvent(event, Emitter<CollectionState> emit) async {
+    emit(CollectionLoadingState());
     try {
       if (await _profileRepository.deleteFriend(event.id)) {
         emit(CollectionSucessState('Deleted sucessfully'));

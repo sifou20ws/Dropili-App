@@ -51,7 +51,7 @@ class _EditProfileButtonsWidget extends State<EditProfileButtonsWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'profile active'.t(context),
+              'Profile active'.t(context),
               style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 18,

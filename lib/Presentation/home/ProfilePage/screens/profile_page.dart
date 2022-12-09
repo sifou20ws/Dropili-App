@@ -75,126 +75,157 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
         },
         child: BlocBuilder<ProfileBloc, ProfileState>(
           builder: (context, state) {
-            return RefreshIndicator(
-              color: MalinColors.AppGreen,
-              onRefresh: () async {
-                getAllData();
-                await Future.delayed(Duration(seconds: 1));
-              },
-              child: Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                color: Colors.white,
-                child: (state.status == ProfileStatus.loading ||
-                        state.status == ProfileStatus.loadingBlocks ||
-                        state.status == ProfileStatus.getCostumeBlocks)
-                    ? LoadingWidget()
-                    : SingleChildScrollView(
-                        physics: BouncingScrollPhysics(),
-                        child: Stack(
-                          children: <Widget>[
-                            Container(
-                              color: Colors.white,
-                              height: MediaQuery.of(context).size.height,
-                            ),
-                            Container(
-                              height: MediaQuery.of(context).size.height * 0.25,
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: AssetImage('assets/transparent.png'),
-                                  alignment: Alignment.topCenter,
-                                ),
+            return SafeArea(
+              child: RefreshIndicator(
+                color: MalinColors.AppGreen,
+                onRefresh: () async {
+                  getAllData();
+                  await Future.delayed(Duration(seconds: 1));
+                },
+                child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  color: Colors.white,
+                  child: (state.status == ProfileStatus.loading ||
+                          state.status == ProfileStatus.loadingBlocks ||
+                          state.status == ProfileStatus.getCostumeBlocks)
+                      ? LoadingWidget()
+                      : SingleChildScrollView(
+                          physics: BouncingScrollPhysics(),
+                          child: Stack(
+                            children: <Widget>[
+                              Container(
+                                color: Colors.white,
+                                height: MediaQuery.of(context).size.height,
                               ),
-                              child: cachedImageModelWidget(
-                                image: getBackgroundPicture,
-                              ),
-                            ),
-                            Column(
-                              children: [
-                                SizedBox(
-                                  height: 200,
-                                ),
-                                Container(
-                                  // color: Colors.white,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(20),
-                                        topRight: Radius.circular(20),
-                                      )),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 20,
-                                        left: 20,
-                                        right: 20,
-                                        bottom: 50),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            GestureDetector(
-                                                onTap: () async {
-                                                  Navigator.pushNamed(context,
-                                                          '/editProfile')
-                                                      .then(
-                                                    (value) {
-                                                      getAllData();
-                                                    },
-                                                  );
-                                                },
-                                                child: EditeProfileBtnWidget()),
-                                          ],
-                                        ),
-                                        SizedBox(height: 20),
-                                        Padding(
-                                            padding: EdgeInsets.only(left: 10),
-                                            child: InformationWidget(
-                                              name: getUserName,
-                                              description: getUserDescription,
-                                            )),
-                                        SizedBox(height: 30),
-                                        AllBlockWidget(
-                                          userBlocks: state.userBlocks,
-                                          costumeBlocks: state.costumeBlocks,
-                                        ),
-                                      ],
-                                    ),
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.25,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    fit: BoxFit.fill,
+                                    image: AssetImage('assets/transparent.png'),
+                                    alignment: Alignment.topCenter,
                                   ),
                                 ),
-                              ],
-                            ),
-                            Container(
-                              // top: 120,
-                              // left: 30,
-                              width: MediaQuery.of(context).size.width,
-                              padding: EdgeInsets.only(
-                                  top: 120, left: 20, right: 20),
-
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
+                                child: cachedImageModelWidget(
+                                  image: getBackgroundPicture,
+                                ),
+                              ),
+                              Column(
                                 children: [
+                                  // Padding(
+                                  //   padding: const EdgeInsets.all(10),
+                                  //   child: Row(
+                                  //     children: [
+                                  //       ElevatedButton(
+                                  //         onPressed: () {
+                                  //           // Navigator.pop(context, false);
+                                  //           Scaffold.of(context).openDrawer();
+                                  //         },
+                                  //         child: Icon(
+                                  //           Icons.menu,
+                                  //           color: Colors.black,
+                                  //           size: 30,
+                                  //         ),
+                                  //         style: ElevatedButton.styleFrom(
+                                  //           backgroundColor: Colors.white,
+                                  //           elevation: 20,
+                                  //           // shape: CircleBorder(),
+                                  //           shadowColor:
+                                  //               Colors.black.withAlpha(150),
+                                  //           padding: EdgeInsets.all(8),
+                                  //         ),
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // ),
+                                  SizedBox(
+                                    height: 200,
+                                  ),
                                   Container(
-                                    padding: EdgeInsets.all(8),
+                                    // color: Colors.white,
                                     decoration: BoxDecoration(
                                         color: Colors.white,
-                                        shape: BoxShape.circle),
-                                    child: RoundedProfilePicture(
-                                      image: (getProfilePicture == '')
-                                          ? 'assets/dropili_Logo_PNG.png'
-                                          : getProfilePicture,
-                                      get: !(getProfilePicture == ''),
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(20),
+                                          topRight: Radius.circular(20),
+                                        )),
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 20,
+                                          left: 20,
+                                          right: 20,
+                                          bottom: 50),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              GestureDetector(
+                                                  onTap: () async {
+                                                    Navigator.pushNamed(context,
+                                                            '/editProfile')
+                                                        .then(
+                                                      (value) {
+                                                        getAllData();
+                                                      },
+                                                    );
+                                                  },
+                                                  child:
+                                                      EditeProfileBtnWidget()),
+                                            ],
+                                          ),
+                                          SizedBox(height: 20),
+                                          Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 10),
+                                              child: InformationWidget(
+                                                name: getUserName,
+                                                description: getUserDescription,
+                                              )),
+                                          SizedBox(height: 30),
+                                          AllBlockWidget(
+                                            userBlocks: state.userBlocks,
+                                            costumeBlocks: state.costumeBlocks,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
-                            )
-                          ],
+                              Container(
+                                // top: 120,
+                                // left: 30,
+                                width: MediaQuery.of(context).size.width,
+                                padding: EdgeInsets.only(
+                                    top: 120, left: 20, right: 20),
+
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          shape: BoxShape.circle),
+                                      child: RoundedProfilePicture(
+                                        image: (getProfilePicture == '')
+                                            ? 'assets/dropili_Logo_PNG.png'
+                                            : getProfilePicture,
+                                        get: !(getProfilePicture == ''),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
+                ),
               ),
             );
           },

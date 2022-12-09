@@ -35,19 +35,19 @@
     "Submit" : "Soumettre",
 
     "Contacts" : "Contacts",
-    "Social Media" : "Des médias sociaux",
+    "Social Media" : "Médias sociaux",
     "Payment" : "méthodes de payement",
-    "Others" : "Les autres",
+    "Others" : "Autres",
     "Custom" : "Personnalisé",
 
     "Name ar": "Nom en arabe",
     "Name fr": "Nom en français",
-    "Url": "lien",
+    "Url": "Lien",
 
-    "Edit Profile": "Modifier le profil",
+    "Edit Profile": "Modifier profil",
     "Direct": "Direct à",
     "Profile active": "Profil actif",
-    "Description" : "La description",
+    "Description" : "Description",
 
 
     "Save":"Sauvegarder",
@@ -57,31 +57,42 @@
     "Profile": "Profil",
     "Activate": "Activer",
     "Share": "Partager",
-    "Collection": "Le recueil",
+    "Collection": "Collection",
 
     "Edit my profile":"Éditer mon profil",
-    "Share Profile":"Partager le profil",
-    "Work mode":"En mode travail",
+    "Share profile":"Partager profil",
+    "Work mode":"Mode travail",
     "About Dropili":"À propos de Dropili",
     "Log out":"Se déconnecter",
 
 
-    "Sharing Dropili Profile":"Partage de profil Dropili",
+    "Sharing Dropili Profile":"Partage profil Dropili",
     "Tap to save":"Appuyez pour enregistrer le code QR dans la galerie",
+    "link copied to clipboard":"lien copié",
 
 
 
-    "Show":"Spectacle",
+    "Show":"Afficher",
     "Delete":"Supprimer",
-    "Delete Friend":"Supprimer un ami",
+    "Delete Friend":"Supprimer",
     "Profile not active":"Profil non actif",
 
 
     "Change Language" :"Changer de langue",
     "Choose Language":"Choisissez une langue :",
 
+    "Activate Dropili tag": "Activer le Tag Dropili",
+    "No Nfc found":"Aucun Nfc trouvé",
     "nfc looking text": "Essayez de déplacer votre tag NFC pour trouver le lecteur NFC sur votre appareil",
-    "nfc not found text": "Aucun adaptateur Nfc détecté, essayez d'activer le scanner NFC à partir des paramètres"
+    "nfc not found text": "Aucun adaptateur Nfc détecté, essayez d'activer le scanner NFC à partir des paramètres",
+    "Tag found":"balise trouvée",
+    "Still looking":"Toujours à la recherche",
+
+    "Something went wrong":"Quelque chose s'est mal passé",
+
+    "Whoops" :"Whoops",
+    "No internet connection" :"Pas de connexion Internet",
+    "Retry" :"Réessayer"
 
 
 

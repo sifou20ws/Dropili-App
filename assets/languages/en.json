@@ -65,6 +65,7 @@
 
     "Sharing Dropili Profile":"Sharing Dropili Profile",
     "Tap to save":"Tap to save QR Code to gallery",
+    "link copied to clipboard":"link copied to clipboard",
     
 
     
@@ -77,8 +78,19 @@
     "Change Language" :"Change Language",
     "Choose Language":"Choose a language :",
 
+    "Activate Dropili tag": "Activate Dropili tag",
+    "No Nfc found":"No NFC found",
     "nfc looking text": "Try moving your NFC tag around to find the NFC reader on your device",
-    "nfc not found text": "No Nfc Adabter detected, try turnning on the NFC scanner from the settings"
+    "nfc not found text": "No Nfc Adabter detected, try turnning on the NFC scanner from the settings",
+    "Tag found":"Tag found",
+    "Still looking":"Still looking",
+
+    "Something went wrong":"Something went wrong",
+
+    "Whoops" :"Whoops",
+    "No internet connection" :"No internet connection",
+    "Retry" :"Retry"
+
 
 
 

@@ -60,7 +60,7 @@
     "Collection": "اصدقاء",
 
     "Edit my profile":"تعديل ملفي الشخصي",
-    "Share Profile":"مشاركة حسابي",
+    "Share profile":"مشاركة حسابي",
     "Work mode":"نظام العمل",
     "About Dropili":"حول دروبيلي",
     "Log out":"تسجيل الخروج",
@@ -68,6 +68,7 @@
 
     "Sharing Dropili Profile":"مشاركة الحساب",
     "Tap to save":"إضغط لتحميل رمز QR",
+    "link copied to clipboard":"تم نسخ الرابط",
     
 
     
@@ -79,8 +80,18 @@
     "Change Language" :"تغيير اللغة",
     "Choose Language":"إختر لغة",
 
+    "Activate Dropili tag": "تفعيل بطاقة دروبيلي",
+    "No Nfc found":"لم يتم ايجاد قارئ NFC",
     "nfc looking text": "حاول تحريك علامة NFC الخاصة بك للعثور على قارئ NFC على جهازك",
-    "nfc not found text": "لم يتم اكتشاف محول Nfc ، حاول تشغيل الماسح الضوئي NFC من الإعدادات"
+    "nfc not found text": "لم يتم اكتشاف محول Nfc ، حاول تشغيل الماسح الضوئي NFC من الإعدادات",
+    "Tag found":"تم العثور على العلامة",
+    "Still looking":"لا تزال تبحث",
+
+    "Something went wrong":"هناك خطأ ما",
+
+    "Whoops" :"عذرًا",
+    "No internet connection" :"لا يوجد اتصال بالإنترنت",
+    "Retry" :"أعد المحاولة"
     
     
 }
