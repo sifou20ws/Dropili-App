@@ -68,17 +68,22 @@
 
     "Sharing Dropili Profile":"مشاركة الحساب",
     "Tap to save":"إضغط لتحميل رمز QR",
-    "link copied to clipboard":"تم نسخ الرابط",
+    "Profile link copied to clipboard":"تم نسخ الرابط",
+    "Image saved succesfully":"تم حفظ الصورة بنجاح",
     
 
     
+    "No collection yet":"لا اصدقاء بعد",
     "Show":"إظهار",
     "Delete":"حذف",
     "Delete Friend":"حذف الحساب",
     "Profile not active":"حساب موقف",
+   "Deleted sucessfully" :"حذف بنجاح",
+
     
     "Change Language" :"تغيير اللغة",
     "Choose Language":"إختر لغة",
+
 
     "Activate Dropili tag": "تفعيل بطاقة دروبيلي",
     "No Nfc found":"لم يتم ايجاد قارئ NFC",

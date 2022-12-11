@@ -1,9 +1,8 @@
-import 'dart:developer';
-
 import 'package:dropili/Presentation/Nfc/bloc/nfc_bloc.dart';
 import 'package:dropili/Presentation/Nfc/nfc_dialoge.dart';
 import 'package:dropili/Presentation/authentification/bloc/auth_bloc.dart';
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
+import 'package:dropili/Presentation/home/collectionPage/bloc/collection_bloc.dart';
 import 'package:dropili/Presentation/home/collectionPage/collection_page.dart';
 import 'package:dropili/Presentation/home/navigation_bar/navigation_bar_widget.dart';
 import 'package:dropili/Presentation/home/qr_page/qr_page.dart';
@@ -28,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late ProfileBloc _profileBloc;
   late AuthBloc _authBloc;
   late NfcBloc _nfcBloc;
+  late CollectionBloc _collectionBloc;
 
   final _pageController = PageController();
   late List<Widget> _pages;
@@ -38,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _navigationBloc = getIt.getItInstace<NavigationBloc>();
     _profileBloc = getIt.getItInstace<ProfileBloc>();
     _authBloc = AuthBloc(getIt.getItInstace<AuthRepository>());
+    _collectionBloc = getIt.getItInstace<CollectionBloc>();
 
     _nfcBloc = getIt.getItInstace<NfcBloc>();
     _nfcBloc.add(ReadTagEvent());
@@ -63,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
         BlocProvider.value(value: _profileBloc),
         BlocProvider.value(value: _authBloc),
         BlocProvider.value(value: _nfcBloc),
+        BlocProvider.value(value: _collectionBloc),
       ],
       child: MultiBlocListener(
         listeners: [
@@ -90,10 +92,14 @@ class _HomeScreenState extends State<HomeScreen> {
           BlocListener<NfcBloc, NfcState>(
             listener: (context, state) async {
               if (state is NfcReadSuccess) {
-                // log(state.content);
-
                 Navigator.pushNamed(context, '/scannedProfile',
-                    arguments: state.content);
+                        arguments: state.content)
+                    .then(
+                  (_) {
+                    _collectionBloc.add(LoadCollectionEvent());
+                  },
+                );
+
                 _nfcBloc.add(ReadTagEvent());
               }
             },

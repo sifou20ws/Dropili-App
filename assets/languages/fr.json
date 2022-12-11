@@ -11,14 +11,14 @@
     "Good to see you": "Content de te voir",
     "name":"Nom",
     "username": "Nom d'utilisateur",
-    "password": "Mot de pass",
+    "password": "Mot de passe",
     "email" : "E-mail",
-    "forget password": "Mot de pass oublié ?",
+    "forget password": "Mot de passe oublié ?",
     "or connect" : "Ou se connecter avec",
     "don't have an account": "Vous n'avez pas de compte ?",
     "or signup": "Ou inscrivez-vous avec",
     "have account": "Vous avez déjà un compte ?",
-    "not valid": "non valid",
+    "not valid": "non valide",
     "short": "trop court",
     "Signed in successfully": "Connexion réussie",
     "Empty email or password fields": "Champs d'E-mail ou de Mot de passe vides",
@@ -68,14 +68,17 @@
 
     "Sharing Dropili Profile":"Partage profil Dropili",
     "Tap to save":"Appuyez pour enregistrer le code QR dans la galerie",
-    "link copied to clipboard":"lien copié",
+    "Profile link copied to clipboard":"lien copié",
+    "Image saved succesfully":"Image enregistrée avec succès",
 
 
 
+    "No collection yet":"Pas encore de collecte",
     "Show":"Afficher",
     "Delete":"Supprimer",
     "Delete Friend":"Supprimer",
     "Profile not active":"Profil non actif",
+   "Deleted sucessfully" :"Supprimé avec succès",
 
 
     "Change Language" :"Changer de langue",

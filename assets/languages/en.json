@@ -65,15 +65,17 @@
 
     "Sharing Dropili Profile":"Sharing Dropili Profile",
     "Tap to save":"Tap to save QR Code to gallery",
-    "link copied to clipboard":"link copied to clipboard",
+    "Profile link copied to clipboard":"link copied to clipboard",
+    "Image saved succesfully":"Image saved succesfully",
     
 
     
+    "No collection yet":"No collection yet",
     "Show":"Show",
     "Delete":"Delete",
     "Delete Friend":"Delete Friend",
     "Profile not active":"Profile not active",
-    
+   "Deleted sucessfully" :"Deleted sucessfully",
     
     "Change Language" :"Change Language",
     "Choose Language":"Choose a language :",

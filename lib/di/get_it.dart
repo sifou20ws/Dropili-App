@@ -1,5 +1,6 @@
 import 'package:dropili/Presentation/Nfc/bloc/nfc_bloc.dart';
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
+import 'package:dropili/Presentation/home/collectionPage/bloc/collection_bloc.dart';
 import 'package:dropili/Presentation/home/root/bloc/navigation_bloc.dart';
 import 'package:dropili/Presentation/localization/bloc/language_bloc.dart';
 import 'package:dropili/core/api/post_get.dart';
@@ -23,6 +24,12 @@ Future init() async {
       () => ProfileBloc(ProfileRepository: getItInstace()));
 
   getItInstace.registerLazySingleton<NfcBloc>(() => NfcBloc());
+
+  getItInstace.registerLazySingleton<CollectionBloc>(
+    () => CollectionBloc(
+      profileRepository: getItInstace(),
+    ),
+  );
 
   getItInstace.registerLazySingleton<LanguageBloc>(() => LanguageBloc());
 }

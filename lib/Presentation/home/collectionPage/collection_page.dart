@@ -25,8 +25,7 @@ class _CollectionPageState extends State<CollectionPage>
   @override
   void initState() {
     super.initState();
-    _collectionBloc = CollectionBloc(
-        profileRepository: getIt.getItInstace<ProfileRepository>());
+    _collectionBloc = getIt.getItInstace<CollectionBloc>();
   }
 
   @override
@@ -48,7 +47,7 @@ class _CollectionPageState extends State<CollectionPage>
           // SnackBars.showErrorSnackBar(context, state.errorMassage);
 
           if (state is CollectionSucessState)
-            SnackBars.showSucessSnackBar(context, state.message);
+            SnackBars.showSucessSnackBar(context, state.message.t(context));
         },
         child: BlocBuilder<CollectionBloc, CollectionState>(
           builder: (context, state) {
