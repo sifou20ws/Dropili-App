@@ -133,7 +133,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        _freindProfile.userProfile.name,
+                                        _freindProfile.name,
                                         style: TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.w500,

@@ -39,7 +39,7 @@ class _FormWidgetState extends State<LogingFormWidget> {
               style:
                   TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
               decoration: buildInputDecoration(
-                text: 'Username'.t(context),
+                text: 'username'.t(context),
               ).copyWith(
                 prefixIcon: Icon(
                   Icons.person_outline,
