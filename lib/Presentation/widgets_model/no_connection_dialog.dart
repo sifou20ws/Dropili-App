@@ -13,28 +13,28 @@ class NoConnectionDialogue extends StatelessWidget {
       backgroundColor: Colors.transparent,
       elevation: 10,
       child: Container(
-        height: 320,
+        height: 200,
         padding: EdgeInsets.only(top: 30),
         // alignment: Alignment.center,
         decoration: BoxDecoration(
           // shape: BoxShape.rectangle,
           color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(15),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image(
-              image: AssetImage('assets/no-connection.jpg'),
-              width: 120,
-            ),
-            SizedBox(height: 25),
+            // Image(
+            //   image: AssetImage('assets/no-connection.jpg'),
+            //   width: 120,
+            // ),
+            // SizedBox(height: 25),
             Text(
               'Whoops'.t(context),
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.w600,
-                color: Colors.red,
+                color: Colors.black,
               ),
             ),
             SizedBox(height: 10),
@@ -58,7 +58,7 @@ class NoConnectionDialogue extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.red,
                   // color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(10),
                   boxShadow: [
                     BoxShadow(
                       color: Color.fromARGB(20, 29, 29, 29),
