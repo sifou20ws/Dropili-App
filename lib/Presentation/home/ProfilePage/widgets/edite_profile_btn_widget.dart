@@ -14,7 +14,7 @@ class EditeProfileBtnWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: MalinColors.AppGreen,
         // color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
             color: Color.fromARGB(20, 29, 29, 29),

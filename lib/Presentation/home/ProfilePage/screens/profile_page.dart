@@ -115,32 +115,6 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
                               ),
                               Column(
                                 children: [
-                                  // Padding(
-                                  //   padding: const EdgeInsets.all(10),
-                                  //   child: Row(
-                                  //     children: [
-                                  //       ElevatedButton(
-                                  //         onPressed: () {
-                                  //           // Navigator.pop(context, false);
-                                  //           Scaffold.of(context).openDrawer();
-                                  //         },
-                                  //         child: Icon(
-                                  //           Icons.menu,
-                                  //           color: Colors.black,
-                                  //           size: 30,
-                                  //         ),
-                                  //         style: ElevatedButton.styleFrom(
-                                  //           backgroundColor: Colors.white,
-                                  //           elevation: 20,
-                                  //           // shape: CircleBorder(),
-                                  //           shadowColor:
-                                  //               Colors.black.withAlpha(150),
-                                  //           padding: EdgeInsets.all(8),
-                                  //         ),
-                                  //       ),
-                                  //     ],
-                                  //   ),
-                                  // ),
                                   SizedBox(
                                     height: 200,
                                   ),
