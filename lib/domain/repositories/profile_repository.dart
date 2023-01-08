@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 // import 'dart:developer';
 
 import 'package:dropili/core/api/post_get.dart';
@@ -174,13 +175,18 @@ class ProfileRepository {
     }
   }
 
-  Future<dynamic> PostCostumeBlock({dynamic data, dynamic icon}) async {
+  Future<dynamic> PostCostumeBlock(
+      {dynamic data, dynamic icon, dynamic file, dynamic fileName}) async {
     dynamic response;
     var dataR;
     try {
-      // log(name:'icon repo' , icon);
-      response =
-          await _network.postOnePictureWithHeader('/custom-blocks', icon, data);
+      log(name: 'icon repo', icon);
+      log(name: 'file repo', file);
+      log(name: 'data repo', data.toString());
+
+      response = await _network.postOnePictureWithHeader(
+          '/custom-blocks', icon, data, file,
+          fileName: fileName);
       dataR = json.decode(response);
       return dataR;
     } catch (e) {
@@ -189,13 +195,24 @@ class ProfileRepository {
   }
 
   Future<dynamic> UpdateCostumeBlock(
-      {dynamic data, dynamic icon, dynamic id}) async {
+      {dynamic data,
+      dynamic icon,
+      dynamic id,
+      dynamic file,
+      dynamic fileName,
+      bool urlOrFile = true}) async {
     dynamic response;
     var dataR;
     try {
-      // log(name:'icon repo' , icon);
-      response = await _network.postOnePictureWithHeader(
-          '/custom-blocks/$id/update', icon, data);
+      log(name:'file repo' , file);
+      log(name:'data repo' , data.toString());
+
+      urlOrFile
+          ? response = await _network.postOnePictureWithHeader(
+              '/custom-blocks/$id/update', icon, data, '')
+          : response = await _network.postOnePictureWithHeader(
+              '/custom-blocks/$id/update', icon, data, file);
+      ;
       dataR = json.decode(response);
       return dataR;
     } catch (e) {

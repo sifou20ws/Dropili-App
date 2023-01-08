@@ -155,15 +155,22 @@ class GetCostumeBlockImage extends EditProfileEvent {
   @override
   List<Object?> get props => [];
 }
+class GetCostumeBlockFile extends EditProfileEvent {
+  GetCostumeBlockFile();
 
+  @override
+  List<Object?> get props => [];
+}
 class PostCostumeBlock extends EditProfileEvent {
-  final String url, titleAr, titleFr;
-  final dynamic icon;
+  final String  titleAr;
+  final dynamic icon , file , url;
+  final bool fileOrUrl;
   PostCostumeBlock({
-    required this.url,
+    this.url,
+    required this.fileOrUrl,
     required this.titleAr,
     this.icon,
-    required this.titleFr,
+    this.file
   });
 
   @override
@@ -171,14 +178,17 @@ class PostCostumeBlock extends EditProfileEvent {
 }
 
 class UpdateCostumeBlock extends EditProfileEvent {
-  final String url, titleAr, titleFr, id;
-  final dynamic icon;
+  final String title, id;
+  final dynamic icon , file , url , fileName ;
+  final bool urlOrFile ;
   UpdateCostumeBlock({
     required this.id,
-    required this.url,
-    required this.titleAr,
-    this.icon,
-    required this.titleFr,
+    this.url='',
+    required this.title,
+    this.icon='',
+    this.file='',
+    this.fileName='',
+    this.urlOrFile = true,
   });
 
   @override
@@ -202,6 +212,20 @@ class DeleteCostumeBlocksEvent extends EditProfileEvent {
 
 class ResetCostumeBlocksEvent extends EditProfileEvent {
   ResetCostumeBlocksEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class CostumeFileEvent extends EditProfileEvent {
+  CostumeFileEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class CostumeUrlEvent extends EditProfileEvent {
+  CostumeUrlEvent();
 
   @override
   List<Object?> get props => [];

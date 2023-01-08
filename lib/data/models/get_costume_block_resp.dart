@@ -1,15 +1,15 @@
 import 'package:dropili/core/services/safe_convert.dart';
 
 
-class GetCostumeBlocksResponse {
-  final List<CustomBlocksItem> customBlocks;
+class GetCostumeBlocksResp {
+  final List<CustomBlocks> customBlocks;
 
-  GetCostumeBlocksResponse({
+  GetCostumeBlocksResp({
     required this.customBlocks,
   });
 
-  factory GetCostumeBlocksResponse.fromJson(Map<String, dynamic>? json) => GetCostumeBlocksResponse(
-    customBlocks: asList(json, 'customBlocks').map((e) => CustomBlocksItem.fromJson(e)).toList(),
+  factory GetCostumeBlocksResp.fromJson(Map<String, dynamic>? json) => GetCostumeBlocksResp(
+    customBlocks: asList(json, 'customBlocks').map((e) => CustomBlocks.fromJson(e)).toList(),
   );
 
   Map<String, dynamic> toJson() => {
@@ -17,60 +17,51 @@ class GetCostumeBlocksResponse {
   };
 }
 
-class CustomBlocksItem {
-  final int id;
-  final Title title;
+class CustomBlocks {
   final String url;
-  final int active;
-  final dynamic data;
+  final Title title;
   final int userId;
-  final String createdAt;
   final String updatedAt;
-  final CostumeIcon? icon;
+  final String createdAt;
+  final int id;
+  final Icon icon;
+  final File file;
   final List<MediaItem> media;
-  final CustomFile? file;
 
-
-  CustomBlocksItem({
-    this.id = 0,
-    required this.title,
+  CustomBlocks({
     this.url = "",
-    this.active = 0,
-    this.data,
+    required this.title,
     this.userId = 0,
-    this.createdAt = "",
     this.updatedAt = "",
+    this.createdAt = "",
+    this.id = 0,
     required this.icon,
+    required this.file,
     required this.media,
-    required this.file
   });
 
-  factory CustomBlocksItem.fromJson(Map<String, dynamic>? json) => CustomBlocksItem(
-    id: asInt(json, 'id'),
-    title: Title.fromJson(asMap(json, 'title')),
+  factory CustomBlocks.fromJson(Map<String, dynamic>? json) => CustomBlocks(
     url: asString(json, 'url'),
-    active: asInt(json, 'active'),
-    data: asString(json, 'data'),
+    title: Title.fromJson(asMap(json, 'title')),
     userId: asInt(json, 'user_id'),
-    createdAt: asString(json, 'created_at'),
     updatedAt: asString(json, 'updated_at'),
-    icon: CostumeIcon.fromJson(asMap(json, 'icon')),
+    createdAt: asString(json, 'created_at'),
+    id: asInt(json, 'id'),
+    icon: Icon.fromJson(asMap(json, 'icon')),
+    file: File.fromJson(asMap(json, 'file')),
     media: asList(json, 'media').map((e) => MediaItem.fromJson(e)).toList(),
-    file: CustomFile.fromJson(asMap(json, 'file'))
   );
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'title': title.toJson(),
     'url': url,
-    'active': active,
-    'data': data,
+    'title': title.toJson(),
     'user_id': userId,
-    'created_at': createdAt,
     'updated_at': updatedAt,
-    'icon': icon!.toJson(),
+    'created_at': createdAt,
+    'id': id,
+    'icon': icon.toJson(),
+    'file': file.toJson(),
     'media': media.map((e) => e.toJson()).toList(),
-    'file':file!.toJson(),
   };
 }
 
@@ -94,7 +85,7 @@ class Title {
   };
 }
 
-class CostumeIcon {
+class Icon {
   final int id;
   final String modelType;
   final int modelId;
@@ -116,7 +107,7 @@ class CostumeIcon {
   final String originalUrl;
   final String previewUrl;
 
-  CostumeIcon({
+  Icon({
     this.id = 0,
     this.modelType = "",
     this.modelId = 0,
@@ -139,7 +130,7 @@ class CostumeIcon {
     this.previewUrl = "",
   });
 
-  factory CostumeIcon.fromJson(Map<String, dynamic>? json) => CostumeIcon(
+  factory Icon.fromJson(Map<String, dynamic>? json) => Icon(
     id: asInt(json, 'id'),
     modelType: asString(json, 'model_type'),
     modelId: asInt(json, 'model_id'),
@@ -186,7 +177,23 @@ class CostumeIcon {
   };
 }
 
-class CustomFile {
+class GeneratedConversions {
+  final bool preview;
+
+  GeneratedConversions({
+    this.preview = false,
+  });
+
+  factory GeneratedConversions.fromJson(Map<String, dynamic>? json) => GeneratedConversions(
+    preview: asBool(json, 'preview'),
+  );
+
+  Map<String, dynamic> toJson() => {
+    'preview': preview,
+  };
+}
+
+class File {
   final int id;
   final String modelType;
   final int modelId;
@@ -208,7 +215,7 @@ class CustomFile {
   final String originalUrl;
   final String previewUrl;
 
-  CustomFile({
+  File({
     this.id = 0,
     this.modelType = "",
     this.modelId = 0,
@@ -231,7 +238,7 @@ class CustomFile {
     this.previewUrl = "",
   });
 
-  factory CustomFile.fromJson(Map<String, dynamic>? json) => CustomFile(
+  factory File.fromJson(Map<String, dynamic>? json) => File(
     id: asInt(json, 'id'),
     modelType: asString(json, 'model_type'),
     modelId: asInt(json, 'model_id'),
@@ -278,24 +285,6 @@ class CustomFile {
   };
 }
 
-
-class GeneratedConversions {
-  final bool preview;
-
-  GeneratedConversions({
-    this.preview = false,
-  });
-
-  factory GeneratedConversions.fromJson(Map<String, dynamic>? json) => GeneratedConversions(
-    preview: asBool(json, 'preview'),
-  );
-
-  Map<String, dynamic> toJson() => {
-    'preview': preview,
-  };
-}
-
-
 class MediaItem {
   final int id;
   final String modelType;
@@ -310,7 +299,7 @@ class MediaItem {
   final int size;
   final List<dynamic> manipulations;
   final List<dynamic> customProperties;
-  final GeneratedConversions generatedConversions;
+  final List<dynamic> generatedConversions;
   final List<dynamic> responsiveImages;
   final int orderColumn;
   final String createdAt;
@@ -355,7 +344,7 @@ class MediaItem {
     size: asInt(json, 'size'),
     manipulations: asList(json, 'manipulations').map((e) => e.toString()).toList(),
     customProperties: asList(json, 'custom_properties').map((e) => e.toString()).toList(),
-    generatedConversions: GeneratedConversions.fromJson(asMap(json, 'generated_conversions')),
+    generatedConversions: asList(json, 'generated_conversions').map((e) => e.toString()).toList(),
     responsiveImages: asList(json, 'responsive_images').map((e) => e.toString()).toList(),
     orderColumn: asInt(json, 'order_column'),
     createdAt: asString(json, 'created_at'),
@@ -378,7 +367,7 @@ class MediaItem {
     'size': size,
     'manipulations': manipulations.map((e) => e).toList(),
     'custom_properties': customProperties.map((e) => e).toList(),
-    'generated_conversions': generatedConversions.toJson(),
+    'generated_conversions': generatedConversions.map((e) => e).toList(),
     'responsive_images': responsiveImages.map((e) => e).toList(),
     'order_column': orderColumn,
     'created_at': createdAt,
@@ -387,5 +376,4 @@ class MediaItem {
     'preview_url': previewUrl,
   };
 }
-
 

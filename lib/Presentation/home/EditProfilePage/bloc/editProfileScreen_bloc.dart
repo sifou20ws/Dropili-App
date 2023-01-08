@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/data/models/costume_block_response.dart';
@@ -8,6 +9,7 @@ import 'package:dropili/data/models/post_user_blocks.dart';
 import 'package:dropili/data/models/post_user_profile_response.dart';
 import 'package:dropili/domain/repositories/profile_repository.dart';
 import 'package:equatable/equatable.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 import 'package:image_picker/image_picker.dart';
@@ -44,6 +46,9 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     on<DeleteCostumeBlocksEvent>(_deleteCostumeBlocksEvent);
     on<UpdateCostumeBlock>(_updateCostumeBlock);
     on<ResetCostumeBlocksEvent>(_resetCostumeBlocksEvent);
+    on<CostumeFileEvent>(_costumeFileEvent);
+    on<CostumeUrlEvent>(_costumeUrlEvent);
+    on<GetCostumeBlockFile>(_getCostumeBlockFile);
   }
 
   void _getBlocks(GetBlocksEvent event, Emitter<EditProfileState> emit) async {
@@ -334,35 +339,8 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     XFile? file;
     try {
       file = await ImagePicker().pickImage(source: ImageSource.gallery);
-      // if (file != null) {
-      //   emit(state.copyWith(
-      //       addCostumeBlockImgPath: file.path,
-      //       status: Status.costumeBlockImageSuccess));
-      //   //log(state.addCostumeBlockImgPath, name: 'costume block image path');
-      // }
 
       if (file != null) {
-        // CroppedFile? croppedFile = (await ImageCropper().cropImage(
-        //   sourcePath: file.path,
-        //   aspectRatio: CropAspectRatio(
-        //     ratioY: 1.0,
-        //     ratioX: 1.0,
-        //   ),
-        //   uiSettings: [
-        //     AndroidUiSettings(
-        //       toolbarTitle: 'Edit your image',
-        //       toolbarColor: MalinColors.AppBlue,
-        //       toolbarWidgetColor: Colors.white,
-        //       activeControlsWidgetColor: MalinColors.AppGreen,
-        //       initAspectRatio: CropAspectRatioPreset.original,
-        //       cropFrameStrokeWidth: 10,
-        //       lockAspectRatio: false,
-        //     ),
-        //     IOSUiSettings(
-        //       title: 'Cropper',
-        //     ),
-        //   ],
-        // ));
         String croppedFile = await cropImage(file: file, ratioY: 1, ratioX: 1);
 
         log('success', name: 'cropped');
@@ -374,33 +352,88 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     }
   }
 
+  void _getCostumeBlockFile(
+      GetCostumeBlockFile event, Emitter<EditProfileState> emit) async {
+    //XFile? file;
+    String? filePath, fileName;
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf', 'jpg'],
+      );
+
+      if (result != null) {
+        filePath = result.files.single.path;
+        fileName = result.files.single.name;
+
+        log(fileName, name: 'file name');
+        log(filePath!, name: 'file path');
+
+        emit(state.copyWith(
+          fileName: fileName,
+          filePath: filePath,
+        ));
+      } else {
+        log('no file selected');
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
   void _postCostumeBlock(
       PostCostumeBlock event, Emitter<EditProfileState> emit) async {
-    if (event.url.isEmpty || event.titleAr.isEmpty || event.titleFr.isEmpty) {
+    if (event.titleAr.isEmpty) {
       emit(state.copyWith(
-        messageError: 'url field is required',
-        cBValideUrl: !event.url.isEmpty,
-        cBValideArName: !event.titleAr.isEmpty,
-        cBValideFrName: !event.titleFr.isEmpty,
+        messageError: 'this field is required',
+        cBValideName: !event.titleAr.isEmpty,
       ));
-      log(state.cBValideArName.toString(), name: 'ar');
-      log(state.cBValideFrName.toString(), name: 'fr');
-      log(state.cBValideUrl.toString(), name: 'url');
+      log(state.cBValideName.toString(), name: 'ar bloc');
       return;
+    }
+
+    Map<String, String> map1;
+
+    if (event.fileOrUrl==true) {
+      if (event.url.isEmpty) {
+        emit(state.copyWith(
+          messageError: 'this field is required',
+          cBValideUrl: false,
+        ));
+        log(state.cBValideUrl.toString(), name: 'url');
+        return;
+      }else{
+        map1 = {
+          'url': event.url ,
+          'title[ar]': event.titleAr,
+          'title[fr]': event.titleAr
+        };
+      }
+    }else{
+      if (event.file.isEmpty) {
+        emit(state.copyWith(
+          messageError: 'this field is required',
+          cBValideFile: false,
+        ));
+        log(state.cBValideFile.toString(), name: 'file');
+        return;
+      }else{
+        map1 = {
+          'title[ar]': event.titleAr,
+          'title[fr]': event.titleAr
+        };
+      }
     }
 
     emit(state.copyWith(status: Status.postCostumeBlocksLoading));
     var resp;
-    Map<String, String> map1 = {
-      'url': event.url,
-      'title[ar]': event.titleAr,
-      'title[fr]': event.titleFr
-    };
 
     try {
       resp = await _ProfileRepository.PostCostumeBlock(
         icon: event.icon,
         data: map1,
+        file: event.file,
+        fileName: state.fileName,
       );
       CostumeBlockResponse costumeBlockResp =
           CostumeBlockResponse.fromJson(resp);
@@ -428,19 +461,33 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
 
   void _updateCostumeBlock(
       UpdateCostumeBlock event, Emitter<EditProfileState> emit) async {
-    emit(state.copyWith(status: Status.deleteCostumeBlocksLoading));
+    emit(state.copyWith(status: Status.updateCostumeBlocksLoading));
     var resp;
-    Map<String, String> map1 = {
-      'url': event.url,
-      'title[ar]': event.titleAr,
-      'title[fr]': event.titleFr
-    };
+    Map<String, String> map1;
+    if(event.urlOrFile){
+      map1 = {
+        'url': event.url,
+        'title[ar]': event.title,
+        'title[fr]': event.title
+      };
+    }else{
+      map1 = {
+        'url' : '.',
+        'title[ar]': event.title,
+        'title[fr]': event.title
+      };
+    }
 
     try {
+      log(event.file,name: 'file path bloc');
+      log(event.urlOrFile.toString(),name: 'file path bloc');
       resp = await _ProfileRepository.UpdateCostumeBlock(
         icon: event.icon,
         data: map1,
         id: event.id,
+        file: event.file,
+        fileName: event.fileName,
+        urlOrFile: event.urlOrFile,
       );
       CostumeBlockResponse costumeBlockResp =
           CostumeBlockResponse.fromJson(resp);
@@ -465,6 +512,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       log(e.toString());
     }
   }
+
 
   void _getCostumeBlocksEvent(
       GetCostumeBlocksEvent event, Emitter<EditProfileState> emit) async {
@@ -515,7 +563,24 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   void _resetCostumeBlocksEvent(
       ResetCostumeBlocksEvent event, Emitter<EditProfileState> emit) async {
     emit(state.copyWith(
-        cBValideFrName: true, cBValideArName: true, cBValideUrl: true));
+        cBValideName: true,
+        cBValideFile: true,
+        cBValideUrl: true,
+        addCostumeBlockImgPath : '',
+        fileName: ''));
+  }
+
+  void _costumeFileEvent(
+      CostumeFileEvent event, Emitter<EditProfileState> emit) {
+    emit(state.copyWith(
+      fileOrUrl: false,
+    ));
+  }
+
+  void _costumeUrlEvent(CostumeUrlEvent event, Emitter<EditProfileState> emit) {
+    emit(state.copyWith(
+      fileOrUrl: true,
+    ));
   }
 
   Future<String> cropImage(
