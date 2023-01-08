@@ -2,7 +2,10 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/icon_container.dart';
+import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -24,6 +27,22 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
   Widget build(BuildContext context) {
     Future<void> pickImage() async {
       BlocProvider.of<EditProfileBloc>(context).add(GetCostumeBlockImage());
+    }
+
+    Future<void> pickFile() async {
+      BlocProvider.of<EditProfileBloc>(context).add(GetCostumeBlockFile());
+    }
+
+    Color getColor(Set<MaterialState> states) {
+      const Set<MaterialState> interactiveStates = <MaterialState>{
+        MaterialState.pressed,
+        MaterialState.hovered,
+        MaterialState.focused,
+      };
+      if (states.any(interactiveStates.contains)) {
+        return Colors.blue;
+      }
+      return Colors.greenAccent;
     }
 
     bool iconPath = false;
@@ -72,31 +91,72 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
                                 top: 10, right: 5, left: 5),
                             child: Column(
                               children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SizedBox(width: 0),
+                                    textCheckbox(
+                                      text: 'Link',
+                                      checkBox: Checkbox(
+                                        checkColor: Colors.white,
+                                        fillColor:
+                                            MaterialStateProperty.resolveWith(
+                                                getColor),
+                                        value: state.fileOrUrl,
+                                        onChanged: (bool? value) {
+                                          BlocProvider.of<EditProfileBloc>(
+                                                  context)
+                                              .add(CostumeUrlEvent());
+                                        },
+                                      ),
+                                    ),
+                                    textCheckbox(
+                                      text: 'File',
+                                      checkBox: Checkbox(
+                                        checkColor: Colors.white,
+                                        fillColor:
+                                            MaterialStateProperty.resolveWith(
+                                                getColor),
+                                        value: !state.fileOrUrl,
+                                        onChanged: (bool? value) {
+                                          BlocProvider.of<EditProfileBloc>(
+                                                  context)
+                                              .add(CostumeFileEvent());
+                                        },
+                                      ),
+                                    ),
+                                    SizedBox(width: 0),
+                                  ],
+                                ),
                                 TextFormField(
                                   onChanged: (value) {
                                     titlear = value;
                                   },
-                                  decoration: buildInputDecoration(
-                                      text: 'Name ar'.t(context),
-                                      error: !state.cBValideArName),
+                                  decoration: textFieldDecoration(
+                                      text: 'Name'.t(context),
+                                      error: !state.cBValideName),
                                 ),
                                 SizedBox(height: 5),
-                                TextFormField(
-                                  onChanged: (value) {
-                                    titlefr = value;
-                                  },
-                                  decoration: buildInputDecoration(
-                                      text: 'Name fr'.t(context),
-                                      error: !state.cBValideFrName),
-                                ),
-                                SizedBox(height: 5),
-                                TextFormField(
-                                  onChanged: (value) {
-                                    url = value;
-                                  },
-                                  decoration: buildInputDecoration(
-                                      text: 'Url'.t(context), error: !state.cBValideUrl),
-                                ),
+                                state.fileOrUrl
+                                    ? TextFormField(
+                                        onChanged: (value) {
+                                          url = value;
+                                        },
+                                        decoration: textFieldDecoration(
+                                            text: 'Url'.t(context),
+                                            error: !state.cBValideUrl),
+                                      )
+                                    : GestureDetector(
+                                        onTap: () {
+                                          pickFile();
+                                        },
+                                        child: TextFormField(
+                                          decoration: fileFieldDecoration(
+                                            error: !state.cBValideFile,
+                                              lable: state.fileName),
+                                        ),
+                                      )
                               ],
                             ),
                           ),
@@ -123,16 +183,28 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
                                     Expanded(
                                       child: TextButton(
                                         onPressed: () {
-                                          BlocProvider.of<EditProfileBloc>(
-                                                  context)
-                                              .add(PostCostumeBlock(
-                                                  url: url,
-                                                  titleAr: titlear,
-                                                  titleFr: titlefr,
-                                                  icon: iconPath
-                                                      ? state
-                                                          .addCostumeBlockImgPath
-                                                      : ''));
+                                          state.fileOrUrl
+                                              ? BlocProvider.of<
+                                                      EditProfileBloc>(context)
+                                                  .add(PostCostumeBlock(
+                                                      fileOrUrl: true,
+                                                      url: url,
+                                                      file: '',
+                                                      titleAr: titlear,
+                                                      icon: iconPath
+                                                          ? state
+                                                              .addCostumeBlockImgPath
+                                                          : ''))
+                                              : BlocProvider.of<
+                                                      EditProfileBloc>(context)
+                                                  .add(PostCostumeBlock(
+                                                      fileOrUrl: false,
+                                                      file: state.filePath,
+                                                      titleAr: titlear,
+                                                      icon: iconPath
+                                                          ? state
+                                                              .addCostumeBlockImgPath
+                                                          : ''));
                                         },
                                         child: Text('Save'.t(context)),
                                       ),
@@ -150,31 +222,10 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
                             pickImage().then((value) {
                               success = true;
                             });
-                            log('hi');
                           },
-                          child: Container(
-                            width: 80,
-                            height: 80,
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color.fromARGB(50, 0, 0, 0),
-                                  offset: Offset(0.0, 5.0),
-                                  blurRadius: 10,
-                                  spreadRadius: 1,
-                                ),
-                              ],
-                            ),
-                            child: ClipRRect(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              child: success
-                                  ? Image.file(
-                                      File(state.addCostumeBlockImgPath),
-                                      fit: BoxFit.cover,
-                                    )
-                                  : Image.asset('assets/dropili_app_logo.png'),
-                            ),
+                          child: CbAddImage(
+                            success: success,
+                            CostumeBlockImgPath: state.addCostumeBlockImgPath,
                           ),
                         ),
                       ],
@@ -188,30 +239,126 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
       },
     ));
   }
+
+  InputDecoration fileFieldDecoration({required String lable , required bool error}) {
+    return InputDecoration(
+      enabled: false,
+      filled: true,
+      fillColor: Color.fromARGB(50, 166, 166, 166),
+      disabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(7),
+        borderSide: BorderSide.none,
+      ),
+      labelText: (lable.isEmpty) ? 'Click to upload file' : lable,
+      floatingLabelBehavior: FloatingLabelBehavior.never,
+      errorText: error ? 'this value is required' : null,
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(7),
+        borderSide: BorderSide(color: Colors.red),
+      ),
+    );
+  }
+
+  InputDecoration textFieldDecoration(
+      {required String text, required bool error}) {
+    return InputDecoration(
+      errorText: error ? 'this value is required' : null,
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(7),
+        borderSide: BorderSide.none,
+      ),
+      filled: true,
+      fillColor: Color.fromARGB(50, 166, 166, 166),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(7),
+        borderSide: BorderSide.none,
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(7),
+        borderSide: BorderSide(color: Colors.red),
+      ),
+      labelText: text,
+      floatingLabelBehavior: FloatingLabelBehavior.never,
+    );
+  }
 }
 
-contentBox(context) {}
-InputDecoration buildInputDecoration(
-    {required String text, required bool error}) {
-  return InputDecoration(
-    errorText: error ? 'this value is required' : null,
-    enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(7),
-      borderSide: BorderSide.none,
-    ),
-    filled: true,
-    fillColor: Color.fromARGB(50, 166, 166, 166),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(7),
-      borderSide: BorderSide.none,
-    ),
-    border: InputBorder.none,
-    errorBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(7),
-      borderSide: BorderSide.none,
-    ),
-    disabledBorder: InputBorder.none,
-    labelText: text,
-    floatingLabelBehavior: FloatingLabelBehavior.never,
-  );
+class CbAddImage extends StatelessWidget {
+  const CbAddImage({
+    required this.success,
+    required this.CostumeBlockImgPath,
+  });
+
+  final bool success;
+  final String CostumeBlockImgPath;
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          width: 80,
+          height: 80,
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Color.fromARGB(50, 0, 0, 0),
+                offset: Offset(0.0, 5.0),
+                blurRadius: 10,
+                spreadRadius: 1,
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            child: success
+                ? Image.file(
+                    File(CostumeBlockImgPath),
+                    fit: BoxFit.cover,
+                  )
+                : Image.asset('assets/dropili_app_logo.png'),
+          ),
+        ),
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: Container(
+            padding: EdgeInsets.all(2),
+            child: Icon(
+              Icons.edit_outlined,
+              size: 15,
+              color: MalinColors.AppBlue,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: MalinColors.AppGreen),
+              borderRadius: BorderRadius.all(
+                Radius.circular(50),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class textCheckbox extends StatelessWidget {
+  final Checkbox checkBox;
+  final String text;
+  const textCheckbox({required this.checkBox, required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          text.t(context),
+          style: TextStyle(
+              fontWeight: FontWeight.w500, fontSize: 18, color: Colors.black),
+        ),
+        checkBox,
+      ],
+    );
+  }
 }

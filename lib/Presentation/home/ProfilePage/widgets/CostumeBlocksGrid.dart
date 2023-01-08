@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dropili/Presentation/widgets_model/snackbar.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
@@ -6,12 +8,19 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CostumeBlocksGrid extends StatelessWidget {
   final List<CustomBlocksItem> costumeBlocksList;
   const CostumeBlocksGrid({
     required this.costumeBlocksList,
   });
+  Future<void> _launchUrl(String url) async {
+    final Uri _url = Uri.parse(url);
+
+    if (!await launchUrl(_url, mode: LaunchMode.externalApplication))
+      log('could not launch your url');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +47,16 @@ class CostumeBlocksGrid extends StatelessWidget {
               alignment: Alignment.center,
               child: GestureDetector(
                 onTap: () async {
-                  await Clipboard.setData(
-                      ClipboardData(text: costumeBlocksList[index].url));
-                  String url = costumeBlocksList[index].url;
-                  SnackBars.showSucessSnackBar(
-                      context, '"$url" copied to clipboard');
+                  if(costumeBlocksList[index].file!.fileName==''){
+                    await Clipboard.setData(
+                        ClipboardData(text: costumeBlocksList[index].url));
+                    String url = costumeBlocksList[index].url;
+                    SnackBars.showSucessSnackBar(
+                        context, '"$url" copied to clipboard');
+                  }else{
+                    _launchUrl(costumeBlocksList[index].file!.originalUrl);
+                  }
+
                 },
                 child: Container(
                   alignment: Alignment.center,

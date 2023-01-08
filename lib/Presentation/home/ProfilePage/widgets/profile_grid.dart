@@ -50,7 +50,7 @@ class BlockTypeGrid extends StatelessWidget {
             return GestureDetector(
               onTap: () async {
                 if (blocksList[index].urlPrefix != 'null') {
-                  String furl = URLPrefixModel.prefix[blocksList[index].id]!;
+                  String furl = blocksList[index].urlPrefix ;
                   log(furl + blocksList[index].pivot.url.replaceAll(' ', ''));
                   _launchUrl('$furl' +
                       blocksList[index].pivot.url.replaceAll(' ', ''));

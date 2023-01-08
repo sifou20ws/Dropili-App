@@ -1,6 +1,8 @@
+import 'dart:developer';
+
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/widgets/CustomBlocksDialogBox.dart';
-import 'package:dropili/Presentation/home/EditProfilePage/widgets/CustomDialogBox.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/CustomBlocksFileDialogBox.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/data/models/get_costume_block_response.dart';
 import 'package:flutter/material.dart';
@@ -45,14 +47,21 @@ class CostumeBlocksGrid extends StatelessWidget {
                     builder: (_) {
                       return BlocProvider.value(
                         value: context.read<EditProfileBloc>(),
-                        //child: CustomDialogBox(
-                        child: CustomBlocksDialogBox(
-                          id: index,
-                          img: costumeBlocksList[index].icon!.originalUrl,
-                          index: costumeBlocksList[index].id,
-                          costumeBlocksList: costumeBlocksList,
-                          url: costumeBlocksList[index].url,
-                        ),
+                        child: (costumeBlocksList[index].file!.fileName == '')
+                            ? CustomBlocksDialogBox(
+                                id: index,
+                                img: costumeBlocksList[index].icon!.originalUrl,
+                                index: costumeBlocksList[index].id,
+                                costumeBlocksList: costumeBlocksList,
+                                url: costumeBlocksList[index].url,
+                              )
+                            : CustomBlocksFileDialogBox(
+                                id: index,
+                                img: costumeBlocksList[index].icon!.originalUrl,
+                                index: costumeBlocksList[index].id,
+                                costumeBlocksList: costumeBlocksList,
+                                file: costumeBlocksList[index].file!.fileName,
+                              ),
                       );
                     },
                   );

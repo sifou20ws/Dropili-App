@@ -123,8 +123,13 @@ class Network {
     }
   }*/
 
-  Future postOnePictureWithHeader(apiUrl, String icon, data) async {
+  Future postOnePictureWithHeader(apiUrl, String icon, data, String file,
+      {String fileName = ''}) async {
     try {
+      log(name: 'icon get', icon);
+      log(name: 'file get', file);
+      log(name: 'data get', data.toString());
+
       var fullUrl = host + version + apiUrl;
       var request = http.MultipartRequest('POST', Uri.parse(fullUrl));
       request.headers.addAll(await _setHeadersWithToken());
@@ -132,14 +137,28 @@ class Network {
           ? request.files.add(
               await http.MultipartFile.fromPath('icon', icon, filename: 'icon'))
           : null;
+      (file == '')
+          ? null
+          : request.files.add(await http.MultipartFile.fromPath('file', file,
+              filename: fileName));
+
+      //if (file != '') {
+      //   log('adding file');
+      //   request.files.add(await http.MultipartFile.fromPath('file', file,
+      //       filename: fileName));
+      // }
       request.fields.addAll(data);
+
 
       var res = await request.send();
       final respStr = await res.stream.bytesToString();
+
       // final response = json.decode(respStr);
       // if (response["data"]["status"] == 401) {
       //   throw Failure(message: 'authentication required');
       // }
+
+      log(respStr, name: 'get response');
       return respStr;
     } on SocketException {
       throw 'Connection failed';
