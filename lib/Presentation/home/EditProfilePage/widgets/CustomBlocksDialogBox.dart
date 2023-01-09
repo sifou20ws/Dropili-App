@@ -13,14 +13,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 
 class CustomBlocksDialogBox extends StatefulWidget {
-  final String img, url;
-  final int index, id;
-  final List<CustomBlocksItem> costumeBlocksList;
+  final String img, url , title;
+  final int index;
   const CustomBlocksDialogBox({
-    required this.id,
+    required this.title,
     required this.img,
     required this.index,
-    required this.costumeBlocksList,
     this.url = '',
   });
 
@@ -86,7 +84,7 @@ class _CustomBlocksDialogBoxState extends State<CustomBlocksDialogBox> {
                                   : Container(),
                               TextFormField(
                                 initialValue: widget
-                                    .costumeBlocksList[widget.id].title.ar,
+                                    .title,
                                 onChanged: (value) {
                                   titleAr = value;
                                 },
@@ -100,7 +98,7 @@ class _CustomBlocksDialogBoxState extends State<CustomBlocksDialogBox> {
                               SizedBox(height: 5),
                               TextFormField(
                                 initialValue:
-                                    widget.costumeBlocksList[widget.id].url,
+                                    widget.url,
                                 onChanged: (value) {
                                   url = value;
                                 },
@@ -145,16 +143,10 @@ class _CustomBlocksDialogBoxState extends State<CustomBlocksDialogBox> {
                                             id: widget.index.toString(),
                                             url: (url == '')
                                                 ? widget
-                                                    .costumeBlocksList[
-                                                        widget.id]
                                                     .url
                                                 : url,
                                             title: (titleAr == '')
-                                                ? widget
-                                                    .costumeBlocksList[
-                                                        widget.id]
-                                                    .title
-                                                    .ar
+                                                ? widget.title
                                                 : titleAr,
                                             icon: iconPath
                                                 ? state.addCostumeBlockImgPath
@@ -205,7 +197,6 @@ class _CustomBlocksDialogBoxState extends State<CustomBlocksDialogBox> {
     );
   }
 
-  contentBox(context) {}
   InputDecoration buildInputDecoration(
       {required String text, required bool error}) {
     return InputDecoration(
@@ -227,9 +218,8 @@ class _CustomBlocksDialogBoxState extends State<CustomBlocksDialogBox> {
       floatingLabelBehavior: FloatingLabelBehavior.never,
     );
   }
+
 }
-
-
 
 class CustomBlockImage extends StatelessWidget {
   const CustomBlockImage({

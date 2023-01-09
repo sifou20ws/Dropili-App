@@ -13,15 +13,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 
 class CustomBlocksFileDialogBox extends StatefulWidget {
-  final String img, file;
-  final int index, id;
-  final List<CustomBlocksItem> costumeBlocksList;
-  const CustomBlocksFileDialogBox(
-      {required this.id,
-      required this.img,
-      required this.index,
-      required this.costumeBlocksList,
-      this.file = ''});
+  final String img, file, title;
+  final int index;
+  const CustomBlocksFileDialogBox({
+    required this.title,
+    required this.img,
+    required this.index,
+    this.file = '',
+  });
 
   @override
   _CustomBlocksFileDialogBoxState createState() =>
@@ -35,11 +34,9 @@ class _CustomBlocksFileDialogBoxState extends State<CustomBlocksFileDialogBox> {
     Future<void> pickImage() async {
       BlocProvider.of<EditProfileBloc>(context).add(GetCostumeBlockImage());
     }
-
     Future<void> pickFile() async {
       BlocProvider.of<EditProfileBloc>(context).add(GetCostumeBlockFile());
     }
-
     String titleAr = '';
     bool iconPath = false;
 
@@ -53,6 +50,7 @@ class _CustomBlocksFileDialogBoxState extends State<CustomBlocksFileDialogBox> {
         }
         if (state.status == Status.costumeBlockImageSuccess) {
           iconPath = true;
+          success = true;
         }
       },
       child: BlocBuilder<EditProfileBloc, EditProfileState>(
@@ -89,14 +87,12 @@ class _CustomBlocksFileDialogBoxState extends State<CustomBlocksFileDialogBox> {
                                     )
                                   : Container(),
                               TextFormField(
-                                initialValue: widget
-                                    .costumeBlocksList[widget.id].title.ar,
+                                initialValue: widget.title,
                                 onChanged: (value) {
                                   titleAr = value;
                                 },
                                 decoration: textInputDecoration(
-                                    text: widget
-                                        .costumeBlocksList[widget.id].title.ar,
+                                    text: widget.title,
                                     error: state.status ==
                                             Status.postBlockInvalidUrl
                                         ? true
@@ -142,18 +138,15 @@ class _CustomBlocksFileDialogBoxState extends State<CustomBlocksFileDialogBox> {
                                   Expanded(
                                     child: TextButton(
                                       onPressed: () {
-                                        log(state.filePath,name:'file path screen');
+                                        log(state.filePath,
+                                            name: 'file path screen');
                                         BlocProvider.of<EditProfileBloc>(
                                                 context)
                                             .add(
                                           UpdateCostumeBlock(
                                             id: widget.index.toString(),
                                             title: (titleAr == '')
-                                                ? widget
-                                                    .costumeBlocksList[
-                                                        widget.id]
-                                                    .title
-                                                    .ar
+                                                ? widget.title
                                                 : titleAr,
                                             icon: iconPath
                                                 ? state.addCostumeBlockImgPath
@@ -178,9 +171,7 @@ class _CustomBlocksFileDialogBoxState extends State<CustomBlocksFileDialogBox> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          pickImage().then((value) {
-                            success = true;
-                          });
+                          pickImage();
                         },
                         child: CustomBlockImage(
                           costumeBlockImgPath: state.addCostumeBlockImgPath,
@@ -250,6 +241,7 @@ class _CustomBlocksFileDialogBoxState extends State<CustomBlocksFileDialogBox> {
       floatingLabelBehavior: FloatingLabelBehavior.never,
     );
   }
+
 }
 
 class CustomBlockImage extends StatelessWidget {

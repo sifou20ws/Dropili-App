@@ -343,9 +343,14 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       if (file != null) {
         String croppedFile = await cropImage(file: file, ratioY: 1, ratioX: 1);
 
-        log('success', name: 'cropped');
-        emit(state.copyWith(addCostumeBlockImgPath: croppedFile));
-        emit(state.copyWith(status: Status.costumeBlockImageSuccess));
+        if(croppedFile != ''){
+          log('success', name: 'cropped');
+          log(croppedFile);
+          emit(state.copyWith(addCostumeBlockImgPath: croppedFile));
+          emit(state.copyWith(status: Status.costumeBlockImageSuccess));
+        }else{
+          log('failed', name: 'cropped');
+        }
       }
     } catch (e) {
       log(e.toString());

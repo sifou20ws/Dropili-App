@@ -48,10 +48,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
     _editProfileBloc.close();
     super.dispose();
   }
-
   bool selected = false;
-
-
 
   @override
   Widget build(BuildContext context) {

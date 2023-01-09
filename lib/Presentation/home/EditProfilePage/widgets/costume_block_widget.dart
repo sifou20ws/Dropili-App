@@ -49,17 +49,15 @@ class CostumeBlocksGrid extends StatelessWidget {
                         value: context.read<EditProfileBloc>(),
                         child: (costumeBlocksList[index].file!.fileName == '')
                             ? CustomBlocksDialogBox(
-                                id: index,
+                                title: costumeBlocksList[index].title.ar,
                                 img: costumeBlocksList[index].icon!.originalUrl,
                                 index: costumeBlocksList[index].id,
-                                costumeBlocksList: costumeBlocksList,
                                 url: costumeBlocksList[index].url,
                               )
                             : CustomBlocksFileDialogBox(
-                                id: index,
+                                title: costumeBlocksList[index].title.ar,
                                 img: costumeBlocksList[index].icon!.originalUrl,
                                 index: costumeBlocksList[index].id,
-                                costumeBlocksList: costumeBlocksList,
                                 file: costumeBlocksList[index].file!.fileName,
                               ),
                       );
