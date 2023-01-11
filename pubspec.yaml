@@ -72,6 +72,8 @@ dependencies:
   google_sign_in: ^5.4.2
   image_cropper: ^3.0.1
   file_picker: ^5.2.4
+  toggle_switch: ^2.0.1
+  flutter_toggle_tab: ^1.2.0
 
 
 

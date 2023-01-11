@@ -128,7 +128,8 @@ class EditProfileState extends Equatable {
       this.cBValideUrl = true,
       this.fileOrUrl = true,
       this.filePath = '',
-      this.fileName = ''});
+      this.fileName = '',
+      this.fileOrLink = 0});
 
   final bool errorExist;
   bool load;
@@ -163,6 +164,7 @@ class EditProfileState extends Equatable {
   final bool fileOrUrl;
   final String filePath;
   final String fileName;
+  final int fileOrLink;
 
   EditProfileState copyWith({
     bool? switchButton,
@@ -198,6 +200,7 @@ class EditProfileState extends Equatable {
     bool? fileOrUrl,
     String? filePath,
     String? fileName,
+    int? fileOrLink,
   }) {
     return EditProfileState(
       messageError: messageError ?? this.messageError,
@@ -234,6 +237,7 @@ class EditProfileState extends Equatable {
       fileOrUrl: fileOrUrl ?? this.fileOrUrl,
       filePath: filePath ?? this.filePath,
       fileName: fileName ?? this.fileName,
+      fileOrLink: fileOrLink ?? this.fileOrLink,
     );
   }
 
@@ -272,5 +276,6 @@ class EditProfileState extends Equatable {
         fileOrUrl,
         fileName,
         filePath,
+        fileOrLink
       ];
 }
