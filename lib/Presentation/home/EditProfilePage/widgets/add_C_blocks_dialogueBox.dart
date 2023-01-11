@@ -95,7 +95,11 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
                               children: [
                                 FlutterToggleTab(
                                   width: 50,
-                                  borderRadius: 10,
+                                  height: 40,
+                                  borderRadius: 20,
+                                  unSelectedBackgroundColors: [
+                                    Colors.grey.shade200
+                                  ],
                                   selectedTextStyle: TextStyle(
                                       color: Colors.white,
                                       fontSize: 18,
@@ -112,7 +116,7 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
                                   selectedBackgroundColors: [
                                     Colors.blue,
                                   ],
-                                  marginSelected : EdgeInsets.all(3),
+                                  marginSelected: EdgeInsets.all(3),
                                   selectedIndex: state.fileOrLink,
                                   selectedLabelIndex: (index) {
                                     BlocProvider.of<EditProfileBloc>(context)
@@ -120,7 +124,7 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
                                             state: index));
                                   },
                                 ),
-                                SizedBox(height: 5),
+                                SizedBox(height: 15),
                                 TextFormField(
                                   onChanged: (value) {
                                     titlear = value;

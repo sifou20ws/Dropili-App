@@ -184,11 +184,9 @@ class costumeBlockAddBtn extends StatelessWidget {
       alignment: Alignment.center,
       padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: MalinColors.AppGreen.withAlpha(20),
+        // color: MalinColors.AppGreen.withAlpha(20),
+        color: MalinColors.greyElemntsColor,
         borderRadius: BorderRadius.circular(13),
-        border: Border.all(
-            color: MalinColors.AppGreen.withAlpha(100),
-            width: 2),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -205,8 +203,7 @@ class costumeBlockAddBtn extends StatelessWidget {
                 ),
               ],
             ),
-            child: Image.asset(
-                'assets/add.png'),
+            child: Image.asset('assets/add.png'),
           ),
           SizedBox(
             height: 10,
@@ -214,7 +211,7 @@ class costumeBlockAddBtn extends StatelessWidget {
           FittedBox(
             fit: BoxFit.fitWidth,
             child: Text(
-             'Add',
+              'Add',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 15,
