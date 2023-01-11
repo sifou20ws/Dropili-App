@@ -49,6 +49,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     on<CostumeFileEvent>(_costumeFileEvent);
     on<CostumeUrlEvent>(_costumeUrlEvent);
     on<GetCostumeBlockFile>(_getCostumeBlockFile);
+    on<CostumeUrlOrFileEvent>(_costumeUrlOrFileEvent);
   }
 
   void _getBlocks(GetBlocksEvent event, Emitter<EditProfileState> emit) async {
@@ -343,12 +344,12 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       if (file != null) {
         String croppedFile = await cropImage(file: file, ratioY: 1, ratioX: 1);
 
-        if(croppedFile != ''){
+        if (croppedFile != '') {
           log('success', name: 'cropped');
           log(croppedFile);
           emit(state.copyWith(addCostumeBlockImgPath: croppedFile));
           emit(state.copyWith(status: Status.costumeBlockImageSuccess));
-        }else{
+        } else {
           log('failed', name: 'cropped');
         }
       }
@@ -399,7 +400,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
 
     Map<String, String> map1;
 
-    if (event.fileOrUrl==true) {
+    if (event.fileOrUrl == true) {
       if (event.url.isEmpty) {
         emit(state.copyWith(
           messageError: 'this field is required',
@@ -407,14 +408,14 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         ));
         log(state.cBValideUrl.toString(), name: 'url');
         return;
-      }else{
+      } else {
         map1 = {
-          'url': event.url ,
+          'url': event.url,
           'title[ar]': event.titleAr,
           'title[fr]': event.titleAr
         };
       }
-    }else{
+    } else {
       if (event.file.isEmpty) {
         emit(state.copyWith(
           messageError: 'this field is required',
@@ -422,11 +423,8 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         ));
         log(state.cBValideFile.toString(), name: 'file');
         return;
-      }else{
-        map1 = {
-          'title[ar]': event.titleAr,
-          'title[fr]': event.titleAr
-        };
+      } else {
+        map1 = {'title[ar]': event.titleAr, 'title[fr]': event.titleAr};
       }
     }
 
@@ -469,23 +467,19 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     emit(state.copyWith(status: Status.updateCostumeBlocksLoading));
     var resp;
     Map<String, String> map1;
-    if(event.urlOrFile){
+    if (event.urlOrFile) {
       map1 = {
         'url': event.url,
         'title[ar]': event.title,
         'title[fr]': event.title
       };
-    }else{
-      map1 = {
-        'url' : '.',
-        'title[ar]': event.title,
-        'title[fr]': event.title
-      };
+    } else {
+      map1 = {'url': '.', 'title[ar]': event.title, 'title[fr]': event.title};
     }
 
     try {
-      log(event.file,name: 'file path bloc');
-      log(event.urlOrFile.toString(),name: 'file path bloc');
+      log(event.file, name: 'file path bloc');
+      log(event.urlOrFile.toString(), name: 'file path bloc');
       resp = await _ProfileRepository.UpdateCostumeBlock(
         icon: event.icon,
         data: map1,
@@ -517,7 +511,6 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       log(e.toString());
     }
   }
-
 
   void _getCostumeBlocksEvent(
       GetCostumeBlocksEvent event, Emitter<EditProfileState> emit) async {
@@ -571,7 +564,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         cBValideName: true,
         cBValideFile: true,
         cBValideUrl: true,
-        addCostumeBlockImgPath : '',
+        addCostumeBlockImgPath: '',
         fileName: ''));
   }
 
@@ -586,6 +579,22 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     emit(state.copyWith(
       fileOrUrl: true,
     ));
+  }
+
+  void _costumeUrlOrFileEvent(
+      CostumeUrlOrFileEvent event, Emitter<EditProfileState> emit) {
+
+    if(event.state==0){
+      emit(state.copyWith(
+        fileOrLink: event.state,
+        fileOrUrl: true,
+      ));
+    }else{
+      emit(state.copyWith(
+        fileOrLink: event.state,
+        fileOrUrl: false,
+      ));
+    }
   }
 
   Future<String> cropImage(

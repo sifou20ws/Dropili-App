@@ -9,6 +9,7 @@ import 'package:dropili/Presentation/widgets_model/snackbar.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
+import 'package:dropili/data/models/get_costume_block_response.dart';
 import 'package:dropili/domain/repositories/profile_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,6 +34,21 @@ class _MyOffersPageState extends State<EditProfilePage> {
   int blockId = 0;
   String getProfilePicture = '', getBackgroundPicture = '';
 
+  List<CustomBlocksItem> costumeBlocks = [];
+  CustomBlocksItem add = CustomBlocksItem.fromJson({
+    "id": 138,
+    "title": {"ar": "add", "fr": "add"},
+    "url": "null",
+    "active": 1,
+    "data": null,
+    "user_id": 13,
+    "created_at": "2023-01-09T22:00:41.000000Z",
+    "updated_at": "2023-01-09T22:00:41.000000Z",
+    "icon": null,
+    "file": null,
+    "media": []
+  });
+
   @override
   void initState() {
     super.initState();
@@ -48,6 +64,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
     _editProfileBloc.close();
     super.dispose();
   }
+
   bool selected = false;
 
   @override
@@ -69,7 +86,11 @@ class _MyOffersPageState extends State<EditProfilePage> {
             _editProfileBloc.add(PostDescriptionEvent(
                 description: state.showProfile!.user.description));
           }
-
+          /** ******* */
+          if (state.status == Status.getCostumeBlocksSuccess) {
+            costumeBlocks = state.costumeBlocks;
+          }
+          /** ******* */
           if (state.status == Status.postBlockSuccess) {
             _editProfileBloc.add(GetBlocksEvent());
           }
@@ -200,32 +221,18 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                             ),
                                           ),
                                           SizedBox(height: 15),
-                                          (state.costumeBlocks.length != 0)
+                                          (state.costumeBlocks.length != -1)
                                               ? CostumeBlocksGrid(
                                                   costumeBlocksList:
-                                                      state.costumeBlocks,
+                                                      costumeBlocks,
                                                 )
                                               : Container(),
                                           SizedBox(height: 15),
-                                          (state.costumeBlocks.length == 0)
-                                              ? Column(
-                                                  children: [
-                                                    Text(
-                                                      'Custom'
-                                                          .t(context),
-                                                      style: TextStyle(
-                                                          fontSize: 30,
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                    SizedBox(height: 15),
-                                                  ],
-                                                )
-                                              : Container(),
-                                          AddCostumeBlocksIcon(
-                                            imagePath:
-                                                state.addCostumeBlockImgPath,
-                                          ),
+
+                                          // AddCostumeBlocksIcon(
+                                          //   imagePath:
+                                          //       state.addCostumeBlockImgPath,
+                                          // ),
                                         ],
                                       ),
                                     ),

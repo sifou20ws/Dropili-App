@@ -8,7 +8,9 @@ import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
 import 'package:lottie/lottie.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 class AddCustomBlocksDialog extends StatefulWidget {
   const AddCustomBlocksDialog();
@@ -91,44 +93,34 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
                                 top: 10, right: 5, left: 5),
                             child: Column(
                               children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SizedBox(width: 0),
-                                    textCheckbox(
-                                      text: 'Link',
-                                      checkBox: Checkbox(
-                                        checkColor: Colors.white,
-                                        fillColor:
-                                            MaterialStateProperty.resolveWith(
-                                                getColor),
-                                        value: state.fileOrUrl,
-                                        onChanged: (bool? value) {
-                                          BlocProvider.of<EditProfileBloc>(
-                                                  context)
-                                              .add(CostumeUrlEvent());
-                                        },
-                                      ),
-                                    ),
-                                    textCheckbox(
-                                      text: 'File',
-                                      checkBox: Checkbox(
-                                        checkColor: Colors.white,
-                                        fillColor:
-                                            MaterialStateProperty.resolveWith(
-                                                getColor),
-                                        value: !state.fileOrUrl,
-                                        onChanged: (bool? value) {
-                                          BlocProvider.of<EditProfileBloc>(
-                                                  context)
-                                              .add(CostumeFileEvent());
-                                        },
-                                      ),
-                                    ),
-                                    SizedBox(width: 0),
+                                FlutterToggleTab(
+                                  width: 50,
+                                  borderRadius: 10,
+                                  selectedTextStyle: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500),
+                                  unSelectedTextStyle: TextStyle(
+                                      color: Colors.blue,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400),
+                                  labels: ['Link', 'File'],
+                                  icons: [
+                                    Icons.link,
+                                    Icons.file_copy,
                                   ],
+                                  selectedBackgroundColors: [
+                                    Colors.blue,
+                                  ],
+                                  marginSelected : EdgeInsets.all(3),
+                                  selectedIndex: state.fileOrLink,
+                                  selectedLabelIndex: (index) {
+                                    BlocProvider.of<EditProfileBloc>(context)
+                                        .add(CostumeUrlOrFileEvent(
+                                            state: index));
+                                  },
                                 ),
+                                SizedBox(height: 5),
                                 TextFormField(
                                   onChanged: (value) {
                                     titlear = value;
@@ -153,7 +145,7 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
                                         },
                                         child: TextFormField(
                                           decoration: fileFieldDecoration(
-                                            error: !state.cBValideFile,
+                                              error: !state.cBValideFile,
                                               lable: state.fileName),
                                         ),
                                       )
@@ -240,7 +232,8 @@ class _AddCustomBlocksDialogState extends State<AddCustomBlocksDialog> {
     ));
   }
 
-  InputDecoration fileFieldDecoration({required String lable , required bool error}) {
+  InputDecoration fileFieldDecoration(
+      {required String lable, required bool error}) {
     return InputDecoration(
       enabled: false,
       filled: true,

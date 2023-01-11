@@ -155,23 +155,24 @@ class GetCostumeBlockImage extends EditProfileEvent {
   @override
   List<Object?> get props => [];
 }
+
 class GetCostumeBlockFile extends EditProfileEvent {
   GetCostumeBlockFile();
 
   @override
   List<Object?> get props => [];
 }
+
 class PostCostumeBlock extends EditProfileEvent {
-  final String  titleAr;
-  final dynamic icon , file , url;
+  final String titleAr;
+  final dynamic icon, file, url;
   final bool fileOrUrl;
-  PostCostumeBlock({
-    this.url,
-    required this.fileOrUrl,
-    required this.titleAr,
-    this.icon,
-    this.file
-  });
+  PostCostumeBlock(
+      {this.url,
+      required this.fileOrUrl,
+      required this.titleAr,
+      this.icon,
+      this.file});
 
   @override
   List<Object?> get props => [];
@@ -179,15 +180,15 @@ class PostCostumeBlock extends EditProfileEvent {
 
 class UpdateCostumeBlock extends EditProfileEvent {
   final String title, id;
-  final dynamic icon , file , url , fileName ;
-  final bool urlOrFile ;
+  final dynamic icon, file, url, fileName;
+  final bool urlOrFile;
   UpdateCostumeBlock({
     required this.id,
-    this.url='',
+    this.url = '',
     required this.title,
-    this.icon='',
-    this.file='',
-    this.fileName='',
+    this.icon = '',
+    this.file = '',
+    this.fileName = '',
     this.urlOrFile = true,
   });
 
@@ -226,6 +227,14 @@ class CostumeFileEvent extends EditProfileEvent {
 
 class CostumeUrlEvent extends EditProfileEvent {
   CostumeUrlEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class CostumeUrlOrFileEvent extends EditProfileEvent {
+  final int? state ;
+  CostumeUrlOrFileEvent({required this.state});
 
   @override
   List<Object?> get props => [];
