@@ -2,9 +2,11 @@ import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/icon_container.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:dropili/domain/repositories/profile_repository.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
@@ -51,7 +53,7 @@ class _DirectSurWidgetState extends State<DirectSurWidget> {
               if (state.status == Status.directOnMeSuccess) {
                 profileUrl = state.profileUserUrl;
                 log(profileUrl, name: 'in dialogue listener');
-                await Future.delayed(Duration(milliseconds:500 ));
+                await Future.delayed(Duration(milliseconds: 500));
                 Navigator.of(context, rootNavigator: true).pop();
               }
               if (state.status == Status.directOnMeFail) {
@@ -69,16 +71,29 @@ class _DirectSurWidgetState extends State<DirectSurWidget> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(10),
-                          child: Container(
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: Colors.black12,
-                            ),
-                            child: Icon(
-                              Icons.close,
-                              size: 25,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              height: 30,
+                              width: 30,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                //color: Colors.black12,
+                              ),
+                              // child: Icon(
+                              //   CupertinoIcons.xmark_circle,
+                              //   size: 30,
+                              // ),
+                              child: IconContainer(
+                                icon: Icon(
+                                  CupertinoIcons.xmark,
+                                  size: 20,
+                                  color: MalinColors.AppBlue,
+                                ),
+                                outline: false,
+                              ),
                             ),
                           ),
                         ),

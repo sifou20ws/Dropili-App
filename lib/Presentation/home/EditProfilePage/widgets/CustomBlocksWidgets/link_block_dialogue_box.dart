@@ -12,10 +12,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 
-class CustomBlocksDialogBox extends StatefulWidget {
+class LinkBlockDialogBox extends StatefulWidget {
   final String img, url , title;
   final int index;
-  const CustomBlocksDialogBox({
+  const LinkBlockDialogBox({
     required this.title,
     required this.img,
     required this.index,
@@ -23,10 +23,10 @@ class CustomBlocksDialogBox extends StatefulWidget {
   });
 
   @override
-  _CustomBlocksDialogBoxState createState() => _CustomBlocksDialogBoxState();
+  _LinkBlockDialogBoxState createState() => _LinkBlockDialogBoxState();
 }
 
-class _CustomBlocksDialogBoxState extends State<CustomBlocksDialogBox> {
+class _LinkBlockDialogBoxState extends State<LinkBlockDialogBox> {
   bool success = false;
   @override
   Widget build(BuildContext context) {
@@ -229,7 +229,7 @@ class CustomBlockImage extends StatelessWidget {
     required this.costumeBlockImgPath,
   }) : super(key: key);
 
-  final CustomBlocksDialogBox widget;
+  final LinkBlockDialogBox widget;
   final bool success;
   final String costumeBlockImgPath;
 

@@ -12,10 +12,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 
-class CustomBlocksFileDialogBox extends StatefulWidget {
+class FileBlockDialogBox extends StatefulWidget {
   final String img, file, title;
   final int index;
-  const CustomBlocksFileDialogBox({
+  const FileBlockDialogBox({
     required this.title,
     required this.img,
     required this.index,
@@ -23,11 +23,11 @@ class CustomBlocksFileDialogBox extends StatefulWidget {
   });
 
   @override
-  _CustomBlocksFileDialogBoxState createState() =>
-      _CustomBlocksFileDialogBoxState();
+  _FileBlockDialogBoxState createState() =>
+      _FileBlockDialogBoxState();
 }
 
-class _CustomBlocksFileDialogBoxState extends State<CustomBlocksFileDialogBox> {
+class _FileBlockDialogBoxState extends State<FileBlockDialogBox> {
   bool success = false;
   @override
   Widget build(BuildContext context) {
@@ -252,7 +252,7 @@ class CustomBlockImage extends StatelessWidget {
     required this.costumeBlockImgPath,
   }) : super(key: key);
 
-  final CustomBlocksFileDialogBox widget;
+  final FileBlockDialogBox widget;
   final bool success;
   final String costumeBlockImgPath;
 
