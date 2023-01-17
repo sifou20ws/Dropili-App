@@ -2,12 +2,8 @@ import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropili/Presentation/authentification/comun_widgets/message_widget.dart';
-import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
 import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
-import 'package:dropili/Presentation/widgets_model/snackbar.dart';
-import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
-import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:dropili/data/models/get_costume_block_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -68,10 +64,20 @@ class _UserBlocksDialogBoxState extends State<UserBlocksDialogBox> {
                     children: <Widget>[
                       Padding(
                         padding:
-                            const EdgeInsets.only(top: 20, right: 5, left: 5),
+                            const EdgeInsets.only(top: 5, right: 5, left: 5),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
+                            Text(
+                              widget.block.title.ar,
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
                             state.linkCopied
                                 ? Padding(
                                     padding: const EdgeInsets.only(bottom: 5),
@@ -81,6 +87,9 @@ class _UserBlocksDialogBoxState extends State<UserBlocksDialogBox> {
                                     ),
                                   )
                                 : Container(),
+                            SizedBox(
+                              height: 10,
+                            ),
                             GestureDetector(
                               onTap: () async {
                                 if (widget.file) {
@@ -121,7 +130,9 @@ class _UserBlocksDialogBoxState extends State<UserBlocksDialogBox> {
                                         SizedBox(
                                           width: 10,
                                         ),
-                                        !widget.file ? Icon(Icons.copy_outlined) : Icon(Icons.launch) ,
+                                        !widget.file
+                                            ? Icon(Icons.copy_outlined)
+                                            : Icon(Icons.launch),
                                       ]),
                                 ),
                               ),
@@ -205,5 +216,4 @@ class _UserBlocksDialogBoxState extends State<UserBlocksDialogBox> {
       ),
     );
   }
-
 }
