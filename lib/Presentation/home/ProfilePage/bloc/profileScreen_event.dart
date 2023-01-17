@@ -10,7 +10,6 @@ abstract class ProfileEvent extends Equatable {
 class EditButtonClickedEvent extends ProfileEvent {}
 
 class GetUserBlocksEvent extends ProfileEvent {
-
   GetUserBlocksEvent();
 
   @override
@@ -18,7 +17,6 @@ class GetUserBlocksEvent extends ProfileEvent {
 }
 
 class GetProfileEvent extends ProfileEvent {
-
   GetProfileEvent();
 
   @override
@@ -40,4 +38,12 @@ class GetCostumeBlocksEvent extends ProfileEvent {
   List<Object?> get props => [];
 }
 
-class GetEverytihngEvent extends ProfileEvent{}
+class GetEverytihngEvent extends ProfileEvent {}
+
+class LinkCopiedEvent extends ProfileEvent {
+  final bool copy ;
+  LinkCopiedEvent({this.copy = false});
+
+  @override
+  List<Object?> get props => [];
+}

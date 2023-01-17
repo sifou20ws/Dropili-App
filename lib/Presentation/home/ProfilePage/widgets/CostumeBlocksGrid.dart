@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:dropili/Presentation/home/ProfilePage/bloc/profileScreen_bloc.dart';
+import 'package:dropili/Presentation/home/ProfilePage/widgets/user_blocks_dialogue_box.dart';
 import 'package:dropili/Presentation/widgets_model/snackbar.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
@@ -7,6 +9,7 @@ import 'package:dropili/data/models/get_costume_block_response.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -47,16 +50,45 @@ class CostumeBlocksGrid extends StatelessWidget {
               alignment: Alignment.center,
               child: GestureDetector(
                 onTap: () async {
-                  if(costumeBlocksList[index].file!.fileName==''){
-                    await Clipboard.setData(
-                        ClipboardData(text: costumeBlocksList[index].url));
-                    String url = costumeBlocksList[index].url;
-                    SnackBars.showSucessSnackBar(
-                        context, '"$url" copied to clipboard');
-                  }else{
-                    _launchUrl(costumeBlocksList[index].file!.originalUrl);
-                  }
+                  if (costumeBlocksList[index].file!.fileName == '') {
+                    showDialog<void>(
+                      context: context,
+                      barrierDismissible: false, // user must tap button!
+                      builder: (_) {
+                        return BlocProvider.value(
+                          value: context.read<ProfileBloc>(),
+                          child: UserBlocksDialogBox(
+                            text: costumeBlocksList[index].url,
+                            img: costumeBlocksList[index].icon!.originalUrl,
+                            block: costumeBlocksList[index],
+                            url: costumeBlocksList[index].url,
+                            file: false,
+                          ),
+                        );
+                      },
+                    );
 
+                  } else {
+                    log(costumeBlocksList[index].file!.fileName);
+                    showDialog<void>(
+                      context: context,
+                      barrierDismissible: false, // user must tap button!
+                      builder: (_) {
+                        return BlocProvider.value(
+                          value: context.read<ProfileBloc>(),
+                          child: UserBlocksDialogBox(
+                            text: costumeBlocksList[index].file!.fileName,
+                            img: costumeBlocksList[index].icon!.originalUrl,
+                            block: costumeBlocksList[index],
+                            url: costumeBlocksList[index].file!.fileName,
+                            file: true,
+                          ),
+                        );
+                      },
+                    );
+                    log(costumeBlocksList[index].file!.fileName);
+                    //_launchUrl(costumeBlocksList[index].file!.originalUrl);
+                  }
                 },
                 child: Container(
                   alignment: Alignment.center,
