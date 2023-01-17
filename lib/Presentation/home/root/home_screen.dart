@@ -76,6 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   backgroundColor: Colors.transparent,
                   enableDrag: true,
                   context: context,
+
                   builder: (context) {
                     return NfcScanWidget(
                       dataToTag: 'http://dropili.co/link/' +
