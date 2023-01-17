@@ -22,6 +22,7 @@ class ProfileState extends Equatable {
     required this.userBlocks,
     required this.costumeBlocks,
     this.showProfile,
+    this.linkCopied = false,
   });
 
   final String messageError;
@@ -31,6 +32,7 @@ class ProfileState extends Equatable {
   final List<CustomBlocksItem> costumeBlocks;
   PostProfileResp? showProfile;
 
+  final bool linkCopied;
   ProfileState copyWith({
     String? messageError,
     ProfileStatus? status,
@@ -39,6 +41,7 @@ class ProfileState extends Equatable {
     PostProfileResp? showProfile,
     List<BlocksItem>? blocks,
     List<CustomBlocksItem>? costumeBlocks,
+    bool? linkCopied,
   }) {
     return ProfileState(
       messageError: messageError ?? this.messageError,
@@ -46,6 +49,7 @@ class ProfileState extends Equatable {
       userBlocks: userBlocks ?? this.userBlocks,
       showProfile: showProfile ?? this.showProfile,
       costumeBlocks: costumeBlocks ?? this.costumeBlocks,
+      linkCopied: linkCopied ?? this.linkCopied,
     );
   }
 
@@ -56,5 +60,6 @@ class ProfileState extends Equatable {
         userBlocks,
         showProfile,
         costumeBlocks,
+        linkCopied,
       ];
 }
