@@ -10,13 +10,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 
-class CustomDialogBox extends StatefulWidget {
+class BlocksDialogBox extends StatefulWidget {
   final String editText;
   final String img, url;
   final int index;
   final List<BlocksItem> blocksList;
   final bool put;
-  const CustomDialogBox({
+  const BlocksDialogBox({
     required this.editText,
     required this.img,
     required this.index,
@@ -26,10 +26,10 @@ class CustomDialogBox extends StatefulWidget {
   });
 
   @override
-  _CustomDialogBoxState createState() => _CustomDialogBoxState();
+  _BlocksDialogBoxState createState() => _BlocksDialogBoxState();
 }
 
-class _CustomDialogBoxState extends State<CustomDialogBox> {
+class _BlocksDialogBoxState extends State<BlocksDialogBox> {
   @override
   Widget build(BuildContext context) {
     String inputUrl = '';
@@ -131,7 +131,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                                           .add(
                                         ItemSelectedEvent(
                                           index: widget.index,
-                                          data: inputUrl,
+                                          data: (inputUrl=='')?widget.url:inputUrl,
                                           put: widget.put,
                                         ),
                                       );

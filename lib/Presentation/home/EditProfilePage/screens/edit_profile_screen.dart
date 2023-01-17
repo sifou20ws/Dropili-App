@@ -1,10 +1,9 @@
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
-import 'package:dropili/Presentation/home/EditProfilePage/widgets/add_C_block_widget.dart';
-import 'package:dropili/Presentation/home/EditProfilePage/widgets/costume_block_widget.dart';
-import 'package:dropili/Presentation/home/EditProfilePage/widgets/direct_sur_dialoge.dart';
-import 'package:dropili/Presentation/home/EditProfilePage/widgets/eProfile_buttons_row.dart';
-import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_media_widget.dart';
-import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_text_widget.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/CustomBlocksWidgets/grid_widget.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/direct_sur_dialogue.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/switches_row.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/media_widget.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/text_fields.dart';
 import 'package:dropili/Presentation/widgets_model/snackbar.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/common/extensions/translation_extension.dart';
@@ -13,7 +12,7 @@ import 'package:dropili/data/models/get_costume_block_response.dart';
 import 'package:dropili/domain/repositories/profile_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_grid.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/BlocksWidgets/grid_widget.dart';
 import 'package:dropili/di/get_it.dart' as getIt;
 import 'package:lottie/lottie.dart';
 
@@ -30,24 +29,10 @@ class _MyOffersPageState extends State<EditProfilePage> {
   List<List<BlocksItem>> blocksList = [];
   List<UserBlocksItem> userBlocks = [];
   String name = '', description = '', profileUserUrl = '';
-  bool active = false;
+  bool active = false, get = false, get2 = false;
   int blockId = 0;
   String getProfilePicture = '', getBackgroundPicture = '';
-
   List<CustomBlocksItem> costumeBlocks = [];
-  CustomBlocksItem add = CustomBlocksItem.fromJson({
-    "id": 138,
-    "title": {"ar": "add", "fr": "add"},
-    "url": "null",
-    "active": 1,
-    "data": null,
-    "user_id": 13,
-    "created_at": "2023-01-09T22:00:41.000000Z",
-    "updated_at": "2023-01-09T22:00:41.000000Z",
-    "icon": null,
-    "file": null,
-    "media": []
-  });
 
   @override
   void initState() {
@@ -73,7 +58,9 @@ class _MyOffersPageState extends State<EditProfilePage> {
       value: _editProfileBloc,
       child: BlocListener<EditProfileBloc, EditProfileState>(
         listener: (context, state) async {
-          if (state.status == Status.getBlocksSuccess) {}
+          if (state.status == Status.getBlocksSuccess) {
+            get = true;
+          }
           if (state.status == Status.getProfileSuccess) {
             blockId = state.showProfile!.user.blockId;
             _editProfileBloc
@@ -89,19 +76,53 @@ class _MyOffersPageState extends State<EditProfilePage> {
           /** ******* */
           if (state.status == Status.getCostumeBlocksSuccess) {
             costumeBlocks = state.costumeBlocks;
+            get2 = true;
           }
           /** ******* */
           if (state.status == Status.postBlockSuccess) {
             _editProfileBloc.add(GetBlocksEvent());
+            SnackBars.showSucessSnackBar(context, state.messageError);
+            await Future.delayed(Duration(milliseconds: 500));
+          }
+          if (state.status == Status.postBlockFail) {
+            SnackBars.showErrorSnackBar(context, state.messageError);
+            await Future.delayed(Duration(milliseconds: 500));
           }
           if (state.status == Status.deleteSuccess) {
             _editProfileBloc.add(GetBlocksEvent());
+            SnackBars.showSucessSnackBar(context, state.messageError);
+            await Future.delayed(Duration(milliseconds: 500));
+          }
+          if (state.status == Status.deleteFail) {
+            SnackBars.showErrorSnackBar(context, state.messageError);
+            await Future.delayed(Duration(milliseconds: 500));
           }
           if (state.status == Status.postCostumeBlocksSuccess) {
             _editProfileBloc.add(GetCostumeBlocksEvent());
+            SnackBars.showSucessSnackBar(context, state.messageError);
+            await Future.delayed(Duration(milliseconds: 500));
+          }
+          if (state.status == Status.postCostumeBlocksFail) {
+            SnackBars.showErrorSnackBar(context, state.messageError);
+            await Future.delayed(Duration(milliseconds: 500));
           }
           if (state.status == Status.deleteCostumeBlocksSuccess) {
             _editProfileBloc.add(GetCostumeBlocksEvent());
+            SnackBars.showSucessSnackBar(context, state.messageError);
+            await Future.delayed(Duration(milliseconds: 500));
+          }
+          if (state.status == Status.deleteCostumeBlocksFail) {
+            SnackBars.showErrorSnackBar(context, state.messageError);
+            await Future.delayed(Duration(milliseconds: 500));
+          }
+          if (state.status == Status.updateCostumeBlocksSuccess) {
+            _editProfileBloc.add(GetCostumeBlocksEvent());
+            SnackBars.showSucessSnackBar(context, state.messageError);
+            await Future.delayed(Duration(milliseconds: 500));
+          }
+          if (state.status == Status.updateCostumeBlocksFail) {
+            SnackBars.showErrorSnackBar(context, state.messageError);
+            await Future.delayed(Duration(milliseconds: 500));
           }
           if (state.openDirectMeDialogue) {
             state.openDirectMeDialogue = false;
@@ -141,6 +162,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
                 resizeToAvoidBottomInset: true,
                 body: (state.blocksStatus == BlocksStatus.getBlocks ||
                         state.status == Status.loadingProfile ||
+                        //!get || !get2
                         state.costumeBlocksStatus ==
                             CostumeBlocksStatus.getCostumeBlocks)
                     ? Center(
@@ -160,7 +182,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  EditProfileMediaWidget(
+                                  MediaWidget(
                                     getProfilePicture: getProfilePicture,
                                     getBackgroundPicture: getBackgroundPicture,
                                   ),
@@ -175,12 +197,12 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          EditProfileTextWidget(
+                                          TextFieldsWidget(
                                             name: state.userName,
                                             description: state.userDescription,
                                           ),
                                           SizedBox(height: 15),
-                                          EditProfileButtonsWidget(),
+                                          SwitchesWidget(),
                                           SizedBox(height: 15),
                                           ListView.separated(
                                             physics:
@@ -207,7 +229,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                                   break;
                                                 default:
                                               }
-                                              return Grid(
+                                              return BlocksGrid(
                                                 userBlocks: state.userBlocks,
                                                 type: 4,
                                                 title: title,
@@ -221,18 +243,11 @@ class _MyOffersPageState extends State<EditProfilePage> {
                                             ),
                                           ),
                                           SizedBox(height: 15),
-                                          (state.costumeBlocks.length != -1)
-                                              ? CostumeBlocksGrid(
-                                                  costumeBlocksList:
-                                                      costumeBlocks,
-                                                )
-                                              : Container(),
+                                          CostumeBlocksGrid(
+                                            costumeBlocksList:
+                                                state.costumeBlocks,
+                                          ),
                                           SizedBox(height: 15),
-
-                                          // AddCostumeBlocksIcon(
-                                          //   imagePath:
-                                          //       state.addCostumeBlockImgPath,
-                                          // ),
                                         ],
                                       ),
                                     ),

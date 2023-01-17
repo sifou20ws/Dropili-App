@@ -1,9 +1,10 @@
 import 'dart:developer';
 
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
-import 'package:dropili/Presentation/home/EditProfilePage/widgets/CustomBlocksDialogBox.dart';
-import 'package:dropili/Presentation/home/EditProfilePage/widgets/CustomBlocksFileDialogBox.dart';
-import 'package:dropili/Presentation/home/EditProfilePage/widgets/add_C_blocks_dialogueBox.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/CustomBlocksWidgets/add_button.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/CustomBlocksWidgets/link_block_dialogue_box.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/CustomBlocksWidgets/file_block_dialogue_box.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/CustomBlocksWidgets/add_dialogue_box.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/data/models/get_costume_block_response.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ import 'package:lottie/lottie.dart';
 
 class CostumeBlocksGrid extends StatelessWidget {
   final List<CustomBlocksItem> costumeBlocksList;
+
   const CostumeBlocksGrid({
     required this.costumeBlocksList,
   });
@@ -51,7 +53,7 @@ class CostumeBlocksGrid extends StatelessWidget {
                               value: context.read<EditProfileBloc>(),
                               child: (costumeBlocksList[index].file!.fileName ==
                                       '')
-                                  ? CustomBlocksDialogBox(
+                                  ? LinkBlockDialogBox(
                                       title: costumeBlocksList[index].title.ar,
                                       img: costumeBlocksList[index]
                                           .icon!
@@ -59,7 +61,7 @@ class CostumeBlocksGrid extends StatelessWidget {
                                       index: costumeBlocksList[index].id,
                                       url: costumeBlocksList[index].url,
                                     )
-                                  : CustomBlocksFileDialogBox(
+                                  : FileBlockDialogBox(
                                       title: costumeBlocksList[index].title.ar,
                                       img: costumeBlocksList[index]
                                           .icon!
@@ -151,7 +153,6 @@ class CostumeBlocksGrid extends StatelessWidget {
                     alignment: Alignment.center,
                     child: GestureDetector(
                       onTap: () {
-                        log('hi');
                         showDialog<void>(
                           context: context,
                           barrierDismissible: false, // user must tap button!
@@ -163,7 +164,7 @@ class CostumeBlocksGrid extends StatelessWidget {
                           },
                         );
                       },
-                      child: costumeBlockAddBtn(),
+                      child: AddCustomBlockButton(),
                     ),
                   );
           },
@@ -173,54 +174,4 @@ class CostumeBlocksGrid extends StatelessWidget {
   }
 }
 
-class costumeBlockAddBtn extends StatelessWidget {
-  const costumeBlockAddBtn({
-    Key? key,
-  }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      padding: EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        // color: MalinColors.AppGreen.withAlpha(20),
-        color: MalinColors.greyElemntsColor,
-        borderRadius: BorderRadius.circular(13),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.transparent,
-              boxShadow: [
-                BoxShadow(
-                  color: Color.fromARGB(50, 0, 0, 0).withAlpha(20),
-                  offset: Offset(0.0, 5.0),
-                  blurRadius: 10,
-                  spreadRadius: 1,
-                ),
-              ],
-            ),
-            child: Image.asset('assets/add.png'),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          FittedBox(
-            fit: BoxFit.fitWidth,
-            child: Text(
-              'Add',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}

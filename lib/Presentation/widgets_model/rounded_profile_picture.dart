@@ -28,19 +28,11 @@ class RoundedProfilePicture extends StatelessWidget {
               borderRadius: BorderRadius.circular(500),
               boxShadow: [
                 BoxShadow(
-                  // color: Color.fromARGB(10, 29, 29, 29),
                   color: Colors.black.withAlpha(30),
                   offset: Offset(0.0, 2.0),
                   blurRadius: 10,
                 ),
               ],
-              // image: DecorationImage(
-              //   //fit: BoxFit.fill,
-              //   image: AssetImage(
-              //     'assets/dropili_app_logo.png',
-              //   ),
-              //   alignment: Alignment.topCenter,
-              // ),
             ),
             child: Container(
               height: size,

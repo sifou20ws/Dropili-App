@@ -53,11 +53,11 @@ class ProfileRepository {
     late DeleteBlockResponse deleteResponse;
     try {
       response = await _network.deleteWithHeader('/blocks/$id');
-      if (response.statusCode == 200) {
-        var data = json.decode(response.body);
-        deleteResponse = DeleteBlockResponse.fromJson(data);
-        //log(response.body , name: 'delete blocks :');
-      }
+      //if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      deleteResponse = DeleteBlockResponse.fromJson(data);
+      //log(response.body , name: 'delete blocks :');
+      //}
       return deleteResponse;
     } catch (e) {
       rethrow;
@@ -73,7 +73,9 @@ class ProfileRepository {
       dataR = json.decode(response.body);
       //myBlocks = GetBlocksModel.fromJson(data);
       //}
-      return response.body;
+      log('hiii');
+      log(response.toString(), name: "hi");
+      return dataR;
     } catch (e) {
       rethrow;
     }
@@ -88,7 +90,9 @@ class ProfileRepository {
       dataR = json.decode(response.body);
       //myBlocks = GetBlocksModel.fromJson(data);
       //}
-      return response.body;
+      //log('hiii');
+      //log(dataR.toString() , name: "hi");
+      return dataR;
     } catch (e) {
       rethrow;
     }
@@ -204,8 +208,8 @@ class ProfileRepository {
     dynamic response;
     var dataR;
     try {
-      log(name:'file repo' , file);
-      log(name:'data repo' , data.toString());
+      log(name: 'file repo', file);
+      log(name: 'data repo', data.toString());
 
       urlOrFile
           ? response = await _network.postOnePictureWithHeader(

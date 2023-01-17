@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/data/models/costume_block_response.dart';
+import 'package:dropili/data/models/delete_block_response_model.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:dropili/data/models/get_costume_block_response.dart';
+import 'package:dropili/data/models/post_block_response.dart';
 import 'package:dropili/data/models/post_user_blocks.dart';
 import 'package:dropili/data/models/post_user_profile_response.dart';
 import 'package:dropili/domain/repositories/profile_repository.dart';
@@ -31,7 +33,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     on<ActiveEvent>(_activeEvent);
     on<ImportCoverImageEvent>(_importCoverImageEvent);
     on<ImportProfileImageEvent>(_importProfileImageEvent);
-    on<PostBlocksEvent>(_postBlocksEvent);
+    //on<PostBlocksEvent>(_postBlocksEvent);
     on<DirectOnMeEvent>(_directOnMeEvent);
     on<PostProfileUpdateEvent>(_postProfileUpdateEvent);
     on<PostUserNameEvent>(_postUserNameEvent);
@@ -102,10 +104,20 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   void _deleteUserBlocksEvent(
       DeleteUserBlocksEvent event, Emitter<EditProfileState> emit) async {
     emit(state.copyWith(status: Status.deleteLoading));
-    var resp;
+    DeleteBlockResponse resp;
     try {
       resp = await _ProfileRepository.deleteBlocks(event.id);
-      emit(state.copyWith(status: Status.deleteSuccess));
+      if (resp.success) {
+        emit(state.copyWith(
+            errorExist: resp.success,
+            messageError: resp.message,
+            status: Status.deleteSuccess));
+      } else {
+        emit(state.copyWith(
+            errorExist: resp.success,
+            messageError: resp.message,
+            status: Status.deleteFail));
+      }
       //emit(state.copyWith(userBlocks: resp ));
       // log(resp.success.toString(), name: 'delete blocks :');
     } catch (e) {
@@ -123,7 +135,6 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       emit(state.copyWith(
         status: Status.postBlockInvalidUrl,
       ));
-      //emit(state.copyWith(valideName: false));
       return;
     }
 
@@ -132,17 +143,28 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
 
     var resp;
     try {
-      // log(event.index.toString());
-
       PostUserBlocks data = PostUserBlocks(id: event.index, url: event.data);
 
       event.put
           ? resp =
               await _ProfileRepository.PutUserBlocks(data.toJson(), event.index)
           : resp = await _ProfileRepository.PostUserBlocks(data.toJson());
-      emit(state.copyWith(status: Status.postBlockSuccess, load: false));
-      //emit(state.copyWith(blocks: resp));
-      // log(resp.toString());
+
+      PostBlockResponse response = PostBlockResponse.fromJson(resp);
+      //log(response.message.toString());
+      if (response.success) {
+        emit(state.copyWith(
+            errorExist: response.success,
+            messageError: response.message,
+            status: Status.postBlockSuccess,
+            load: false));
+      } else {
+        emit(state.copyWith(
+            errorExist: response.success,
+            messageError: response.message,
+            status: Status.postBlockFail,
+            load: false));
+      }
     } catch (e) {
       emit(state.copyWith(status: Status.failInBlocksDialogue));
       log(('error :'));
@@ -151,22 +173,22 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     //log(state.blocks[event.index].title.ar);
   }
 
-  void _postBlocksEvent(
-      PostBlocksEvent event, Emitter<EditProfileState> emit) async {
-    var resp;
-    try {
-      // PostUserBlocks data = PostUserBlocks(id: event.index+1 , url: event.data);
-      resp = await _ProfileRepository.PostUserBlocks(event.data);
-      //emit(state.copyWith(status: Status.getSuccess));
-      //emit(state.copyWith(blocks: resp));
-      log(resp.body, name: 'post block :');
-    } catch (e) {
-      emit(state.copyWith(status: Status.failInBlocksDialogue));
-      log(('error :'));
-      log(e.toString());
-    }
-    //log(state.blocks[event.index].title.ar);
-  }
+  // void _postBlocksEvent(
+  //     PostBlocksEvent event, Emitter<EditProfileState> emit) async {
+  //   var resp;
+  //   try {
+  //     // PostUserBlocks data = PostUserBlocks(id: event.index+1 , url: event.data);
+  //     resp = await _ProfileRepository.PostUserBlocks(event.data);
+  //     //emit(state.copyWith(status: Status.getSuccess));
+  //     //emit(state.copyWith(blocks: resp));
+  //     log(resp.body, name: 'post block :');
+  //   } catch (e) {
+  //     emit(state.copyWith(status: Status.failInBlocksDialogue));
+  //     log(('error :'));
+  //     log(e.toString());
+  //   }
+  //   //log(state.blocks[event.index].title.ar);
+  // }
 
   void _switchEvent(SwitchEvent event, Emitter<EditProfileState> emit) {
     emit(state.copyWith(
@@ -176,6 +198,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   }
 
   void _activeEvent(ActiveEvent event, Emitter<EditProfileState> emit) {
+    log(event.state.toString(), name: 'from bloc active event');
     emit(state.copyWith(
       activeButton: event.state,
     ));
@@ -321,7 +344,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     PostProfileResp showProfile;
     try {
       resp = await _ProfileRepository.directOnMe(data: map1);
-
+      log(resp.toString());
       showProfile = await _ProfileRepository.getProfileShow();
       emit(state.copyWith(
         profileUserUrl: showProfile.user.url,
@@ -442,10 +465,12 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
           CostumeBlockResponse.fromJson(resp);
       (costumeBlockResp.success)
           ? emit(state.copyWith(
+              errorExist: costumeBlockResp.success,
               messageError: costumeBlockResp.message,
               status: Status.postCostumeBlocksSuccess,
             ))
           : emit(state.copyWith(
+              errorExist: costumeBlockResp.success,
               messageError: costumeBlockResp.message,
               status: Status.postCostumeBlocksFail,
             ));
@@ -493,11 +518,11 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       (costumeBlockResp.success)
           ? emit(state.copyWith(
               messageError: costumeBlockResp.message,
-              status: Status.deleteCostumeBlocksSuccess,
+              status: Status.updateCostumeBlocksSuccess,
             ))
           : emit(state.copyWith(
               messageError: costumeBlockResp.message,
-              status: Status.deleteCostumeBlocksFail,
+              status: Status.updateCostumeBlocksFail,
             ));
 
       ;
@@ -542,10 +567,20 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   void _deleteCostumeBlocksEvent(
       DeleteCostumeBlocksEvent event, Emitter<EditProfileState> emit) async {
     emit(state.copyWith(status: Status.deleteCostumeBlocksLoading));
-    var resp;
+    DeleteBlockResponse resp;
     try {
       resp = await _ProfileRepository.deleteCostumeBlocks(event.id);
-      emit(state.copyWith(status: Status.deleteCostumeBlocksSuccess));
+      if (resp.success) {
+        emit(state.copyWith(
+            errorExist: resp.success,
+            messageError: resp.message,
+            status: Status.deleteCostumeBlocksSuccess));
+      } else {
+        emit(state.copyWith(
+            errorExist: resp.success,
+            messageError: resp.message,
+            status: Status.deleteCostumeBlocksFail));
+      }
       //emit(state.copyWith(userBlocks: resp ));
       //log(resp.success.toString(), name: 'delete blocks :');
     } catch (e) {
@@ -583,13 +618,12 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
 
   void _costumeUrlOrFileEvent(
       CostumeUrlOrFileEvent event, Emitter<EditProfileState> emit) {
-
-    if(event.state==0){
+    if (event.state == 0) {
       emit(state.copyWith(
         fileOrLink: event.state,
         fileOrUrl: true,
       ));
-    }else{
+    } else {
       emit(state.copyWith(
         fileOrLink: event.state,
         fileOrUrl: false,

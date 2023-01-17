@@ -3,15 +3,15 @@ import 'package:dropili/common/extensions/translation_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class EditProfileTextWidget extends StatefulWidget {
+class TextFieldsWidget extends StatefulWidget {
   final name , description;
-  const EditProfileTextWidget({ this.name, this.description});
+  const TextFieldsWidget({ this.name, this.description});
 
   @override
-  State<EditProfileTextWidget> createState() => _EditProfileMediaWidgetState();
+  State<TextFieldsWidget> createState() => _EditProfileMediaWidgetState();
 }
 
-class _EditProfileMediaWidgetState extends State<EditProfileTextWidget> {
+class _EditProfileMediaWidgetState extends State<TextFieldsWidget> {
   @override
   Widget build(BuildContext context) {
 

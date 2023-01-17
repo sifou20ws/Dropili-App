@@ -17,6 +17,7 @@ enum Status {
   postBlockFail,
   deleteLoading,
   deleteSuccess,
+  deleteFail,
   failInBlocksDialogue,
 
   getCostumeBlocks,

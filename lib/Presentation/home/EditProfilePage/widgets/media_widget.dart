@@ -8,16 +8,16 @@ import 'package:dropili/common/constant/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class EditProfileMediaWidget extends StatefulWidget {
+class MediaWidget extends StatefulWidget {
   final String getProfilePicture, getBackgroundPicture;
-  const EditProfileMediaWidget(
+  const MediaWidget(
       {required this.getProfilePicture, required this.getBackgroundPicture});
 
   @override
-  State<EditProfileMediaWidget> createState() => _EditProfileMediaWidgetState();
+  State<MediaWidget> createState() => _MediaWidgetState();
 }
 
-class _EditProfileMediaWidgetState extends State<EditProfileMediaWidget> {
+class _MediaWidgetState extends State<MediaWidget> {
   @override
   Widget build(BuildContext context) {
     String profilePicture =

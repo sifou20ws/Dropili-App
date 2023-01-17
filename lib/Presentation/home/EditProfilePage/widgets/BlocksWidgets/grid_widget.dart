@@ -1,18 +1,20 @@
+import 'dart:developer';
+
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
-import 'package:dropili/Presentation/home/EditProfilePage/widgets/CustomDialogBox.dart';
-import 'package:dropili/Presentation/home/EditProfilePage/widgets/eprofile_card_widget.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/BlocksWidgets/blocks_dialogue_box.dart';
+import 'package:dropili/Presentation/home/EditProfilePage/widgets/BlocksWidgets/block_card_widget.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:lottie/lottie.dart';
 
-class Grid extends StatelessWidget {
+class BlocksGrid extends StatelessWidget {
   final String title;
   final List<BlocksItem> blocksList;
   final List<UserBlocksItem> userBlocks;
   final int type;
-  const Grid({
+  const BlocksGrid({
     required this.title,
     required this.blocksList,
     required this.type,
@@ -61,6 +63,7 @@ class Grid extends StatelessWidget {
               alignment: Alignment.center,
               child: GestureDetector(
                 onTap: () {
+                  log(blockExist(blocksList[index].id));
                   showDialog<void>(
                     context: context,
                     barrierDismissible: false, // user must tap button!
@@ -68,7 +71,7 @@ class Grid extends StatelessWidget {
                       return BlocProvider.value(
                         value: context.read<EditProfileBloc>(),
                         //child: CustomDialogBox(
-                        child: CustomDialogBox(
+                        child: BlocksDialogBox(
                           index: blocksList[index].id,
                           img: blocksList[index].icon.originalUrl,
                           editText: blocksList[index].hint.fr,
