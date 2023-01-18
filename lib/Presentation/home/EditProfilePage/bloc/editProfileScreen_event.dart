@@ -137,8 +137,7 @@ class DeleteUserBlocksEvent extends EditProfileEvent {
 }
 
 class DirectOnMeEvent extends EditProfileEvent {
-  final String block_id, url;
-  final bool direct;
+  final String block_id, url , direct;
   DirectOnMeEvent({
     required this.block_id,
     required this.direct,

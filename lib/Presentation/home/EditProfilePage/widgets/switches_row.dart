@@ -39,7 +39,7 @@ class _EditProfileButtonsWidget extends State<SwitchesWidget> {
                   if (state == false) {
                     BlocProvider.of<EditProfileBloc>(context).add(
                         DirectOnMeEvent(
-                            direct: false, block_id: 'null', url: 'null'));
+                            direct: '0', block_id: '0', url: 'null'));
                   }
                 },
                 activeColor: MalinColors.AppGreen,

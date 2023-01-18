@@ -74,6 +74,7 @@ class User {
         description: asString(json, 'description'),
         lang: asString(json, 'lang'),
         directOnMe: asBool(json, 'direct_on_me'),
+        blockId: asInt(json, 'block_id'),
         url: asString(json, 'url'),
         profilePhotoPath: asString(json, 'profile_photo_path'),
         createdAt: asString(json, 'created_at'),

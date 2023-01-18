@@ -116,13 +116,14 @@ class EditProfileState extends Equatable {
       this.backgroundImg = '',
       this.profileImg = '',
       this.showProfile,
-      this.profileUserUrl = '',
+      this.profileUserUrl = -1,
       this.valideName = true,
       this.coverImagePath = '',
       this.profileImagePath = '',
       this.addCostumeBlockImgPath = 'assets/dropili_app_logo.png',
       this.load = false,
       this.openDirectMeDialogue = false,
+      this.direct = false,
       this.blockUrl = '',
       this.cBValideName = true,
       this.cBValideFile = true,
@@ -154,11 +155,12 @@ class EditProfileState extends Equatable {
   final String backgroundImg;
   final String profileImg;
   bool openDirectMeDialogue;
+  final bool direct;
   final PostProfileResp? showProfile;
   final String blockUrl;
   final bool valideName;
   final List<UserBlocksItem> userBlocks;
-  String profileUserUrl;
+  int profileUserUrl;
   final bool cBValideName;
   final bool cBValideFile;
   final bool cBValideUrl;
@@ -191,8 +193,9 @@ class EditProfileState extends Equatable {
     bool? errorExist,
     bool? valideName,
     bool? openDirectMeDialogue,
+    bool? direct,
     bool? load,
-    String? profileUserUrl,
+    int? profileUserUrl,
     List<CustomBlocksItem>? costumeBlocks,
     List<List<BlocksItem>>? blocksList,
     bool? cBValideName,
@@ -229,6 +232,7 @@ class EditProfileState extends Equatable {
       profileUserUrl: profileUserUrl ?? this.profileUserUrl,
       blocksList: blocksList ?? this.blocksList,
       openDirectMeDialogue: openDirectMeDialogue ?? this.openDirectMeDialogue,
+      direct: direct ?? this.direct,
       costumeBlocks: costumeBlocks ?? this.costumeBlocks,
       blocksStatus: blocksStatus ?? this.blocksStatus,
       costumeBlocksStatus: costumeBlocksStatus ?? this.costumeBlocksStatus,
@@ -270,6 +274,7 @@ class EditProfileState extends Equatable {
         userBlocks,
         blocksList,
         openDirectMeDialogue,
+        direct,
         costumeBlocks,
         cBValideName,
         cBValideFile,

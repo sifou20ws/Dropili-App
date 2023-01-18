@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:dropili/common/constant/colors.dart';
 import 'package:dropili/data/models/costume_block_response.dart';
@@ -344,12 +343,17 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     PostProfileResp showProfile;
     try {
       resp = await _ProfileRepository.directOnMe(data: map1);
-      log(resp.toString());
-      showProfile = await _ProfileRepository.getProfileShow();
-      emit(state.copyWith(
-        profileUserUrl: showProfile.user.url,
-        status: Status.directOnMeSuccess,
-      ));
+      DeleteBlockResponse response = DeleteBlockResponse.fromJson(resp);
+      if (response.success) {
+        showProfile = await _ProfileRepository.getProfileShow();
+        emit(state.copyWith(
+          profileUserUrl: showProfile.user.blockId,
+          status: Status.directOnMeSuccess,
+          messageError: (event.direct == '0') ? 'Direct on me deactivated' : 'Direct on me activated',
+        ));
+      } else {
+        emit(state.copyWith(status: Status.directOnMeFail , messageError: 'Error occurred, try again later'));
+      }
     } catch (e) {
       emit(state.copyWith(
           status: Status.directOnMeFail, messageError: e.toString()));
