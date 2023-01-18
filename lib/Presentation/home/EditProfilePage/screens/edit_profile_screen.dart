@@ -63,6 +63,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
           }
           if (state.status == Status.getProfileSuccess) {
             blockId = state.showProfile!.user.blockId;
+            state.profileUserUrl = state.showProfile!.user.blockId;
             _editProfileBloc
                 .add(ActiveEvent(state: state.showProfile!.user.active));
             getProfilePicture = state.showProfile!.user.userProfile.originalUrl;
@@ -124,6 +125,21 @@ class _MyOffersPageState extends State<EditProfilePage> {
             SnackBars.showErrorSnackBar(context, state.messageError);
             await Future.delayed(Duration(milliseconds: 500));
           }
+
+          if (state.status == Status.profileUpdateFail) {
+            SnackBars.showErrorSnackBar(context, state.messageError);
+            state.status = Status.initial;
+          }
+          if (state.status == Status.fail) {
+            SnackBars.showErrorSnackBar(context, state.messageError);
+          } else if (state.status == Status.success) {
+            SnackBars.showSucessSnackBar(context, state.messageError);
+          }
+          if (state.status == Status.directOnMeSuccess) {
+            SnackBars.showSucessSnackBar(context, state.messageError);
+          } else if (state.status == Status.directOnMeFail) {
+            SnackBars.showErrorSnackBar(context, state.messageError);
+          }
           if (state.openDirectMeDialogue) {
             state.openDirectMeDialogue = false;
             showModalBottomSheet(
@@ -133,7 +149,7 @@ class _MyOffersPageState extends State<EditProfilePage> {
               builder: (context) {
                 return DirectSurWidget(
                   userBlocks: state.userBlocks,
-                  profileUrl: state.showProfile!.user.url,
+                  profileUrl: state.profileUserUrl,
                 );
               },
             ).then((value) {
@@ -143,15 +159,6 @@ class _MyOffersPageState extends State<EditProfilePage> {
             SnackBars.showSucessSnackBar(context, state.messageError);
             await Future.delayed(Duration(milliseconds: 500));
             Navigator.pop(context);
-          }
-          if (state.status == Status.profileUpdateFail) {
-            SnackBars.showErrorSnackBar(context, state.messageError);
-            state.status = Status.initial;
-          }
-          if (state.status == Status.fail) {
-            SnackBars.showErrorSnackBar(context, state.messageError);
-          } else if (state.status == Status.success) {
-            SnackBars.showSucessSnackBar(context, state.messageError);
           }
         },
         child: BlocBuilder<EditProfileBloc, EditProfileState>(

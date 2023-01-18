@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropili/Presentation/home/EditProfilePage/bloc/editProfileScreen_bloc.dart';
@@ -14,7 +13,7 @@ import 'package:lottie/lottie.dart';
 
 class DirectSurWidget extends StatefulWidget {
   final List<UserBlocksItem> userBlocks;
-  final String profileUrl;
+  final int profileUrl;
 
   const DirectSurWidget({
     required this.userBlocks,
@@ -23,17 +22,16 @@ class DirectSurWidget extends StatefulWidget {
 
   @override
   State<DirectSurWidget> createState() =>
-      _DirectSurWidgetState(profileUrl: profileUrl);
+      _DirectSurWidgetState(profileUrl : profileUrl);
 }
 
 class _DirectSurWidgetState extends State<DirectSurWidget> {
-  String profileUrl;
+  int profileUrl;
 
   _DirectSurWidgetState({required this.profileUrl});
 
   @override
   Widget build(BuildContext context) {
-    log(profileUrl, name: 'dialogue opened');
     return BlocProvider(
       create: (context) => EditProfileBloc(
           ProfileRepository: getIt.getItInstace<ProfileRepository>()),
@@ -52,7 +50,6 @@ class _DirectSurWidgetState extends State<DirectSurWidget> {
             listener: (context, state) async {
               if (state.status == Status.directOnMeSuccess) {
                 profileUrl = state.profileUserUrl;
-                log(profileUrl, name: 'in dialogue listener');
                 await Future.delayed(Duration(milliseconds: 500));
                 Navigator.of(context, rootNavigator: true).pop();
               }
@@ -116,7 +113,7 @@ class _DirectSurWidgetState extends State<DirectSurWidget> {
 
 class DialogeGrid extends StatelessWidget {
   final List<UserBlocksItem> userBlocks;
-  final String profileUrl;
+  final int profileUrl;
   const DialogeGrid({
     required this.userBlocks,
     required this.profileUrl,
@@ -141,10 +138,9 @@ class DialogeGrid extends StatelessWidget {
             alignment: Alignment.center,
             child: GestureDetector(
               onTap: () {
-                log(profileUrl, name: 'onclick');
                 BlocProvider.of<EditProfileBloc>(context).add(
                   DirectOnMeEvent(
-                    direct: true,
+                    direct: '1',
                     url: userBlocks[index].pivot.url,
                     block_id: userBlocks[index].id.toString(),
                   ),
@@ -153,7 +149,7 @@ class DialogeGrid extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(13),
-                  border: userBlocks[index].pivot.url == profileUrl
+                  border: userBlocks[index].id == profileUrl
                       ? Border.all(
                           color: MalinColors.AppGreen.withAlpha(100), width: 2)
                       : null,
