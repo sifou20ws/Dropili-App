@@ -121,7 +121,7 @@ class _UserBlocksDialogBoxState extends State<UserBlocksDialogBox> {
                                         SizedBox(
                                           width: 10,
                                         ),
-                                        !widget.file ? Icon(Icons.copy_outlined) : Icon() ,
+                                        !widget.file ? Icon(Icons.copy_outlined) : Icon(Icons.launch) ,
                                       ]),
                                 ),
                               ),
