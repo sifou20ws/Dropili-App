@@ -57,121 +57,127 @@ class _QrPageState extends State<QrPage> {
     return Container(
       padding: EdgeInsets.only(top: 30),
       width: MediaQuery.of(context).size.width,
-      child: Column(
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            'Sharing Dropili Profile'.t(context),
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
+      child: SingleChildScrollView(
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Sharing Dropili Profile'.t(context),
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          GestureDetector(
-            onTap: () async {
-              try {
-                bool? saved =
-                    await _saveQrToGallery('dropili.co/link/abdenourgnx');
-                if (saved == null || saved == false) {
+            SizedBox(
+              height: 30,
+            ),
+            GestureDetector(
+              onTap: () async {
+                try {
+                  bool? saved =
+                      await _saveQrToGallery('dropili.co/link/abdenourgnx');
+                  if (saved == null || saved == false) {
+                    SnackBars.showErrorSnackBar(
+                        context, 'Error in saving image'.t(context));
+                  } else if (saved) {
+                    SnackBars.showSucessSnackBar(
+                        context, 'Image saved succesfully'.t(context));
+                  }
+                } catch (e) {
                   SnackBars.showErrorSnackBar(
                       context, 'Error in saving image'.t(context));
-                } else if (saved) {
-                  SnackBars.showSucessSnackBar(
-                      context, 'Image saved succesfully'.t(context));
                 }
-              } catch (e) {
-                SnackBars.showErrorSnackBar(
-                    context, 'Error in saving image'.t(context));
-              }
-            },
-            child: Container(
-              padding: EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    // color: Color.fromARGB(10, 29, 29, 29),
-                    color: MalinColors.AppGreen.withAlpha(80),
-                    offset: Offset(0.0, 2.0),
-                    blurRadius: 10,
-                    // spreadRadius: 5,
-                  ),
-                ],
-              ),
-              child: QrImage(
-                data: 'Dropili.co/link/' +
-                    context
-                        .read<ProfileBloc>()
-                        .state
-                        .showProfile!
-                        .user
-                        .username,
-                size: MediaQuery.of(context).size.width * 0.6,
-                version: QrVersions.auto,
-                embeddedImage: AssetImage('assets/dropili_rounded_black.png'),
-                embeddedImageStyle: QrEmbeddedImageStyle(
-                  size: Size(
-                    30,
-                    30,
-                  ),
+              },
+              child: Container(
+                padding: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      // color: Color.fromARGB(10, 29, 29, 29),
+                      color: MalinColors.AppGreen.withAlpha(80),
+                      offset: Offset(0.0, 2.0),
+                      blurRadius: 10,
+                      // spreadRadius: 5,
+                    ),
+                  ],
                 ),
+                child: QrImage(
+                  data: 'Dropili.co/link/' +
+                      context
+                          .read<ProfileBloc>()
+                          .state
+                          .showProfile!
+                          .user
+                          .username,
+                  size: MediaQuery.of(context).size.width * 0.6,
+                  version: QrVersions.auto,
+                  embeddedImage: AssetImage('assets/dropili_rounded_black.png'),
+                  embeddedImageStyle: QrEmbeddedImageStyle(
+                    size: Size(
+                      30,
+                      30,
+                    ),
+                  ),
 
-                // gapless: false,
+                  // gapless: false,
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Text(
-            'Tap to save'.t(context),
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          GestureDetector(
-              onTap: () async {
-                await Clipboard.setData(
-                  ClipboardData(
-                      text: 'Dropili.co/link/' +
-                          context
-                              .read<ProfileBloc>()
-                              .state
-                              .showProfile!
-                              .user
-                              .username),
+            SizedBox(
+              height: 30,
+            ),
+            Text(
+              'Tap to save'.t(context),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            GestureDetector(
+                onTap: () async {
+                  await Clipboard.setData(
+                    ClipboardData(
+                        text: 'Dropili.co/link/' +
+                            context
+                                .read<ProfileBloc>()
+                                .state
+                                .showProfile!
+                                .user
+                                .username),
+                  );
+                  SnackBars.showSucessSnackBar(
+                      context, 'Profile link copied to clipboard'.t(context));
+                },
+                child: CopyLinkWidget()),
+            SizedBox(
+              height: 30,
+            ),
+            GestureDetector(
+              onTap: (() async {
+                await FlutterShare.share(
+                  title: 'Dropili profile',
+                  text:
+                      context.read<ProfileBloc>().state.showProfile!.user.name +
+                          ' Profile',
+                  linkUrl: 'dorpili.co/link/' +
+                      context
+                          .read<ProfileBloc>()
+                          .state
+                          .showProfile!
+                          .user
+                          .username,
                 );
-                SnackBars.showSucessSnackBar(
-                    context, 'Profile link copied to clipboard'.t(context));
-              },
-              child: CopyLinkWidget()),
-          SizedBox(
-            height: 30,
-          ),
-          GestureDetector(
-            onTap: (() async {
-              await FlutterShare.share(
-                title: 'Dropili profile',
-                text: context.read<ProfileBloc>().state.showProfile!.user.name +
-                    ' Profile',
-                linkUrl: 'dorpili.co/link/' +
-                    context
-                        .read<ProfileBloc>()
-                        .state
-                        .showProfile!
-                        .user
-                        .username,
-              );
-            }),
-            child: ShareButton(),
-          ),
-        ],
+              }),
+              child: ShareButton(),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+          ],
+        ),
       ),
     );
   }

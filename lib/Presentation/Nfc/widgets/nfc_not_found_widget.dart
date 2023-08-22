@@ -7,40 +7,45 @@ class NoNfcFoundWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Text(
-          'Activate Dropili tag'.t(context),
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-            fontSize: 23,
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            'Activate Dropili tag'.t(context),
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 23,
+            ),
           ),
-        ),
-        Lottie.asset('assets/lottie/error.json', height: 240, repeat: false),
-        Text(
-          'No Nfc found'.t(context),
-          style: TextStyle(
-            color: Colors.red,
-            fontWeight: FontWeight.w600,
-            fontSize: 21,
+          Lottie.asset('assets/lottie/error.json', height: 240, repeat: false),
+          Text(
+            'No Nfc found'.t(context),
+            style: TextStyle(
+              color: Colors.red,
+              fontWeight: FontWeight.w600,
+              fontSize: 21,
+            ),
           ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        // state is NfcSearchingState
-        Text(
-          'nfc not found text'.t(context),
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.grey,
-            fontWeight: FontWeight.w400,
-            fontSize: 14,
+          SizedBox(
+            height: 10,
           ),
-        )
-      ],
+          // state is NfcSearchingState
+          Text(
+            'nfc not found text'.t(context),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.grey,
+              fontWeight: FontWeight.w400,
+              fontSize: 14,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+        ],
+      ),
     );
   }
 }

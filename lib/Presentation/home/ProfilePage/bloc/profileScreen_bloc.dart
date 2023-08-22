@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:dropili/data/models/get_blocks_model.dart';
 import 'package:dropili/data/models/get_costume_block_response.dart';
@@ -26,6 +28,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   void _editButtonClickedEvent(event, Emitter<ProfileState> emit) {
     emit(state.copyWith(status: ProfileStatus.success));
   }
+
   void _linkCopiedEvent(event, Emitter<ProfileState> emit) {
     emit(state.copyWith(linkCopied: event.copy));
   }
@@ -41,6 +44,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     List<List<UserBlocksItem>>? userBlocksLists;
     try {
       var resp = await _ProfileRepository.getUserBlocks();
+      log("get all user blocks response  = "+resp.toString());
 
       userBlocksLists = [
         resp.where((element) => element.type == 1).toList(),
