@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
 
@@ -36,7 +37,7 @@ class _LoadinScreenState extends State<LoadinScreen> {
       startUri().then(
         (value) {
           var val = value.toString();
-          log(val);
+          log(val == "" ? "ios platform" : "null");
           if (val.contains('dropili')) {
             url = value.toString();
             nextRoute = '/scannedProfile';
@@ -58,9 +59,13 @@ class _LoadinScreenState extends State<LoadinScreen> {
     Navigator.pushReplacementNamed(context, nextRoute);
   }
 
-  Future<Object> startUri() async {
+  Future startUri() async {
     try {
-      return await platform.invokeMethod('initialLink');
+      if (Platform.isAndroid) {
+        return await platform.invokeMethod('initialLink');
+      } else if (Platform.isIOS) {
+        return null;
+      }
     } on PlatformException catch (e) {
       return "Failed to Invoke: '${e.message}'.";
     }

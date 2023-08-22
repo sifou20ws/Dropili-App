@@ -12,7 +12,8 @@ class Network {
 
   static String version = '/api/v1';
 
-  static String host = 'http://dropili.offrine.com';
+  // static String host = 'http://dropili.offrine.com';
+  static String host = 'https://mobile.dropili.co';
   static int timeOut = 60;
 
   _setHeadersWithToken() {
@@ -149,7 +150,6 @@ class Network {
       // }
       request.fields.addAll(data);
 
-
       var res = await request.send();
       final respStr = await res.stream.bytesToString();
 
@@ -174,7 +174,7 @@ class Network {
       var request = http.MultipartRequest('POST', Uri.parse(fullUrl));
       request.headers.addAll(await _setHeadersWithToken());
       (background != '')
-          ? request.files.add(await http.MultipartFile.fromPath(
+          ? request.files.add(await http.MultipartFile.fromPath( 
               'background', background,
               filename: 'background'))
           : null;
@@ -184,6 +184,7 @@ class Network {
               filename: 'profile'))
           : null;
       request.fields.addAll(data);
+      log(request.files.toString());
 
       var res = await request.send();
       final respStr = await res.stream.bytesToString();

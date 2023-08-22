@@ -1,4 +1,4 @@
-package com.example.dropili
+package com.dropili
 
 import io.flutter.embedding.android.FlutterActivity
 import android.content.BroadcastReceiver
